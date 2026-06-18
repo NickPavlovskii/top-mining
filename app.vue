@@ -2,7 +2,7 @@
   import Default from './layouts/default.vue'
 
   useHead({
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/small-logo.ico' }],
   })
 </script>
 

@@ -118,7 +118,7 @@
 <style scoped>
   .crypto-list__title {
     margin: 0 0 18px;
-    color: #ffffff;
+    color: #151515;
     font-size: 30px;
     font-weight: 800;
     letter-spacing: -0.02em;

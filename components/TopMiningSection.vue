@@ -107,15 +107,17 @@
         </div>
       </nav>
 
-      <top-mining-button
-        class="top-mining-button--contact"
-        href="#"
-        title="Связаться с нами"
-        v-bind="TOP_MINING_BUTTON_PROPS"
-        :width="TOP_MINING_BUTTON_WIDTH.contact"
-      />
+      <div class="top-mining__mobile-menu-footer">
+        <top-mining-button
+          class="top-mining-button--contact"
+          href="#"
+          title="Связаться с нами"
+          v-bind="TOP_MINING_BUTTON_PROPS"
+          :width="TOP_MINING_BUTTON_WIDTH.contact"
+        />
 
-      <a href="#" class="top-mining__mobile-telegram">Telegram</a>
+        <a href="#" class="top-mining__mobile-telegram">Telegram</a>
+      </div>
     </header>
 
     <section class="top-mining__hero">
@@ -458,6 +460,10 @@
     display: none;
   }
 
+  .top-mining__mobile-menu-footer {
+    display: contents;
+  }
+
   .top-mining__nav {
     display: grid;
     grid-template-columns: 1.25fr 1.1fr 1fr 0.95fr;
@@ -485,6 +491,7 @@
     font-weight: 500;
     line-height: 1.15;
     text-decoration: none;
+    transition: color 0.18s ease;
   }
 
   .top-mining__nav-link-icon,
@@ -493,6 +500,27 @@
     width: 17px;
     height: 17px;
     color: #777777;
+    transition: color 0.18s ease;
+  }
+
+  @media (hover: hover) {
+    .top-mining__nav-link:hover,
+    .top-mining__nav-link:focus-visible {
+      color: #ff6a18;
+    }
+
+    .top-mining__nav-link:hover :is(svg, .top-mining__nav-link-icon),
+    .top-mining__nav-link:focus-visible :is(svg, .top-mining__nav-link-icon) {
+      color: #ff6a18;
+    }
+  }
+
+  .top-mining__nav-link:active {
+    color: #ff6a18;
+  }
+
+  .top-mining__nav-link:active :is(svg, .top-mining__nav-link-icon) {
+    color: #ff6a18;
   }
 
   .top-mining__nav-telegram-icon {
@@ -548,6 +576,13 @@
     padding: 0 22px;
   }
 
+  .top-mining-button--contact:hover,
+  .top-mining-button--contact:focus-visible {
+    background: transparent !important;
+    border-color: #ff6a18 !important;
+    color: #151515 !important;
+  }
+
   .top-mining-button :deep(.q-btn__content),
   .top-mining-button :deep(.q-btn__content span),
   .top-mining-button :deep(.q-btn__content div) {
@@ -555,7 +590,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    color: #ffffff !important;
+    color: inherit !important;
     line-height: 1 !important;
     text-align: center !important;
   }
@@ -579,12 +614,15 @@
     font-size: clamp(58px, 12.4vw, 210px);
     font-weight: 600;
     line-height: 0.82;
-    letter-spacing: -0.13em;
+    letter-spacing: -0.03em;
     text-align: center;
     text-transform: uppercase;
   }
 
   .top-mining__title-inner {
+    --tm-title-logo-left: 1.16em;
+    --tm-title-logo-top: 0.3em;
+
     position: relative;
     display: inline-block;
     max-width: 100%;
@@ -595,8 +633,8 @@
 
   .top-mining__title-logo {
     position: absolute;
-    left: 1.02em;
-    top: 0.3em;
+    left: var(--tm-title-logo-left);
+    top: var(--tm-title-logo-top);
     width: 0.25em;
     height: 0.25em;
     -o-object-fit: contain;
@@ -924,12 +962,75 @@
   }
 
   @media (max-width: 1200px) {
+    .top-mining__header {
+      grid-template-columns: 170px minmax(0, 1fr) 160px;
+      gap: 24px;
+      padding: 34px 32px 28px;
+    }
+
+    .top-mining__logo {
+      gap: 9px;
+    }
+
+    .top-mining__logo-mark {
+      width: 36px;
+      height: 36px;
+    }
+
+    .top-mining__logo-title {
+      font-size: 30px;
+    }
+
+    .top-mining__logo-subtitle {
+      font-size: 12px;
+    }
+
+    .top-mining__nav {
+      grid-template-columns: 1.1fr 1fr 0.92fr 0.9fr;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .top-mining__nav-heading {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .top-mining__nav-link {
+      gap: 6px;
+      margin-bottom: 7px;
+      font-size: 12px;
+      line-height: 1.15;
+    }
+
+    .top-mining__nav-link-icon,
+    .top-mining__nav-column svg,
+    .top-mining__nav-telegram-icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    .top-mining__nav-top-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .top-mining-button--contact {
+      width: 160px !important;
+      min-width: 160px;
+      height: 38px;
+      padding: 0 16px;
+      font-size: 11px;
+    }
+
     .top-mining__title {
-      font-size: clamp(58px, 12.4vw, 150px);
-      letter-spacing: -0.14em;
+      font-size: clamp(58px, 10.4vw, 112px);
     }
 
     .top-mining__title-inner {
+      --tm-title-logo-left: 1.14em;
+      --tm-title-logo-top: 0.31em;
+
       transform: none;
     }
 
@@ -942,6 +1043,7 @@
     .top-mining__card-image--rig-small {
       right: 245px;
       bottom: -34px;
+      top: 115px;
       width: 140px;
     }
 
@@ -958,17 +1060,301 @@
 
   @media (max-width: 900px) {
     .top-mining__header {
-      grid-template-columns: 1fr;
+      position: relative;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
       gap: 20px;
-      padding: 24px;
+      padding: 20px 24px;
+    }
+
+    .top-mining__menu-toggle {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 5px;
+      width: 28px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .top-mining__menu-toggle span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #151515;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .top-mining__mobile-menu-title {
+      display: none;
+    }
+
+    .top-mining__mobile-menu-footer {
+      display: none;
+    }
+
+    .top-mining__mobile-telegram {
+      display: none;
     }
 
     .top-mining__nav {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: grid;
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      overflow: hidden;
+      pointer-events: none;
+      transition:
+        max-height 0.34s ease,
+        margin 0.28s ease,
+        opacity 0.24s ease,
+        transform 0.24s ease;
     }
 
     .top-mining-button--contact {
-      justify-self: start;
+      display: none;
+    }
+
+    .top-mining__header--menu-open {
+      position: fixed;
+      bottom: auto;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      height: auto;
+      max-height: calc(100dvh - 24px);
+      margin: 0;
+      padding: 30px 34px 34px;
+      border-radius: 0 0 28px 28px;
+      background: #ffffff;
+      overflow-y: auto;
+      scrollbar-width: none;
+      overscroll-behavior: contain;
+      box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.58);
+      animation: top-mining-menu-in 0.26s ease both;
+    }
+
+    .top-mining__header--menu-open::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-mining__header--menu-open .top-mining__logo {
+      align-self: flex-start;
+      width: auto;
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle {
+      position: absolute;
+      top: 31px;
+      right: 34px;
+      width: 30px;
+      height: 30px;
+      gap: 0;
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle span {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: #151515;
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle span:first-child {
+      transform: rotate(45deg);
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle span:last-child {
+      transform: rotate(-45deg);
+    }
+
+    .top-mining__header--menu-open .top-mining__nav {
+      grid-template-columns: 1fr;
+      gap: 0;
+      flex: 1 1 auto;
+      max-height: none;
+      width: 100%;
+      margin-right: 0;
+      margin-left: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      overflow: visible;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .top-mining__nav-column {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 3px 24px;
+      align-items: start;
+      grid-column: 1 / -1;
+      padding: 12px 0 14px;
+    }
+
+    .top-mining__nav-heading {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: #151515;
+      font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.07em;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    .top-mining__nav-column--ratings .top-mining__nav-heading {
+      width: auto;
+      margin-right: -34px;
+      margin-bottom: 6px;
+      margin-left: -34px;
+      padding: 8px 34px;
+      background: #ff6a18;
+      border-bottom: none;
+      color: #ffffff;
+    }
+
+    .top-mining__nav-heading-text {
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .top-mining__nav-heading-number {
+      display: inline;
+      order: 3;
+      margin-left: auto;
+      color: inherit;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .top-mining__nav-link {
+      align-self: start;
+      gap: 7px;
+      margin-bottom: 0;
+      min-width: 0;
+      color: #303030;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.24;
+      transition: color 0.18s ease;
+    }
+
+    .top-mining__nav-link-text {
+      min-width: 0;
+      color: inherit;
+      overflow-wrap: anywhere;
+    }
+
+    .top-mining__nav-column svg,
+    .top-mining__nav-link-icon,
+    .top-mining__nav-telegram-icon {
+      width: 17px;
+      height: 17px;
+      color: #777777;
+      transition: color 0.18s ease;
+    }
+
+    .top-mining__nav-top-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .top-mining__header--menu-open .top-mining__nav-link--hidden {
+      display: flex !important;
+    }
+
+    .top-mining__nav-link--hidden {
+      display: none !important;
+    }
+
+    .top-mining__nav-more {
+      display: none !important;
+    }
+
+    .top-mining__nav-link--telegram {
+      grid-column: auto;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .top-mining__header--menu-open .top-mining__mobile-menu-footer {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 0 0 auto;
+      margin-top: 10px;
+      animation: top-mining-menu-content-in 0.28s ease 0.08s both;
+    }
+
+    .top-mining__header--menu-open .top-mining-button--contact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: auto !important;
+      min-width: 260px;
+      height: 48px;
+      margin: 0;
+      padding: 0 28px;
+      font-size: 14px;
+    }
+
+    .top-mining__header--menu-open .top-mining__mobile-telegram {
+      display: block;
+      margin: 0;
+      color: #151515;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    @media (hover: hover) {
+      .top-mining__header--menu-open .top-mining__nav-link:hover,
+      .top-mining__header--menu-open .top-mining__nav-link:focus-visible {
+        color: #ff6a18;
+      }
+
+      .top-mining__header--menu-open .top-mining__nav-link:hover :is(svg, .top-mining__nav-link-icon),
+      .top-mining__header--menu-open .top-mining__nav-link:focus-visible :is(svg, .top-mining__nav-link-icon) {
+        color: #ff6a18;
+      }
+    }
+
+    .top-mining__header--menu-open .top-mining__nav-link:active {
+      color: #ff6a18;
+    }
+
+    .top-mining__header--menu-open .top-mining__nav-link:active :is(svg, .top-mining__nav-link-icon) {
+      color: #ff6a18;
     }
 
     .top-mining__cards {
@@ -979,7 +1365,36 @@
     .top-mining__title {
       margin: 18px 0 -9px;
       margin-left: calc(50% - 50vw);
-      font-size: clamp(54px, 12vw, 108px);
+      font-size: clamp(54px, 10.5vw, 108px);
+    }
+
+    .top-mining__title-inner {
+      --tm-title-logo-left: 1.1em;
+      --tm-title-logo-top: 0.3em;
+    }
+
+    @keyframes top-mining-menu-in {
+      from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes top-mining-menu-content-in {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 
@@ -990,11 +1405,6 @@
     }
 
     .top-mining__header {
-      position: relative;
-      z-index: 20;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
       width: var(--mobile-frame-width);
       min-height: 46px;
       margin: 0 auto;
@@ -1010,26 +1420,28 @@
     }
 
     .top-mining__header--menu-open {
-      position: fixed;
       inset: 0;
       display: block;
       width: 100vw;
       height: 100vh;
       height: 100dvh;
       max-height: none;
-      margin: 0;
       padding: 14px 18px 32px;
       border-radius: 0;
-      background: #ffffff;
-      overflow-y: auto;
-      scrollbar-width: none;
-      overscroll-behavior: contain;
       box-shadow: none;
-      animation: top-mining-menu-in 0.26s ease both;
     }
 
-    .top-mining__header--menu-open::-webkit-scrollbar {
-      display: none;
+    .top-mining__header--menu-open .top-mining__menu-toggle {
+      top: 16px;
+      right: 16px;
+      width: 26px;
+      height: 26px;
+    }
+
+    .top-mining__header--menu-open .top-mining__menu-toggle span {
+      top: 12px;
+      width: 26px;
+      height: 2px;
     }
 
     .top-mining__logo {
@@ -1054,53 +1466,6 @@
       position: absolute;
       top: 17px;
       right: 18px;
-      z-index: 2;
-      display: grid;
-      gap: 5px;
-      width: 28px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .top-mining__menu-toggle span {
-      display: block;
-      width: 28px;
-      height: 2px;
-      background: #151515;
-      transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-    }
-
-    .top-mining__header--menu-open .top-mining__menu-toggle {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 26px;
-      height: 26px;
-      gap: 0;
-    }
-
-    .top-mining__header--menu-open .top-mining__menu-toggle span {
-      position: absolute;
-      top: 12px;
-      left: 0;
-      width: 26px;
-      background: #151515;
-    }
-
-    .top-mining__header--menu-open .top-mining__menu-toggle span:first-child {
-      transform: rotate(45deg);
-    }
-
-    .top-mining__header--menu-open .top-mining__menu-toggle span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .top-mining__header--menu-open .top-mining__menu-toggle span:last-child {
-      transform: rotate(-45deg);
     }
 
     .top-mining__mobile-menu-title {
@@ -1119,25 +1484,22 @@
 
     .top-mining__header--menu-open .top-mining__mobile-menu-title {
       position: relative;
-      max-height: 76px;
+      max-height: 27px;
       margin: 42px 0 0;
       padding-bottom: 10px;
       color: #151515;
       font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-      font-size: clamp(24px, 8.4vw, 34px);
+      font-size: 35px;
       font-weight: 600;
-      line-height: 0.9;
-      letter-spacing: -0.12em;
+      line-height: 31px;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
       white-space: nowrap;
       overflow: hidden;
       opacity: 1;
+      text-align: center;
       transform: translateY(0);
       pointer-events: auto;
-    }
-
-    .top-mining__header--menu-open .top-mining__mobile-menu-title::after {
-      display: none;
     }
 
     .top-mining__mobile-menu-title-text {
@@ -1148,185 +1510,77 @@
 
     .top-mining__mobile-menu-title-logo {
       position: absolute;
-      left: 0.91em;
-      top: 0.36em;
+      left: 1.16em;
+      top: 0.35em;
       width: 0.22em;
       height: 0.22em;
     }
 
-    .top-mining__nav {
-      display: grid;
-      max-height: 0;
-      margin-top: 0;
-      opacity: 0;
-      transform: translateY(-10px);
-      overflow: hidden;
-      pointer-events: none;
-      transition:
-        max-height 0.34s ease,
-        margin 0.28s ease,
-        opacity 0.24s ease,
-        transform 0.24s ease;
-    }
-
     .top-mining__header--menu-open .top-mining__nav {
-      grid-template-columns: 1fr;
-      gap: 0;
-      max-height: 720px;
       width: calc(100% + 36px);
-      margin-top: 8px;
+      margin-top: 0;
       margin-right: -18px;
       margin-left: -18px;
-      border: none;
       border-top: 1px solid #151515;
       border-radius: 22px 22px 0 0;
       background: #ffffff;
       overflow: hidden;
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
     }
 
     .top-mining__nav-column {
-      display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0 14px;
-      grid-column: 1 / -1;
       padding: 14px 18px 16px;
+      border-bottom: none;
     }
 
     .top-mining__nav-column:nth-child(1) {
-      grid-column: 1 / -1;
-      order: 1;
       padding-top: 16px;
     }
 
     .top-mining__nav-column:nth-child(2) {
-      grid-column: 1 / -1;
       padding-top: 0;
       padding-bottom: 16px;
-      order: 2;
     }
 
-    .top-mining__nav-column:nth-child(3) {
-      grid-column: 1 / -1;
-      order: 3;
-      padding-top: 0;
-    }
-
+    .top-mining__nav-column:nth-child(3),
     .top-mining__nav-column:nth-child(4) {
-      grid-column: 1 / -1;
-      order: 4;
       padding-top: 0;
     }
 
     .top-mining__nav-heading {
-      grid-column: 1 / -1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
       margin-bottom: 12px;
-      color: #151515;
+      font-family: inherit;
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      padding-bottom: 0;
+      border-bottom: none;
     }
 
     .top-mining__nav-column--ratings .top-mining__nav-heading {
-      width: auto;
       margin-right: -18px;
       margin-bottom: 12px;
       margin-left: -18px;
       padding: 10px 18px;
-      background: #ff6a18;
-    }
-
-    .top-mining__nav-heading-text {
-      min-width: 0;
-      color: inherit;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-transform: uppercase;
-    }
-
-    .top-mining__nav-heading::before {
-      display: none;
     }
 
     .top-mining__nav-heading-number {
-      display: inline;
-      order: 3;
-      margin-left: auto;
-      color: inherit;
       font-size: 16px;
       font-weight: 400;
+      letter-spacing: 0;
     }
 
     .top-mining__nav-link {
-      gap: 8px;
       margin-bottom: 8px;
-      min-width: 0;
-      color: #303030;
       font-size: 14px;
-      line-height: 1.25;
-    }
-
-    .top-mining__nav-link-text {
-      min-width: 0;
-      color: inherit;
-      overflow-wrap: anywhere;
-    }
-
-    .top-mining__header--menu-open .top-mining__nav-link--hidden {
-      display: flex !important;
     }
 
     .top-mining__nav-column svg,
     .top-mining__nav-telegram-icon {
       width: 18px;
       height: 18px;
-    }
-
-    .top-mining__nav-top-icon {
-      width: 22px;
-      height: 22px;
-    }
-
-    .top-mining__nav-link--hidden {
-      display: none !important;
-    }
-
-    .top-mining__nav-more {
-      display: inline-flex !important;
-      align-items: center;
-      gap: 5px;
-      margin-top: 8px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: #555555 !important;
-      font-size: 11px !important;
-      font-weight: 700 !important;
-      line-height: 1;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .top-mining__header--menu-open .top-mining__nav-more {
-      display: none !important;
-    }
-
-    .top-mining__nav-more svg {
-      width: 14px;
-      height: 14px;
-      color: #777777;
-      transition: transform 0.2s ease;
-    }
-
-    .top-mining__nav-more-icon--open {
-      transform: rotate(180deg);
     }
 
     .top-mining__nav-link--telegram {
@@ -1336,36 +1590,23 @@
       border-top: 1px solid #d7d7d7;
     }
 
-    .top-mining-button--contact {
-      display: none;
+    .top-mining__header--menu-open .top-mining__mobile-menu-footer {
+      display: block;
+      margin-top: 18px;
     }
 
     .top-mining__header--menu-open .top-mining-button--contact {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       width: 100% !important;
-      height: 46px;
-      margin: 18px auto 0;
-      padding: 0 24px;
+      min-width: 0;
+      margin: 0 auto;
       font-size: 16px;
-      animation: top-mining-menu-content-in 0.28s ease 0.08s both;
-    }
-
-    .top-mining__mobile-telegram {
-      display: none;
     }
 
     .top-mining__header--menu-open .top-mining__mobile-telegram {
-      display: block;
       margin-top: 12px;
       color: #343434;
       font-size: 16px;
-      font-weight: 500;
-      line-height: 1;
       text-align: center;
-      text-decoration: none;
-      text-transform: uppercase;
       animation: top-mining-menu-content-in 0.28s ease 0.12s both;
     }
 
@@ -1378,16 +1619,19 @@
 
     .top-mining__title {
       width: 100%;
-      margin: 0;
+      margin: -5px;
       margin-left: 0;
       padding-top: 8px;
       font-size: clamp(28px, 9.2vw, 36px);
       line-height: 0.9;
-      letter-spacing: -0.15em;
+      letter-spacing: 0.05em;
       overflow: hidden;
     }
 
     .top-mining__title-inner {
+      --tm-title-logo-left: 1.17em;
+      --tm-title-logo-top: 0.34em;
+
       max-width: 100%;
       transform: none;
     }
@@ -1603,30 +1847,6 @@
       max-width: 250px;
       font-size: 16px;
       line-height: 1.55;
-    }
-
-    @keyframes top-mining-menu-in {
-      from {
-        opacity: 0;
-        transform: translateY(-16px) scale(0.98);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes top-mining-menu-content-in {
-      from {
-        opacity: 0;
-        transform: translateY(-8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
   }
 </style>

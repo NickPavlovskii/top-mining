@@ -47,12 +47,14 @@ body {
   font-family: var(--app-font);
 }
 
+@media (max-width: 900px) {
+  body.is-mobile-menu-open {
+    overflow: hidden;
+  }
+}
+
 @media (max-width: 560px) {
   body {
     background-color: #ffffff;
-  }
-
-  body.is-mobile-menu-open {
-    overflow: hidden;
   }
 }
