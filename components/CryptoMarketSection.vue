@@ -9,7 +9,7 @@
       </header>
 
       <div class="crypto-section__grid">
-        <CryptoCoinList
+        <crypto-coin-list
           title="Популярные монеты"
           :coins="popularCoins"
           :highlight-index="1"
@@ -74,9 +74,9 @@
           </article>
         </div>
 
-        <CryptoCoinList title="Лидер роста" :coins="growthCoins" />
+        <crypto-coin-list title="Лидер роста" :coins="growthCoins" />
 
-        <CryptoCoinList
+        <crypto-coin-list
           title="Монета с максимальным объемом"
           :coins="volumeCoins"
         />
@@ -86,45 +86,16 @@
 </template>
 
 <script setup lang="ts">
+  import {
+    CRYPTO_CHART_GRID_LINES,
+    FALLBACK_BITCOIN_USD,
+    GROWTH_COIN_IDS,
+    POPULAR_COIN_IDS,
+    VOLUME_COIN_IDS,
+  } from '~/constants/crypto'
+  import type { CryptoCoin, CryptoResponse } from '~/types/crypto-coin'
   import { bitcoinIcon } from '~/utils/cryptoIcons'
-
-  interface CryptoCoin {
-    id: string
-    symbol: string
-    name: string
-    image: string
-    price: number
-    volume: number
-    change24h: number
-    change7d: number
-    sparkline: number[]
-  }
-
-  interface BitcoinUsd {
-    price: number
-    change7d: number
-    sparkline: number[]
-    image: string
-  }
-
-  interface CryptoResponse {
-    source: 'coingecko' | 'fallback'
-    currency: 'rub'
-    updatedAt: string
-    coins: CryptoCoin[]
-    bitcoinUsd: BitcoinUsd
-  }
-
-  const fallbackBitcoinUsd: BitcoinUsd = {
-    price: 26159,
-    change7d: -1.59,
-    sparkline: [
-      24800, 25100, 24900, 25300, 25000, 25500, 25400, 25700, 26000, 25800,
-      26200, 26500, 26300, 26600, 26400, 26550, 26800, 26650, 26900, 26159,
-    ],
-    image:
-      'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
-  }
+  import { getChangeToneClass } from '~/utils/cryptoPeriod'
 
   const { data } = await useFetch<CryptoResponse>('/api/crypto', {
     default: () => ({
@@ -132,25 +103,24 @@
       currency: 'rub',
       updatedAt: new Date().toISOString(),
       coins: [],
-      bitcoinUsd: fallbackBitcoinUsd,
+      bitcoinUsd: FALLBACK_BITCOIN_USD,
     }),
   })
 
   const coins = computed(() => data.value?.coins ?? [])
   const bitcoinUsd = computed(
-    () => data.value?.bitcoinUsd ?? fallbackBitcoinUsd,
+    () => data.value?.bitcoinUsd ?? FALLBACK_BITCOIN_USD,
   )
 
   const popularCoins = computed(() =>
-    ['binancecoin', 'bitcoin', 'ethereum']
-      .map((id) => coins.value.find((coin) => coin.id === id))
+    POPULAR_COIN_IDS.map((id) => coins.value.find((coin) => coin.id === id))
       .filter((coin): coin is CryptoCoin => Boolean(coin)),
   )
 
   const growthCoins = computed(() =>
     [...coins.value]
       .filter((coin) =>
-        ['pax-gold', 'binaryx', 'as-roma-fan-token'].includes(coin.id),
+        (GROWTH_COIN_IDS as readonly string[]).includes(coin.id),
       )
       .sort((first, second) => second.change24h - first.change24h)
       .slice(0, 3),
@@ -158,7 +128,9 @@
 
   const volumeCoins = computed(() =>
     [...coins.value]
-      .filter((coin) => ['bitcoin', 'ethereum', 'solana'].includes(coin.id))
+      .filter((coin) =>
+        (VOLUME_COIN_IDS as readonly string[]).includes(coin.id),
+      )
       .sort((first, second) => second.volume - first.volume)
       .slice(0, 3),
   )
@@ -166,10 +138,10 @@
   const chartValues = computed(() => {
     const values = bitcoinUsd.value.sparkline
 
-    return values.length > 1 ? values : fallbackBitcoinUsd.sparkline
+    return values.length > 1 ? values : FALLBACK_BITCOIN_USD.sparkline
   })
 
-  const gridLines = [0, 100, 200, 300, 400, 500]
+  const gridLines = CRYPTO_CHART_GRID_LINES
 
   const chartPoints = computed(() => {
     const values = chartValues.value
@@ -207,7 +179,7 @@
   }
 
   function getChangeClass(value: number) {
-    return value >= 0 ? 'is-positive' : 'is-negative'
+    return getChangeToneClass(value)
   }
 </script>
 

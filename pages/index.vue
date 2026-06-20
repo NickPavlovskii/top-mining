@@ -1,8 +1,9 @@
 <template>
   <main class="page">
-    <!-- <WorkProcessSection @cta="onLeaveRequest" /> -->
-    <TopMiningSection />
-    <CryptoMarketSection />
+    <!-- <work-process-section @cta="onLeaveRequest" /> -->
+    <top-mining-section />
+    <crypto-market-section />
+    <top-mining-footer />
   </main>
 </template>
 

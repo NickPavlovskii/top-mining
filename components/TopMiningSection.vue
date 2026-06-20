@@ -611,7 +611,7 @@
     overflow: hidden;
     color: #151515;
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(58px, 12.4vw, 210px);
+    font-size: clamp(58px, 10.2vw, 200px);
     font-weight: 600;
     line-height: 0.82;
     letter-spacing: -0.03em;
@@ -1362,6 +1362,30 @@
       width: calc(100% - 32px);
     }
 
+    .top-mining__card--calculator {
+      min-height: 240px;
+    }
+
+    .top-mining__card--calculator .top-mining__card-content {
+      padding: 26px 28px;
+    }
+
+    .top-mining__card--calculator .top-mining__card-title {
+      margin-bottom: 22px;
+    }
+
+    .top-mining__card--calculator .top-mining__card-stats {
+      margin: 0 0 34px;
+    }
+
+    .top-mining__card--calculator .top-mining__card-text--calculator {
+      bottom: 28px;
+    }
+
+    .top-mining__card--calculator .top-mining-button--right {
+      bottom: 26px;
+    }
+
     .top-mining__title {
       margin: 18px 0 -9px;
       margin-left: calc(50% - 50vw);
@@ -1484,15 +1508,17 @@
 
     .top-mining__header--menu-open .top-mining__mobile-menu-title {
       position: relative;
-      max-height: 27px;
+      container-type: inline-size;
+      width: 100%;
+      max-height: 40px;
       margin: 42px 0 0;
-      padding-bottom: 10px;
+      padding: 0 2px 10px;
       color: #151515;
       font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-      font-size: 35px;
+      font-size: clamp(26px, 9.6cqw, 31px);
       font-weight: 600;
-      line-height: 31px;
-      letter-spacing: 0.02em;
+      line-height: 1;
+      letter-spacing: -0.02em;
       text-transform: uppercase;
       white-space: nowrap;
       overflow: hidden;
@@ -1505,6 +1531,7 @@
     .top-mining__mobile-menu-title-text {
       position: relative;
       display: inline-block;
+      max-width: 100%;
       color: inherit;
     }
 
