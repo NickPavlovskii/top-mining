@@ -63,6 +63,9 @@
   // Тёмные поверхности
   --dark-bg-color: #1e1e1e;
   --card-bg-color: #2a2a2a;
+  --rating-surface-color: #1f1f1f;
+  --surface-dark-page-color: #1a1a1a;
+  --surface-dark-elevated-color: #1f1f1f;
 
   // Скроллбар
   --scroll-width: 8px;
@@ -101,6 +104,10 @@
   --tm-shadow: var(--shadow-color);
   --tm-dark-bg: var(--dark-bg-color);
   --tm-card-bg: var(--card-bg-color);
+  --tm-rating-surface: var(--rating-surface-color);
+  --tm-surface-dark: var(--surface-dark-page-color);
+  --tm-surface-elevated: var(--surface-dark-elevated-color);
+  --tm-block-gap: clamp(40px, 5vw, 80px);
 
   --tm-scroll-width: var(--scroll-width);
   --tm-scroll-track: var(--scroll-track-color);

@@ -55,11 +55,15 @@
         <TopMiningEpicBlocks />
       </div>
     </div>
+    <div class="calculator-promo__ratings">
+      <TopMiningRatingSection />
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
   import TopMiningEpicBlocks from '~/components/top-mining/TopMiningEpicBlocks.vue'
+  import TopMiningRatingSection from '~/components/TopMiningRatingSection.vue'
   import {
     MINING_CALCULATOR_PROMO_STATS,
     MINING_CALCULATOR_PROMO_VIDEO,
@@ -69,14 +73,14 @@
 
 <style scoped>
   .calculator-promo {
-    background: var(--tm-black);
+    background: var(--tm-rating-surface);
   }
 
   .calculator-promo__panel {
     width: 100%;
     background: var(--tm-white);
     border-radius: 60px 60px 0 0;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .calculator-promo__inner {
@@ -101,6 +105,12 @@
     padding: 0 clamp(16px, 2vw, 32px);
     overflow: visible;
     box-sizing: border-box;
+  }
+
+  .calculator-promo__ratings {
+    width: 100%;
+    margin-top: 0;
+    background: var(--tm-rating-surface);
   }
 
   .calculator-promo__content {
@@ -363,14 +373,14 @@
     .calculator-promo__epic-blocks {
       width: 100%;
       max-width: none;
-      padding: clamp(24px, 5vw, 32px) 0 clamp(16px, 4vw, 24px);
+      padding: clamp(24px, 5vw, 32px) 0 0;
       background: var(--tm-white);
     }
   }
 
   @media (max-width: 560px) {
     .calculator-promo {
-      background: var(--tm-black);
+      background: var(--tm-rating-surface);
     }
 
     .calculator-promo__panel {
