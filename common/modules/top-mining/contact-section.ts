@@ -157,7 +157,6 @@ const COMPACT_SHARED_400 = {
   telegramButtonLineHeight: 13,
 } as const satisfies Partial<TopMiningContactBlockLayout>
 
-/** Компактные тiers по ширине круга (container width) */
 export const TOP_MINING_CONTACT_CIRCLE_TIERS = [
   {
     maxCircleWidth: 400,
@@ -200,7 +199,7 @@ export const TOP_MINING_CONTACT_CIRCLE_TIERS = [
       subscribe: {
         ...COMPACT_SHARED_720,
         titleLeadGap: 6,
-        leadFormGap: 16,
+        leadFormGap: 30,
       },
     },
   },

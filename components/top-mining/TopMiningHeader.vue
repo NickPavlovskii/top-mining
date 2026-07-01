@@ -677,15 +677,15 @@
     justify-content: center !important;
   }
 
-  .top-mining__header-actions :deep(.top-mining-button--consulting .q-btn__content) {
-    flex: 0 0 auto !important;
-    justify-content: center !important;
+  .top-mining__header-actions :deep(.top-mining-button--consulting .top-mining-button__inner) {
+    flex: 0 0 auto;
+    justify-content: center;
   }
 
-  .top-mining__header-actions :deep(.top-mining-button--consulting .q-btn__content span),
-  .top-mining__header-actions :deep(.top-mining-button--consulting .q-btn__content div) {
-    justify-content: center !important;
-    text-align: center !important;
+  .top-mining__header-actions :deep(.top-mining-button--consulting .top-mining-button__inner span),
+  .top-mining__header-actions :deep(.top-mining-button--consulting .top-mining-button__inner div) {
+    justify-content: center;
+    text-align: center;
   }
 
   .top-mining__header-actions :deep(.top-mining-button__inner) {
@@ -887,9 +887,9 @@
     color: var(--tm-black) !important;
   }
 
-  .top-mining__card .top-mining-button :deep(.q-btn__content),
-  .top-mining__card .top-mining-button :deep(.q-btn__content span),
-  .top-mining__card .top-mining-button :deep(.q-btn__content div) {
+  .top-mining__card .top-mining-button :deep(.top-mining-button__inner),
+  .top-mining__card .top-mining-button :deep(.top-mining-button__inner span),
+  .top-mining__card .top-mining-button :deep(.top-mining-button__inner div) {
     display: inline-flex;
     align-items: center;
     justify-content: center;

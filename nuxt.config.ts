@@ -62,5 +62,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     catalogGraphqlUrl:
       process.env.CATALOG_GRAPHQL_URL || 'http://localhost:8080/graphql',
+    articlesApiUrl:
+      process.env.ARTICLES_API_URL || 'http://localhost:8080',
   },
 })

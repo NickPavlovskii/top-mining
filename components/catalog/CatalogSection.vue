@@ -1,9 +1,15 @@
 <template>
-  <section class="catalog-section" aria-labelledby="catalog-title-part-1">
+  <section
+    class="catalog-section"
+    aria-labelledby="catalog-title-part-1"
+  >
     <div class="catalog-section__wrapper">
       <div class="catalog-section__inner">
         <div class="catalog-section__h1">
-          <h2 id="catalog-title-part-1" class="catalog-section__heading catalog-section__heading--part1">
+          <h2
+            id="catalog-title-part-1"
+            class="catalog-section__heading catalog-section__heading--part1"
+          >
             Каталог
           </h2>
           <p class="catalog-section__desc catalog-section__desc--desktop">
@@ -27,14 +33,29 @@
             :src="utpStar"
           />
           <span>
-            Более <span class="catalog-section__utp-accent">{{ formattedReviews }} отзывов</span> от клиентов в майнинге
+            Более
+            <span class="catalog-section__utp-accent">
+              {{ formattedReviews }} отзывов
+            </span>
+            от клиентов в майнинге
           </span>
         </p>
 
-        <form class="catalog-section__search" action="/sale_miners/" @submit.prevent>
+        <form
+          class="catalog-section__search"
+          action="/sale_miners/"
+          @submit.prevent
+        >
           <label class="catalog-section__search-field">
-            <span class="catalog-section__search-icon" aria-hidden="true">
-              <img :src="catalogSearchIcon" alt="" class="catalog-section__search-icon-img" />
+            <span
+              class="catalog-section__search-icon"
+              aria-hidden="true"
+            >
+              <img
+                alt=""
+                class="catalog-section__search-icon-img"
+                :src="catalogSearchIcon"
+              />
             </span>
             <input
               v-model="searchQuery"
@@ -55,12 +76,10 @@
           />
         </div>
 
-        <a class="catalog-section__more" href="/asic-manufacturers/">
-          <span class="catalog-section__more-text">ещё категории</span>
-          <span class="catalog-section__more-arrow" aria-hidden="true">
-            <img :src="catalogArrowRight" alt="" class="catalog-section__more-arrow-icon" />
-          </span>
-        </a>
+        <top-mining-more-link
+          to="/asic-manufacturers/"
+          label="ещё категории"
+        />
       </div>
     </div>
   </section>
@@ -71,7 +90,6 @@
   import type { CatalogResponse } from '~/types/catalog'
   import utpStar from '~/assets/images/top-mining/utp-star.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
-  import catalogArrowRight from '~/assets/images/catalog/arrow-right.png'
 
   const searchQuery = ref('')
 
@@ -83,7 +101,9 @@
   })
 
   const meta = computed(() => data.value?.meta ?? CATALOG_FALLBACK.meta)
-  const categories = computed(() => data.value?.categories ?? CATALOG_FALLBACK.categories)
+  const categories = computed(
+    () => data.value?.categories ?? CATALOG_FALLBACK.categories,
+  )
 
   const formattedReviews = computed(() =>
     new Intl.NumberFormat('ru-RU').format(meta.value.totalReviews),
@@ -150,13 +170,15 @@
 
   .catalog-section__heading {
     margin: 0;
+    max-width: 100%;
     color: #141414;
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: 120px;
+    font-size: clamp(40px, 7.2vw, 120px);
     font-weight: 500;
-    line-height: 120px;
+    line-height: 1.05;
     letter-spacing: 0;
     text-transform: uppercase;
+    overflow-wrap: break-word;
   }
 
   .catalog-section__desc {
@@ -215,7 +237,7 @@
   }
 
   .catalog-section__heading--part2 {
-    margin: 0 0 0 128px;
+    margin: 0 0 0 clamp(0px, 8vw, 128px);
   }
 
   .catalog-section__search-field {
@@ -266,47 +288,6 @@
     overflow: hidden;
   }
 
-  .catalog-section__more {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 64px;
-    border-radius: 999px;
-    background: #141414;
-    color: #fff;
-    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(16px, 1.6vw, 20px);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .catalog-section__more:hover {
-    background: var(--tm-orange);
-    transform: translateY(-1px);
-  }
-
-  .catalog-section__more:hover .catalog-section__more-arrow-icon {
-    filter: brightness(0) invert(1);
-  }
-
-  .catalog-section__more-arrow {
-    display: inline-flex;
-    flex-shrink: 0;
-  }
-
-  .catalog-section__more-arrow-icon {
-    display: block;
-    width: 12px;
-    height: auto;
-    filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(1450%)
-      hue-rotate(1deg) brightness(101%) contrast(104%);
-  }
-
   @media (min-width: 901px) {
     .catalog-section__desc--desktop {
       display: block;
@@ -319,23 +300,47 @@
 
   @media (max-width: 900px) {
     .catalog-section {
-      margin-top: -32px;
-      padding-top: 32px;
+      margin-top: -48px;
+      padding-top: 48px;
+      background: var(--tm-rating-surface);
     }
 
     .catalog-section__wrapper {
       border-radius: 32px 32px 0 0;
+      box-shadow: 0 -1px 0 var(--tm-rating-surface);
+    }
+
+    .catalog-section__h1 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .catalog-section__heading {
+      max-width: 100%;
+      font-size: clamp(36px, 11vw, 72px);
+      line-height: 1.05;
+    }
+
+    .catalog-section__heading--part2 {
+      margin: 0;
     }
   }
 
   @media (max-width: 560px) {
+    .catalog-section {
+      margin-top: -40px;
+      padding-top: 40px;
+    }
+
     .catalog-section__inner {
       padding-inline: 16px;
     }
 
     .catalog-section__heading--part1,
     .catalog-section__heading--part2 {
-      font-size: clamp(34px, 10vw, 48px);
+      font-size: clamp(32px, 9.5vw, 48px);
+      line-height: 1.05;
     }
   }
 </style>

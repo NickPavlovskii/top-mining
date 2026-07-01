@@ -49,41 +49,12 @@
         class="catalog-comp-line"
         @scroll="updateScrollState"
       >
-        <a
+        <catalog-organization-card
           v-for="organization in organizations"
           :key="organization.id"
-          :href="organization.href || '#'"
-          class="cwcoo_item"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="cwoi_inner">
-            <div class="cwo_img">
-              <img
-                v-if="organization.logoUrl"
-                loading="lazy"
-                :src="organization.logoUrl"
-                :alt="organization.name"
-                @load="onAssetReady"
-              />
-              <span v-else class="cwo_img__fallback">
-                {{ getInitials(organization.name) }}
-              </span>
-            </div>
-
-            <div class="top-card-wrap">
-              <div class="name">{{ organization.name }}</div>
-            </div>
-
-            <div class="cwo_rating">
-              <span class="cwo_rating__star" aria-hidden="true">★</span>
-              <span class="cwo_rating__value">{{ formatRating(organization.rating) }}</span>
-              <span class="cwo_rating__reviews">
-                Отзывов: {{ organization.reviewCount }}
-              </span>
-            </div>
-          </div>
-        </a>
+          :organization="organization"
+          @logo-load="onAssetReady"
+        />
       </div>
     </div>
   </div>
@@ -110,22 +81,6 @@
       `catalog-comp-wrap__nav-btn--${variant}`,
       { 'catalog-comp-wrap__nav-btn--inactive': inactive },
     ]
-  }
-
-  function formatRating(value: number) {
-    if (value <= 0) {
-      return '0'
-    }
-
-    return Number.isInteger(value) ? String(value) : value.toFixed(1)
-  }
-
-  function getInitials(name: string) {
-    return name
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? '')
-      .join('')
   }
 
   function updateScrollState() {
@@ -161,7 +116,7 @@
       return
     }
 
-    const card = track.querySelector<HTMLElement>('.cwcoo_item')
+    const card = track.querySelector<HTMLElement>('.catalog-org-card')
     const gap = 16
     const step = card ? card.offsetWidth + gap : Math.max(track.clientWidth * 0.8, 280)
 
@@ -328,117 +283,6 @@
     display: none;
   }
 
-  .cwcoo_item {
-    flex: 0 0 clamp(220px, 17vw, 260px);
-    display: flex;
-    align-self: stretch;
-    color: inherit;
-    text-decoration: none;
-    scroll-snap-align: start;
-  }
-
-  .cwoi_inner {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    min-height: 168px;
-    padding: 24px;
-    border-radius: 32px;
-    background: #fff;
-    box-sizing: border-box;
-    transition: transform 0.2s ease;
-  }
-
-  .cwcoo_item:hover .cwoi_inner {
-    transform: translateY(-2px);
-  }
-
-  .cwo_img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    margin-bottom: 16px;
-    padding: 6px;
-    border-radius: 14px;
-    background: #f3f3f3;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-
-  .cwo_img img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-  }
-
-  .cwo_img__fallback {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    background: #ececec;
-    color: #666;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-
-  .top-card-wrap {
-    flex: 1;
-    width: 100%;
-    min-height: calc(16px * 1.25 * 2);
-    margin-bottom: 20px;
-  }
-
-  .name {
-    margin: 0;
-    color: #141414;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.25;
-    text-align: left;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-
-  .cwo_rating {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px 8px;
-    margin-top: auto;
-    flex-shrink: 0;
-    width: 100%;
-    color: #141414;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-
-  .cwo_rating__star {
-    color: #f5b301;
-    font-size: 15px;
-    line-height: 1;
-  }
-
-  .cwo_rating__value {
-    font-weight: 600;
-  }
-
-  .cwo_rating__reviews {
-    font-weight: 500;
-  }
   @media (max-width: 560px) {
     .catalog-comp-wrap__nav {
       gap: 8px;

@@ -100,7 +100,7 @@
               />
             </div>
 
-            <image
+            <img
               alt=""
               :src="rigLarge"
               :class="[
@@ -414,9 +414,9 @@
     color: var(--tm-black) !important;
   }
 
-  .top-mining-button :deep(.q-btn__content),
-  .top-mining-button :deep(.q-btn__content span),
-  .top-mining-button :deep(.q-btn__content div) {
+  .top-mining-button :deep(.top-mining-button__inner),
+  .top-mining-button :deep(.top-mining-button__inner span),
+  .top-mining-button :deep(.top-mining-button__inner div) {
     display: inline-flex;
     align-items: center;
     justify-content: center;

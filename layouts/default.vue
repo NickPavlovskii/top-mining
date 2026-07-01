@@ -2,7 +2,7 @@
   <div class="layout">
     <top-mining-header />
     <main class="layout__content">
-      <NuxtPage />
+      <slot />
     </main>
     <top-mining-footer />
   </div>

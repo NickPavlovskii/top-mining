@@ -1,14 +1,24 @@
 <template>
-  <section class="calculator-promo" aria-labelledby="calculator-promo-title">
+  <section
+    class="calculator-promo"
+    aria-labelledby="calculator-promo-title"
+  >
     <div class="calculator-promo__panel">
       <div class="calculator-promo__inner">
         <div class="calculator-promo__content">
-          <h2 id="calculator-promo-title" class="calculator-promo__title">
-            <span class="calculator-promo__title-line calculator-promo__title-line--head">
+          <h2
+            id="calculator-promo-title"
+            class="calculator-promo__title"
+          >
+            <span
+              class="calculator-promo__title-line calculator-promo__title-line--head"
+            >
               <span class="calculator-promo__title-word">Самый</span>
               <span class="calculator-promo__highlight-text">удобный</span>
             </span>
-            <span class="calculator-promo__title-line calculator-promo__title-line--product">
+            <span
+              class="calculator-promo__title-line calculator-promo__title-line--product"
+            >
               <span class="calculator-promo__title-part">майнинг-</span>
               <span class="calculator-promo__title-part">калькулятор</span>
             </span>
@@ -25,7 +35,9 @@
               v-for="item in MINING_CALCULATOR_PROMO_STATS"
               :key="item.label"
             >
-              <strong class="calculator-promo__stat-value calculator-promo__highlight-text">
+              <strong
+                class="calculator-promo__stat-value calculator-promo__highlight-text"
+              >
                 {{ item.value }}
               </strong>
               <span>{{ item.label }}</span>
@@ -33,30 +45,33 @@
           </ul>
         </div>
 
-        <div class="calculator-promo__visual" aria-hidden="true">
+        <div
+          class="calculator-promo__visual"
+          aria-hidden="true"
+        >
           <video
             class="calculator-promo__video"
-            :src="MINING_CALCULATOR_PROMO_VIDEO"
             autoplay
             loop
             muted
             playsinline
             disablePictureInPicture
             preload="auto"
+            :src="MINING_CALCULATOR_PROMO_VIDEO"
           />
           <img
             class="calculator-promo__image"
-            :src="calculatorRigImage"
             alt=""
+            :src="calculatorRigImage"
           />
         </div>
       </div>
       <div class="calculator-promo__epic-blocks">
-        <TopMiningEpicBlocks />
+        <top-mining-epic-blocks />
       </div>
     </div>
     <div class="calculator-promo__ratings">
-      <TopMiningRatingSection />
+      <top-mining-rating-section />
     </div>
   </section>
 </template>
@@ -373,14 +388,15 @@
     .calculator-promo__epic-blocks {
       width: 100%;
       max-width: none;
-      padding: clamp(24px, 5vw, 32px) 0 0;
-      background: var(--tm-white);
+      margin-top: 0;
+      padding: 0;
+      background: transparent;
     }
   }
 
   @media (max-width: 560px) {
     .calculator-promo {
-      background: var(--tm-rating-surface);
+      background: var(--tm-black);
     }
 
     .calculator-promo__panel {
@@ -392,7 +408,7 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      padding: 28px 18px 20px;
+      padding: 28px 18px 0;
     }
 
     .calculator-promo__content {
@@ -452,7 +468,7 @@
     .calculator-promo__visual {
       order: 2;
       width: 100%;
-      min-height: 240px;
+      min-height: 0;
       margin-top: 8px;
     }
 
@@ -471,8 +487,8 @@
 
     .calculator-promo__epic-blocks {
       margin-top: 0;
-      padding: 16px 0 24px;
-      background: var(--tm-white);
+      padding: 12px 18px 24px;
+      background: var(--tm-black);
     }
   }
 

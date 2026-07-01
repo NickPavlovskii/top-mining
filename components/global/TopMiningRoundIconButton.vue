@@ -6,13 +6,16 @@
     :target="target || undefined"
     :aria-label="ariaLabel"
     :class="[
-      'round-icon-button',
-      `round-icon-button--${variant}`,
-      `round-icon-button--${size}`,
+      'top-mining-round-icon-button',
+      `top-mining-round-icon-button--${variant}`,
+      `top-mining-round-icon-button--${size}`,
     ]"
     @click="onClick"
   >
-    <Icon :name="icon" class="round-icon-button__icon" />
+    <Icon
+      :name="icon"
+      class="top-mining-round-icon-button__icon"
+    />
   </component>
 </template>
 
@@ -177,7 +180,7 @@
 </script>
 
 <style scoped>
-  .round-icon-button {
+  .top-mining-round-icon-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -197,15 +200,15 @@
       border-color 0.18s ease;
   }
 
-  .round-icon-button:hover,
-  .round-icon-button:focus-visible {
+  .top-mining-round-icon-button:hover,
+  .top-mining-round-icon-button:focus-visible {
     background: v-bind(resolvedHoverBackground);
     border-color: v-bind(resolvedHoverBorderColor);
     color: v-bind(resolvedHoverColor);
     outline: none;
   }
 
-  .round-icon-button__icon {
+  .top-mining-round-icon-button__icon {
     width: v-bind(resolvedIconSize);
     height: v-bind(resolvedIconSize);
     transform: rotate(v-bind(iconRotate));

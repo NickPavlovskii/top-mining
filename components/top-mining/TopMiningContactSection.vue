@@ -1,146 +1,198 @@
 <template>
-  <section class="contact-section" aria-labelledby="contact-section-question-title">
+  <section
+    class="contact-section"
+    aria-labelledby="contact-section-question-title"
+  >
     <div class="contact-section__wrapper">
       <div class="contact-section__inner">
-      <div class="contact-section__grid">
-        <article
-          ref="questionCircleRef"
-          class="contact-section__circle contact-section__circle--question"
-        >
-          <img
-            class="contact-section__circle-bg"
-            :src="contactCircleLeft"
-            alt=""
-            aria-hidden="true"
-          />
-
-          <div
-            class="contact-section__circle-content contact-section__circle-content--question"
-            :class="{ 'contact-section__circle-content--compact': questionIsCompact }"
-            :style="questionLayoutStyle"
+        <div class="contact-section__grid">
+          <article
+            ref="questionCircleRef"
+            class="contact-section__circle contact-section__circle--question"
           >
-            <div class="contact-section__stack contact-section__stack--question">
-              <h2 id="contact-section-question-title" class="contact-section__title contact-section__title--single">
-                {{ TOP_MINING_CONTACT_QUESTION.title }}
-              </h2>
+            <img
+              class="contact-section__circle-bg"
+              :src="contactCircleLeft"
+              alt=""
+              aria-hidden="true"
+            />
 
-              <div class="contact-section__lead-form">
-                <p class="contact-section__lead">
-                  {{ TOP_MINING_CONTACT_QUESTION.lead }}
-                </p>
+            <div
+              :class="[
+                'contact-section__circle-content',
+                'contact-section__circle-content--question',
+                {
+                  'contact-section__circle-content--compact': questionIsCompact,
+                },
+              ]"
+              :style="questionLayoutStyle"
+            >
+              <div
+                class="contact-section__stack contact-section__stack--question"
+              >
+                <h2
+                  id="contact-section-question-title"
+                  class="contact-section__title contact-section__title--single"
+                >
+                  {{ TOP_MINING_CONTACT_QUESTION.title }}
+                </h2>
 
-                <form class="contact-section__form" @submit.prevent="onQuestionSubmit">
-                  <div class="contact-section__input-row">
-                    <label class="contact-section__input-wrap">
-                      <span class="contact-section__visually-hidden">Телефон</span>
-                      <input
-                        v-model="phone"
-                        type="tel"
-                        class="contact-section__input"
-                        autocomplete="tel"
-                        inputmode="tel"
-                        :placeholder="TOP_MINING_CONTACT_QUESTION.placeholder"
+                <div class="contact-section__lead-form">
+                  <p class="contact-section__lead">
+                    {{ TOP_MINING_CONTACT_QUESTION.lead }}
+                  </p>
+
+                  <form
+                    class="contact-section__form"
+                    @submit.prevent="onQuestionSubmit"
+                  >
+                    <div class="contact-section__input-row">
+                      <label class="contact-section__input-wrap">
+                        <span class="contact-section__visually-hidden">
+                          Телефон
+                        </span>
+                        <input
+                          v-model="phone"
+                          type="tel"
+                          class="contact-section__input"
+                          autocomplete="tel"
+                          inputmode="tel"
+                          :placeholder="TOP_MINING_CONTACT_QUESTION.placeholder"
+                        />
+                      </label>
+
+                      <top-mining-round-icon-button
+                        type="submit"
+                        class="contact-section__submit-btn contact-section__submit-btn--send"
+                        :width="questionSubmitMetrics.width"
+                        :height="questionSubmitMetrics.height"
+                        :icon-size="questionSubmitMetrics.iconSize"
+                        color="var(--jet-color)"
+                        ariaLabel="Отправить телефон"
+                        :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
+                        :hover-background-color="
+                          TOP_MINING_CONTACT_BUTTON_GRADIENT
+                        "
                       />
-                    </label>
+                    </div>
+                  </form>
+                </div>
 
-                    <round-icon-button
-                      type="submit"
-                      class="contact-section__submit-btn"
-                      width="56px"
-                      height="56px"
-                      icon-size="20px"
-                      color="var(--jet-color)"
-                      aria-label="Отправить телефон"
-                      :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
-                      :hover-background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
-                    />
-                  </div>
-                </form>
-              </div>
+                <div class="contact-section__telegram-group">
+                  <p class="contact-section__divider">
+                    {{ TOP_MINING_CONTACT_QUESTION.telegramDividerPrefix }}
+                    {{ ' ' }}
+                    <span class="contact-section__divider-brand">
+                      {{ TOP_MINING_CONTACT_QUESTION.telegramDividerBrand }}
+                    </span>
+                  </p>
 
-              <div class="contact-section__telegram-group">
-                <p class="contact-section__divider">
-                  {{ TOP_MINING_CONTACT_QUESTION.telegramDividerPrefix }}
-                  {{ ' ' }}
-                  <span class="contact-section__divider-brand">
-                    {{ TOP_MINING_CONTACT_QUESTION.telegramDividerBrand }}
-                  </span>
-                </p>
-
-                <top-mining-button
-                  target="_blank"
-                  class="contact-section__telegram-btn"
-                  rel="noopener noreferrer"
-                  v-bind="TOP_MINING_BUTTON_PROPS"
-                  :title="TOP_MINING_CONTACT_TELEGRAM.label"
-                  :bg-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
-                  :color="TOP_MINING_CONTACT_TELEGRAM.buttonColor"
-                  :append-icon="buttonArrow"
-                  :href="TOP_MINING_CONTACT_TELEGRAM.href"
-                />
+                  <top-mining-button
+                    target="_blank"
+                    :class="[
+                      'contact-section__telegram-btn',
+                      'top-mining-button--contact-section-telegram',
+                      {
+                        'top-mining-button--contact-section-telegram--compact':
+                          questionIsCompact,
+                      },
+                    ]"
+                    rel="noopener noreferrer"
+                    v-bind="TOP_MINING_BUTTON_PROPS"
+                    :title="TOP_MINING_CONTACT_TELEGRAM.label"
+                    :bg-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
+                    :color="TOP_MINING_CONTACT_TELEGRAM.buttonColor"
+                    :append-icon="buttonArrow"
+                    :href="TOP_MINING_CONTACT_TELEGRAM.href"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
 
-        <article
-          ref="subscribeCircleRef"
-          class="contact-section__circle contact-section__circle--subscribe"
-        >
-          <img
-            class="contact-section__circle-bg"
-            alt=""
-            aria-hidden="true"
-            :src="contactCircleRight"
-          />
-
-          <div
-            class="contact-section__circle-content contact-section__circle-content--subscribe"
-            :class="{ 'contact-section__circle-content--compact': subscribeIsCompact }"
-            :style="subscribeLayoutStyle"
+          <article
+            ref="subscribeCircleRef"
+            class="contact-section__circle contact-section__circle--subscribe"
           >
-            <div class="contact-section__stack contact-section__stack--subscribe">
-              <h2 class="contact-section__title contact-section__title--single">
-                {{ TOP_MINING_CONTACT_SUBSCRIBE.title }}
-              </h2>
+            <img
+              class="contact-section__circle-bg"
+              alt=""
+              aria-hidden="true"
+              :src="contactCircleRight"
+            />
 
-              <div class="contact-section__lead-form">
-                <p class="contact-section__lead contact-section__lead--subscribe">
-                  {{ TOP_MINING_CONTACT_SUBSCRIBE.lead }}
-                </p>
+            <div
+              :class="[
+                'contact-section__circle-content',
+                'contact-section__circle-content--subscribe',
+                {
+                  'contact-section__circle-content--compact':
+                    subscribeIsCompact,
+                },
+              ]"
+              :style="subscribeLayoutStyle"
+            >
+              <div
+                class="contact-section__stack contact-section__stack--subscribe"
+              >
+                <h2
+                  class="contact-section__title contact-section__title--single"
+                >
+                  {{ TOP_MINING_CONTACT_SUBSCRIBE.title }}
+                </h2>
 
-                <form class="contact-section__form" @submit.prevent="onSubscribeSubmit">
-                  <div class="contact-section__input-row">
-                    <label class="contact-section__input-wrap">
-                      <span class="contact-section__visually-hidden">E-mail</span>
-                      <input
-                        v-model="email"
-                        type="email"
-                        class="contact-section__input"
-                        :placeholder="TOP_MINING_CONTACT_SUBSCRIBE.placeholder"
-                        autocomplete="email"
+                <div class="contact-section__lead-form">
+                  <p
+                    class="contact-section__lead contact-section__lead--subscribe"
+                  >
+                    {{ TOP_MINING_CONTACT_SUBSCRIBE.lead }}
+                  </p>
+
+                  <form
+                    class="contact-section__form"
+                    @submit.prevent="onSubscribeSubmit"
+                  >
+                    <div class="contact-section__input-row">
+                      <label class="contact-section__input-wrap">
+                        <span class="contact-section__visually-hidden">
+                          E-mail
+                        </span>
+                        <input
+                          v-model="email"
+                          type="email"
+                          class="contact-section__input"
+                          :placeholder="
+                            TOP_MINING_CONTACT_SUBSCRIBE.placeholder
+                          "
+                          autocomplete="email"
+                        />
+                      </label>
+
+                      <top-mining-round-icon-button
+                        type="submit"
+                        class="contact-section__submit-btn contact-section__submit-btn--send"
+                        color="var(--jet-color)"
+                        ariaLabel="Подписаться"
+                        :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
+                        :hover-background-color="
+                          TOP_MINING_CONTACT_BUTTON_GRADIENT
+                        "
+                        :width="subscribeSubmitMetrics.width"
+                        :height="subscribeSubmitMetrics.height"
+                        :icon-size="subscribeSubmitMetrics.iconSize"
                       />
-                    </label>
-
-                    <round-icon-button
-                      type="submit"
-                      class="contact-section__submit-btn"
-                      width="56px"
-                      height="56px"
-                      icon-size="20px"
-                      color="var(--jet-color)"
-                      aria-label="Подписаться"
-                      :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
-                      :hover-background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
-                    />
-                  </div>
-                </form>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
+
+        <top-mining-articles-section v-model:active-topic="articlesTopic">
+          <top-mining-articles-feed :topic="articlesTopic" />
+        </top-mining-articles-section>
       </div>
-    </div>
     </div>
   </section>
 </template>
@@ -156,6 +208,11 @@
   import buttonArrow from '~/assets/images/top-mining/button-arrow.png'
   import contactCircleLeft from '~/assets/images/top-mining/contact-circle-left.png'
   import contactCircleRight from '~/assets/images/top-mining/contact-circle-right.png'
+  import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
+  import TopMiningArticlesFeed from '~/components/top-mining/TopMiningArticlesFeed.vue'
+  import TopMiningArticlesSection from '~/components/top-mining/TopMiningArticlesSection.vue'
+
+  const articlesTopic = ref<TopMiningArticlesTopicId>('all')
 
   const {
     circleRef: questionCircleRef,
@@ -179,6 +236,22 @@
   function onSubscribeSubmit() {
     // TODO: подписка на рассылку
   }
+
+  function getContactSubmitMetrics(layoutStyle: Ref<Record<string, string>>) {
+    return computed(() => {
+      const size = layoutStyle.value['--cc-btn-size'] ?? '56px'
+      const sizePx = Number.parseFloat(size)
+
+      return {
+        width: size,
+        height: size,
+        iconSize: `${sizePx * 0.36}px`,
+      }
+    })
+  }
+
+  const questionSubmitMetrics = getContactSubmitMetrics(questionLayoutStyle)
+  const subscribeSubmitMetrics = getContactSubmitMetrics(subscribeLayoutStyle)
 </script>
 
 <style scoped>
@@ -193,7 +266,14 @@
   .contact-section__wrapper {
     width: 100%;
     border-radius: 64px 64px 0 0;
-    background: #000;
+    background-color: #000;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.028) 0,
+      rgba(255, 255, 255, 0.028) 1px,
+      transparent 1px,
+      transparent clamp(72px, 8vw, 120px)
+    );
     color: var(--tm-white);
     overflow: hidden;
   }
@@ -203,7 +283,7 @@
     max-width: 1920px;
     margin: 0 auto;
     padding: clamp(56px, 7vw, 96px) clamp(16px, 4vw, 60px)
-      calc(clamp(80px, 9vw, 128px) + 146px);
+      clamp(48px, 6vw, 72px);
     box-sizing: border-box;
   }
 
@@ -359,10 +439,12 @@
     font-size: 14px;
   }
 
-  .contact-section__circle-content--compact .contact-section__telegram-btn {
-    width: var(--cc-tg-btn-w) !important;
-    max-width: var(--cc-tg-btn-w) !important;
-    padding-inline: 12px !important;
+  .contact-section
+    .contact-section__circle-content--compact
+    .contact-section__telegram-group
+    .contact-section__telegram-btn.top-mining-button.top-mining-button--contact-section-telegram {
+    width: var(--cc-tg-btn-w);
+    max-width: var(--cc-tg-btn-w);
   }
 
   .contact-section__lead {
@@ -441,48 +523,17 @@
     text-transform: uppercase;
   }
 
-  .contact-section__telegram-btn {
-    width: min(100%, var(--cc-tg-btn-w)) !important;
-    min-width: 0 !important;
-    max-width: var(--cc-tg-btn-w) !important;
-    min-height: var(--cc-control-h) !important;
-    height: var(--cc-control-h) !important;
-    padding-inline: 20px !important;
-    font-size: var(--cc-tg-btn-size) !important;
-    line-height: var(--cc-tg-btn-lh) !important;
-    font-weight: 400 !important;
-    letter-spacing: 0.02em;
-    background: var(--tm-orange-accent-gradient-horizontal) !important;
-    border-color: transparent !important;
-  }
-
-  .contact-section__telegram-btn:hover,
-  .contact-section__telegram-btn:focus-visible {
-    background: var(--tm-orange-accent-gradient-horizontal) !important;
-    border-color: transparent !important;
-    color: var(--jet-color) !important;
-  }
-
-  .contact-section__telegram-btn:deep(.q-focus-helper) {
-    background: transparent !important;
-    opacity: 0 !important;
-  }
-
-  .contact-section__telegram-btn:deep(.top-mining-button__icon--append),
-  .contact-section__telegram-btn:hover:deep(.top-mining-button__icon--append),
-  .contact-section__telegram-btn:focus-visible:deep(.top-mining-button__icon--append) {
-    filter: brightness(0) !important;
-    opacity: 1 !important;
-  }
-
-  .contact-section__submit-btn:deep(.round-icon-button) {
-    width: var(--cc-btn-size) !important;
-    height: var(--cc-btn-size) !important;
-  }
-
-  .contact-section__submit-btn:deep(.round-icon-button__icon) {
-    width: calc(var(--cc-btn-size) * 0.36) !important;
-    height: calc(var(--cc-btn-size) * 0.36) !important;
+  .contact-section
+    .contact-section__telegram-group
+    .contact-section__telegram-btn.top-mining-button.top-mining-button--contact-section-telegram {
+    width: min(100%, var(--cc-tg-btn-w));
+    min-width: 0;
+    max-width: var(--cc-tg-btn-w);
+    min-height: var(--cc-control-h);
+    height: var(--cc-control-h);
+    padding-inline: 20px;
+    font-size: var(--cc-tg-btn-size);
+    line-height: var(--cc-tg-btn-lh);
   }
 
   .contact-section__visually-hidden {
