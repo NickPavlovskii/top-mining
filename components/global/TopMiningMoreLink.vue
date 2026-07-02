@@ -64,7 +64,9 @@
     object-fit: contain;
     filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(1450%)
       hue-rotate(1deg) brightness(101%) contrast(104%);
-    transition: filter 0.2s ease;
+    transition:
+      filter 0.2s ease,
+      transform 0.2s ease;
   }
 
   .top-mining-more-link:hover,
@@ -76,6 +78,19 @@
   .top-mining-more-link:hover .top-mining-more-link__arrow,
   .top-mining-more-link:focus-visible .top-mining-more-link__arrow {
     filter: brightness(0) invert(1);
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .top-mining-more-link:hover,
+    .top-mining-more-link:focus-visible {
+      transform: none;
+    }
+
+    .top-mining-more-link:hover .top-mining-more-link__arrow,
+    .top-mining-more-link:focus-visible .top-mining-more-link__arrow {
+      transform: none;
+    }
   }
 
   .top-mining-more-link--lg {

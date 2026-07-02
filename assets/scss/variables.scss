@@ -41,6 +41,20 @@
     var(--orange-dark-color)
   );
 
+  --orange-anim-1-color: #c12f04;
+  --orange-anim-2-color: #d8480d;
+  --orange-anim-3-color: #f26619;
+  --orange-anim-4-color: #ff853b;
+  --orange-anim-5-color: #ffa366;
+  --orange-anim-gradient: linear-gradient(
+    90deg,
+    var(--orange-anim-1-color) 0%,
+    var(--orange-anim-2-color) 25%,
+    var(--orange-anim-3-color) 50%,
+    var(--orange-anim-4-color) 75%,
+    var(--orange-anim-5-color) 100%
+  );
+
   // Серые цвета
   --jet-color: #151515;
   --shadow-color: #1f1f1f;
@@ -82,6 +96,12 @@
   --tm-orange-accent-deep: var(--orange-accent-deep-color);
   --tm-orange-accent-gradient-vertical: var(--orange-accent-gradient-vertical);
   --tm-orange-accent-gradient-horizontal: var(--orange-accent-gradient-horizontal);
+  --tm-orange-anim-1: var(--orange-anim-1-color);
+  --tm-orange-anim-2: var(--orange-anim-2-color);
+  --tm-orange-anim-3: var(--orange-anim-3-color);
+  --tm-orange-anim-4: var(--orange-anim-4-color);
+  --tm-orange-anim-5: var(--orange-anim-5-color);
+  --tm-orange-anim-gradient: var(--orange-anim-gradient);
 
   --tm-black: var(--jet-color);
   --tm-text-primary: var(--text-primary-color);

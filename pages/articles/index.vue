@@ -338,10 +338,7 @@
   .articles-page {
     min-height: 100vh;
     padding: clamp(24px, 3vw, 40px) clamp(16px, 4vw, 60px) clamp(64px, 8vw, 120px);
-    background:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 80px),
-      #141414;
-    background-size: 80px 100%, auto;
+    background: #141414;
     color: var(--tm-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     --article-arrow-filter-white: brightness(0) invert(1);

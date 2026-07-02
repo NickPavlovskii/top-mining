@@ -267,13 +267,6 @@
     width: 100%;
     border-radius: 64px 64px 0 0;
     background-color: #000;
-    background-image: repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.028) 0,
-      rgba(255, 255, 255, 0.028) 1px,
-      transparent 1px,
-      transparent clamp(72px, 8vw, 120px)
-    );
     color: var(--tm-white);
     overflow: hidden;
   }
@@ -570,7 +563,7 @@
 
     .contact-section__inner {
       padding: clamp(32px, 6vw, 48px) clamp(16px, 4vw, 20px)
-        clamp(48px, 8vw, 72px);
+        clamp(30px, 8vw, 69px);
     }
 
     .contact-section__grid {

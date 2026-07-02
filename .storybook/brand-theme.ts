@@ -1,0 +1,32 @@
+import { create } from 'storybook/theming/create'
+
+/** Общая тёмная тема UI Storybook в стиле лендинга ТОП-МАЙНИНГ */
+export const topMiningTheme = create({
+  base: 'dark',
+  brandTitle: 'ТОП-МАЙНИНГ',
+  brandUrl: '/',
+  colorPrimary: '#ff6418',
+  colorSecondary: '#ff7b20',
+  appBg: '#0d0d0d',
+  appContentBg: '#141414',
+  appPreviewBg: '#141414',
+  appBorderColor: '#2a2a2a',
+  appBorderRadius: 8,
+  fontBase: '"Unbounded", "Roboto", sans-serif',
+  fontCode: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+  textColor: '#f6f6f6',
+  textInverseColor: '#141414',
+  textMutedColor: '#a0a0a0',
+  barTextColor: '#c8c8c8',
+  barHoverColor: '#ff6418',
+  barSelectedColor: '#ff6418',
+  barBg: '#141414',
+  buttonBg: '#1f1f1f',
+  buttonBorder: '#2a2a2a',
+  booleanBg: '#1a1a1a',
+  booleanSelectedBg: '#ff6418',
+  inputBg: '#1a1a1a',
+  inputBorder: '#2a2a2a',
+  inputTextColor: '#f6f6f6',
+  inputBorderRadius: 6,
+})
