@@ -1,5 +1,8 @@
 <template>
-  <section class="crypto-section">
+  <section
+    id="home-cryptorate"
+    class="crypto-section"
+  >
     <div class="crypto-section__inner">
       <header class="crypto-section__hero">
         <h1>

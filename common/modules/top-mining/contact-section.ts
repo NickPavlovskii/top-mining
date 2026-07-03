@@ -1,5 +1,11 @@
+export const TOP_MINING_CONTACT_PHONE = {
+  label: '+7 495 492-78-99',
+  href: 'tel:+74954927899',
+} as const
+
 export const TOP_MINING_CONTACT_TELEGRAM = {
   label: 'Написать в Telegram',
+  handle: '@TOP_MINING_CONSULTING',
   href: 'https://t.me/TOP_MINING_CONSULTING',
   buttonColor: 'var(--jet-color)',
 } as const
@@ -12,8 +18,7 @@ export const TOP_MINING_CONTACT_QUESTION = {
   title: 'Задайте вопрос',
   lead: 'Оставьте контакт и мы перезвоним',
   placeholder: '+7 (9',
-  telegramDividerPrefix: 'или пишите в',
-  telegramDividerBrand: 'TELEGRAM',
+  telegramDivider: 'ИЛИ ПИШИТЕ В TELEGRAM',
 } as const
 
 export const TOP_MINING_CONTACT_SUBSCRIBE = {

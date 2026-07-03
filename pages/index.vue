@@ -6,6 +6,7 @@
     <MiningCalculatorPromo />
     <CatalogSection />
     <TopMiningContactSection />
+    <TopMiningUsefulSection />
   </main>
 </template>
 
@@ -13,6 +14,7 @@
   import CatalogSection from '~/components/catalog/CatalogSection.vue'
   import CryptoMarketSection from '~/components/crypto/CryptoMarketSection.vue'
   import MiningCalculatorPromo from '~/components/top-mining/MiningCalculatorPromo.vue'
+  import TopMiningUsefulSection from '~/components/top-mining/TopMiningUsefulSection.vue'
   import TopMiningContactSection from '~/components/top-mining/TopMiningContactSection.vue'
   import TopMiningSection from '~/components/top-mining/TopMiningSection.vue'
 

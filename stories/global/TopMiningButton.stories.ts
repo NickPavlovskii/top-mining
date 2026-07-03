@@ -63,6 +63,7 @@ const meta = {
         'badge-prepend',
         'consulting',
         'contact',
+        'contact-pill',
         'contact-section-telegram',
       ],
       description:
