@@ -14,7 +14,10 @@
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
                 Каталог организаций
-                <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                <img
+                  :src="buttonArrow"
+                  alt="" class="top-mining__card-title-arrow"
+                />
               </h2>
 
               <p class="top-mining__card-text">
@@ -27,7 +30,10 @@
               </p>
 
               <div class="top-mining__card-companies">
-                <span v-for="company in TOP_MINING_COMPANIES" :key="company.name">
+                <span
+                  v-for="company in TOP_MINING_COMPANIES"
+                  :key="company.name"
+                >
                   <b>
                     <img
                       :src="company.logo"
@@ -174,8 +180,8 @@
               ]"
             />
             <img
-              :src="rigSmall"
               alt=""
+              :src="rigSmall"
               :class="[
                 'top-mining__card-image',
                 'top-mining__card-image--rig-small',

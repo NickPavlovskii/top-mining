@@ -46,7 +46,7 @@
     <div class="catalog-comp-row">
       <div
         ref="trackRef"
-        class="catalog-comp-line"
+        :class="['catalog-comp-line', { 'catalog-comp-line--fit': !hasOverflow }]"
         @scroll="updateScrollState"
       >
         <catalog-organization-card
@@ -277,6 +277,16 @@
     scroll-snap-type: x proximity;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .catalog-comp-line--fit {
+    overflow-x: hidden;
+  }
+
+  .catalog-comp-line--fit :deep(.catalog-org-card) {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
   }
 
   .catalog-comp-line::-webkit-scrollbar {

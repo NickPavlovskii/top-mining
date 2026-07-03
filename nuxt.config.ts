@@ -1,7 +1,11 @@
+const isStorybook =
+  process.env.npm_lifecycle_event === 'storybook' ||
+  process.env.npm_lifecycle_event === 'build-storybook'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
-  devtools: { enabled: true },
+  devtools: { enabled: !isStorybook },
 
   // Nuxt сканирует dir.modules как локальные Nuxt-модули.
   // Данные фич лежат в common/modules/, не здесь.
@@ -25,7 +29,12 @@ export default defineNuxtConfig({
     './assets/scss/main.css',
   ],
 
-  modules: ['nuxt-quasar-ui', '@nuxt/ui', '@nuxt/icon'],
+  modules: [
+    'nuxt-quasar-ui',
+    '@nuxt/ui',
+    '@nuxt/icon',
+    '@nuxt/test-utils/module',
+  ],
 
   fonts: {
     providers: {
@@ -47,6 +56,15 @@ export default defineNuxtConfig({
         sass: {
           silenceDeprecations: ['import'],
         },
+      },
+    },
+    server: {
+      hmr: isStorybook ? { port: 24679, clientPort: 24679 } : undefined,
+      watch: {
+        ignored: [
+          '**/storybook-static/**',
+          ...(isStorybook ? ['**/.nuxt/**'] : []),
+        ],
       },
     },
   },

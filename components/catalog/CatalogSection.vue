@@ -76,10 +76,12 @@
           />
         </div>
 
-        <top-mining-more-link
-          to="/asic-manufacturers/"
-          label="ещё категории"
-        />
+        <div class="catalog-section__more">
+          <top-mining-more-link
+            to="/sale_miners/"
+            label="ещё категории"
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -109,14 +111,19 @@
     new Intl.NumberFormat('ru-RU').format(meta.value.totalReviews),
   )
 
+  const categoriesWithOrganizations = computed(() =>
+    categories.value.filter((category) => category.organizations.length > 0),
+  )
+
   const visibleCategories = computed(() => {
     const query = searchQuery.value.trim().toLowerCase()
+    const base = categoriesWithOrganizations.value
 
     if (!query) {
-      return categories.value
+      return base
     }
 
-    return categories.value
+    return base
       .map((category) => ({
         ...category,
         organizations: category.organizations.filter((organization) =>
@@ -206,8 +213,8 @@
   .catalog-section__utp {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 6px;
     width: 100%;
     margin: clamp(20px, 3vw, 32px) 0 clamp(28px, 4vw, 40px);
     color: #141414;
@@ -215,7 +222,7 @@
     font-size: clamp(15px, 1.5vw, 18px);
     font-weight: 400;
     line-height: 1.35;
-    text-align: center;
+    text-align: left;
   }
 
   .catalog-section__utp-star {
@@ -223,6 +230,7 @@
     height: 18px;
     flex-shrink: 0;
     object-fit: contain;
+    margin-right: -2px;
   }
 
   .catalog-section__utp-accent {
@@ -288,6 +296,17 @@
     overflow: hidden;
   }
 
+  .catalog-section__more {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .catalog-section__more :deep(.top-mining-more-link) {
+    min-height: 64px;
+    font-size: clamp(16px, 1.2vw, 20px);
+    line-height: 1;
+  }
+
   @media (min-width: 901px) {
     .catalog-section__desc--desktop {
       display: block;
@@ -339,8 +358,20 @@
 
     .catalog-section__heading--part1,
     .catalog-section__heading--part2 {
-      font-size: clamp(32px, 9.5vw, 48px);
+      font-size: clamp(33px, 8.5vw, 89px);
       line-height: 1.05;
+    }
+
+    .catalog-section__utp {
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .catalog-section__utp-star {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      margin-right: -4px;
     }
   }
 </style>

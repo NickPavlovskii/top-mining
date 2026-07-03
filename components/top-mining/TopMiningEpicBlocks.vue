@@ -804,6 +804,11 @@
       transform: none;
     }
 
+    .epic-block__phone-shell {
+      width: 70%;
+      margin-inline: auto;
+    }
+
     .epic-block__decor-plane--large {
       left: clamp(-52px, -13vw, -32px);
       right: auto;
