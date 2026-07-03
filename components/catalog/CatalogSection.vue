@@ -213,7 +213,7 @@
   .catalog-section__utp {
     display: inline-flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 6px;
     width: 100%;
     margin: clamp(20px, 3vw, 32px) 0 clamp(28px, 4vw, 40px);
@@ -222,7 +222,7 @@
     font-size: clamp(15px, 1.5vw, 18px);
     font-weight: 400;
     line-height: 1.35;
-    text-align: left;
+    text-align: center;
   }
 
   .catalog-section__utp-star {
@@ -364,13 +364,13 @@
 
     .catalog-section__utp {
       gap: 15px;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
     }
 
     .catalog-section__utp-star {
       width: 16px;
       height: 16px;
-      margin-top: 2px;
       margin-right: -4px;
     }
   }
