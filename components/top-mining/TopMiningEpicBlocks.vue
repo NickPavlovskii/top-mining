@@ -739,13 +739,14 @@
 
     .epic-block--telegram .epic-block__title-line--head {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 0.32em;
       margin-bottom: 10px;
-      font-size: clamp(17px, 4.5vw, 23px);
+      font-size: clamp(15px, 4vw, 20px);
       line-height: 1.1;
       letter-spacing: -0.04em;
+      white-space: normal;
     }
 
     .epic-block--telegram .epic-block__title-line--head .epic-block__title-word {
@@ -768,8 +769,9 @@
 
     .epic-block--telegram .epic-block__title-line:not(.epic-block__title-line--head) {
       color: var(--tm-white);
-      font-size: clamp(28px, 7.6vw, 38px);
-      line-height: 1.02;
+      font-size: clamp(22px, 6.2vw, 32px);
+      line-height: 1.05;
+      word-break: break-word;
     }
 
     .epic-block--telegram .epic-block__text--telegram {
@@ -800,6 +802,11 @@
       max-width: min(65vw, 240px);
       margin: clamp(24px, 6vw, 40px) auto 0;
       transform: none;
+    }
+
+    .epic-block__phone-shell {
+      width: 70%;
+      margin-inline: auto;
     }
 
     .epic-block__decor-plane--large {
@@ -944,11 +951,16 @@
     }
 
     .epic-block--telegram .epic-block__title-line--head {
-      font-size: clamp(15px, 4vw, 20px);
+      font-size: clamp(14px, 3.8vw, 18px);
     }
 
     .epic-block--telegram .epic-block__title-line:not(.epic-block__title-line--head) {
-      font-size: clamp(24px, 6.8vw, 32px);
+      font-size: clamp(20px, 5.8vw, 28px);
+      line-height: 1.08;
+    }
+
+    .epic-block--telegram .epic-block__title--telegram {
+      margin-bottom: clamp(16px, 4vw, 24px);
     }
 
     .epic-block--telegram .epic-block__mockup {

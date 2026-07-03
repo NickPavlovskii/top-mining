@@ -71,10 +71,10 @@
               <input type="email" placeholder="E-mail" />
             </label>
 
-            <round-icon-button
+            <top-mining-round-icon-button
               type="submit"
               size="small"
-              aria-label="Подписаться"
+              ariaLabel="Подписаться"
             />
           </form>
 
@@ -103,9 +103,9 @@
       </div>
 
       <div class="site-footer__scroll-wrap">
-        <round-icon-button
+        <top-mining-round-icon-button
           class="site-footer__scroll-top"
-          aria-label="Наверх"
+          ariaLabel="Наверх"
           @click="scrollToTop"
         />
       </div>

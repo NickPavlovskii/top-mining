@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: niklad-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: niklad
+      POSTGRES_PASSWORD: niklad
+      POSTGRES_DB: niklad
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ./migrations/003_articles.sql:/docker-entrypoint-initdb.d/003_articles.sql:ro
+      - ./migrations/004_article_topics.sql:/docker-entrypoint-initdb.d/004_article_topics.sql:ro
+      - ./migrations/005_tools_articles.sql:/docker-entrypoint-initdb.d/005_tools_articles.sql:ro
+      - ./migrations/006_investments_articles.sql:/docker-entrypoint-initdb.d/006_investments_articles.sql:ro
+      - ./migrations/007_organizations_and_article_detail.sql:/docker-entrypoint-initdb.d/007_organizations_and_article_detail.sql:ro
+      - ./migrations/008_catalog_filters_and_calculator.sql:/docker-entrypoint-initdb.d/008_catalog_filters_and_calculator.sql:ro
+      - ./migrations/009_ttm_mining_import.sql:/docker-entrypoint-initdb.d/009_ttm_mining_import.sql:ro
+      - ./migrations/010_blockchain_forum_article_import.sql:/docker-entrypoint-initdb.d/010_blockchain_forum_article_import.sql:ro
+
+volumes:
+  postgres_data:

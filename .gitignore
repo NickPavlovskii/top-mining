@@ -5,6 +5,7 @@
 .nitro
 .cache
 dist
+storybook-static
 
 # Зарезервировано Nuxt — данные фич лежат в common/modules/
 /modules
