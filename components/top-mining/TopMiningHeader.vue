@@ -3,6 +3,10 @@
     class="top-mining__header-shell"
     :style="headerShellStyle"
   >
+    <div
+      class="top-mining__consulting-backdrop"
+      aria-hidden="true"
+    />
     <header
       ref="headerRef"
       :class="[
@@ -291,19 +295,63 @@
       </div>
 
       <div class="top-mining__header-actions">
-        <top-mining-button
-          class="top-mining-button--consulting"
-          href="#"
-          variant="primary"
-          size="big"
-          surface="dark"
-          bg-color="var(--orange-color)"
-          color="var(--white-color)"
-        >
-          <span class="top-mining-button__consulting-label">
-            Consulting- услуги
-          </span>
-        </top-mining-button>
+        <div class="top-mining__consulting-wrap">
+          <top-mining-button
+            class="top-mining-button--consulting"
+            href="#"
+            variant="primary"
+            size="big"
+            surface="dark"
+            bg-color="var(--orange-color)"
+            color="var(--white-color)"
+          >
+            <span class="top-mining-button__consulting-label">
+              Consulting- услуги
+            </span>
+          </top-mining-button>
+
+          <div
+            class="top-mining__consulting-panel"
+            role="menu"
+            aria-label="Consulting-услуги"
+          >
+            <a
+              v-for="item in TOP_MINING_CONSULTING_DROPDOWN_ITEMS"
+              :key="item"
+              href="#"
+              class="top-mining__consulting-panel-link"
+              role="menuitem"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                class="top-mining__consulting-panel-link-icon"
+                :src="consultingServiceIcon"
+              />
+              <span>{{ item }}</span>
+            </a>
+
+            <div class="top-mining__consulting-panel-contacts">
+              <a
+                v-for="social in TOP_MINING_MOBILE_MENU_SOCIALS"
+                class="top-mining__consulting-panel-contact-btn"
+                :key="social.label"
+                :href="social.href"
+                :aria-label="social.label"
+                :target="social.href.startsWith('http') ? '_blank' : undefined"
+                :rel="social.href.startsWith('http') ? 'noopener noreferrer' : undefined"
+              >
+                <Icon :name="social.icon" />
+              </a>
+              <a
+                class="top-mining__consulting-panel-phone"
+                :href="TOP_MINING_MOBILE_MENU_PHONE.href"
+              >
+                {{ TOP_MINING_MOBILE_MENU_PHONE.label }}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
       </div>
     </header>
@@ -312,6 +360,7 @@
 
 <script setup lang="ts">
   import {
+    TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
     TOP_MINING_MOBILE_MENU_PHONE,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
@@ -544,11 +593,161 @@
     z-index: 100;
   }
 
+  .top-mining__consulting-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    background: rgba(15, 15, 15, 0.44);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+      opacity 0.22s ease,
+      visibility 0.22s ease;
+  }
+
+  .top-mining__header-shell:has(.top-mining__consulting-wrap:hover) .top-mining__consulting-backdrop,
+  .top-mining__header-shell:has(.top-mining__consulting-wrap:focus-within)
+    .top-mining__consulting-backdrop {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .top-mining__consulting-wrap {
+    position: relative;
+    z-index: 110;
+  }
+
+  .top-mining__consulting-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 120;
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 300px;
+    max-width: min(360px, calc(100vw - 32px));
+    padding: 18px 20px 16px;
+    border-radius: 20px;
+    background: var(--tm-white);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .top-mining__consulting-panel::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: 0;
+    left: 0;
+    height: 12px;
+  }
+
+  .top-mining__consulting-wrap:hover .top-mining__consulting-panel,
+  .top-mining__consulting-wrap:focus-within .top-mining__consulting-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .top-mining__consulting-panel-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    color: var(--tm-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .top-mining__consulting-panel-link-icon {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    object-fit: contain;
+  }
+
+  @media (hover: hover) {
+    .top-mining__consulting-panel-link:hover,
+    .top-mining__consulting-panel-link:focus-visible {
+      color: var(--tm-orange-hover);
+    }
+  }
+
+  .top-mining__consulting-panel-contacts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--tm-border);
+    flex-wrap: wrap;
+  }
+
+  .top-mining__consulting-panel-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--tm-orange-accent-gradient-vertical);
+    color: var(--tm-white);
+    text-decoration: none;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--orange-accent-deep-color) 24%, transparent);
+    transition: transform 0.15s ease;
+  }
+
+  .top-mining__consulting-panel-contact-btn :deep(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (hover: hover) {
+    .top-mining__consulting-panel-contact-btn:hover,
+    .top-mining__consulting-panel-contact-btn:focus-visible {
+      transform: scale(1.04);
+    }
+  }
+
+  .top-mining__consulting-panel-phone {
+    color: var(--tm-text-primary);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  @media (hover: hover) {
+    .top-mining__consulting-panel-phone:hover,
+    .top-mining__consulting-panel-phone:focus-visible {
+      color: var(--tm-orange-hover);
+    }
+  }
+
   .top-mining__header-inner {
     display: contents;
   }
 
   .top-mining__header {
+    position: relative;
+    z-index: 101;
     display: grid;
     grid-template-columns: 190px 1fr 190px;
     gap: 44px;
@@ -705,6 +904,23 @@
     background: var(--tm-orange-dark) !important;
     border-color: var(--tm-orange-dark) !important;
     color: var(--tm-white) !important;
+  }
+
+  @media (hover: hover) {
+    .top-mining__consulting-wrap:hover :deep(.top-mining-button--consulting),
+    .top-mining__consulting-wrap:focus-within :deep(.top-mining-button--consulting) {
+      background: var(--tm-white) !important;
+      border: 1px solid var(--tm-orange) !important;
+      color: var(--tm-orange) !important;
+      box-shadow: none !important;
+    }
+
+    .top-mining__consulting-wrap:hover :deep(.top-mining-button--consulting .top-mining-button__inner),
+    .top-mining__consulting-wrap:hover :deep(.top-mining-button--consulting .top-mining-button__label),
+    .top-mining__consulting-wrap:focus-within :deep(.top-mining-button--consulting .top-mining-button__inner),
+    .top-mining__consulting-wrap:focus-within :deep(.top-mining-button--consulting .top-mining-button__label) {
+      color: var(--tm-orange) !important;
+    }
   }
 
   .top-mining__logo {
@@ -1310,6 +1526,11 @@
   }
 
   @media (max-width: 900px) {
+    .top-mining__consulting-backdrop,
+    .top-mining__consulting-panel {
+      display: none !important;
+    }
+
     .top-mining__header-shell {
       width: 100%;
       background: transparent;
