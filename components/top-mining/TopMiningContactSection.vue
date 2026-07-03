@@ -1,5 +1,6 @@
 <template>
   <section
+    id="home-contact-form"
     class="contact-section"
     aria-labelledby="contact-section-question-title"
   >
@@ -80,11 +81,7 @@
 
                 <div class="contact-section__telegram-group">
                   <p class="contact-section__divider">
-                    {{ TOP_MINING_CONTACT_QUESTION.telegramDividerPrefix }}
-                    {{ ' ' }}
-                    <span class="contact-section__divider-brand">
-                      {{ TOP_MINING_CONTACT_QUESTION.telegramDividerBrand }}
-                    </span>
+                    {{ TOP_MINING_CONTACT_QUESTION.telegramDivider }}
                   </p>
 
                   <top-mining-button
@@ -503,16 +500,12 @@
     width: min(100%, var(--cc-divider-max-w));
     min-height: var(--cc-lead-lh);
     margin: 0;
-    color: rgba(255, 255, 255, 0.92);
+    color: var(--tm-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: var(--cc-lead-size);
-    font-weight: 400;
+    font-weight: 500;
     line-height: var(--cc-lead-lh);
     letter-spacing: -0.02em;
-    text-transform: none;
-  }
-
-  .contact-section__divider-brand {
     text-transform: uppercase;
   }
 

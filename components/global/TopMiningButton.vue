@@ -482,6 +482,72 @@
     background: var(--tm-btn-bg);
     border-color: var(--tm-btn-border);
     color: var(--tm-btn-color);
+    box-shadow: 0 4px 20px
+      color-mix(in srgb, var(--orange-accent-deep-color) 28%, transparent);
+  }
+
+  .top-mining-button.top-mining-button--contact-pill.top-mining-button--primary.top-mining-button--surface-dark {
+    --tm-btn-bg: var(--tm-orange-accent-gradient-horizontal);
+    --tm-btn-border: transparent;
+    --tm-btn-color: var(--tm-white);
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 56px;
+    padding: 0 22px;
+    border: 0;
+    background: var(--tm-btn-bg);
+    border-color: var(--tm-btn-border);
+    color: var(--tm-btn-color);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-align: left;
+    justify-content: flex-start;
+    box-shadow: 0 4px 14px
+      color-mix(in srgb, var(--orange-accent-deep-color) 24%, transparent);
+  }
+
+  .top-mining-button.top-mining-button--contact-pill.top-mining-button--contact-pill-phone {
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+
+  .top-mining-button.top-mining-button--contact-pill .top-mining-button__inner {
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .top-mining-button.top-mining-button--contact-pill .top-mining-button__prepend {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    color: var(--tm-white);
+  }
+
+  .top-mining-button.top-mining-button--contact-pill
+    .top-mining-button__contact-pill-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (hover: hover) {
+    .top-mining-button.top-mining-button--contact-pill.top-mining-button--primary.top-mining-button--surface-dark:hover:not(
+        .top-mining-button--disabled
+      ):not(.top-mining-button--loading) {
+      --tm-btn-bg: var(--tm-orange-accent-gradient-horizontal);
+      --tm-btn-border: transparent;
+      --tm-btn-color: var(--tm-white);
+      background: var(--tm-btn-bg);
+      border-color: var(--tm-btn-border);
+      color: var(--tm-btn-color);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px
+        color-mix(in srgb, var(--orange-accent-deep-color) 32%, transparent);
+    }
   }
 
   .top-mining-button.top-mining-button--contact-section-telegram.top-mining-button--primary.top-mining-button--surface-dark.top-mining-button--big {

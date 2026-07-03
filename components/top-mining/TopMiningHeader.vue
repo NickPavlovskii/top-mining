@@ -271,23 +271,7 @@
                 v-if="column.slug === 'consulting'"
                 class="top-mining__mobile-menu-contacts"
               >
-                <a
-                  v-for="social in TOP_MINING_MOBILE_MENU_SOCIALS"
-                  :key="social.label"
-                  :href="social.href"
-                  class="top-mining__mobile-contact-btn"
-                  :aria-label="social.label"
-                  :target="social.href.startsWith('http') ? '_blank' : undefined"
-                  :rel="social.href.startsWith('http') ? 'noopener noreferrer' : undefined"
-                >
-                  <Icon :name="social.icon" />
-                </a>
-                <a
-                  :href="TOP_MINING_MOBILE_MENU_PHONE.href"
-                  class="top-mining__mobile-contact-phone"
-                >
-                  {{ TOP_MINING_MOBILE_MENU_PHONE.label }}
-                </a>
+                <top-mining-contact-pill-buttons />
               </div>
             </li>
           </ul>
@@ -331,25 +315,9 @@
               <span>{{ item }}</span>
             </a>
 
-            <div class="top-mining__consulting-panel-contacts">
-              <a
-                v-for="social in TOP_MINING_MOBILE_MENU_SOCIALS"
-                class="top-mining__consulting-panel-contact-btn"
-                :key="social.label"
-                :href="social.href"
-                :aria-label="social.label"
-                :target="social.href.startsWith('http') ? '_blank' : undefined"
-                :rel="social.href.startsWith('http') ? 'noopener noreferrer' : undefined"
-              >
-                <Icon :name="social.icon" />
-              </a>
-              <a
-                class="top-mining__consulting-panel-phone"
-                :href="TOP_MINING_MOBILE_MENU_PHONE.href"
-              >
-                {{ TOP_MINING_MOBILE_MENU_PHONE.label }}
-              </a>
-            </div>
+            <top-mining-contact-pill-buttons
+              class="top-mining__consulting-panel-contacts"
+            />
           </div>
         </div>
       </div>
@@ -361,7 +329,6 @@
 <script setup lang="ts">
   import {
     TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
-    TOP_MINING_MOBILE_MENU_PHONE,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
     getMobileNavItemGroups,
@@ -373,6 +340,7 @@
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
   import telegramMenuIcon from '~/assets/images/top-mining/telegram-menu-icon.png'
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
+  import TopMiningContactPillButtons from '~/components/top-mining/TopMiningContactPillButtons.vue'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
 
   const expandedNavColumns = ref<string[]>([])
@@ -689,56 +657,9 @@
   }
 
   .top-mining__consulting-panel-contacts {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     margin-top: 12px;
     padding-top: 14px;
     border-top: 1px solid var(--tm-border);
-    flex-wrap: wrap;
-  }
-
-  .top-mining__consulting-panel-contact-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--tm-orange-accent-gradient-vertical);
-    color: var(--tm-white);
-    text-decoration: none;
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--orange-accent-deep-color) 24%, transparent);
-    transition: transform 0.15s ease;
-  }
-
-  .top-mining__consulting-panel-contact-btn :deep(svg) {
-    width: 16px;
-    height: 16px;
-  }
-
-  @media (hover: hover) {
-    .top-mining__consulting-panel-contact-btn:hover,
-    .top-mining__consulting-panel-contact-btn:focus-visible {
-      transform: scale(1.04);
-    }
-  }
-
-  .top-mining__consulting-panel-phone {
-    color: var(--tm-text-primary);
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  @media (hover: hover) {
-    .top-mining__consulting-panel-phone:hover,
-    .top-mining__consulting-panel-phone:focus-visible {
-      color: var(--tm-orange-hover);
-    }
   }
 
   .top-mining__header-inner {
@@ -1692,11 +1613,7 @@
     }
 
     .top-mining__header--mobile-top .top-mining__mobile-menu-contacts {
-      justify-content: flex-end;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-contact-btn {
-      display: none;
+      margin-top: 10px;
     }
 
     .top-mining__header--mobile-top .top-mining__mobile-menu-more {
@@ -2035,40 +1952,9 @@
     }
 
     .top-mining__mobile-menu-contacts {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 10px;
-      flex-wrap: nowrap;
-    }
-
-    .top-mining__mobile-contact-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--orange-accent-gradient-vertical);
-      color: var(--tm-white);
-      text-decoration: none;
-      box-shadow: 0 4px 14px color-mix(in srgb, var(--orange-accent-deep-color) 24%, transparent);
-    }
-
-    .top-mining__mobile-contact-btn :deep(svg) {
-      width: 16px;
-      height: 16px;
-    }
-
-    .top-mining__mobile-contact-phone {
-      color: #141414;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      white-space: nowrap;
+      display: block;
+      margin-top: 12px;
+      width: 100%;
     }
 
     @media (hover: hover) {
@@ -2318,10 +2204,6 @@
     .top-mining__header--tablet-menu .top-mining__mobile-menu-contacts {
       margin-top: 14px;
     }
-
-    .top-mining__header--tablet-menu .top-mining__mobile-contact-phone {
-      font-size: 15px;
-    }
   }
 
   @media (max-width: 560px) {
@@ -2428,20 +2310,6 @@
 
       .top-mining__mobile-menu-contacts {
         margin-top: 8px;
-      }
-
-      .top-mining__mobile-contact-btn {
-        width: 36px;
-        height: 36px;
-      }
-
-      .top-mining__mobile-contact-btn :deep(svg) {
-        width: 14px;
-        height: 14px;
-      }
-
-      .top-mining__mobile-contact-phone {
-        font-size: 13px;
       }
     }
 
