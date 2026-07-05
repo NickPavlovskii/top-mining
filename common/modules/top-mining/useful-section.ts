@@ -1,3 +1,5 @@
+import { CATALOG_PAGE_HREF } from '../catalog/nav-links'
+
 export interface TopMiningUsefulAction {
   label: string
   href: string
@@ -43,7 +45,7 @@ export const TOP_MINING_USEFUL_ITEMS: TopMiningUsefulItem[] = [
       'База данных организаций, связанных с криптовалютами и майнигом. Выбирайте проверенных '
       + 'контрагентов, покупайте у надежных продавцов и пользуйтесь лучшими сервисами для '
       + 'максимизации прибыли и повышения качества работы',
-    actions: [{ label: 'Каталог организаций', href: '/sale_miners/' }],
+    actions: [{ label: 'Каталог организаций', href: CATALOG_PAGE_HREF }],
   },
   {
     title: 'Консалтинг',

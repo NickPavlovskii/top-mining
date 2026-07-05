@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import TopMiningMoreLink from '~/components/global/TopMiningMoreLink.vue'
+import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
 
 import { CANVAS_WIDTH, canvasDarkMaxWidth } from '../helpers/decorators'
 
@@ -69,9 +70,12 @@ export const Articles: Story = {
 export const AllSizes: Story = {
   render: () => ({
     components: { TopMiningMoreLink },
+    setup() {
+      return { CATALOG_PAGE_HREF }
+    },
     template: `
       <div class="sb-stack sb-stack--stretch">
-        <TopMiningMoreLink to="/catalog" label="Ещё категории" size="md" />
+        <TopMiningMoreLink :to="CATALOG_PAGE_HREF" label="Ещё категории" size="md" />
         <TopMiningMoreLink to="/articles" label="Смотреть ещё" size="lg" />
       </div>
     `,
