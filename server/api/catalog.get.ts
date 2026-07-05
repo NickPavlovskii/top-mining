@@ -1,11 +1,16 @@
 import { CATALOG_FALLBACK } from '~/common/modules/catalog'
+import { mergeCatalogWithFallback } from '~/common/modules/catalog/merge-fallback-organizations'
+import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
 import type { CatalogCategory, CatalogResponse } from '~/types/catalog'
 
 const CATEGORY_HREFS: Record<string, string> = {
-  'asic-sales': '/sale_miners/',
-  'mining-hotels': '/mining-hotels/',
-  'equipment-manufacturers': '/repair_miners/',
-  'mining-pools': '/mining-pools/',
+  'asic-sales': getCatalogCategoryHref('asic-sales'),
+  'mining-hotels': getCatalogCategoryHref('mining-hotels'),
+  'equipment-manufacturers': getCatalogCategoryHref('equipment-manufacturers'),
+  'mining-pools': getCatalogCategoryHref('mining-pools'),
+  'asic-repair': getCatalogCategoryHref('asic-repair'),
+  'crypto-exchanges': getCatalogCategoryHref('crypto-exchanges'),
+  'crypto-wallets': getCatalogCategoryHref('crypto-wallets'),
 }
 
 const CATALOG_QUERY = `
@@ -22,9 +27,22 @@ const CATALOG_QUERY = `
         organizations {
           id
           name
+          slug
           logoUrl
           rating
           reviewCount
+          href
+          foundedYear
+          hasPublicRating
+          verification {
+            contracts
+            legalEntity
+            miningRegistry
+          }
+          cardTags
+          cardFeatures
+          officeCity
+          siteCity
         }
       }
     }
@@ -78,7 +96,7 @@ export default defineEventHandler(async () => {
     return {
       source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...normalizeCatalog(response.data.catalog),
+      ...mergeCatalogWithFallback(normalizeCatalog(response.data.catalog)),
     } satisfies CatalogResponse
   } catch {
     return {

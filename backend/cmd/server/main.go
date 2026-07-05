@@ -50,6 +50,7 @@ func main() {
 	mux.Handle("/graphql", corsMiddleware(h))
 	mux.HandleFunc("/health", HealthCheck)
 	mux.Handle("/api/catalog", corsMiddleware(GetCatalog(pool)))
+	mux.HandleFunc("GET /api/catalog/organizations/{slug}", GetOrganization(pool))
 	mux.HandleFunc("GET /api/articles", GetArticles(pool))
 	mux.HandleFunc("GET /api/articles/{slug}", GetArticle(pool))
 	mux.Handle("/swagger/", corsMiddleware(httpSwagger.WrapHandler))
@@ -81,12 +82,30 @@ func buildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 	organizationType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Organization",
 		Fields: graphql.Fields{
-			"id":          &graphql.Field{Type: graphql.Int},
-			"name":        &graphql.Field{Type: graphql.String},
-			"logoUrl":     &graphql.Field{Type: graphql.String},
-			"description": &graphql.Field{Type: graphql.String},
-			"rating":      &graphql.Field{Type: graphql.Float},
-			"reviewCount": &graphql.Field{Type: graphql.Int},
+			"id":              &graphql.Field{Type: graphql.Int},
+			"name":            &graphql.Field{Type: graphql.String},
+			"slug":            &graphql.Field{Type: graphql.String},
+			"logoUrl":         &graphql.Field{Type: graphql.String},
+			"description":     &graphql.Field{Type: graphql.String},
+			"rating":          &graphql.Field{Type: graphql.Float},
+			"reviewCount":     &graphql.Field{Type: graphql.Int},
+			"href":            &graphql.Field{Type: graphql.String},
+			"foundedYear":     &graphql.Field{Type: graphql.Int},
+			"hasPublicRating": &graphql.Field{Type: graphql.Boolean},
+			"verification": &graphql.Field{
+				Type: graphql.NewObject(graphql.ObjectConfig{
+					Name: "OrganizationVerification",
+					Fields: graphql.Fields{
+						"contracts":      &graphql.Field{Type: graphql.Boolean},
+						"legalEntity":    &graphql.Field{Type: graphql.Boolean},
+						"miningRegistry": &graphql.Field{Type: graphql.Boolean},
+					},
+				}),
+			},
+			"cardTags":     &graphql.Field{Type: graphql.NewList(graphql.String)},
+			"cardFeatures": &graphql.Field{Type: graphql.NewList(graphql.String)},
+			"officeCity":   &graphql.Field{Type: graphql.String},
+			"siteCity":     &graphql.Field{Type: graphql.String},
 		},
 	})
 
@@ -148,14 +167,35 @@ func toGraphQLCategories(categories []catalog.Category) []map[string]interface{}
 	for _, category := range categories {
 		organizations := make([]map[string]interface{}, 0, len(category.Organizations))
 		for _, org := range category.Organizations {
-			organizations = append(organizations, map[string]interface{}{
-				"id":          org.ID,
-				"name":        org.Name,
-				"logoUrl":     org.LogoURL,
-				"description": org.Description,
-				"rating":      org.Rating,
-				"reviewCount": org.ReviewCount,
-			})
+			entry := map[string]interface{}{
+				"id":              org.ID,
+				"name":            org.Name,
+				"slug":            org.Slug,
+				"logoUrl":         org.LogoURL,
+				"description":     org.Description,
+				"rating":          org.Rating,
+				"reviewCount":     org.ReviewCount,
+				"href":            org.Href,
+				"hasPublicRating": org.HasPublicRating,
+				"cardTags":        org.CardTags,
+				"cardFeatures":    org.CardFeatures,
+				"officeCity":      org.OfficeCity,
+				"siteCity":        org.SiteCity,
+			}
+
+			if org.FoundedYear != nil {
+				entry["foundedYear"] = *org.FoundedYear
+			}
+
+			if org.Verification != nil {
+				entry["verification"] = map[string]interface{}{
+					"contracts":      org.Verification.Contracts,
+					"legalEntity":    org.Verification.LegalEntity,
+					"miningRegistry": org.Verification.MiningRegistry,
+				}
+			}
+
+			organizations = append(organizations, entry)
 		}
 
 		result = append(result, map[string]interface{}{

@@ -1,10 +1,27 @@
+export interface CatalogOrganizationVerification {
+  contracts: boolean
+  legalEntity: boolean
+  miningRegistry?: boolean
+}
+
 export interface CatalogOrganization {
   id: number
   name: string
+  slug?: string
   logoUrl: string
   rating: number
   reviewCount: number
   href?: string
+  foundedYear?: number | null
+  minAsicPlacement?: number | null
+  hasPublicRating?: boolean
+  verification?: CatalogOrganizationVerification
+  cardTags?: string[]
+  cardFeatures?: string[]
+  cardPromo?: string
+  logoTheme?: 'light' | 'dark'
+  officeCity?: string | null
+  siteCity?: string | null
 }
 
 export interface CatalogCategory {

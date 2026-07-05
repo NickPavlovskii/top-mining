@@ -1,3 +1,5 @@
+import { CATALOG_CATEGORY_DEFINITIONS } from '../catalog/catalog-categories'
+
 export interface TopMiningNavColumn {
   title: string
   slug: 'catalog' | 'ratings' | 'calculator' | 'articles' | 'consulting'
@@ -13,17 +15,9 @@ export const TOP_MINING_NAV_COLUMNS: TopMiningNavColumn[] = [
     title: 'Каталог организаций',
     slug: 'catalog',
     icon: 'mdi:office-building-outline',
-    mobileVisible: 7,
+    mobileVisible: CATALOG_CATEGORY_DEFINITIONS.length,
     phoneMenuVisible: 2,
-    items: [
-      'Майнинг-отели',
-      'Продажа оборудования',
-      'Майнинг-пулы',
-      'Криптобиржи',
-      'Сервисные центры',
-      'Криптокошельки',
-      'Производители асиков',
-    ],
+    items: CATALOG_CATEGORY_DEFINITIONS.map((category) => category.label),
   },
   {
     title: 'Рейтинги в майнинге',

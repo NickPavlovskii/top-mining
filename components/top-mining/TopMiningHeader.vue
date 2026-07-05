@@ -81,7 +81,23 @@
           ]"
         >
           <h3 class="top-mining__nav-heading">
-            <a href="#" class="top-mining__nav-heading-link">
+            <NuxtLink
+              v-if="column.slug === 'catalog'"
+              :to="getTopMiningNavHeadingHref(column.slug)"
+              class="top-mining__nav-heading-link"
+              @click="onNavLinkClick"
+            >
+              <span class="top-mining__nav-heading-text">{{ column.title }}</span>
+              <Icon
+                name="mdi:arrow-top-right"
+                class="top-mining__nav-heading-arrow"
+              />
+            </NuxtLink>
+            <a
+              v-else
+              href="#"
+              class="top-mining__nav-heading-link"
+            >
               <span class="top-mining__nav-heading-text">{{ column.title }}</span>
               <Icon
                 name="mdi:arrow-top-right"
@@ -90,8 +106,31 @@
             </a>
           </h3>
 
+          <template v-if="column.slug === 'catalog'">
+            <NuxtLink
+              v-for="(category, itemIndex) in visibleCatalogCategories"
+              :key="category.id"
+              :to="getCatalogCategoryHref(category.id)"
+              :class="[
+                'top-mining__nav-link',
+                {
+                  'top-mining__nav-link--hidden':
+                    itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
+                },
+              ]"
+              @click="onNavLinkClick"
+            >
+              <Icon
+                :name="column.icon"
+                class="top-mining__nav-link-icon"
+              />
+              <span class="top-mining__nav-link-text">{{ category.label }}</span>
+            </NuxtLink>
+          </template>
+
           <a
             v-for="(item, itemIndex) in column.items"
+            v-else
             href="#"
             :key="item"
             :class="[
@@ -130,7 +169,7 @@
           </a>
 
           <button
-            v-if="column.items.length > column.mobileVisible"
+            v-if="getColumnNavItems(column).length > column.mobileVisible"
             type="button"
             class="top-mining__nav-more"
             @click="toggleNavColumn(column.title)"
@@ -149,14 +188,26 @@
         </div>
 
         <div class="top-mining__nav-compact">
-          <a
+          <template
             v-for="column in TOP_MINING_NAV_COLUMNS"
             :key="`compact-${column.title}`"
-            href="#"
-            class="top-mining__nav-compact-link"
           >
-            {{ column.title }}
-          </a>
+            <NuxtLink
+              v-if="column.slug === 'catalog'"
+              :to="getTopMiningNavHeadingHref(column.slug)"
+              class="top-mining__nav-compact-link"
+              @click="onNavLinkClick"
+            >
+              {{ column.title }}
+            </NuxtLink>
+            <a
+              v-else
+              href="#"
+              class="top-mining__nav-compact-link"
+            >
+              {{ column.title }}
+            </a>
+          </template>
         </div>
       </nav>
 
@@ -175,7 +226,32 @@
                 `top-mining__mobile-menu-item--${column.slug}`,
               ]"
             >
-              <a href="#" class="top-mining__mobile-menu-section-title">
+              <NuxtLink
+                v-if="column.slug === 'catalog'"
+                :to="getTopMiningNavHeadingHref(column.slug)"
+                class="top-mining__mobile-menu-section-title"
+                @click="onNavLinkClick"
+              >
+                <span>{{ column.title }}</span>
+                <svg
+                  class="top-mining__mobile-menu-section-arrow"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M7.15385 3.00012H21M21 3.00012V16.8463M21 3.00012L7.15385 16.8463L3 21.0001"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </NuxtLink>
+              <a
+                v-else
+                href="#"
+                class="top-mining__mobile-menu-section-title"
+              >
                 <span>{{ column.title }}</span>
                 <svg
                   class="top-mining__mobile-menu-section-arrow"
@@ -218,7 +294,23 @@
                     :key="item"
                     class="top-mining__mobile-menu-group-item"
                   >
-                    <a href="#" class="top-mining__mobile-menu-link">
+                    <NuxtLink
+                      v-if="column.slug === 'catalog'"
+                      :to="getCatalogCategoryHref(getCatalogCategoryIdByLabel(item))"
+                      class="top-mining__mobile-menu-link"
+                      @click="onNavLinkClick"
+                    >
+                      <Icon
+                        :name="column.icon"
+                        class="top-mining__mobile-menu-link-icon"
+                      />
+                      <span>{{ item }}</span>
+                    </NuxtLink>
+                    <a
+                      v-else
+                      href="#"
+                      class="top-mining__mobile-menu-link"
+                    >
                       <img
                         v-if="item === 'Калькулятор в Telegram'"
                         alt=""
@@ -328,6 +420,10 @@
 
 <script setup lang="ts">
   import {
+    getCatalogCategoryHref,
+    getTopMiningNavHeadingHref,
+  } from '~/common/modules/catalog/nav-links'
+  import {
     TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
@@ -342,6 +438,8 @@
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
   import TopMiningContactPillButtons from '~/components/top-mining/TopMiningContactPillButtons.vue'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
+
+  const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
 
   const expandedNavColumns = ref<string[]>([])
   const isMobileMenuOpen = ref(false)
@@ -438,6 +536,10 @@
     isMobileMenuOpen.value = false
   }
 
+  function onNavLinkClick() {
+    isMobileMenuOpen.value = false
+  }
+
   function syncMobileViewport() {
     isMobileViewport.value = window.innerWidth <= MOBILE_HEADER_BREAKPOINT
     isPhoneViewport.value = window.innerWidth <= PHONE_BREAKPOINT
@@ -514,13 +616,29 @@
       : [...expandedNavColumns.value, title]
   }
 
+  function getColumnNavItems(column: TopMiningNavColumn) {
+    if (column.slug === 'catalog') {
+      return visibleCatalogCategories.value.map((category) => category.label)
+    }
+
+    return column.items
+  }
+
+  function getCatalogCategoryIdByLabel(label: string) {
+    return visibleCatalogCategories.value.find(
+      (category) => category.label === label,
+    )?.id ?? ''
+  }
+
   function getMobileMenuItems(column: TopMiningNavColumn) {
+    const items = getColumnNavItems(column)
+
     if (!isPhoneViewport.value) {
-      return column.items
+      return items
     }
 
     return getVisiblePhoneMenuItems(
-      column.items,
+      items,
       column.phoneMenuVisible,
       isNavColumnExpanded(column.title),
     )
@@ -539,7 +657,10 @@
   function shouldShowPhoneMenuMore(column: TopMiningNavColumn) {
     return (
       isPhoneViewport.value
-      && hasPhoneMenuMoreItems(column.items, column.phoneMenuVisible)
+      && hasPhoneMenuMoreItems(
+        getColumnNavItems(column),
+        column.phoneMenuVisible,
+      )
     )
   }
 </script>

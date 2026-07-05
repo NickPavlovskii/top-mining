@@ -10,6 +10,7 @@ import (
 
 	"niklad/backend/internal/articles"
 	"niklad/backend/internal/catalog"
+	"niklad/backend/internal/organizations"
 )
 
 type errorResponse struct {
@@ -93,6 +94,33 @@ func GetArticle(pool *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		writeJSON(w, http.StatusOK, article)
+	}
+}
+
+// GetOrganization godoc
+// @Summary      Организация по slug
+// @Description  Полный профиль организации каталога
+// @Tags         catalog
+// @Produce      json
+// @Param        slug path string true "Slug организации"
+// @Success      200 {object} organizations.Detail
+// @Failure      404 {object} errorResponse
+// @Failure      500 {object} errorResponse
+// @Router       /api/catalog/organizations/{slug} [get]
+func GetOrganization(pool *pgxpool.Pool) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		organization, err := organizations.FetchBySlug(r.Context(), pool, r.PathValue("slug"))
+		if err != nil {
+			if errors.Is(err, pgx.ErrNoRows) {
+				writeJSON(w, http.StatusNotFound, errorResponse{Error: "organization not found"})
+				return
+			}
+
+			writeJSON(w, http.StatusInternalServerError, errorResponse{Error: err.Error()})
+			return
+		}
+
+		writeJSON(w, http.StatusOK, organization)
 	}
 }
 

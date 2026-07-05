@@ -43,7 +43,7 @@
 
         <form
           class="catalog-section__search"
-          action="/sale_miners/"
+          :action="CATALOG_PAGE_HREF"
           @submit.prevent
         >
           <label class="catalog-section__search-field">
@@ -78,7 +78,7 @@
 
         <div class="catalog-section__more">
           <top-mining-more-link
-            to="/sale_miners/"
+            :to="CATALOG_PAGE_HREF"
             label="ещё категории"
           />
         </div>
@@ -89,8 +89,9 @@
 
 <script setup lang="ts">
   import { CATALOG_FALLBACK } from '~/common/modules/catalog'
+  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
   import type { CatalogResponse } from '~/types/catalog'
-  import utpStar from '~/assets/images/top-mining/utp-star.png'
+  import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
 
   const searchQuery = ref('')
