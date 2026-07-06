@@ -136,7 +136,8 @@
             :class="[
               'top-mining__nav-link',
               {
-                'top-mining__nav-link--telegram': item === 'Калькулятор в Telegram',
+                'top-mining__nav-link--group-start':
+                  column.slug === 'calculator' && item === 'Конвертер хешрейта',
                 'top-mining__nav-link--hidden':
                   itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
               },
@@ -188,9 +189,10 @@
         </div>
 
         <div class="top-mining__nav-compact">
-          <template
-            v-for="column in TOP_MINING_NAV_COLUMNS"
-            :key="`compact-${column.title}`"
+          <div
+            v-for="column in compactNavColumns"
+            :key="`compact-${column.slug}`"
+            class="top-mining__nav-compact-wrap"
           >
             <NuxtLink
               v-if="column.slug === 'catalog'"
@@ -207,7 +209,70 @@
             >
               {{ column.title }}
             </a>
-          </template>
+
+            <div
+              class="top-mining__nav-compact-panel"
+              role="menu"
+              :aria-label="column.title"
+            >
+              <template v-if="column.slug === 'catalog'">
+                <NuxtLink
+                  v-for="category in visibleCatalogCategories"
+                  class="top-mining__nav-compact-panel-link"
+                  role="menuitem"
+                  :key="category.id"
+                  :to="getCatalogCategoryHref(category.id)"
+                  @click="onNavLinkClick"
+                >
+                  <Icon
+                    class="top-mining__nav-compact-panel-icon"
+                    aria-hidden="true"
+                    :name="column.icon"
+                  />
+                  <span>{{ category.label }}</span>
+                </NuxtLink>
+              </template>
+
+              <template v-else>
+                <template
+                  v-for="(item, itemIndex) in column.items"
+                  :key="item"
+                >
+                  <hr
+                    v-if="shouldShowCompactNavDivider(column, itemIndex)"
+                    class="top-mining__nav-compact-panel-divider"
+                  />
+                  <a
+                    href="#"
+                    class="top-mining__nav-compact-panel-link"
+                    role="menuitem"
+                  >
+                    <img
+                      v-if="item === 'Калькулятор в Telegram'"
+                      alt=""
+                      aria-hidden="true"
+                      class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image"
+                      :src="telegramMenuIcon"
+                    />
+                    <img
+                      v-else-if="column.slug === 'ratings'"
+                      alt=""
+                      aria-hidden="true"
+                      class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image top-mining__nav-compact-panel-icon--ratings"
+                      :src="topStarsIcon"
+                    />
+                    <Icon
+                      v-else
+                      class="top-mining__nav-compact-panel-icon"
+                      aria-hidden="true"
+                      :name="getCompactNavItemIcon(column, item)"
+                    />
+                    <span>{{ item }}</span>
+                  </a>
+                </template>
+              </template>
+            </div>
+          </div>
         </div>
       </nav>
 
@@ -441,6 +506,10 @@
 
   const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
 
+  const compactNavColumns = computed(() =>
+    TOP_MINING_NAV_COLUMNS.filter((column) => column.slug !== 'consulting'),
+  )
+
   const expandedNavColumns = ref<string[]>([])
   const isMobileMenuOpen = ref(false)
   const isHeaderSticky = ref(false)
@@ -663,6 +732,29 @@
       )
     )
   }
+
+  function shouldShowCompactNavDivider(
+    column: TopMiningNavColumn,
+    itemIndex: number,
+  ) {
+    return column.slug === 'calculator' && itemIndex === 3
+  }
+
+  function getCompactNavItemIcon(column: TopMiningNavColumn, item: string) {
+    if (column.slug === 'calculator') {
+      if (item === 'Конвертер хешрейта') {
+        return 'mdi:sync'
+      }
+
+      if (item === 'Рейтинги') {
+        return 'mdi:chart-bar'
+      }
+
+      return 'mdi:view-grid-outline'
+    }
+
+    return column.icon
+  }
 </script>
 
 <style scoped>
@@ -699,6 +791,9 @@
 
   .top-mining__header-shell:has(.top-mining__consulting-wrap:hover) .top-mining__consulting-backdrop,
   .top-mining__header-shell:has(.top-mining__consulting-wrap:focus-within)
+    .top-mining__consulting-backdrop,
+  .top-mining__header-shell:has(.top-mining__nav-compact-wrap:hover) .top-mining__consulting-backdrop,
+  .top-mining__header-shell:has(.top-mining__nav-compact-wrap:focus-within)
     .top-mining__consulting-backdrop {
     opacity: 1;
     visibility: visible;
@@ -873,7 +968,13 @@
     display: flex;
   }
 
+  .top-mining__nav-compact-wrap {
+    position: relative;
+    z-index: 110;
+  }
+
   .top-mining__nav-compact-link {
+    display: inline-block;
     color: var(--tm-black);
     font-size: clamp(12px, 1.05vw, 14px);
     font-weight: 600;
@@ -883,9 +984,96 @@
     transition: color 0.18s ease;
   }
 
+  .top-mining__nav-compact-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    z-index: 120;
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 220px;
+    max-width: min(320px, calc(100vw - 32px));
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: #f4f4f4;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -6px);
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .top-mining__nav-compact-panel::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: 0;
+    left: 0;
+    height: 12px;
+  }
+
+  .top-mining__nav-compact-wrap:hover .top-mining__nav-compact-panel,
+  .top-mining__nav-compact-wrap:focus-within .top-mining__nav-compact-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .top-mining__nav-compact-panel-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    color: var(--tm-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .top-mining__nav-compact-panel-icon {
+    flex: 0 0 auto;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+    color: var(--tm-text-subtle);
+    transition: color 0.18s ease;
+  }
+
+  .top-mining__nav-compact-panel-icon--image {
+    object-fit: contain;
+  }
+
+  .top-mining__nav-compact-panel-icon--ratings {
+    width: 20px;
+    height: 20px;
+  }
+
+  .top-mining__nav-compact-panel-divider {
+    margin: 6px 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
   @media (hover: hover) {
     .top-mining__nav-compact-link:hover,
     .top-mining__nav-compact-link:focus-visible {
+      color: var(--tm-orange-hover);
+    }
+
+    .top-mining__nav-compact-panel-link:hover,
+    .top-mining__nav-compact-panel-link:focus-visible {
+      color: var(--tm-orange-hover);
+    }
+
+    .top-mining__nav-compact-panel-link:hover .top-mining__nav-compact-panel-icon,
+    .top-mining__nav-compact-panel-link:focus-visible .top-mining__nav-compact-panel-icon {
       color: var(--tm-orange-hover);
     }
   }
@@ -1099,14 +1287,10 @@
     object-fit: contain;
   }
 
-  .top-mining__nav-link--telegram {
+  .top-mining__nav-link--group-start {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px solid var(--tm-border-dark);
-  }
-
-  .top-mining__nav-link--telegram svg {
-    color: var(--tm-text-primary);
   }
 
   .top-mining__nav-more {
