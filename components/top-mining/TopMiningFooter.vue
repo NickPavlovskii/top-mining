@@ -93,7 +93,7 @@
           </div>
 
           <div class="site-footer__nav-column">
-            <a href="#">Рейтинги <Icon name="mdi:arrow-top-right" /></a>
+            <NuxtLink to="/rating/">Рейтинги <Icon name="mdi:arrow-top-right" /></NuxtLink>
             <a href="#">Статьи <Icon name="mdi:arrow-top-right" /></a>
             <a href="#">Каталог организаций <Icon name="mdi:arrow-top-right" /></a>
             <a href="#">Site map <Icon name="mdi:arrow-top-right" /></a>

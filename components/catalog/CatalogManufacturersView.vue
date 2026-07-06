@@ -100,12 +100,21 @@
             v-else-if="!isManufacturersMode && filteredOrganizations.length"
             class="catalog-mfr-page__grid"
           >
-            <catalog-organization-card
-              v-for="organization in filteredOrganizations"
-              :key="`${organization.categorySlug}-${organization.id}`"
-              layout="grid"
-              :organization="organization"
-            />
+            <template
+              v-for="item in organizationGridItems"
+              :key="item.key"
+            >
+              <catalog-organization-card
+                v-if="item.type === 'card'"
+                layout="grid"
+                :organization="item.data"
+              />
+              <catalog-mid-block-banner
+                v-else
+                class="catalog-mfr-page__grid-banner"
+                :variant="item.variant"
+              />
+            </template>
           </div>
 
           <p
@@ -122,6 +131,10 @@
 
 <script setup lang="ts">
   import { CATALOG_FALLBACK } from '~/common/modules/catalog'
+  import {
+    buildCatalogGridWithBanners,
+    getCatalogMidBlockBannerVariant,
+  } from '~/common/modules/catalog/mid-block-banner'
   import {
     buildCatalogManufacturersResponse,
     getManufacturerMarketAge,
@@ -161,6 +174,7 @@
   import CatalogCategorySidebarFilters from '~/components/catalog/CatalogCategorySidebarFilters.vue'
   import CatalogManufacturersFilters from '~/components/catalog/CatalogManufacturersFilters.vue'
   import CatalogOrganizationsFilters from '~/components/catalog/CatalogOrganizationsFilters.vue'
+  import CatalogMidBlockBanner from '~/components/catalog/CatalogMidBlockBanner.vue'
   import CatalogOrganizationCard from '~/components/catalog/CatalogOrganizationCard.vue'
   import CatalogPageBreadcrumbs from '~/components/catalog/CatalogPageBreadcrumbs.vue'
   import CatalogSortDropdown from '~/components/catalog/CatalogSortDropdown.vue'
@@ -429,6 +443,18 @@
       : filteredOrganizations.value.length,
   )
 
+  const catalogMidBlockBannerVariant = computed(() =>
+    getCatalogMidBlockBannerVariant(selectedCategorySlug.value),
+  )
+
+  const organizationGridItems = computed(() =>
+    buildCatalogGridWithBanners(
+      filteredOrganizations.value,
+      (organization) => `${organization.categorySlug}-${organization.id}`,
+      { variant: catalogMidBlockBannerVariant.value },
+    ),
+  )
+
   watch(selectedCategorySlug, (categorySlug) => {
     searchQuery.value = ''
     sortBy.value = 'name-asc'
@@ -620,6 +646,10 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+  }
+
+  .catalog-mfr-page__grid-banner {
+    grid-column: 1 / -1;
   }
 
   .catalog-mfr-page__empty {

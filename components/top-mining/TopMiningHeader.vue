@@ -75,14 +75,34 @@
           :class="[
             'top-mining__nav-column',
             {
-              'top-mining__nav-column--ratings': column.title === 'Рейтинги в майнинге',
-              'top-mining__nav-column--consulting': column.title === 'Бизнес-consulting',
+              'top-mining__nav-column--ratings': column.slug === 'ratings',
+              'top-mining__nav-column--consulting': column.slug === 'consulting',
             },
           ]"
         >
-          <h3 class="top-mining__nav-heading">
+          <h3
+            :class="[
+              'top-mining__nav-heading',
+              {
+                'top-mining__nav-heading--consulting': column.slug === 'consulting',
+              },
+            ]"
+          >
+            <span
+              v-if="column.slug === 'consulting'"
+              class="top-mining__consulting-pill"
+            >
+              <span class="top-mining__consulting-pill-badge">
+                <img
+                  alt=""
+                  class="top-mining__consulting-pill-icon"
+                  :src="logoMark"
+                />
+              </span>
+              <span class="top-mining__consulting-pill-label">CONSULTING-УСЛУГИ</span>
+            </span>
             <NuxtLink
-              v-if="column.slug === 'catalog'"
+              v-else-if="isNavHeadingLink(column.slug)"
               :to="getTopMiningNavHeadingHref(column.slug)"
               class="top-mining__nav-heading-link"
               @click="onNavLinkClick"
@@ -128,46 +148,124 @@
             </NuxtLink>
           </template>
 
-          <a
-            v-for="(item, itemIndex) in column.items"
-            v-else
-            href="#"
-            :key="item"
-            :class="[
-              'top-mining__nav-link',
-              {
-                'top-mining__nav-link--group-start':
-                  column.slug === 'calculator' && item === 'Конвертер хешрейта',
-                'top-mining__nav-link--hidden':
-                  itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
-              },
-            ]"
-          >
-            <img
-              v-if="item === 'Калькулятор в Telegram'"
-              alt=""
-              class="top-mining__nav-telegram-icon"
-              :src="telegramMenuIcon"
-            />
-            <img
-              v-else-if="column.title === 'Рейтинги в майнинге'"
-              alt=""
-              class="top-mining__nav-top-icon"
-              :src="topStarsIcon"
-            />
-            <img
-              v-else-if="column.title === 'Бизнес-consulting'"
-              alt=""
-              class="top-mining__nav-link-icon top-mining__nav-link-icon--consulting"
-              :src="consultingServiceIcon"
-            />
-            <Icon
-              v-else
-              :name="column.icon"
-              class="top-mining__nav-link-icon"
-            />
-            <span class="top-mining__nav-link-text">{{ item }}</span>
-          </a>
+          <template v-else-if="column.slug === 'ratings'">
+            <NuxtLink
+              v-for="(item, itemIndex) in column.items"
+              :key="item"
+              :to="getRatingsPageHref(getRatingsCategoryIdByLabel(item))"
+              :class="[
+                'top-mining__nav-link',
+                {
+                  'top-mining__nav-link--hidden':
+                    itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
+                },
+              ]"
+              @click="onNavLinkClick"
+            >
+              <img
+                alt=""
+                class="top-mining__nav-top-icon"
+                :src="topStarsIcon"
+              />
+              <span class="top-mining__nav-link-text">{{ item }}</span>
+            </NuxtLink>
+          </template>
+
+          <template v-else-if="column.slug === 'calculator'">
+            <a
+              v-for="(item, itemIndex) in column.items"
+              :key="item"
+              href="#"
+              :class="[
+                'top-mining__nav-link',
+                {
+                  'top-mining__nav-link--group-start':
+                    item === 'Конвертер хешрейта',
+                  'top-mining__nav-link--hidden':
+                    itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
+                },
+              ]"
+            >
+              <img
+                v-if="item === 'Калькулятор в Telegram'"
+                alt=""
+                class="top-mining__nav-telegram-icon"
+                :src="telegramMenuIcon"
+              />
+              <Icon
+                v-else
+                :name="getCalculatorNavItemIcon(item)"
+                class="top-mining__nav-link-icon"
+              />
+              <span class="top-mining__nav-link-text">{{ item }}</span>
+            </a>
+          </template>
+
+          <template v-else-if="column.slug === 'articles'">
+            <NuxtLink
+              v-for="(item, itemIndex) in column.items"
+              :key="item"
+              :to="getArticlesNavHref(item)"
+              :class="[
+                'top-mining__nav-link',
+                {
+                  'top-mining__nav-link--hidden':
+                    itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
+                },
+              ]"
+              @click="onNavLinkClick"
+            >
+              <Icon
+                :name="column.icon"
+                class="top-mining__nav-link-icon"
+              />
+              <span class="top-mining__nav-link-text">{{ item }}</span>
+            </NuxtLink>
+          </template>
+
+          <template v-else-if="column.slug === 'consulting'">
+            <a
+              v-for="(item, itemIndex) in column.items"
+              :key="item"
+              href="#"
+              :class="[
+                'top-mining__nav-link',
+                {
+                  'top-mining__nav-link--hidden':
+                    itemIndex >= column.mobileVisible && !isNavColumnExpanded(column.title),
+                },
+              ]"
+            >
+              <img
+                alt=""
+                class="top-mining__nav-link-icon top-mining__nav-link-icon--consulting"
+                :src="consultingServiceIcon"
+              />
+              <span class="top-mining__nav-link-text">{{ item }}</span>
+            </a>
+
+            <div class="top-mining__nav-column-contacts">
+              <div class="top-mining__nav-contact-icons">
+                <a
+                  v-for="social in TOP_MINING_MOBILE_MENU_SOCIALS"
+                  :key="social.label"
+                  :href="social.href"
+                  class="top-mining__nav-contact-btn"
+                  :aria-label="social.label"
+                  :target="social.icon === 'mdi:phone' ? undefined : '_blank'"
+                  :rel="social.icon === 'mdi:phone' ? undefined : 'noopener noreferrer'"
+                >
+                  <Icon :name="social.icon" />
+                </a>
+              </div>
+              <a
+                :href="TOP_MINING_MOBILE_MENU_PHONE.href"
+                class="top-mining__nav-contact-phone"
+              >
+                {{ TOP_MINING_MOBILE_MENU_PHONE.label }}
+              </a>
+            </div>
+          </template>
 
           <button
             v-if="getColumnNavItems(column).length > column.mobileVisible"
@@ -195,7 +293,7 @@
             class="top-mining__nav-compact-wrap"
           >
             <NuxtLink
-              v-if="column.slug === 'catalog'"
+              v-if="isNavHeadingLink(column.slug)"
               :to="getTopMiningNavHeadingHref(column.slug)"
               class="top-mining__nav-compact-link"
               @click="onNavLinkClick"
@@ -233,6 +331,25 @@
                 </NuxtLink>
               </template>
 
+              <template v-else-if="column.slug === 'ratings'">
+                <NuxtLink
+                  v-for="item in column.items"
+                  :key="item"
+                  :to="getRatingsPageHref(getRatingsCategoryIdByLabel(item))"
+                  class="top-mining__nav-compact-panel-link"
+                  role="menuitem"
+                  @click="onNavLinkClick"
+                >
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image top-mining__nav-compact-panel-icon--ratings"
+                    :src="topStarsIcon"
+                  />
+                  <span>{{ item }}</span>
+                </NuxtLink>
+              </template>
+
               <template v-else>
                 <template
                   v-for="(item, itemIndex) in column.items"
@@ -253,13 +370,6 @@
                       aria-hidden="true"
                       class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image"
                       :src="telegramMenuIcon"
-                    />
-                    <img
-                      v-else-if="column.slug === 'ratings'"
-                      alt=""
-                      aria-hidden="true"
-                      class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image top-mining__nav-compact-panel-icon--ratings"
-                      :src="topStarsIcon"
                     />
                     <Icon
                       v-else
@@ -292,7 +402,7 @@
               ]"
             >
               <NuxtLink
-                v-if="column.slug === 'catalog'"
+                v-if="isNavHeadingLink(column.slug)"
                 :to="getTopMiningNavHeadingHref(column.slug)"
                 class="top-mining__mobile-menu-section-title"
                 @click="onNavLinkClick"
@@ -371,6 +481,31 @@
                       />
                       <span>{{ item }}</span>
                     </NuxtLink>
+                    <NuxtLink
+                      v-else-if="column.slug === 'ratings'"
+                      :to="getRatingsPageHref(getRatingsCategoryIdByLabel(item))"
+                      class="top-mining__mobile-menu-link"
+                      @click="onNavLinkClick"
+                    >
+                      <img
+                        alt=""
+                        class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
+                        :src="topStarsIcon"
+                      />
+                      <span>{{ item }}</span>
+                    </NuxtLink>
+                    <NuxtLink
+                      v-else-if="column.slug === 'articles'"
+                      :to="getArticlesNavHref(item)"
+                      class="top-mining__mobile-menu-link"
+                      @click="onNavLinkClick"
+                    >
+                      <Icon
+                        :name="column.icon"
+                        class="top-mining__mobile-menu-link-icon"
+                      />
+                      <span>{{ item }}</span>
+                    </NuxtLink>
                     <a
                       v-else
                       href="#"
@@ -381,12 +516,6 @@
                         alt=""
                         class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
                         :src="telegramMenuIcon"
-                      />
-                      <img
-                        v-else-if="column.slug === 'ratings'"
-                        alt=""
-                        class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
-                        :src="topStarsIcon"
                       />
                       <img
                         v-else-if="column.slug === 'consulting'"
@@ -489,7 +618,15 @@
     getTopMiningNavHeadingHref,
   } from '~/common/modules/catalog/nav-links'
   import {
+    getRatingsCategoryIdByLabel,
+    getRatingsPageHref,
+  } from '~/common/modules/ratings'
+  import {
+    getArticlesNavHref,
+  } from '~/common/modules/top-mining/articles-section'
+  import {
     TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
+    TOP_MINING_MOBILE_MENU_PHONE,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
     getMobileNavItemGroups,
@@ -740,17 +877,25 @@
     return column.slug === 'calculator' && itemIndex === 3
   }
 
+  function isNavHeadingLink(slug: TopMiningNavColumn['slug']) {
+    return slug === 'catalog' || slug === 'ratings' || slug === 'articles'
+  }
+
+  function getCalculatorNavItemIcon(item: string) {
+    if (item === 'Конвертер хешрейта') {
+      return 'mdi:sync'
+    }
+
+    if (item === 'Рейтинги') {
+      return 'mdi:chart-bar'
+    }
+
+    return 'mdi:view-grid-outline'
+  }
+
   function getCompactNavItemIcon(column: TopMiningNavColumn, item: string) {
     if (column.slug === 'calculator') {
-      if (item === 'Конвертер хешрейта') {
-        return 'mdi:sync'
-      }
-
-      if (item === 'Рейтинги') {
-        return 'mdi:chart-bar'
-      }
-
-      return 'mdi:view-grid-outline'
+      return getCalculatorNavItemIcon(item)
     }
 
     return column.icon
@@ -886,11 +1031,12 @@
     position: relative;
     z-index: 101;
     display: grid;
-    grid-template-columns: 190px 1fr 190px;
-    gap: 44px;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 44px);
     align-items: start;
+    width: 100%;
     margin: 0 auto;
-    padding: 34px 68px 34px;
+    padding: 28px clamp(24px, 4vw, 68px) 32px;
     background: var(--tm-white);
     transition:
       background-color 0.25s ease,
@@ -1079,11 +1225,15 @@
   }
 
   .top-mining__header-actions {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: flex-end;
     align-self: start;
     overflow: visible;
+  }
+
+  .top-mining__header--sticky .top-mining__header-actions {
+    display: flex;
   }
 
   .top-mining__header-actions :deep(.top-mining-button--consulting) {
@@ -1200,8 +1350,127 @@
 
   .top-mining__nav {
     display: grid;
-    grid-template-columns: 1.25fr 1.1fr 1fr 0.95fr;
-    gap: 44px;
+    grid-template-columns: 1.2fr 1fr 0.95fr 0.9fr 1.05fr;
+    gap: clamp(20px, 2.5vw, 36px);
+    min-width: 0;
+  }
+
+  .top-mining__nav-heading--consulting {
+    margin-bottom: 18px;
+  }
+
+  .top-mining__consulting-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 5px 16px 5px 5px;
+    border-radius: 999px;
+    background: var(--tm-orange);
+    color: var(--tm-white);
+  }
+
+  .top-mining__consulting-pill-badge {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--tm-white);
+  }
+
+  .top-mining__consulting-pill-icon {
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+  }
+
+  .top-mining__consulting-pill-label {
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .top-mining__nav-column--consulting .top-mining__nav-link {
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #303030;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .top-mining__nav-column--consulting .top-mining__nav-link-text {
+    min-width: 0;
+  }
+
+  @media (hover: hover) {
+    .top-mining__nav-column--consulting .top-mining__nav-link:hover,
+    .top-mining__nav-column--consulting .top-mining__nav-link:focus-visible {
+      color: var(--tm-orange-hover);
+    }
+  }
+
+  .top-mining__nav-column-contacts {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-top: 18px;
+  }
+
+  .top-mining__nav-contact-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .top-mining__nav-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--tm-orange);
+    color: var(--tm-white);
+    text-decoration: none;
+    transition: background-color 0.18s ease;
+  }
+
+  .top-mining__nav-contact-btn :deep(svg) {
+    width: 17px;
+    height: 17px;
+  }
+
+  @media (hover: hover) {
+    .top-mining__nav-contact-btn:hover,
+    .top-mining__nav-contact-btn:focus-visible {
+      background: var(--tm-orange-dark);
+    }
+  }
+
+  .top-mining__nav-contact-phone {
+    color: #141414;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.18s ease;
+  }
+
+  @media (hover: hover) {
+    .top-mining__nav-contact-phone:hover,
+    .top-mining__nav-contact-phone:focus-visible {
+      color: var(--tm-orange-hover);
+    }
   }
 
   .top-mining__nav-heading {
@@ -1222,8 +1491,8 @@
   }
 
   .top-mining__nav-link-icon--consulting {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
   }
 
@@ -1667,9 +1936,8 @@
 
   @media (max-width: 1200px) {
     .top-mining__header {
-      grid-template-columns: 170px minmax(0, 1fr) 160px;
-      gap: 24px;
-      padding: 34px 32px 28px;
+      gap: 20px;
+      padding: 24px 24px 28px;
     }
 
     .top-mining__logo {
@@ -1690,8 +1958,8 @@
     }
 
     .top-mining__nav {
-      grid-template-columns: 1.1fr 1fr 0.92fr 0.9fr;
-      gap: 24px;
+      grid-template-columns: 1.1fr 0.95fr 0.9fr 0.85fr 1fr;
+      gap: 18px;
       min-width: 0;
     }
 

@@ -27,6 +27,14 @@ export function getTopMiningNavHeadingHref(columnSlug: string): string {
     return CATALOG_PAGE_HREF
   }
 
+  if (columnSlug === 'ratings') {
+    return '/rating/'
+  }
+
+  if (columnSlug === 'articles') {
+    return '/articles/'
+  }
+
   return '#'
 }
 

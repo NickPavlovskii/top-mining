@@ -47,7 +47,7 @@ export const TOP_MINING_NAV_COLUMNS: TopMiningNavColumn[] = [
     ],
   },
   {
-    title: 'Статьи',
+    title: 'Статьи в майнинге',
     slug: 'articles',
     icon: 'mdi:file-document-outline',
     mobileVisible: 5,

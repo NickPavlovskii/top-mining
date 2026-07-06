@@ -131,8 +131,8 @@
               ]"
             />
             <img
-              :src="blurRight"
               alt=""
+              :src="blurRight"
               :class="[
                 'top-mining__card-decor',
                 'top-mining__card-decor--blur-right',
@@ -149,8 +149,7 @@
               <top-mining-button
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 class="top-mining-button--right"
-                href="#"
-                title="Смотреть рейтинги"
+                href="/rating/"
                 :append-icon="buttonArrow"
                 :width="TOP_MINING_BUTTON_WIDTH.card"
               />
