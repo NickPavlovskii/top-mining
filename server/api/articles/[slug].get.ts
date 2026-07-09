@@ -1,22 +1,30 @@
+import { createError, isError } from 'h3'
 import { getArticleFallback } from '~/common/modules/articles'
-import type { ArticleResponse } from '~/types/articles'
-
+import type { Article, ArticleResponse } from '~/types/articles'
+import { ARTICLE_QUERY } from '~/server/graphql/queries'
+import { fetchGraphQL } from '~/server/utils/graphql'
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
   const slug = String(getRouterParam(event, 'slug') || '')
-  const baseUrl = config.articlesApiUrl || 'http://localhost:8080'
 
   try {
-    const article = await $fetch<Omit<ArticleResponse, 'source' | 'updatedAt'>>(
-      `${baseUrl}/api/articles/${encodeURIComponent(slug)}`,
-    )
+    const data = await fetchGraphQL<{ article: Article | null }>(ARTICLE_QUERY, {
+      slug,
+    })
+
+    if (!data.article) {
+      throw createError({ statusCode: 404, statusMessage: 'Article not found' })
+    }
 
     return {
-      source: 'api',
+      source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...article,
+      ...data.article,
     } satisfies ArticleResponse
-  } catch {
+  } catch (error) {
+    if (isError(error)) {
+      throw error
+    }
+
     const fallback = getArticleFallback(slug)
 
     if (!fallback) {

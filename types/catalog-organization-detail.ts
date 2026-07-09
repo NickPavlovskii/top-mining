@@ -84,7 +84,7 @@ export interface CatalogOrganizationDetail {
 }
 
 export interface CatalogOrganizationDetailResponse {
-  source: 'api' | 'fallback'
+  source: 'graphql' | 'fallback'
   updatedAt: string
   organization: CatalogOrganizationDetail
 }

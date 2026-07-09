@@ -1,7 +1,9 @@
 import { buildArticlesFeedFallback } from '~/common/modules/articles'
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
 import { TOP_MINING_ARTICLES_TOPICS } from '~/common/modules/top-mining/articles-section'
-import type { ArticlesFeedResponse } from '~/types/articles'
+import type { ArticlesFeed, ArticlesFeedResponse } from '~/types/articles'
+import { ARTICLES_FEED_QUERY } from '~/server/graphql/queries'
+import { fetchGraphQL } from '~/server/utils/graphql'
 
 function normalizeTopic(raw: string): TopMiningArticlesTopicId {
   if (TOP_MINING_ARTICLES_TOPICS.some((item) => item.id === raw)) {
@@ -12,20 +14,18 @@ function normalizeTopic(raw: string): TopMiningArticlesTopicId {
 }
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
   const topic = normalizeTopic(String(getQuery(event).topic || 'all'))
-  const baseUrl = config.articlesApiUrl || 'http://localhost:8080'
 
   try {
-    const feed = await $fetch<Omit<ArticlesFeedResponse, 'source' | 'updatedAt'>>(
-      `${baseUrl}/api/articles`,
-      { query: { topic } },
+    const data = await fetchGraphQL<{ articlesFeed: ArticlesFeed }>(
+      ARTICLES_FEED_QUERY,
+      { topic },
     )
 
     return {
-      source: 'api',
+      source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...feed,
+      ...data.articlesFeed,
     } satisfies ArticlesFeedResponse
   } catch {
     return buildArticlesFeedFallback(topic)

@@ -2,6 +2,8 @@ import { CATALOG_FALLBACK } from '~/common/modules/catalog'
 import { mergeCatalogWithFallback } from '~/common/modules/catalog/merge-fallback-organizations'
 import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
 import type { CatalogCategory, CatalogResponse } from '~/types/catalog'
+import { CATALOG_QUERY } from '~/server/graphql/queries'
+import { fetchGraphQL } from '~/server/utils/graphql'
 
 const CATEGORY_HREFS: Record<string, string> = {
   'asic-sales': getCatalogCategoryHref('asic-sales'),
@@ -13,47 +15,8 @@ const CATEGORY_HREFS: Record<string, string> = {
   'crypto-wallets': getCatalogCategoryHref('crypto-wallets'),
 }
 
-const CATALOG_QUERY = `
-  query Catalog {
-    catalog {
-      meta {
-        totalReviews
-        subtitle
-      }
-      categories {
-        id
-        name
-        slug
-        organizations {
-          id
-          name
-          slug
-          logoUrl
-          rating
-          reviewCount
-          href
-          foundedYear
-          hasPublicRating
-          verification {
-            contracts
-            legalEntity
-            miningRegistry
-          }
-          cardTags
-          cardFeatures
-          officeCity
-          siteCity
-        }
-      }
-    }
-  }
-`
-
-interface GraphQLCatalogResponse {
-  data?: {
-    catalog: Omit<CatalogResponse, 'source' | 'updatedAt'>
-  }
-  errors?: Array<{ message: string }>
+interface GraphQLCatalogData {
+  catalog: Omit<CatalogResponse, 'source' | 'updatedAt'>
 }
 
 function normalizeCatalog(
@@ -76,27 +39,13 @@ function normalizeCatalog(
 }
 
 export default defineEventHandler(async () => {
-  const config = useRuntimeConfig()
-  const graphqlUrl =
-    config.catalogGraphqlUrl || 'http://localhost:8080/graphql'
-
   try {
-    const response = await $fetch<GraphQLCatalogResponse>(graphqlUrl, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: {
-        query: CATALOG_QUERY,
-      },
-    })
-
-    if (response.errors?.length || !response.data?.catalog) {
-      throw new Error(response.errors?.[0]?.message || 'Empty GraphQL response')
-    }
+    const data = await fetchGraphQL<GraphQLCatalogData>(CATALOG_QUERY)
 
     return {
       source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...mergeCatalogWithFallback(normalizeCatalog(response.data.catalog)),
+      ...mergeCatalogWithFallback(normalizeCatalog(data.catalog)),
     } satisfies CatalogResponse
   } catch {
     return {

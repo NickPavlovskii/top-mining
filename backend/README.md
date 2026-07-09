@@ -70,19 +70,13 @@ go run ./cmd/server
 - GraphQL: http://localhost:8080/graphql  
 - GraphiQL (тест GraphQL в браузере): тот же URL  
 - **Swagger UI**: http://localhost:8080/swagger/index.html  
-- REST каталог: `GET http://localhost:8080/api/catalog`  
 - Health: http://localhost:8080/health  
 
-### Swagger (REST)
+### Swagger
 
-Откройте http://localhost:8080/swagger/index.html — там можно нажать **Try it out** на эндпоинтах:
+Откройте http://localhost:8080/swagger/index.html — там остался только health-check.
 
-| Метод | URL | Описание |
-|-------|-----|----------|
-| GET | `/health` | сервер жив |
-| GET | `/api/catalog` | каталог из PostgreSQL (JSON) |
-
-GraphQL по-прежнему тестируется в GraphiQL: http://localhost:8080/graphql
+Все данные (каталог, статьи, организации) доступны через GraphQL: http://localhost:8080/graphql
 
 Перегенерация Swagger после изменения аннотаций в `cmd/server/handlers.go`:
 
@@ -91,27 +85,43 @@ go install github.com/swaggo/swag/cmd/swag@latest
 swag init -g cmd/server/main.go -o docs --parseDependency --parseInternal
 ```
 
-Пример GraphQL-запроса:
+Примеры GraphQL-запросов:
 
 ```graphql
 query {
   catalog {
-    meta {
-      totalReviews
-      subtitle
-    }
+    meta { totalReviews subtitle }
     categories {
-      id
-      name
-      slug
-      organizations {
-        id
-        name
-        logoUrl
-        rating
-        reviewCount
-      }
+      id name slug
+      organizations { id name slug rating reviewCount }
     }
+  }
+}
+```
+
+```graphql
+query ArticlesFeed($topic: String) {
+  articlesFeed(topic: $topic) {
+    hasMore
+    hero { slug title }
+    featured { slug title }
+    list { slug title }
+  }
+}
+```
+
+```graphql
+query Article($slug: String!) {
+  article(slug: $slug) {
+    slug title content
+  }
+}
+```
+
+```graphql
+query Organization($slug: String!) {
+  organization(slug: $slug) {
+    slug name categoryName rating
   }
 }
 ```
@@ -129,8 +139,9 @@ cd ..
 npm run dev
 ```
 
-Секция «Каталог организаций» на главной берёт данные из `/api/catalog`.  
-Если Go-сервер недоступен — показываются fallback-данные из `common/modules/catalog/fallback.ts`.
+Секция «Каталог организаций» на главной берёт данные из `/api/catalog` (Nuxt BFF → GraphQL).  
+Статьи и карточки организаций — тоже через GraphQL на Go-сервере.  
+Если Go-сервер недоступен — показываются fallback-данные из `common/modules/`.
 
 ## Как добавить данные в БД
 
@@ -177,5 +188,5 @@ docker compose up -d
 
 Её вызывают:
 
-- GraphQL-резолвер (`cmd/server/main.go`)
+- GraphQL-резолвер (`internal/graphql/schema.go`)
 - утилита `go run ./cmd/fetch`
