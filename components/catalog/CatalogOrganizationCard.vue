@@ -38,8 +38,11 @@
           <div class="catalog-org-card__title-wrap title-card-wrap">
             <div
               v-if="
-                organization.verification?.legalEntity
-                  || organization.verification?.miningRegistry
+                isGridCard
+                  && (
+                    organization.verification?.legalEntity
+                    || organization.verification?.miningRegistry
+                  )
               "
               class="catalog-org-card__badges"
             >
@@ -89,7 +92,7 @@
           </div>
 
           <div
-            v-if="showRatingRow"
+            v-if="showRatingRow && isGridCard"
             class="catalog-org-card__rating-row"
           >
             <span class="catalog-org-card__rating-value">
@@ -128,7 +131,7 @@
           </div>
 
           <p
-            v-else
+            v-else-if="isGridCard"
             class="catalog-org-card__rating-line catalog-org-card__no-rating"
           >
             Нет рейтинга
@@ -452,9 +455,42 @@
     gap: 16px;
   }
 
+  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__inner {
+    align-items: center;
+    text-align: center;
+  }
+
   .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__top {
     flex-direction: column;
+    align-items: center;
     gap: 0;
+    width: 100%;
+  }
+
+  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__title-wrap {
+    align-items: center;
+    width: 100%;
+  }
+
+  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__rating {
+    justify-content: center;
   }
 
   .catalog-org-card__logo {
@@ -640,13 +676,8 @@
     color: var(--tm-orange);
   }
 
-  .catalog-org-card:not(.catalog-org-card--rich) .catalog-org-card__name {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    font-family: inherit;
-    font-size: 16px;
+  .catalog-org-card--rich .catalog-org-card__name {
+    text-align: left;
   }
 
   .catalog-org-card__rating-line {

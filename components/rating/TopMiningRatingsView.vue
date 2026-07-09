@@ -68,19 +68,26 @@
 
 <script setup lang="ts">
   import type { BreadcrumbItem } from '@nuxt/ui'
+  import { RATINGS_FALLBACK_CARDS } from '~/common/modules/ratings/fallback'
   import {
-    TOP_MINING_RATING_CARDS,
     TOP_MINING_RATING_SURFACE,
     TOP_MINING_RATING_VIDEO,
-  } from '~/constants/top-mining/ratings'
+  } from '~/common/modules/ratings/content'
+  import type { RatingsResponse } from '~/types/ratings'
   import TopMiningRatingMarqueeLink from '~/components/rating/TopMiningRatingMarqueeLink.vue'
 
   const route = useRoute()
 
+  const { data } = await useFetch<RatingsResponse>('/api/ratings')
+
+  const ratingCards = computed(
+    () => data.value?.cards ?? RATINGS_FALLBACK_CARDS,
+  )
+
   const activeCategoryId = computed(() => {
     const category = String(route.query.category || '')
 
-    if (TOP_MINING_RATING_CARDS.some((card) => card.id === category)) {
+    if (ratingCards.value.some((card) => card.id === category)) {
       return category
     }
 
@@ -89,14 +96,13 @@
 
   const visibleCards = computed(() => {
     if (!activeCategoryId.value) {
-      return TOP_MINING_RATING_CARDS
+      return ratingCards.value
     }
 
-    return TOP_MINING_RATING_CARDS.filter(
+    return ratingCards.value.filter(
       (card) => card.id === activeCategoryId.value,
     )
   })
-
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: 'Главная', to: '/' },
     { label: 'Рейтинги в майнинге' },
@@ -173,7 +179,7 @@
   .ratings-page__hero {
     display: flex;
     justify-content: center;
-    margin: 0 0 clamp(36px, 5vw, 64px);
+    margin: 0 0 clamp(40px, 5vw, 72px);
     overflow: hidden;
   }
 
@@ -190,9 +196,10 @@
   }
 
   .ratings-page__hero-video {
-    display: block;
-    width: min(100%, 720px);
-    max-width: 72%;
+    display: flex;
+    width: 100%;
+    max-width: 721px;
+    max-height: 225px;
     height: auto;
     margin: 0 auto;
     pointer-events: none;
@@ -243,7 +250,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -262,6 +268,12 @@
     min-height: 48px;
     text-align: center;
     cursor: pointer;
+  }
+
+  @media (max-width: 1050px) {
+    .ratings-page__hero-video {
+      width: 57%;
+    }
   }
 
   @media (max-width: 900px) {

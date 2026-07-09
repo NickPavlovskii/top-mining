@@ -88,7 +88,7 @@
 
 <style scoped>
   .calculator-promo {
-    background: var(--tm-rating-surface);
+    background: #1f1f1f;
   }
 
   .calculator-promo__panel {
@@ -125,7 +125,7 @@
   .calculator-promo__ratings {
     width: 100%;
     margin-top: 0;
-    background: var(--tm-rating-surface);
+    background: #1f1f1f;
   }
 
   .calculator-promo__content {

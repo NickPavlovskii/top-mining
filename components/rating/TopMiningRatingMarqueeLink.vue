@@ -1,9 +1,7 @@
 <template>
-  <a
+  <NuxtLink
     class="rating-marquee-link"
-    target="_blank"
-    rel="noopener noreferrer"
-    :href="href"
+    :to="href"
     :aria-label="`${label} (${number})`"
   >
     <span class="rating-marquee-link__number">({{ number }})</span>
@@ -42,7 +40,7 @@
         </span>
       </span>
     </span>
-  </a>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">

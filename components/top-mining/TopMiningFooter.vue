@@ -85,19 +85,36 @@
 
         <nav class="site-footer__nav" aria-label="Навигация футера">
           <div class="site-footer__nav-column">
-            <a href="#">Майнинг-калькулятор <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#">ASIC-майнеры <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#">GPU <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#">CPU <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#" class="site-footer__telegram">Telegram</a>
+            <component
+              :is="getFooterLinkComponent(link)"
+              v-for="link in TOP_MINING_FOOTER_CALCULATOR_LINKS"
+              :key="link.label"
+              v-bind="getFooterLinkProps(link)"
+            >
+              {{ link.label }}
+              <Icon name="mdi:arrow-top-right" />
+            </component>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              class="site-footer__telegram"
+              :href="TOP_MINING_FOOTER_TELEGRAM_HREF"
+            >
+              Telegram
+            </a>
           </div>
 
           <div class="site-footer__nav-column">
-            <NuxtLink to="/rating/">Рейтинги <Icon name="mdi:arrow-top-right" /></NuxtLink>
-            <a href="#">Статьи <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#">Каталог организаций <Icon name="mdi:arrow-top-right" /></a>
-            <a href="#">Site map <Icon name="mdi:arrow-top-right" /></a>
-            <small>© 2024 Топ - Майнинг</small>
+            <component
+              v-for="link in TOP_MINING_FOOTER_MAIN_LINKS"
+              :key="link.label"
+              v-bind="getFooterLinkProps(link)"
+              :is="getFooterLinkComponent(link)"
+            >
+              {{ link.label }}
+              <Icon name="mdi:arrow-top-right" />
+            </component>
+            <small>© 2026 Топ - Майнинг</small>
           </div>
         </nav>
       </div>
@@ -114,10 +131,42 @@
 </template>
 
 <script setup lang="ts">
+  import { NuxtLink } from '#components'
+  import type { TopMiningFooterNavLink } from '~/common/modules/top-mining/footer-nav'
+  import {
+    TOP_MINING_FOOTER_CALCULATOR_LINKS,
+    TOP_MINING_FOOTER_MAIN_LINKS,
+    TOP_MINING_FOOTER_TELEGRAM_HREF,
+  } from '~/common/modules/top-mining/footer-nav'
+
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
 
   const isPrivacyPage = computed(() => route.path === '/privacy')
+
+  function isExternalFooterLink(link: TopMiningFooterNavLink) {
+    return link.external ?? /^https?:\/\//.test(link.href)
+  }
+
+  function getFooterLinkComponent(link: TopMiningFooterNavLink) {
+    return isExternalFooterLink(link) || link.href.startsWith('#') ? 'a' : NuxtLink
+  }
+
+  function getFooterLinkProps(link: TopMiningFooterNavLink) {
+    if (isExternalFooterLink(link)) {
+      return {
+        href: link.href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+    }
+
+    if (link.href.startsWith('#')) {
+      return { href: link.href }
+    }
+
+    return { to: link.href }
+  }
 
   function scrollToTop() {
     if (import.meta.server) {

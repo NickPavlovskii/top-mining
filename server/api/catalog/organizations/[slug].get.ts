@@ -1,25 +1,37 @@
+import { createError, isError } from 'h3'
 import { getOrganizationDetailFallback } from '~/common/modules/catalog/organization-detail'
 import type {
   CatalogOrganizationDetail,
   CatalogOrganizationDetailResponse,
 } from '~/types/catalog-organization-detail'
+import { ORGANIZATION_QUERY } from '~/server/graphql/queries'
+import { fetchGraphQL } from '~/server/utils/graphql'
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
   const slug = String(getRouterParam(event, 'slug') || '')
-  const baseUrl = config.catalogApiUrl || config.articlesApiUrl || 'http://localhost:8080'
 
   try {
-    const organization = await $fetch<
-      CatalogOrganizationDetailResponse['organization']
-    >(`${baseUrl}/api/catalog/organizations/${encodeURIComponent(slug)}`)
+    const data = await fetchGraphQL<{
+      organization: CatalogOrganizationDetail | null
+    }>(ORGANIZATION_QUERY, { slug })
+
+    if (!data.organization) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Organization not found',
+      })
+    }
 
     return {
-      source: 'api',
+      source: 'graphql',
       updatedAt: new Date().toISOString(),
-      organization,
+      organization: data.organization,
     } satisfies CatalogOrganizationDetailResponse
-  } catch {
+  } catch (error) {
+    if (isError(error)) {
+      throw error
+    }
+
     const fallback = getOrganizationDetailFallback(slug)
 
     if (!fallback) {
