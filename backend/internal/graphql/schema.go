@@ -2,6 +2,7 @@ package graphql
 
 import (
 	"errors"
+	"time"
 
 	"github.com/graphql-go/graphql"
 	"github.com/jackc/pgx/v5"
@@ -191,6 +192,45 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 		},
 	})
 
+	organizationReviewType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationReview",
+		Fields: graphql.Fields{
+			"id":            &graphql.Field{Type: graphql.Int},
+			"authorName":    &graphql.Field{Type: graphql.String},
+			"rating":        &graphql.Field{Type: graphql.Int},
+			"content":       &graphql.Field{Type: graphql.String},
+			"source":        &graphql.Field{Type: graphql.String},
+			"likesCount":    &graphql.Field{Type: graphql.Int},
+			"dislikesCount": &graphql.Field{Type: graphql.Int},
+			"publishedAt":   &graphql.Field{Type: graphql.String},
+		},
+	})
+
+	organizationReviewStatsType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationReviewStats",
+		Fields: graphql.Fields{
+			"rating":          &graphql.Field{Type: graphql.Float},
+			"reviewCount":     &graphql.Field{Type: graphql.Int},
+			"hasPublicRating": &graphql.Field{Type: graphql.Boolean},
+		},
+	})
+
+	organizationReviewsResultType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationReviewsResult",
+		Fields: graphql.Fields{
+			"reviews": &graphql.Field{Type: graphql.NewList(organizationReviewType)},
+			"stats":   &graphql.Field{Type: organizationReviewStatsType},
+		},
+	})
+
+	createOrganizationReviewResultType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CreateOrganizationReviewResult",
+		Fields: graphql.Fields{
+			"review": &graphql.Field{Type: organizationReviewType},
+			"stats":  &graphql.Field{Type: organizationReviewStatsType},
+		},
+	})
+
 	organizationDetailType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "OrganizationDetail",
 		Fields: graphql.Fields{
@@ -202,12 +242,14 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"tagline":         &graphql.Field{Type: graphql.String},
 			"pageTitle":       &graphql.Field{Type: graphql.String},
 			"logoUrl":         &graphql.Field{Type: graphql.String},
+			"detailLogoUrl":   &graphql.Field{Type: graphql.String},
 			"aboutHtml":       &graphql.Field{Type: graphql.String},
 			"rating":          &graphql.Field{Type: graphql.Float},
 			"reviewCount":     &graphql.Field{Type: graphql.Int},
 			"hasPublicRating": &graphql.Field{Type: graphql.Boolean},
 			"foundedYear":     &graphql.Field{Type: graphql.Int},
 			"website":         &graphql.Field{Type: graphql.String},
+			"phone":           &graphql.Field{Type: graphql.String},
 			"email":           &graphql.Field{Type: graphql.String},
 			"workHours":       &graphql.Field{Type: graphql.String},
 			"verification":    &graphql.Field{Type: organizationDetailVerificationType},
@@ -219,6 +261,8 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"legalProfile":    &graphql.Field{Type: organizationLegalProfileType},
 			"cardTags":        &graphql.Field{Type: graphql.NewList(graphql.String)},
 			"cardFeatures":    &graphql.Field{Type: graphql.NewList(graphql.String)},
+			"showGallery":     &graphql.Field{Type: graphql.Boolean},
+			"showArticleBlock": &graphql.Field{Type: graphql.Boolean},
 		},
 	})
 
@@ -334,10 +378,84 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 					return toGraphQLRatingCards(cards), nil
 				},
 			},
+			"organizationReviews": &graphql.Field{
+				Type: organizationReviewsResultType,
+				Args: graphql.FieldConfigArgument{
+					"slug": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"sort": &graphql.ArgumentConfig{Type: graphql.String},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					slug, _ := params.Args["slug"].(string)
+					sort, _ := params.Args["sort"].(string)
+
+					reviews, stats, err := organizations.FetchReviews(
+						params.Context,
+						pool,
+						slug,
+						sort,
+					)
+					if errors.Is(err, pgx.ErrNoRows) {
+						return nil, nil
+					}
+					if err != nil {
+						return nil, err
+					}
+
+					return map[string]interface{}{
+						"reviews": toGraphQLOrganizationReviews(reviews),
+						"stats":   toGraphQLOrganizationReviewStats(stats),
+					}, nil
+				},
+			},
 		},
 	})
 
-	return graphql.NewSchema(graphql.SchemaConfig{Query: rootQuery})
+	rootMutation := graphql.NewObject(graphql.ObjectConfig{
+		Name: "Mutation",
+		Fields: graphql.Fields{
+			"createOrganizationReview": &graphql.Field{
+				Type: createOrganizationReviewResultType,
+				Args: graphql.FieldConfigArgument{
+					"organizationSlug": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"authorName":       &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"authorEmail":      &graphql.ArgumentConfig{Type: graphql.String},
+					"authorPhone":      &graphql.ArgumentConfig{Type: graphql.String},
+					"rating":           &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.Int)},
+					"content":          &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					organizationSlug, _ := params.Args["organizationSlug"].(string)
+					authorName, _ := params.Args["authorName"].(string)
+					authorEmail, _ := params.Args["authorEmail"].(string)
+					authorPhone, _ := params.Args["authorPhone"].(string)
+					rating, _ := params.Args["rating"].(int)
+					content, _ := params.Args["content"].(string)
+
+					result, err := organizations.CreateReview(params.Context, pool, organizations.CreateReviewInput{
+						OrganizationSlug: organizationSlug,
+						AuthorName:       authorName,
+						AuthorEmail:      authorEmail,
+						AuthorPhone:      authorPhone,
+						Rating:           rating,
+						Content:          content,
+					})
+					if err != nil {
+						return nil, err
+					}
+
+					return map[string]interface{}{
+						"review": toGraphQLOrganizationReview(result.Review),
+						"stats":  toGraphQLOrganizationReviewStats(result.Stats),
+					}, nil
+				},
+			},
+		},
+	})
+
+	return graphql.NewSchema(graphql.SchemaConfig{
+		Query:    rootQuery,
+		Mutation: rootMutation,
+	})
 }
 
 func toGraphQLCategories(categories []catalog.Category) []map[string]interface{} {
@@ -447,11 +565,13 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 		"tagline":         detail.Tagline,
 		"pageTitle":       detail.PageTitle,
 		"logoUrl":         detail.LogoURL,
+		"detailLogoUrl":   detail.DetailLogoURL,
 		"aboutHtml":       detail.AboutHTML,
 		"rating":          detail.Rating,
 		"reviewCount":     detail.ReviewCount,
 		"hasPublicRating": detail.HasPublicRating,
 		"website":         detail.Website,
+		"phone":           detail.Phone,
 		"email":           detail.Email,
 		"workHours":       detail.WorkHours,
 		"verification": map[string]interface{}{
@@ -460,6 +580,8 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 		},
 		"cardTags":     detail.CardTags,
 		"cardFeatures": detail.CardFeatures,
+		"showGallery":  detail.ShowGallery,
+		"showArticleBlock": detail.ShowArticleBlock,
 	}
 
 	if detail.FoundedYear != nil {
@@ -578,4 +700,33 @@ func toGraphQLRatingCards(cards []ratings.Card) []map[string]interface{} {
 	}
 
 	return result
+}
+
+func toGraphQLOrganizationReview(review organizations.Review) map[string]interface{} {
+	return map[string]interface{}{
+		"id":            review.ID,
+		"authorName":    review.AuthorName,
+		"rating":        review.Rating,
+		"content":       review.Content,
+		"source":        review.Source,
+		"likesCount":    review.LikesCount,
+		"dislikesCount": review.DislikesCount,
+		"publishedAt":   review.PublishedAt.UTC().Format(time.RFC3339),
+	}
+}
+
+func toGraphQLOrganizationReviews(reviews []organizations.Review) []map[string]interface{} {
+	result := make([]map[string]interface{}, 0, len(reviews))
+	for _, review := range reviews {
+		result = append(result, toGraphQLOrganizationReview(review))
+	}
+	return result
+}
+
+func toGraphQLOrganizationReviewStats(stats organizations.ReviewStats) map[string]interface{} {
+	return map[string]interface{}{
+		"rating":          stats.Rating,
+		"reviewCount":     stats.ReviewCount,
+		"hasPublicRating": stats.HasPublicRating,
+	}
 }

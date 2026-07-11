@@ -100,12 +100,14 @@ export const ORGANIZATION_QUERY = `
       tagline
       pageTitle
       logoUrl
+      detailLogoUrl
       aboutHtml
       rating
       reviewCount
       hasPublicRating
       foundedYear
       website
+      phone
       email
       workHours
       verification {
@@ -160,6 +162,8 @@ export const ORGANIZATION_QUERY = `
       }
       cardTags
       cardFeatures
+      showGallery
+      showArticleBlock
     }
   }
 `
@@ -189,6 +193,63 @@ export const RATINGS_HOME_QUERY = `
   query RatingsHome {
     ratingsHome {
       ${RATING_CARD_FIELDS}
+    }
+  }
+`
+
+const ORGANIZATION_REVIEW_FIELDS = `
+  id
+  authorName
+  rating
+  content
+  source
+  likesCount
+  dislikesCount
+  publishedAt
+`
+
+const ORGANIZATION_REVIEW_STATS_FIELDS = `
+  rating
+  reviewCount
+  hasPublicRating
+`
+
+export const ORGANIZATION_REVIEWS_QUERY = `
+  query OrganizationReviews($slug: String!, $sort: String) {
+    organizationReviews(slug: $slug, sort: $sort) {
+      reviews {
+        ${ORGANIZATION_REVIEW_FIELDS}
+      }
+      stats {
+        ${ORGANIZATION_REVIEW_STATS_FIELDS}
+      }
+    }
+  }
+`
+
+export const CREATE_ORGANIZATION_REVIEW_MUTATION = `
+  mutation CreateOrganizationReview(
+    $organizationSlug: String!
+    $authorName: String!
+    $authorEmail: String
+    $authorPhone: String
+    $rating: Int!
+    $content: String!
+  ) {
+    createOrganizationReview(
+      organizationSlug: $organizationSlug
+      authorName: $authorName
+      authorEmail: $authorEmail
+      authorPhone: $authorPhone
+      rating: $rating
+      content: $content
+    ) {
+      review {
+        ${ORGANIZATION_REVIEW_FIELDS}
+      }
+      stats {
+        ${ORGANIZATION_REVIEW_STATS_FIELDS}
+      }
     }
   }
 `

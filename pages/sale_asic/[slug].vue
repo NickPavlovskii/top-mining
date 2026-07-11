@@ -49,6 +49,7 @@
 <style scoped>
   .sale-asic-page {
     min-height: 40vh;
+    background: #0a0a0a;
   }
 
   .sale-asic-page__state {

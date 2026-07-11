@@ -49,8 +49,12 @@ export default defineEventHandler(async () => {
     } satisfies CatalogResponse
   } catch {
     return {
-      ...CATALOG_FALLBACK,
+      source: 'fallback',
       updatedAt: new Date().toISOString(),
+      ...mergeCatalogWithFallback({
+        meta: CATALOG_FALLBACK.meta,
+        categories: CATALOG_FALLBACK.categories,
+      }),
     } satisfies CatalogResponse
   }
 })

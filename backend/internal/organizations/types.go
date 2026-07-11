@@ -66,12 +66,14 @@ type Detail struct {
   Tagline string `json:"tagline"`
   PageTitle string `json:"pageTitle"`
   LogoURL string `json:"logoUrl"`
+  DetailLogoURL string `json:"detailLogoUrl"`
   AboutHTML string `json:"aboutHtml"`
   Rating float64 `json:"rating"`
   ReviewCount int `json:"reviewCount"`
   HasPublicRating bool `json:"hasPublicRating"`
   FoundedYear *int `json:"foundedYear"`
   Website string `json:"website"`
+  Phone string `json:"phone"`
   Email string `json:"email"`
   WorkHours string `json:"workHours"`
   Verification Verification `json:"verification"`
@@ -83,4 +85,6 @@ type Detail struct {
   LegalProfile *LegalProfile `json:"legalProfile"`
   CardTags []string `json:"cardTags"`
   CardFeatures []string `json:"cardFeatures"`
+  ShowGallery bool `json:"showGallery"`
+  ShowArticleBlock bool `json:"showArticleBlock"`
 }

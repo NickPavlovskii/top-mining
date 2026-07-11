@@ -64,12 +64,14 @@ export interface CatalogOrganizationDetail {
   tagline: string
   pageTitle: string
   logoUrl: string
+  detailLogoUrl: string | null
   aboutHtml: string
   rating: number
   reviewCount: number
   hasPublicRating: boolean
   foundedYear: number | null
   website: string
+  phone: string
   email: string
   workHours: string
   verification: CatalogOrganizationVerification
@@ -79,6 +81,9 @@ export interface CatalogOrganizationDetail {
   miningHotel: CatalogOrganizationMiningHotel | null
   paymentTerms: CatalogOrganizationPaymentTerms | null
   legalProfile: CatalogOrganizationLegalProfile | null
+  articleHref: string | null
+  showGallery: boolean
+  showArticleBlock: boolean
   cardTags: string[]
   cardFeatures: string[]
 }

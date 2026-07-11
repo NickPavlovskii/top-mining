@@ -27,16 +27,20 @@ func FetchBySlug(ctx context.Context, pool *pgxpool.Pool, slug string) (*Detail,
 			o.tagline,
 			o.page_title,
 			o.logo_url,
+			o.detail_logo_url,
 			o.about_html,
 			o.rating,
 			o.review_count,
 			o.has_public_rating,
 			o.founded_year,
 			o.website,
+			o.phone,
 			o.email,
 			o.work_hours,
 			o.verified_contracts,
-			o.verified_legal_entity
+			o.verified_legal_entity,
+			o.show_gallery,
+			o.show_article_block
 		FROM catalog_organizations o
 		JOIN catalog_categories c ON c.id = o.category_id
 		WHERE o.slug = $1 AND o.is_published = TRUE
@@ -49,16 +53,20 @@ func FetchBySlug(ctx context.Context, pool *pgxpool.Pool, slug string) (*Detail,
 		&detail.Tagline,
 		&detail.PageTitle,
 		&detail.LogoURL,
+		&detail.DetailLogoURL,
 		&detail.AboutHTML,
 		&detail.Rating,
 		&detail.ReviewCount,
 		&detail.HasPublicRating,
 		&foundedYear,
 		&detail.Website,
+		&detail.Phone,
 		&detail.Email,
 		&detail.WorkHours,
 		&detail.Verification.Contracts,
 		&detail.Verification.LegalEntity,
+		&detail.ShowGallery,
+		&detail.ShowArticleBlock,
 	)
 	if err != nil {
 		return nil, err
