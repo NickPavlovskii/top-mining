@@ -290,9 +290,7 @@
   })
 
   const showRatingRow = computed(
-    () =>
-      props.organization.hasPublicRating !== false
-      && (props.organization.rating > 0 || props.organization.reviewCount > 0),
+    () => props.organization.reviewCount > 0,
   )
 
   const reviewCountLabel = computed(() =>

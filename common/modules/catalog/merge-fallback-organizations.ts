@@ -1,4 +1,5 @@
 import { CATALOG_FALLBACK } from './fallback'
+import { getOrganizationDetailFallback } from './organization-detail'
 import type { CatalogCategory, CatalogOrganization, CatalogResponse } from '~/types/catalog'
 
 const FALLBACK_ORGS_BY_SLUG = new Map<string, CatalogOrganization>()
@@ -14,6 +15,37 @@ for (const category of CATALOG_FALLBACK.categories) {
   }
 }
 
+function resolveReviewStats(
+  organization: CatalogOrganization,
+  fallback: CatalogOrganization,
+) {
+  const detailFallback = organization.slug
+    ? getOrganizationDetailFallback(organization.slug)
+    : null
+
+  const reviewCount =
+    organization.reviewCount > 0
+      ? organization.reviewCount
+      : detailFallback?.reviewCount
+        ?? fallback.reviewCount
+        ?? organization.reviewCount
+        ?? 0
+
+  const rating =
+    organization.rating > 0
+      ? organization.rating
+      : detailFallback?.rating
+        ?? fallback.rating
+        ?? organization.rating
+        ?? 0
+
+  return {
+    reviewCount,
+    rating,
+    hasPublicRating: reviewCount > 0,
+  }
+}
+
 function mergeOrganization(
   organization: CatalogOrganization,
 ): CatalogOrganization {
@@ -22,12 +54,31 @@ function mergeOrganization(
     || FALLBACK_ORGS_BY_ID.get(organization.id)
 
   if (!fallback) {
-    return organization
+    const detailFallback = organization.slug
+      ? getOrganizationDetailFallback(organization.slug)
+      : null
+
+    if (!detailFallback) {
+      return organization
+    }
+
+    return {
+      ...organization,
+      ...resolveReviewStats(organization, {
+        ...organization,
+        reviewCount: detailFallback.reviewCount,
+        rating: detailFallback.rating,
+        hasPublicRating: detailFallback.hasPublicRating,
+      }),
+    }
   }
+
+  const reviewStats = resolveReviewStats(organization, fallback)
 
   return {
     ...fallback,
     ...organization,
+    ...reviewStats,
     cardTags: organization.cardTags?.length
       ? organization.cardTags
       : fallback.cardTags,
@@ -38,8 +89,6 @@ function mergeOrganization(
     logoTheme: organization.logoTheme ?? fallback.logoTheme,
     verification: organization.verification ?? fallback.verification,
     foundedYear: organization.foundedYear ?? fallback.foundedYear,
-    hasPublicRating:
-      organization.hasPublicRating ?? fallback.hasPublicRating,
     slug: organization.slug ?? fallback.slug,
     href: organization.href || fallback.href,
     logoUrl: organization.logoUrl || fallback.logoUrl,
