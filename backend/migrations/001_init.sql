@@ -1,7 +1,3 @@
--- Инициализация каталога (схема + данные)
--- При первом запуске docker compose подхватывается автоматически.
--- Пересоздать БД: docker compose down -v && docker compose up -d
-
 SET client_encoding = 'UTF8';
 
 CREATE TABLE IF NOT EXISTS catalog_categories (
@@ -35,16 +31,15 @@ FROM catalog_categories c
 JOIN (
     VALUES
         -- Продажа ASIC
-        ('asic-sales', 'BitCluster', '/images/catalog/bitcluster.png', 'Продажа ASIC-майнеров и майнинг-инфраструктуры.', 0, 0, 1),
-        ('asic-sales', 'Algoritm', 'https://top-mining.ru/wp-content/uploads/2025/07/algoritm-1.png', 'Поставщик майнинг-оборудования и комплексных решений для дата-центров.', 0, 0, 2),
-        ('asic-sales', 'MBTC', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров и сопутствующего оборудования.', 4.9, 113, 3),
-        ('asic-sales', 'Mining center', '/images/catalog/mining-center.png', 'Продажа ASIC-майнеров, подбор оборудования и сервисное обслуживание.', 0, 0, 4),
-        ('asic-sales', 'r7miner', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров с высоким рейтингом и большим числом отзывов.', 4.9, 113, 5),
-        ('asic-sales', 'IBMM', 'https://top-mining.ru/wp-content/uploads/2024/08/ibmm-90x90-1.png', 'Продажа ASIC-майнеров, консультации и техническая поддержка.', 4.8, 485, 6),
-        ('asic-sales', 'GIS Mining', 'https://top-mining.ru/wp-content/uploads/2024/07/gis-mining-90x90-1.png', 'Поставка и обслуживание майнинг-оборудования.', 4.8, 145, 7),
-        ('asic-sales', 'Pushminer', 'https://top-mining.ru/wp-content/uploads/2024/09/pushminer-2.png', 'Продажа ASIC-майнеров и комплектующих.', 4.5, 265, 8),
-        ('asic-sales', 'DC mining', '/images/catalog/dc-mining.png', 'Продажа и размещение майнинг-оборудования.', 5, 8, 9),
-        ('asic-sales', 'TCS mining', '/images/catalog/tcs-mining.png', 'Поставка ASIC-майнеров и комплектующих.', 5, 1, 10),
+        ('asic-sales', 'Algoritm', 'https://top-mining.ru/wp-content/uploads/2025/07/algoritm-1.png', 'Поставщик майнинг-оборудования и комплексных решений для дата-центров.', 0, 0, 1),
+        ('asic-sales', 'MBTC', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров и сопутствующего оборудования.', 4.9, 113, 2),
+        ('asic-sales', 'Mining center', '/images/catalog/mining-center.png', 'Продажа ASIC-майнеров, подбор оборудования и сервисное обслуживание.', 0, 0, 3),
+        ('asic-sales', 'r7miner', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров с высоким рейтингом и большим числом отзывов.', 4.9, 113, 4),
+        ('asic-sales', 'IBMM', 'https://top-mining.ru/wp-content/uploads/2024/08/ibmm-90x90-1.png', 'Продажа ASIC-майнеров, консультации и техническая поддержка.', 4.8, 485, 5),
+        ('asic-sales', 'GIS Mining', 'https://top-mining.ru/wp-content/uploads/2024/07/gis-mining-90x90-1.png', 'Поставка и обслуживание майнинг-оборудования.', 4.8, 145, 6),
+        ('asic-sales', 'Pushminer', 'https://top-mining.ru/wp-content/uploads/2024/09/pushminer-2.png', 'Продажа ASIC-майнеров и комплектующих.', 4.5, 265, 7),
+        ('asic-sales', 'DC mining', '/images/catalog/dc-mining.png', 'Продажа и размещение майнинг-оборудования.', 5, 8, 8),
+        ('asic-sales', 'TCS mining', '/images/catalog/tcs-mining.png', 'Поставка ASIC-майнеров и комплектующих.', 5, 1, 9),
         -- Майнинг-отели
         ('mining-hotels', 'Intelion Data Systems', '/images/catalog/intelion.png', 'Майнинг-отель с размещением и обслуживанием оборудования.', 0, 0, 1),
         ('mining-hotels', 'Майнинг отель «Терешково»', 'https://top-mining.ru/wp-content/uploads/2025/12/generated-image-5-1.jpg', 'Промышленный майнинг-отель в Москве с круглосуточным мониторингом.', 0, 0, 2),

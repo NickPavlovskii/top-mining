@@ -24,7 +24,32 @@ backend/
   internal/catalog/
     fetch_catalog.go          # ← основной файл: читает данные из Postgres
     db.go                     # подключение к БД
-  migrations/001_init.sql     # таблицы + тестовые данные
+  migrations/
+    README.md                   # документация по миграциям (порядок, применение, организации)
+    001_init.sql                # каталог: схема + базовые организации
+    002_articles.sql            # статьи
+    003_organizations.sql       # схема организаций, фильтры, калькулятор
+    004_organizations_seed.sql  # seed детальных страниц организаций
+    005_ratings.sql             # рейтинги
+    006_reviews.sql             # отзывы и синхронизация счётчиков
+    007_fix_catalog_encoding.sql
+    008_dc_mining_import.sql
+    009_gis_mining_import.sql
+    010_organization_catalog_db.sql  # AFM Hotel, Терешково, verified_data_center
+    011_mining_hotels_import.sql     # BitBird, DataCheap, RusHash, WATT MANOR, Weltall
+    012_mining_pools_import.sql      # K8X, Poolin, Antpool, Neopool
+    013_crypto_exchanges_import.sql  # Binance, BingX, Bybit, Bitget, OKX, MEXC, KuCoin, Gate.io
+    014_sync_rating_from_reviews.sql # рейтинг только из одобренных отзывов
+    015_crypto_wallets_import.sql    # MetaMask, Trust Wallet, Exodus, Phantom…
+    016_core_media_and_links.sql     # media_assets, entity_links, profile_block
+    017_hardware_domain.sql          # единый hardware_* домен (+ сиды моделей)
+    018_article_blocks.sql           # блочные статьи
+    019_rating_autosync.sql          # триггер рейтинга из отзывов
+    021_ratings_home_flags.sql       # флаги главной (если ещё нет в 005)
+    000_inspect.sql                  # только SELECT, не в initdb
+    archive/imports-split/           # старые поштучные 011–033
+    archive/README.md           # карта старых инкрементальных миграций
+  docs/db_schema_target.puml  # целевая ER (PlantUML)
   docker-compose.yml          # PostgreSQL
 ```
 
@@ -40,6 +65,10 @@ docker compose up -d
 ```
 
 База: `niklad` / пользователь `niklad` / пароль `niklad` / порт **`5433`** (не 5432 — на 5432 часто занят локальный PostgreSQL в Windows).
+
+При первом `docker compose up -d` применяются миграции **001–021** автоматически.
+
+Подробнее: [`migrations/README.md`](migrations/README.md).
 
 ### 2. Go-зависимости
 
@@ -139,9 +168,9 @@ cd ..
 npm run dev
 ```
 
-Секция «Каталог организаций» на главной берёт данные из `/api/catalog` (Nuxt BFF → GraphQL).  
-Статьи и карточки организаций — тоже через GraphQL на Go-сервере.  
-Если Go-сервер недоступен — показываются fallback-данные из `common/modules/`.
+Секция «Каталог организаций» на главной берёт данные из `/api/catalog` (Nuxt BFF → GraphQL → PostgreSQL).  
+Страницы организаций (`/sale_asic/[slug]/`) — из `/api/catalog/organizations/[slug]`.  
+Требуется запущенный Go GraphQL-сервер и PostgreSQL с применёнными миграциями.
 
 ## Как добавить данные в БД
 
@@ -157,7 +186,28 @@ docker compose down -v
 docker compose up -d
 ```
 
-## Переменные окружения
+### Если БД уже создана — применить миграции вручную
+
+`docker-compose` выполняет SQL только при **первом** запуске контейнера. Если база создана раньше, примените недостающие файлы из `migrations/`. **Важно:** на Windows pipe через PowerShell может испортить кириллицу — надёжнее копировать файл в контейнер:
+
+```powershell
+cd backend
+docker cp migrations/010_organization_catalog_db.sql niklad-postgres:/tmp/010.sql
+docker exec niklad-postgres psql -U niklad -d niklad -f /tmp/010.sql
+```
+
+Полный список миграций и порядок — в [`migrations/README.md`](migrations/README.md).
+
+Проще пересоздать том с нуля (все данные сбросятся):
+
+```powershell
+cd backend
+docker compose down -v
+docker compose up -d
+```
+
+Старые инкрементальные файлы `003`–`024` объединены; карта соответствия — в `migrations/archive/README.md`.
+
 
 | Переменная | По умолчанию | Описание |
 |------------|--------------|----------|

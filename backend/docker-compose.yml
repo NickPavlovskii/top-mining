@@ -12,24 +12,25 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
-      - ./migrations/003_articles.sql:/docker-entrypoint-initdb.d/003_articles.sql:ro
-      - ./migrations/004_article_topics.sql:/docker-entrypoint-initdb.d/004_article_topics.sql:ro
-      - ./migrations/005_tools_articles.sql:/docker-entrypoint-initdb.d/005_tools_articles.sql:ro
-      - ./migrations/006_investments_articles.sql:/docker-entrypoint-initdb.d/006_investments_articles.sql:ro
-      - ./migrations/007_organizations_and_article_detail.sql:/docker-entrypoint-initdb.d/007_organizations_and_article_detail.sql:ro
-      - ./migrations/008_catalog_filters_and_calculator.sql:/docker-entrypoint-initdb.d/008_catalog_filters_and_calculator.sql:ro
-      - ./migrations/009_ttm_mining_import.sql:/docker-entrypoint-initdb.d/009_ttm_mining_import.sql:ro
-      - ./migrations/010_blockchain_forum_article_import.sql:/docker-entrypoint-initdb.d/010_blockchain_forum_article_import.sql:ro
-      - ./migrations/011_geometria_import.sql:/docker-entrypoint-initdb.d/011_geometria_import.sql:ro
-      - ./migrations/012_geometria_card.sql:/docker-entrypoint-initdb.d/012_geometria_card.sql:ro
-      - ./migrations/013_asic_sales_organization_cards.sql:/docker-entrypoint-initdb.d/013_asic_sales_organization_cards.sql:ro
-      - ./migrations/014_mining_hotel_organization_cards.sql:/docker-entrypoint-initdb.d/014_mining_hotel_organization_cards.sql:ro
-      - ./migrations/015_catalog_cards_crypto_and_more.sql:/docker-entrypoint-initdb.d/015_catalog_cards_crypto_and_more.sql:ro
-      - ./migrations/016_ratings.sql:/docker-entrypoint-initdb.d/016_ratings.sql:ro
-      - ./migrations/017_organization_reviews_seed.sql:/docker-entrypoint-initdb.d/017_organization_reviews_seed.sql:ro
-      - ./migrations/019_organization_page_blocks.sql:/docker-entrypoint-initdb.d/019_organization_page_blocks.sql:ro
-      - ./migrations/020_organization_detail_logo.sql:/docker-entrypoint-initdb.d/020_organization_detail_logo.sql:ro
-      - ./migrations/021_algoritm_import.sql:/docker-entrypoint-initdb.d/021_algoritm_import.sql:ro
+      - ./migrations/002_articles.sql:/docker-entrypoint-initdb.d/002_articles.sql:ro
+      - ./migrations/003_organizations.sql:/docker-entrypoint-initdb.d/003_organizations.sql:ro
+      - ./migrations/004_organizations_seed.sql:/docker-entrypoint-initdb.d/004_organizations_seed.sql:ro
+      - ./migrations/005_ratings.sql:/docker-entrypoint-initdb.d/005_ratings.sql:ro
+      - ./migrations/006_reviews.sql:/docker-entrypoint-initdb.d/006_reviews.sql:ro
+      - ./migrations/007_fix_catalog_encoding.sql:/docker-entrypoint-initdb.d/007_fix_catalog_encoding.sql:ro
+      - ./migrations/008_dc_mining_import.sql:/docker-entrypoint-initdb.d/008_dc_mining_import.sql:ro
+      - ./migrations/009_gis_mining_import.sql:/docker-entrypoint-initdb.d/009_gis_mining_import.sql:ro
+      - ./migrations/010_organization_catalog_db.sql:/docker-entrypoint-initdb.d/010_organization_catalog_db.sql:ro
+      - ./migrations/011_mining_hotels_import.sql:/docker-entrypoint-initdb.d/011_mining_hotels_import.sql:ro
+      - ./migrations/012_mining_pools_import.sql:/docker-entrypoint-initdb.d/012_mining_pools_import.sql:ro
+      - ./migrations/013_crypto_exchanges_import.sql:/docker-entrypoint-initdb.d/013_crypto_exchanges_import.sql:ro
+      - ./migrations/014_sync_rating_from_reviews.sql:/docker-entrypoint-initdb.d/014_sync_rating_from_reviews.sql:ro
+      - ./migrations/015_crypto_wallets_import.sql:/docker-entrypoint-initdb.d/015_crypto_wallets_import.sql:ro
+      - ./migrations/016_core_media_and_links.sql:/docker-entrypoint-initdb.d/016_core_media_and_links.sql:ro
+      - ./migrations/017_hardware_domain.sql:/docker-entrypoint-initdb.d/017_hardware_domain.sql:ro
+      - ./migrations/018_article_blocks.sql:/docker-entrypoint-initdb.d/018_article_blocks.sql:ro
+      - ./migrations/019_rating_autosync.sql:/docker-entrypoint-initdb.d/019_rating_autosync.sql:ro
+      - ./migrations/021_ratings_home_flags.sql:/docker-entrypoint-initdb.d/021_ratings_home_flags.sql:ro
 
 volumes:
   postgres_data:

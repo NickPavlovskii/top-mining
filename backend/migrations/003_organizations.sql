@@ -1,3 +1,7 @@
+-- Organizations schema, catalog filters, calculator: 007 + 008
+SET client_encoding = 'UTF8';
+
+-- >>> 007_organizations_and_article_detail.sql
 -- Расширение схемы под карточки организаций (sale_asic/*) и детальные статьи (mining/*)
 -- Референсы: https://top-mining.ru/sale_asic/ttm-mining/
 --             https://top-mining.ru/mining/novoe-pokolenie-whatsminer-m70-polnyj-obzor-linejki/
@@ -22,6 +26,7 @@ ALTER TABLE catalog_organizations
     ADD COLUMN IF NOT EXISTS map_lng NUMERIC(10, 7),
     ADD COLUMN IF NOT EXISTS verified_contracts BOOLEAN NOT NULL DEFAULT FALSE,
     ADD COLUMN IF NOT EXISTS verified_legal_entity BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS verified_data_center BOOLEAN NOT NULL DEFAULT FALSE,
     ADD COLUMN IF NOT EXISTS has_public_rating BOOLEAN NOT NULL DEFAULT TRUE,
     ADD COLUMN IF NOT EXISTS is_published BOOLEAN NOT NULL DEFAULT TRUE,
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
@@ -31,7 +36,6 @@ SET slug = lower(regexp_replace(regexp_replace(name, '[^a-zA-Z0-9а-яА-Я]+', 
 WHERE slug IS NULL;
 
 UPDATE catalog_organizations SET slug = 'r7miner' WHERE name = 'r7miner';
-UPDATE catalog_organizations SET slug = 'bitcluster' WHERE name = 'BitCluster';
 
 CREATE UNIQUE INDEX IF NOT EXISTS catalog_organizations_slug_idx
     ON catalog_organizations (slug);
@@ -94,7 +98,8 @@ CREATE TABLE IF NOT EXISTS organization_mining_hotels (
     total_capacity_mw NUMERIC(8, 2),
     site_cities TEXT NOT NULL DEFAULT '',
     min_devices_label TEXT NOT NULL DEFAULT '',
-    energy_type TEXT NOT NULL DEFAULT ''
+    energy_type TEXT NOT NULL DEFAULT '',
+    extras TEXT[] NOT NULL DEFAULT '{}'
 );
 
 -- ---------------------------------------------------------------------------
@@ -177,27 +182,7 @@ UPDATE articles
 SET content_html = content
 WHERE content_html = '' AND content <> '';
 
-CREATE TABLE IF NOT EXISTS article_sections (
-    id SERIAL PRIMARY KEY,
-    article_id INT NOT NULL REFERENCES articles (id) ON DELETE CASCADE,
-    anchor TEXT NOT NULL,
-    title TEXT NOT NULL,
-    level SMALLINT NOT NULL DEFAULT 2 CHECK (level BETWEEN 2 AND 4),
-    sort_order INT NOT NULL DEFAULT 0,
-    UNIQUE (article_id, anchor)
-);
-
-CREATE INDEX IF NOT EXISTS article_sections_article_idx
-    ON article_sections (article_id, sort_order);
-
-CREATE TABLE IF NOT EXISTS article_related (
-    article_id INT NOT NULL REFERENCES articles (id) ON DELETE CASCADE,
-    related_article_id INT NOT NULL REFERENCES articles (id) ON DELETE CASCADE,
-    sort_order INT NOT NULL DEFAULT 0,
-    PRIMARY KEY (article_id, related_article_id),
-    CHECK (article_id <> related_article_id)
-);
-
+-- article_sections / article_related: removed (use article_blocks + entity_links)
 -- ---------------------------------------------------------------------------
 -- Seed: r7miner
 -- ---------------------------------------------------------------------------
@@ -377,32 +362,159 @@ SET
     published_at = '2025-12-12'
 WHERE slug = 'whatsminer-m70-line-review';
 
-DELETE FROM article_sections
-WHERE article_id = (SELECT id FROM articles WHERE slug = 'whatsminer-m70-line-review');
+SET client_encoding = 'UTF8';
 
-INSERT INTO article_sections (article_id, anchor, title, level, sort_order)
-SELECT a.id, v.anchor, v.title, v.level, v.sort_order
-FROM articles a
-JOIN (
-    VALUES
-        ('intro', 'Введение', 2, 1),
-        ('whats-interesting', 'Whatsminer M70: что интересного?', 2, 2),
-        ('efficiency-classes', 'Линейка Whatsminer M70: три класса энергоэффективности', 2, 3),
-        ('cooling', 'Охлаждение: три формата для разных задач', 2, 4),
-        ('tech-features', 'Технологические особенности серии M70', 2, 5),
-        ('industry-impact', 'Как обновление M70 повлияет на индустрию?', 2, 6),
-        ('conclusion', 'Выводы', 2, 7)
-) AS v(anchor, title, level, sort_order) ON a.slug = 'whatsminer-m70-line-review';
+INSERT INTO catalog_categories (name, slug, sort_order) VALUES
+    ('Ремонт ASIC', 'asic-repair', 5),
+    ('Криптобиржи', 'crypto-exchanges', 6),
+    ('Криптокошельки', 'crypto-wallets', 7),
+    ('Прошивки для асиков', 'asic-firmware', 8),
+    ('Мероприятия', 'events', 9)
+ON CONFLICT (slug) DO NOTHING;
 
-INSERT INTO article_related (article_id, related_article_id, sort_order)
-SELECT a.id, r.id, v.sort_order
-FROM articles a
-JOIN (
+-- ===========================================================================
+-- КАТАЛОГ: услуги для фильтра (M:N с организациями)
+-- ===========================================================================
+
+CREATE TABLE IF NOT EXISTS catalog_services (
+    id SERIAL PRIMARY KEY,
+    slug TEXT NOT NULL UNIQUE,
+    label TEXT NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS organization_services (
+    organization_id INT NOT NULL REFERENCES catalog_organizations (id) ON DELETE CASCADE,
+    service_id INT NOT NULL REFERENCES catalog_services (id) ON DELETE CASCADE,
+    PRIMARY KEY (organization_id, service_id)
+);
+
+INSERT INTO catalog_services (slug, label, sort_order) VALUES
+    ('mining-hotels', 'Майнинг-отели', 1),
+    ('events', 'Мероприятия', 2),
+    ('asic-sales', 'Продажа ASIC', 3),
+    ('asic-repair', 'Ремонт ASIC', 4)
+ON CONFLICT (slug) DO NOTHING;
+
+-- ===========================================================================
+-- КАТАЛОГ: локации (офисы, доставка)
+-- ===========================================================================
+
+CREATE TABLE IF NOT EXISTS catalog_locations (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    region TEXT NOT NULL DEFAULT '',
+    sort_order INT NOT NULL DEFAULT 0
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS catalog_locations_name_region_idx
+    ON catalog_locations (name, region);
+
+CREATE TABLE IF NOT EXISTS organization_delivery_areas (
+    organization_id INT NOT NULL REFERENCES catalog_organizations (id) ON DELETE CASCADE,
+    location_id INT NOT NULL REFERENCES catalog_locations (id) ON DELETE CASCADE,
+    PRIMARY KEY (organization_id, location_id)
+);
+
+CREATE INDEX IF NOT EXISTS organization_delivery_areas_loc_idx
+    ON organization_delivery_areas (location_id);
+
+-- ===========================================================================
+-- КАТАЛОГ: теги/бейджи на карточках
+-- ===========================================================================
+
+CREATE TABLE IF NOT EXISTS catalog_tags (
+    id SERIAL PRIMARY KEY,
+    slug TEXT NOT NULL UNIQUE,
+    label TEXT NOT NULL,
+    tag_group TEXT NOT NULL DEFAULT 'general',
+    sort_order INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS organization_tags (
+    organization_id INT NOT NULL REFERENCES catalog_organizations (id) ON DELETE CASCADE,
+    tag_id INT NOT NULL REFERENCES catalog_tags (id) ON DELETE CASCADE,
+    PRIMARY KEY (organization_id, tag_id)
+);
+
+INSERT INTO catalog_tags (slug, label, tag_group, sort_order) VALUES
+    ('with-vat', 'С НДС', 'payment', 1),
+    ('without-vat', 'Без НДС', 'payment', 2),
+    ('new-equipment', 'Новое', 'condition', 3),
+    ('used-equipment', 'Б/У', 'condition', 4),
+    ('wholesale', 'Опт', 'volume', 5),
+    ('retail', 'Розница', 'volume', 6),
+    ('in-stock', 'В наличии', 'availability', 7),
+    ('on-order', 'Под заказ', 'availability', 8),
+    ('direct-from-manufacturer', 'Напрямую от производителей', 'highlight', 9),
+    ('warranty-by-contract', 'Гарантия по договору', 'highlight', 10),
+    ('official-import', 'Официальный импорт', 'highlight', 11)
+ON CONFLICT (slug) DO NOTHING;
+
+
+-- asic_models / calculator_*: removed; hardware_* seeded in 017
+ALTER TABLE catalog_organizations
+    ADD COLUMN IF NOT EXISTS sells_used_asic BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS office_city TEXT NOT NULL DEFAULT '';
+
+-- SEED: локации и привязки к r7miner / DC mining
+-- ===========================================================================
+
+INSERT INTO catalog_locations (name, region, sort_order) VALUES
+    ('Москва', '', 1),
+    ('Санкт-Петербург', '', 2),
+    ('Казань', 'Татарстан', 3),
+    ('Абакан', 'Хакасия', 4),
+    ('Братск', 'Иркутская обл.', 5),
+    ('Челябинск', 'Челябинская обл.', 6),
+    ('Владимир', 'Владимирская обл.', 7)
+ON CONFLICT (name, region) DO NOTHING;
+
+UPDATE catalog_organizations SET slug = 'dc-mining' WHERE name = 'DC mining';
+
+UPDATE catalog_organizations SET office_city = 'Москва' WHERE slug IN ('r7miner', 'ttm-mining', 'dc-mining');
+UPDATE catalog_organizations SET sells_used_asic = TRUE WHERE slug = 'ttm-mining';
+
+INSERT INTO organization_services (organization_id, service_id)
+SELECT o.id, s.id
+FROM (
     VALUES
-        ('best-asic-miners-2026', 1),
-        ('asic-hardware-overview', 2),
-        ('mining-datacenter-guide', 3)
-) AS v(related_slug, sort_order) ON TRUE
-JOIN articles r ON r.slug = v.related_slug
-WHERE a.slug = 'whatsminer-m70-line-review'
+        ('r7miner', 'asic-sales'),
+        ('r7miner', 'mining-hotels'),
+        ('ttm-mining', 'asic-sales'),
+        ('ttm-mining', 'mining-hotels'),
+        ('dc-mining', 'asic-sales')
+) AS v(org_slug, service_slug)
+JOIN catalog_organizations o ON o.slug = v.org_slug
+JOIN catalog_services s ON s.slug = v.service_slug
 ON CONFLICT DO NOTHING;
+
+INSERT INTO organization_tags (organization_id, tag_id)
+SELECT o.id, t.id
+FROM (
+    VALUES
+        ('r7miner', 'with-vat'),
+        ('r7miner', 'new-equipment'),
+        ('r7miner', 'wholesale'),
+        ('r7miner', 'retail'),
+        ('r7miner', 'on-order'),
+        ('r7miner', 'direct-from-manufacturer'),
+        ('dc-mining', 'in-stock'),
+        ('dc-mining', 'new-equipment'),
+        ('dc-mining', 'retail'),
+        ('ttm-mining', 'used-equipment'),
+        ('ttm-mining', 'in-stock'),
+        ('ttm-mining', 'on-order')
+) AS v(org_slug, tag_slug)
+JOIN catalog_organizations o ON o.slug = v.org_slug
+JOIN catalog_tags t ON t.slug = v.tag_slug
+ON CONFLICT DO NOTHING;
+
+INSERT INTO organization_delivery_areas (organization_id, location_id)
+SELECT o.id, l.id
+FROM catalog_organizations o
+JOIN catalog_locations l ON l.name IN ('Москва', 'Санкт-Петербург', 'Казань')
+WHERE o.slug = 'ttm-mining'
+ON CONFLICT DO NOTHING;
+
+
