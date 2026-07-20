@@ -28,6 +28,38 @@ type MiningHotel struct {
   EnergyType string `json:"energyType"`
 }
 
+type MiningPool struct {
+  MobileApp string `json:"mobileApp"`
+  ReferralProgram string `json:"referralProgram"`
+  TotalHashrate string `json:"totalHashrate"`
+  RewardDistribution string `json:"rewardDistribution"`
+  PoolCommission string `json:"poolCommission"`
+  MinPayout string `json:"minPayout"`
+  PayoutFrequency string `json:"payoutFrequency"`
+  MinedCoins string `json:"minedCoins"`
+}
+
+type CryptoExchange struct {
+  TradingPairsLabel string `json:"tradingPairsLabel"`
+  CoinsCountLabel string `json:"coinsCountLabel"`
+  VerificationType string `json:"verificationType"`
+  LiquidityCoefficient *int `json:"liquidityCoefficient"`
+  SpotMarkets *int `json:"spotMarkets"`
+  SupportedCurrencies string `json:"supportedCurrencies"`
+  MakerFee string `json:"makerFee"`
+  TakerFee string `json:"takerFee"`
+  DerivativeMarkets *int `json:"derivativeMarkets"`
+  Extras []string `json:"extras"`
+}
+
+type CryptoWallet struct {
+  SupportedCoins string `json:"supportedCoins"`
+  Platform string `json:"platform"`
+  Commission string `json:"commission"`
+  CommissionCalculation string `json:"commissionCalculation"`
+  Extras []string `json:"extras"`
+}
+
 type PaymentTerms struct {
   PaymentMethods []string `json:"paymentMethods"`
   PaymentFormats []string `json:"paymentFormats"`
@@ -55,6 +87,8 @@ type LegalProfile struct {
 type Verification struct {
   Contracts bool `json:"contracts"`
   LegalEntity bool `json:"legalEntity"`
+  DataCenter bool `json:"dataCenter"`
+  MiningRegistry bool `json:"miningRegistry"`
 }
 
 type Detail struct {
@@ -63,6 +97,8 @@ type Detail struct {
   Name string `json:"name"`
   CategorySlug string `json:"categorySlug"`
   CategoryName string `json:"categoryName"`
+  // ProfileBlock — имя дочернего блока из catalog_categories.profile_block (016).
+  ProfileBlock string `json:"profileBlock,omitempty"`
   Tagline string `json:"tagline"`
   PageTitle string `json:"pageTitle"`
   LogoURL string `json:"logoUrl"`
@@ -76,11 +112,17 @@ type Detail struct {
   Phone string `json:"phone"`
   Email string `json:"email"`
   WorkHours string `json:"workHours"`
+  DomainRegisteredAt *string `json:"domainRegisteredAt"`
+  ReferralProgramURL string `json:"referralProgramUrl"`
+  ReferralPromoText string `json:"referralPromoText"`
   Verification Verification `json:"verification"`
   Addresses []Address `json:"addresses"`
   Gallery []GalleryImage `json:"gallery"`
   EquipmentSales *EquipmentSales `json:"equipmentSales"`
   MiningHotel *MiningHotel `json:"miningHotel"`
+  MiningPool *MiningPool `json:"miningPool"`
+  CryptoExchange *CryptoExchange `json:"cryptoExchange"`
+  CryptoWallet *CryptoWallet `json:"cryptoWallet"`
   PaymentTerms *PaymentTerms `json:"paymentTerms"`
   LegalProfile *LegalProfile `json:"legalProfile"`
   CardTags []string `json:"cardTags"`

@@ -142,7 +142,11 @@ func CreateReview(
 
 	stats, err := recalculateReviewStats(ctx, tx, orgID)
 	if err != nil {
-		return nil, err
+		// Триггер 019 уже мог обновить org — читаем агрегаты из отзывов.
+		stats, err = fetchReviewStatsTx(ctx, tx, orgID)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	if err := tx.Commit(ctx); err != nil {
@@ -158,6 +162,23 @@ func CreateReview(
 func fetchReviewStats(ctx context.Context, pool *pgxpool.Pool, orgID int) (ReviewStats, error) {
 	var stats ReviewStats
 	err := pool.QueryRow(ctx, `
+		SELECT
+			COALESCE(ROUND(AVG(r.rating)::numeric, 1), 0)::float8,
+			COUNT(r.id)::int
+		FROM organization_reviews r
+		WHERE r.organization_id = $1 AND r.status = 'approved'
+	`, orgID).Scan(&stats.Rating, &stats.ReviewCount)
+	if err != nil {
+		return ReviewStats{}, err
+	}
+
+	stats.HasPublicRating = stats.ReviewCount > 0
+	return stats, nil
+}
+
+func fetchReviewStatsTx(ctx context.Context, tx pgx.Tx, orgID int) (ReviewStats, error) {
+	var stats ReviewStats
+	err := tx.QueryRow(ctx, `
 		SELECT
 			COALESCE(ROUND(AVG(r.rating)::numeric, 1), 0)::float8,
 			COUNT(r.id)::int

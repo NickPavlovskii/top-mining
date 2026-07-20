@@ -1,5 +1,7 @@
 package articles
 
+import "encoding/json"
+
 // Preview — карточка статьи для ленты.
 type Preview struct {
 	ID             int     `json:"id"`
@@ -14,10 +16,22 @@ type Preview struct {
 	DisplayType    string  `json:"displayType"`
 }
 
+// Block — блок статьи (миграция 018).
+type Block struct {
+	ID       int64           `json:"id"`
+	Position int             `json:"position"`
+	Type     string          `json:"type"`
+	Payload  json.RawMessage `json:"payload"`
+	Anchor   string          `json:"anchor,omitempty"`
+}
+
 // Article — полная статья для отдельной страницы.
 type Article struct {
 	Preview
-	Content string `json:"content"`
+	Content    string    `json:"content"`
+	UsesBlocks bool      `json:"usesBlocks"`
+	Blocks     []Block   `json:"blocks,omitempty"`
+	Related    []Preview `json:"related,omitempty"`
 }
 
 // Feed — блок статей на главной.

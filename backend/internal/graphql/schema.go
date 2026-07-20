@@ -22,6 +22,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"name":            &graphql.Field{Type: graphql.String},
 			"slug":            &graphql.Field{Type: graphql.String},
 			"logoUrl":         &graphql.Field{Type: graphql.String},
+			"logoTheme":       &graphql.Field{Type: graphql.String},
 			"description":     &graphql.Field{Type: graphql.String},
 			"rating":          &graphql.Field{Type: graphql.Float},
 			"reviewCount":     &graphql.Field{Type: graphql.Int},
@@ -34,12 +35,14 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 					Fields: graphql.Fields{
 						"contracts":      &graphql.Field{Type: graphql.Boolean},
 						"legalEntity":    &graphql.Field{Type: graphql.Boolean},
+						"dataCenter":     &graphql.Field{Type: graphql.Boolean},
 						"miningRegistry": &graphql.Field{Type: graphql.Boolean},
 					},
 				}),
 			},
 			"cardTags":     &graphql.Field{Type: graphql.NewList(graphql.String)},
 			"cardFeatures": &graphql.Field{Type: graphql.NewList(graphql.String)},
+			"cardPromo":    &graphql.Field{Type: graphql.String},
 			"officeCity":   &graphql.Field{Type: graphql.String},
 			"siteCity":     &graphql.Field{Type: graphql.String},
 		},
@@ -51,6 +54,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"id":            &graphql.Field{Type: graphql.Int},
 			"name":          &graphql.Field{Type: graphql.String},
 			"slug":          &graphql.Field{Type: graphql.String},
+			"profileBlock":  &graphql.Field{Type: graphql.String},
 			"organizations": &graphql.Field{Type: graphql.NewList(organizationType)},
 		},
 	})
@@ -87,20 +91,34 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 		},
 	})
 
+	articleBlockType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "ArticleBlock",
+		Fields: graphql.Fields{
+			"id":       &graphql.Field{Type: graphql.Int},
+			"position": &graphql.Field{Type: graphql.Int},
+			"type":     &graphql.Field{Type: graphql.String},
+			"payload":  &graphql.Field{Type: graphql.String},
+			"anchor":   &graphql.Field{Type: graphql.String},
+		},
+	})
+
 	articleType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Article",
 		Fields: graphql.Fields{
-			"id":              &graphql.Field{Type: graphql.Int},
-			"slug":            &graphql.Field{Type: graphql.String},
-			"title":           &graphql.Field{Type: graphql.String},
-			"excerpt":         &graphql.Field{Type: graphql.String},
-			"imageUrl":        &graphql.Field{Type: graphql.String},
-			"imageAlt":        &graphql.Field{Type: graphql.String},
-			"topicId":         &graphql.Field{Type: graphql.String},
-			"readingTimeMin":  &graphql.Field{Type: graphql.Int},
-			"publishedAt":     &graphql.Field{Type: graphql.String},
-			"displayType":     &graphql.Field{Type: graphql.String},
-			"content":         &graphql.Field{Type: graphql.String},
+			"id":             &graphql.Field{Type: graphql.Int},
+			"slug":           &graphql.Field{Type: graphql.String},
+			"title":          &graphql.Field{Type: graphql.String},
+			"excerpt":        &graphql.Field{Type: graphql.String},
+			"imageUrl":       &graphql.Field{Type: graphql.String},
+			"imageAlt":       &graphql.Field{Type: graphql.String},
+			"topicId":        &graphql.Field{Type: graphql.String},
+			"readingTimeMin": &graphql.Field{Type: graphql.Int},
+			"publishedAt":    &graphql.Field{Type: graphql.String},
+			"displayType":    &graphql.Field{Type: graphql.String},
+			"content":        &graphql.Field{Type: graphql.String},
+			"usesBlocks":     &graphql.Field{Type: graphql.Boolean},
+			"blocks":         &graphql.Field{Type: graphql.NewList(articleBlockType)},
+			"related":        &graphql.Field{Type: graphql.NewList(articlePreviewType)},
 		},
 	})
 
@@ -117,8 +135,10 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 	organizationDetailVerificationType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "OrganizationDetailVerification",
 		Fields: graphql.Fields{
-			"contracts":   &graphql.Field{Type: graphql.Boolean},
-			"legalEntity": &graphql.Field{Type: graphql.Boolean},
+			"contracts":      &graphql.Field{Type: graphql.Boolean},
+			"legalEntity":    &graphql.Field{Type: graphql.Boolean},
+			"dataCenter":     &graphql.Field{Type: graphql.Boolean},
+			"miningRegistry": &graphql.Field{Type: graphql.Boolean},
 		},
 	})
 
@@ -159,6 +179,47 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"siteCities":        &graphql.Field{Type: graphql.String},
 			"minDevicesLabel":   &graphql.Field{Type: graphql.String},
 			"energyType":        &graphql.Field{Type: graphql.String},
+		},
+	})
+
+	organizationMiningPoolType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationMiningPool",
+		Fields: graphql.Fields{
+			"mobileApp":          &graphql.Field{Type: graphql.String},
+			"referralProgram":    &graphql.Field{Type: graphql.String},
+			"totalHashrate":      &graphql.Field{Type: graphql.String},
+			"rewardDistribution": &graphql.Field{Type: graphql.String},
+			"poolCommission":     &graphql.Field{Type: graphql.String},
+			"minPayout":          &graphql.Field{Type: graphql.String},
+			"payoutFrequency":    &graphql.Field{Type: graphql.String},
+			"minedCoins":         &graphql.Field{Type: graphql.String},
+		},
+	})
+
+	organizationCryptoExchangeType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationCryptoExchange",
+		Fields: graphql.Fields{
+			"tradingPairsLabel":    &graphql.Field{Type: graphql.String},
+			"coinsCountLabel":      &graphql.Field{Type: graphql.String},
+			"verificationType":     &graphql.Field{Type: graphql.String},
+			"liquidityCoefficient": &graphql.Field{Type: graphql.Int},
+			"spotMarkets":          &graphql.Field{Type: graphql.Int},
+			"supportedCurrencies":  &graphql.Field{Type: graphql.String},
+			"makerFee":             &graphql.Field{Type: graphql.String},
+			"takerFee":             &graphql.Field{Type: graphql.String},
+			"derivativeMarkets":    &graphql.Field{Type: graphql.Int},
+			"extras":               &graphql.Field{Type: graphql.NewList(graphql.String)},
+		},
+	})
+
+	organizationCryptoWalletType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "OrganizationCryptoWallet",
+		Fields: graphql.Fields{
+			"supportedCoins":         &graphql.Field{Type: graphql.String},
+			"platform":               &graphql.Field{Type: graphql.String},
+			"commission":             &graphql.Field{Type: graphql.String},
+			"commissionCalculation":  &graphql.Field{Type: graphql.String},
+			"extras":                 &graphql.Field{Type: graphql.NewList(graphql.String)},
 		},
 	})
 
@@ -239,6 +300,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"name":            &graphql.Field{Type: graphql.String},
 			"categorySlug":    &graphql.Field{Type: graphql.String},
 			"categoryName":    &graphql.Field{Type: graphql.String},
+			"profileBlock":    &graphql.Field{Type: graphql.String},
 			"tagline":         &graphql.Field{Type: graphql.String},
 			"pageTitle":       &graphql.Field{Type: graphql.String},
 			"logoUrl":         &graphql.Field{Type: graphql.String},
@@ -251,12 +313,18 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"website":         &graphql.Field{Type: graphql.String},
 			"phone":           &graphql.Field{Type: graphql.String},
 			"email":           &graphql.Field{Type: graphql.String},
-			"workHours":       &graphql.Field{Type: graphql.String},
+			"workHours":         &graphql.Field{Type: graphql.String},
+			"domainRegisteredAt": &graphql.Field{Type: graphql.String},
+			"referralProgramUrl": &graphql.Field{Type: graphql.String},
+			"referralPromoText":  &graphql.Field{Type: graphql.String},
 			"verification":    &graphql.Field{Type: organizationDetailVerificationType},
 			"addresses":       &graphql.Field{Type: graphql.NewList(organizationAddressType)},
 			"gallery":         &graphql.Field{Type: graphql.NewList(organizationGalleryImageType)},
 			"equipmentSales":  &graphql.Field{Type: organizationEquipmentSalesType},
 			"miningHotel":     &graphql.Field{Type: organizationMiningHotelType},
+			"miningPool":      &graphql.Field{Type: organizationMiningPoolType},
+			"cryptoExchange":  &graphql.Field{Type: organizationCryptoExchangeType},
+			"cryptoWallet":    &graphql.Field{Type: organizationCryptoWalletType},
 			"paymentTerms":    &graphql.Field{Type: organizationPaymentTermsType},
 			"legalProfile":    &graphql.Field{Type: organizationLegalProfileType},
 			"cardTags":        &graphql.Field{Type: graphql.NewList(graphql.String)},
@@ -469,6 +537,7 @@ func toGraphQLCategories(categories []catalog.Category) []map[string]interface{}
 				"name":            org.Name,
 				"slug":            org.Slug,
 				"logoUrl":         org.LogoURL,
+				"logoTheme":       org.LogoTheme,
 				"description":     org.Description,
 				"rating":          org.Rating,
 				"reviewCount":     org.ReviewCount,
@@ -476,20 +545,19 @@ func toGraphQLCategories(categories []catalog.Category) []map[string]interface{}
 				"hasPublicRating": org.HasPublicRating,
 				"cardTags":        org.CardTags,
 				"cardFeatures":    org.CardFeatures,
+				"cardPromo":       org.CardPromo,
 				"officeCity":      org.OfficeCity,
 				"siteCity":        org.SiteCity,
+				"verification": map[string]interface{}{
+					"contracts":      org.Verification.Contracts,
+					"legalEntity":    org.Verification.LegalEntity,
+					"dataCenter":     org.Verification.DataCenter,
+					"miningRegistry": org.Verification.MiningRegistry,
+				},
 			}
 
 			if org.FoundedYear != nil {
 				entry["foundedYear"] = *org.FoundedYear
-			}
-
-			if org.Verification != nil {
-				entry["verification"] = map[string]interface{}{
-					"contracts":      org.Verification.Contracts,
-					"legalEntity":    org.Verification.LegalEntity,
-					"miningRegistry": org.Verification.MiningRegistry,
-				}
 			}
 
 			organizations = append(organizations, entry)
@@ -499,6 +567,7 @@ func toGraphQLCategories(categories []catalog.Category) []map[string]interface{}
 			"id":            category.ID,
 			"name":          category.Name,
 			"slug":          category.Slug,
+			"profileBlock":  category.ProfileBlock,
 			"organizations": organizations,
 		})
 	}
@@ -529,6 +598,26 @@ func toGraphQLArticlePreview(preview articles.Preview) map[string]interface{} {
 func toGraphQLArticle(article *articles.Article) map[string]interface{} {
 	entry := toGraphQLArticlePreview(article.Preview)
 	entry["content"] = article.Content
+	entry["usesBlocks"] = article.UsesBlocks
+
+	blocks := make([]map[string]interface{}, 0, len(article.Blocks))
+	for _, block := range article.Blocks {
+		blocks = append(blocks, map[string]interface{}{
+			"id":       block.ID,
+			"position": block.Position,
+			"type":     block.Type,
+			"payload":  string(block.Payload),
+			"anchor":   block.Anchor,
+		})
+	}
+	entry["blocks"] = blocks
+
+	related := make([]map[string]interface{}, 0, len(article.Related))
+	for _, item := range article.Related {
+		related = append(related, toGraphQLArticlePreview(item))
+	}
+	entry["related"] = related
+
 	return entry
 }
 
@@ -562,6 +651,7 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 		"name":            detail.Name,
 		"categorySlug":    detail.CategorySlug,
 		"categoryName":    detail.CategoryName,
+		"profileBlock":    detail.ProfileBlock,
 		"tagline":         detail.Tagline,
 		"pageTitle":       detail.PageTitle,
 		"logoUrl":         detail.LogoURL,
@@ -574,18 +664,28 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 		"phone":           detail.Phone,
 		"email":           detail.Email,
 		"workHours":       detail.WorkHours,
+		"referralProgramUrl": detail.ReferralProgramURL,
+		"referralPromoText":  detail.ReferralPromoText,
 		"verification": map[string]interface{}{
-			"contracts":   detail.Verification.Contracts,
-			"legalEntity": detail.Verification.LegalEntity,
+			"contracts":      detail.Verification.Contracts,
+			"legalEntity":    detail.Verification.LegalEntity,
+			"dataCenter":     detail.Verification.DataCenter,
+			"miningRegistry": detail.Verification.MiningRegistry,
 		},
-		"cardTags":     detail.CardTags,
-		"cardFeatures": detail.CardFeatures,
+		"cardTags":     nonemptyStrings(detail.CardTags),
+		"cardFeatures": nonemptyStrings(detail.CardFeatures),
 		"showGallery":  detail.ShowGallery,
 		"showArticleBlock": detail.ShowArticleBlock,
+		"addresses":    []map[string]interface{}{},
+		"gallery":      []map[string]interface{}{},
 	}
 
 	if detail.FoundedYear != nil {
 		entry["foundedYear"] = *detail.FoundedYear
+	}
+
+	if detail.DomainRegisteredAt != nil {
+		entry["domainRegisteredAt"] = *detail.DomainRegisteredAt
 	}
 
 	if len(detail.Addresses) > 0 {
@@ -616,7 +716,7 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 			"equipmentCondition": detail.EquipmentSales.EquipmentCondition,
 			"salesVolume":        detail.EquipmentSales.SalesVolume,
 			"availability":       detail.EquipmentSales.Availability,
-			"extras":             detail.EquipmentSales.Extras,
+			"extras":             nonemptyStrings(detail.EquipmentSales.Extras),
 		}
 	}
 
@@ -626,6 +726,7 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 			"siteCities":       detail.MiningHotel.SiteCities,
 			"minDevicesLabel":  detail.MiningHotel.MinDevicesLabel,
 			"energyType":       detail.MiningHotel.EnergyType,
+			"extras":           []string{},
 		}
 		if detail.MiningHotel.PricePerKwhFrom != nil {
 			hotel["pricePerKwhFrom"] = *detail.MiningHotel.PricePerKwhFrom
@@ -639,12 +740,57 @@ func toGraphQLOrganizationDetail(detail *organizations.Detail) map[string]interf
 		entry["miningHotel"] = hotel
 	}
 
+	if detail.MiningPool != nil {
+		entry["miningPool"] = map[string]interface{}{
+			"mobileApp":          detail.MiningPool.MobileApp,
+			"referralProgram":    detail.MiningPool.ReferralProgram,
+			"totalHashrate":      detail.MiningPool.TotalHashrate,
+			"rewardDistribution": detail.MiningPool.RewardDistribution,
+			"poolCommission":     detail.MiningPool.PoolCommission,
+			"minPayout":          detail.MiningPool.MinPayout,
+			"payoutFrequency":    detail.MiningPool.PayoutFrequency,
+			"minedCoins":         detail.MiningPool.MinedCoins,
+		}
+	}
+
+	if detail.CryptoExchange != nil {
+		exchange := map[string]interface{}{
+			"tradingPairsLabel":   detail.CryptoExchange.TradingPairsLabel,
+			"coinsCountLabel":     detail.CryptoExchange.CoinsCountLabel,
+			"verificationType":    detail.CryptoExchange.VerificationType,
+			"supportedCurrencies": detail.CryptoExchange.SupportedCurrencies,
+			"makerFee":            detail.CryptoExchange.MakerFee,
+			"takerFee":            detail.CryptoExchange.TakerFee,
+			"extras":              nonemptyStrings(detail.CryptoExchange.Extras),
+		}
+		if detail.CryptoExchange.LiquidityCoefficient != nil {
+			exchange["liquidityCoefficient"] = *detail.CryptoExchange.LiquidityCoefficient
+		}
+		if detail.CryptoExchange.SpotMarkets != nil {
+			exchange["spotMarkets"] = *detail.CryptoExchange.SpotMarkets
+		}
+		if detail.CryptoExchange.DerivativeMarkets != nil {
+			exchange["derivativeMarkets"] = *detail.CryptoExchange.DerivativeMarkets
+		}
+		entry["cryptoExchange"] = exchange
+	}
+
+	if detail.CryptoWallet != nil {
+		entry["cryptoWallet"] = map[string]interface{}{
+			"supportedCoins":        detail.CryptoWallet.SupportedCoins,
+			"platform":              detail.CryptoWallet.Platform,
+			"commission":            detail.CryptoWallet.Commission,
+			"commissionCalculation": detail.CryptoWallet.CommissionCalculation,
+			"extras":                nonemptyStrings(detail.CryptoWallet.Extras),
+		}
+	}
+
 	if detail.PaymentTerms != nil {
 		entry["paymentTerms"] = map[string]interface{}{
-			"paymentMethods": detail.PaymentTerms.PaymentMethods,
-			"paymentFormats": detail.PaymentTerms.PaymentFormats,
-			"extraTerms":     detail.PaymentTerms.ExtraTerms,
-			"contractForms":  detail.PaymentTerms.ContractForms,
+			"paymentMethods": nonemptyStrings(detail.PaymentTerms.PaymentMethods),
+			"paymentFormats": nonemptyStrings(detail.PaymentTerms.PaymentFormats),
+			"extraTerms":     nonemptyStrings(detail.PaymentTerms.ExtraTerms),
+			"contractForms":  nonemptyStrings(detail.PaymentTerms.ContractForms),
 		}
 	}
 
@@ -729,4 +875,11 @@ func toGraphQLOrganizationReviewStats(stats organizations.ReviewStats) map[strin
 		"reviewCount":     stats.ReviewCount,
 		"hasPublicRating": stats.HasPublicRating,
 	}
+}
+
+func nonemptyStrings(values []string) []string {
+	if values == nil {
+		return []string{}
+	}
+	return values
 }

@@ -34,18 +34,18 @@ func FetchCards(ctx context.Context, pool *pgxpool.Pool) ([]Card, error) {
 func FetchHomeCards(ctx context.Context, pool *pgxpool.Pool) ([]Card, error) {
 	rows, err := pool.Query(ctx, `
 		SELECT
-			hc.slug,
-			hc.title,
-			hc.columns,
-			hci.display_number,
+			c.slug,
+			c.title,
+			COALESCE(c.home_columns, c.columns),
+			COALESCE(NULLIF(i.home_display_number, ''), i.display_number),
 			i.label,
 			i.href
-		FROM rating_home_cards hc
-		JOIN rating_home_card_items hci ON hci.home_card_id = hc.id
-		JOIN rating_items i ON i.id = hci.item_id
-		WHERE hc.is_published = TRUE
+		FROM rating_categories c
+		JOIN rating_items i ON i.category_id = c.id
+		WHERE c.is_published = TRUE
 		  AND i.is_published = TRUE
-		ORDER BY hc.sort_order, hc.id, hci.sort_order, hci.id
+		  AND i.show_on_home = TRUE
+		ORDER BY c.sort_order, c.id, i.home_sort_order NULLS LAST, i.id
 	`)
 	if err != nil {
 		return nil, fmt.Errorf("query rating home cards: %w", err)
