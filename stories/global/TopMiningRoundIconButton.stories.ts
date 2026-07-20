@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import TopMiningRoundIconButton from '~/components/global/TopMiningRoundIconButton.vue'
+import TopMiningRoundIconButton from '~/components/global/buttons/TopMiningRoundIconButton.vue'
 
 import {
   CANVAS_WIDTH,
@@ -19,10 +19,14 @@ const meta = {
     docs: {
       description: {
         component: `
-Круглая кнопка с иконкой Iconify.
+Круглая кнопка с иконкой на базе Quasar \`q-btn\` (аналог Vuetify \`v-btn\`).
 
+- **icon** — Iconify (\`mdi:...\`) или URL SVG-файла с перекраской через \`color\`
+- **tooltip** — подсказка через \`q-tooltip\`
 - **variant** — \`primary\` (заливка) / \`outline\` (обводка)
 - **size** — \`small\` / \`medium\`
+- **width** / **height** / **minWidth** — размеры кнопки
+- **borderColor** — включает обводку (\`has-border\`)
 - При \`href\` рендерится как ссылка
         `.trim(),
       },

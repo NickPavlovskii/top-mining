@@ -2,7 +2,7 @@ import type {
   Article,
   ArticlePreview,
   ArticlesFeedResponse,
-} from '~/types/articles'
+} from './types'
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
 
 const SAMPLE_CONTENT = `Материал подготовлен редакцией TOP MINING. Здесь будет полный текст новости с разбором темы, практическими рекомендациями и ссылками на инструменты платформы.`

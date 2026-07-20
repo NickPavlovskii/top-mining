@@ -1,6 +1,6 @@
 import { createError, isError } from 'h3'
 import { getArticleFallback } from '~/common/modules/articles'
-import type { Article, ArticleResponse } from '~/types/articles'
+import type { Article, ArticleResponse } from '~/common/modules/articles'
 import { ARTICLE_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 export default defineEventHandler(async (event) => {

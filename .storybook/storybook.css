@@ -308,7 +308,7 @@
 }
 
 .tm-docs-panel a {
-  color: #ff853b;
+  color: var(--tm-orange-anim-4);
 }
 
 .tm-docs-panel pre {

@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-  import CatalogSection from '~/components/catalog/CatalogSection.vue'
+  import CatalogSection from '~/components/catalog/home/CatalogSection.vue'
   import CryptoMarketSection from '~/components/crypto/CryptoMarketSection.vue'
   import MiningCalculatorPromo from '~/components/top-mining/MiningCalculatorPromo.vue'
   import TopMiningUsefulSection from '~/components/top-mining/TopMiningUsefulSection.vue'

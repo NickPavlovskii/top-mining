@@ -1,9 +1,10 @@
 import type {
+  CatalogCategory,
   CatalogFilterOption,
   CatalogManufacturer,
   CatalogManufacturersPageMeta,
   CatalogManufacturersResponse,
-} from '~/types/catalog-manufacturers'
+} from './types'
 import { CATALOG_CATEGORY_DEFINITIONS } from './catalog-categories'
 import { getCatalogCategoryTabs } from './category-tabs'
 
@@ -117,7 +118,7 @@ export const CATALOG_MANUFACTURERS_FALLBACK: CatalogManufacturer[] = [
     logoUrl:
       'https://top-mining.ru/wp-content/uploads/2024/08/bitmain-1.png',
     rating: 4.9,
-    reviewCount: 567,
+    reviewCount: 0,
     href: 'https://top-mining.ru/asic-manufacturer/bitmain-corporation/',
     foundedYear: 2013,
     modelsCount: 20,
@@ -130,7 +131,7 @@ export const CATALOG_MANUFACTURERS_FALLBACK: CatalogManufacturer[] = [
     logoUrl:
       'https://top-mining.ru/wp-content/uploads/2024/08/microbt-1.png',
     rating: 4.8,
-    reviewCount: 312,
+    reviewCount: 0,
     href: 'https://top-mining.ru/asic-manufacturer/microbt-corporation/',
     foundedYear: 2016,
     modelsCount: 18,
@@ -262,6 +263,44 @@ export const CATALOG_MANUFACTURERS_FALLBACK: CatalogManufacturer[] = [
     algorithms: ['sha-256', 'cryptonightr'],
   },
 ]
+
+export function applyCatalogReviewStatsToManufacturers(
+  manufacturers: CatalogManufacturer[],
+  categories: CatalogCategory[],
+): CatalogManufacturer[] {
+  const equipmentOrganizations =
+    categories.find((category) => category.slug === 'equipment-manufacturers')
+      ?.organizations ?? []
+
+  const bySlug = new Map(
+    equipmentOrganizations
+      .filter((organization) => organization.slug)
+      .map((organization) => [organization.slug!, organization]),
+  )
+
+  const byName = new Map(
+    equipmentOrganizations.map((organization) => [
+      organization.name.trim().toLowerCase(),
+      organization,
+    ]),
+  )
+
+  return manufacturers.map((manufacturer) => {
+    const organization =
+      bySlug.get(manufacturer.slug)
+      || byName.get(manufacturer.name.trim().toLowerCase())
+
+    if (!organization) {
+      return manufacturer
+    }
+
+    return {
+      ...manufacturer,
+      rating: organization.rating,
+      reviewCount: organization.reviewCount,
+    }
+  })
+}
 
 export function buildCatalogManufacturersResponse(): CatalogManufacturersResponse {
   return {

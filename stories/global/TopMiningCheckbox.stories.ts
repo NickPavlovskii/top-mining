@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
-import TopMiningCheckbox from '~/components/global/TopMiningCheckbox.vue'
+import TopMiningCheckbox from '~/components/global/selection-controls/TopMiningCheckbox.vue'
 
 import { canvasLight, canvasLightMaxWidth, CANVAS_WIDTH } from '../helpers/decorators'
 

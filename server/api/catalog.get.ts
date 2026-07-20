@@ -1,7 +1,6 @@
-import { CATALOG_FALLBACK } from '~/common/modules/catalog'
-import { mergeCatalogWithFallback } from '~/common/modules/catalog/merge-fallback-organizations'
+import { createError } from 'h3'
 import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
-import type { CatalogCategory, CatalogResponse } from '~/types/catalog'
+import type { CatalogCategory, CatalogResponse } from '~/common/modules/catalog'
 import { CATALOG_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 
@@ -27,9 +26,9 @@ function normalizeCatalog(
     categories: catalog.categories.map((category) => ({
       ...category,
       href:
-        (category as CatalogCategory).href ||
-        CATEGORY_HREFS[category.slug] ||
-        '#',
+        (category as CatalogCategory).href
+        || CATEGORY_HREFS[category.slug]
+        || '#',
       organizations: category.organizations.map((organization) => ({
         ...organization,
         href: organization.href || '#',
@@ -45,16 +44,13 @@ export default defineEventHandler(async () => {
     return {
       source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...mergeCatalogWithFallback(normalizeCatalog(data.catalog)),
+      ...normalizeCatalog(data.catalog),
     } satisfies CatalogResponse
-  } catch {
-    return {
-      source: 'fallback',
-      updatedAt: new Date().toISOString(),
-      ...mergeCatalogWithFallback({
-        meta: CATALOG_FALLBACK.meta,
-        categories: CATALOG_FALLBACK.categories,
-      }),
-    } satisfies CatalogResponse
+  } catch (error) {
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'Catalog unavailable',
+      cause: error,
+    })
   }
 })

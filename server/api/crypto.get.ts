@@ -2,22 +2,9 @@ import {
   CRYPTO_COIN_IDS,
   FALLBACK_BITCOIN_USD,
   FALLBACK_COINS,
-} from '~/common/modules/crypto'
-import type { BitcoinUsd, CryptoCoin } from '~/types/crypto-coin'
-
-interface CoinGeckoMarketCoin {
-  id: string
-  symbol: string
-  name: string
-  image: string
-  current_price: number
-  total_volume: number
-  price_change_percentage_24h_in_currency?: number
-  price_change_percentage_7d_in_currency?: number
-  sparkline_in_7d?: {
-    price: number[]
-  }
-}
+} from '~/common/modules/crypto/fallback'
+import type { CoinGeckoMarketCoin } from '~/common/modules/crypto/coingecko-types'
+import type { BitcoinUsd, CryptoCoin } from '~/common/modules/crypto/types'
 
 function normalizeCoin(coin: CoinGeckoMarketCoin): CryptoCoin {
   return {

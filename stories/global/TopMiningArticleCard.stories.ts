@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import TopMiningArticleCard from '~/components/global/TopMiningArticleCard.vue'
+import TopMiningArticleCard from '~/components/global/articles/TopMiningArticleCard.vue'
 import { sampleArticlePreview } from '~/test/fixtures/article-preview'
 
 import { CANVAS_WIDTH, canvasDarkMaxWidth } from '../helpers/decorators'

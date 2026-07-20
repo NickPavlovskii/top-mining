@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
   import TopMiningEpicBlocks from '~/components/top-mining/TopMiningEpicBlocks.vue'
-  import TopMiningRatingSection from '~/components/TopMiningRatingSection.vue'
+  import TopMiningRatingSection from '~/components/rating/TopMiningRatingSection.vue'
   import {
     MINING_CALCULATOR_PROMO_STATS,
     MINING_CALCULATOR_PROMO_VIDEO,
@@ -370,17 +370,18 @@
     }
   }
 
-  @media (max-width: 720px) and (min-width: 561px) {
+  @media (max-width: 720px) {
     .calculator-promo__inner {
-      grid-template-columns: 1fr;
+      display: none;
     }
 
-    .calculator-promo__visual {
-      margin-top: 12px;
+    .calculator-promo__panel {
+      border-radius: 32px 32px 0 0;
     }
 
-    .calculator-promo__video {
-      max-height: min(72vw, 300px);
+    .calculator-promo__epic-blocks {
+      margin-top: 0;
+      padding: 24px 18px;
     }
   }
 
@@ -404,107 +405,9 @@
       background: var(--tm-black);
     }
 
-    .calculator-promo__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 28px 18px 0;
-    }
-
-    .calculator-promo__content {
-      text-align: left;
-    }
-
-    .calculator-promo__title {
-      margin-bottom: 20px;
-      font-size: clamp(34px, 10vw, 48px);
-      font-weight: 600;
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-      text-align: left;
-    }
-
-    .calculator-promo__title-line--head {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      align-items: baseline;
-      gap: 0.32em;
-      margin-bottom: 0.35em;
-      font-size: clamp(15px, 4.2vw, 24px);
-      font-weight: 500;
-      line-height: 1.17;
-      letter-spacing: 0;
-      white-space: normal;
-    }
-
-    .calculator-promo__title-line--product .calculator-promo__title-part {
-      display: block;
-      text-align: left;
-      font-size: 1em;
-      font-weight: 600;
-      line-height: 0.98;
-    }
-
-    .calculator-promo__title-line--head .calculator-promo__title-word,
-    .calculator-promo__title-line--head .calculator-promo__highlight-text {
-      background: var(--orange-accent-gradient-horizontal);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: none;
-    }
-
-    .calculator-promo__title-line--product .calculator-promo__title-part {
-      color: var(--tm-white);
-    }
-
-    .calculator-promo__lead,
-    .calculator-promo__stats-label,
-    .calculator-promo__stats {
-      display: none;
-    }
-
-    .calculator-promo__visual {
-      order: 2;
-      width: 100%;
-      min-height: 0;
-      margin-top: 8px;
-    }
-
-    .calculator-promo__video {
-      display: none;
-    }
-
-    .calculator-promo__image {
-      display: block;
-      width: min(100%, 360px);
-      max-height: 280px;
-      margin: 0 auto;
-      object-fit: contain;
-      object-position: center bottom;
-    }
-
     .calculator-promo__epic-blocks {
-      margin-top: 0;
       padding: 12px 18px 24px;
       background: var(--tm-black);
-    }
-  }
-
-  @media (max-width: 360px) {
-    .calculator-promo__inner {
-      padding-right: 14px;
-      padding-left: 14px;
-    }
-
-    .calculator-promo__title {
-      font-size: clamp(30px, 9.2vw, 42px);
-      letter-spacing: -0.05em;
-    }
-
-    .calculator-promo__title-line--head {
-      font-size: clamp(14px, 3.9vw, 22px);
     }
   }
 </style>

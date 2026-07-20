@@ -9,6 +9,10 @@
         ref="trackRef"
         class="org-gallery__track"
         @scroll="updateNav"
+        @pointerdown="onTrackPointerDown"
+        @pointermove="onTrackPointerMove"
+        @pointerup="onTrackPointerUp"
+        @pointercancel="onTrackPointerUp"
       >
         <figure
           v-for="(image, index) in images"
@@ -19,6 +23,7 @@
             :src="image.imageUrl"
             :alt="image.imageAlt"
             class="org-gallery__image"
+            draggable="false"
             loading="lazy"
           />
         </figure>
@@ -55,15 +60,19 @@
 </template>
 
 <script setup lang="ts">
-  import type { CatalogOrganizationGalleryImage } from '~/types/catalog-organization-detail'
+  import type { CatalogOrganizationGalleryImage } from '~/common/modules/catalog'
 
   const props = defineProps<{
+    /** Список изображений галереи */
     images: CatalogOrganizationGalleryImage[]
   }>()
 
   const trackRef = ref<HTMLElement | null>(null)
   const canScrollPrev = ref(false)
   const canScrollNext = ref(false)
+  const isDragging = ref(false)
+  const dragStartX = ref(0)
+  const dragStartScrollLeft = ref(0)
 
   function updateNav() {
     const track = trackRef.value
@@ -72,8 +81,11 @@
       return
     }
 
-    canScrollPrev.value = track.scrollLeft > 4
-    canScrollNext.value = track.scrollLeft + track.clientWidth < track.scrollWidth - 4
+    const scrollLeft = Math.round(track.scrollLeft)
+    const maxScrollLeft = Math.round(track.scrollWidth - track.clientWidth)
+
+    canScrollPrev.value = scrollLeft > 0
+    canScrollNext.value = scrollLeft < maxScrollLeft
   }
 
   function scroll(direction: -1 | 1) {
@@ -93,6 +105,55 @@
     })
   }
 
+  function onTrackPointerDown(event: PointerEvent) {
+    if (event.button !== 0) {
+      return
+    }
+
+    const track = trackRef.value
+
+    if (!track) {
+      return
+    }
+
+    isDragging.value = true
+    dragStartX.value = event.clientX
+    dragStartScrollLeft.value = track.scrollLeft
+    track.setPointerCapture(event.pointerId)
+    track.classList.add('org-gallery__track--dragging')
+  }
+
+  function onTrackPointerMove(event: PointerEvent) {
+    if (!isDragging.value) {
+      return
+    }
+
+    const track = trackRef.value
+
+    if (!track) {
+      return
+    }
+
+    event.preventDefault()
+    track.scrollLeft = dragStartScrollLeft.value - (event.clientX - dragStartX.value)
+    updateNav()
+  }
+
+  function onTrackPointerUp(event: PointerEvent) {
+    if (!isDragging.value) {
+      return
+    }
+
+    const track = trackRef.value
+
+    isDragging.value = false
+
+    if (track?.hasPointerCapture(event.pointerId)) {
+      track.releasePointerCapture(event.pointerId)
+      track.classList.remove('org-gallery__track--dragging')
+    }
+  }
+
   watch(
     () => props.images.length,
     async () => {
@@ -104,12 +165,9 @@
 
   onMounted(() => {
     updateNav()
-    window.addEventListener('resize', updateNav)
   })
 
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', updateNav)
-  })
+  useWindowResize(updateNav)
 </script>
 
 <style scoped>
@@ -140,6 +198,18 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .org-gallery__track--dragging {
+    scroll-behavior: auto;
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .org-gallery__track--dragging .org-gallery__image {
+    pointer-events: none;
   }
 
   .org-gallery__track::-webkit-scrollbar {
@@ -174,7 +244,7 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: #ff741f;
+    background: var(--tm-orange-accent-light);
     color: #fff;
     font-size: 28px;
     cursor: pointer;
@@ -188,7 +258,7 @@
 
   @media (hover: hover) {
     .org-gallery__nav-btn:not(:disabled):hover {
-      background: #ff853b;
+      background: var(--tm-orange-anim-4);
     }
   }
 </style>

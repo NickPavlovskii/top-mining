@@ -137,3 +137,19 @@ export function hasPhoneMenuMoreItems(
 ): boolean {
   return visibleCount !== undefined && items.length > visibleCount
 }
+
+export function isNavHeadingLink(slug: TopMiningNavColumn['slug']): boolean {
+  return slug === 'catalog' || slug === 'ratings' || slug === 'articles'
+}
+
+export function getCalculatorNavItemIcon(item: string): string {
+  if (item === 'Конвертер хешрейта') {
+    return 'mdi:sync'
+  }
+
+  if (item === 'Рейтинги') {
+    return 'mdi:chart-bar'
+  }
+
+  return 'mdi:view-grid-outline'
+}

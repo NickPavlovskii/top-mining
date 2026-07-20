@@ -1,5 +1,5 @@
-import type { CatalogCategory, CatalogOrganization } from '~/types/catalog'
-import type { CatalogManufacturersSort } from '~/types/catalog-manufacturers'
+import type { CatalogCategory, CatalogOrganization } from './types'
+import type { CatalogManufacturersSort } from './types'
 import { findCatalogCategoryLabel } from './catalog-categories'
 
 export const CATALOG_ORGANIZATIONS_PAGE_META = {

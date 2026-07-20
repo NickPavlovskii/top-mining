@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningRadio from '~/components/global/TopMiningRadio.vue'
+import TopMiningRadio from '~/components/global/selection-controls/TopMiningRadio.vue'
 
 describe('TopMiningRadio', () => {
   it('renders label and radio input', () => {

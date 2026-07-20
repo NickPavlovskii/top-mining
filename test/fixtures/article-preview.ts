@@ -1,4 +1,4 @@
-import type { ArticlePreview } from '~/types/articles'
+import type { ArticlePreview } from '~/common/modules/articles'
 
 export const sampleArticlePreview: ArticlePreview = {
   id: 1,

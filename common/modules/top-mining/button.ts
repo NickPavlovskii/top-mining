@@ -17,6 +17,8 @@ export const TOP_MINING_BUTTON_WIDTH = {
   contact: '220px',
   catalog: '280px',
   card: '170px',
+  ratingCard: '198px',
+  telegramCard: '220px',
   telegram: '220px',
 } as const
 
@@ -38,4 +40,6 @@ export const TOP_MINING_BUTTON_PROPS = {
 
 export const TOP_MINING_BUTTON_LABELS = {
   writeInTelegram: 'Написать в Telegram',
+  viewRatings: 'Смотреть рейтинги',
+  inTelegram: 'В Telegram',
 } as const

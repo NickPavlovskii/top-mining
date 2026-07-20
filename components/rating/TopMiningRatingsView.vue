@@ -73,7 +73,7 @@
     TOP_MINING_RATING_SURFACE,
     TOP_MINING_RATING_VIDEO,
   } from '~/common/modules/ratings/content'
-  import type { RatingsResponse } from '~/types/ratings'
+  import type { RatingsResponse } from '~/common/modules/ratings'
   import TopMiningRatingMarqueeLink from '~/components/rating/TopMiningRatingMarqueeLink.vue'
 
   const route = useRoute()

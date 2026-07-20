@@ -1,8 +1,8 @@
 export type {
   TopMiningRatingCard,
   TopMiningRatingItem,
-} from '~/types/ratings'
-export { DEFAULT_RATING_CARD_COLUMNS } from '~/types/ratings'
+} from './types'
+export { DEFAULT_RATING_CARD_COLUMNS } from './types'
 
 export {
   RATINGS_FALLBACK_CARDS,

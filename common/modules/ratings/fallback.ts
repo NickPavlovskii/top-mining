@@ -1,4 +1,4 @@
-import type { TopMiningRatingCard } from '~/types/ratings'
+import type { TopMiningRatingCard } from './types'
 
 function pickHomeItems(
   card: TopMiningRatingCard,

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
-import TopMiningRadio from '~/components/global/TopMiningRadio.vue'
+import TopMiningRadio from '~/components/global/selection-controls/TopMiningRadio.vue'
 
 import { canvasLight, canvasLightMaxWidth, CANVAS_WIDTH } from '../helpers/decorators'
 

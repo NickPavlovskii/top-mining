@@ -33,8 +33,8 @@
         append-icon=""
         bg-color="var(--tm-white)"
         color="#0752bd"
-        :border="false"
         width="122px"
+        :border="false"
         @click="onCtaClick"
       >
         <span>Оставить заявку</span>

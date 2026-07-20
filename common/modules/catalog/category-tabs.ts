@@ -1,4 +1,4 @@
-import type { CatalogCategoryTab } from '~/types/catalog-manufacturers'
+import type { CatalogCategoryTab } from './types'
 import {
   getCatalogCategoryTabLabel,
   type CatalogCategoryDefinition,

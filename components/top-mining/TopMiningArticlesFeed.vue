@@ -9,7 +9,7 @@
     </div>
 
     <template v-else-if="feed">
-      <NuxtLink
+      <nuxt-link
         v-if="feed.hero"
         class="articles-feed__hero"
         :to="articlePath(feed.hero.slug)"
@@ -58,7 +58,7 @@
             :src="articleArrowRight"
           />
         </div>
-      </NuxtLink>
+      </nuxt-link>
 
       <div
         v-if="feed.featured.length"
@@ -96,18 +96,22 @@
 </template>
 
 <script setup lang="ts">
-  import TopMiningArticleRow from '~/components/global/TopMiningArticleRow.vue'
-  import TopMiningMoreLink from '~/components/global/TopMiningMoreLink.vue'
+  /**
+   * Лента статей по выбранной теме с hero-блоком и ссылкой «Все статьи».
+   */
+  import TopMiningArticleRow from '~/components/global/articles/TopMiningArticleRow.vue'
+  import TopMiningMoreLink from '~/components/global/buttons/TopMiningMoreLink.vue'
   import {
     formatArticleDate,
     formatReadingTime,
   } from '~/common/modules/articles'
   import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
-  import type { ArticlesFeedResponse } from '~/types/articles'
+  import type { ArticlesFeedResponse } from '~/common/modules/articles'
   import clockIcon from '~/assets/images/articles/clock.png'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
 
   const props = defineProps<{
+    /** Тема статей: all, tools, investments и др. */
     topic: TopMiningArticlesTopicId
   }>()
 

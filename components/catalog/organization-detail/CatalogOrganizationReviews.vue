@@ -8,7 +8,7 @@
       <div class="org-reviews__prompt">
         <ul class="org-reviews__prompt-list">
           <li
-            v-for="question in reviewQuestions"
+            v-for="question in ORGANIZATION_REVIEW_QUESTIONS"
             :key="question"
           >
             {{ question }}
@@ -211,141 +211,27 @@
       </p>
     </form>
 
-    <div class="org-reviews__footer">
-      <div class="org-reviews__footer-head">
-        <p class="org-reviews__footer-count">
-          {{ reviewCountUpperLabel }}
-        </p>
-        <label
-          v-if="reviews.length"
-          class="org-reviews__sort"
-        >
-          <span class="sr-only">Сортировка отзывов</span>
-          <select
-            v-model="sort"
-            class="org-reviews__sort-select"
-          >
-            <option
-              v-for="option in sortOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-          <Icon
-            name="mdi:chevron-down"
-            class="org-reviews__sort-icon"
-            aria-hidden="true"
-          />
-        </label>
-      </div>
-      <div class="org-reviews__footer-line" />
-    </div>
-
-    <ul
-      v-if="reviews.length"
-      class="org-reviews__list"
-    >
-      <li
-        v-for="review in reviews"
-        :key="review.id"
-        class="org-reviews__item"
-      >
-        <div class="org-reviews__item-head">
-          <img
-            :src="logoMark"
-            alt=""
-            class="org-reviews__item-avatar"
-          />
-          <div class="org-reviews__item-meta">
-            <p class="org-reviews__item-name">
-              {{ review.authorName }}
-            </p>
-            <p class="org-reviews__item-date">
-              <Icon
-                name="mdi:clock-outline"
-                aria-hidden="true"
-              />
-              {{ formatReviewDate(review.publishedAt) }}
-            </p>
-          </div>
-        </div>
-
-        <div
-          class="org-reviews__item-stars"
-          :aria-label="`Оценка ${review.rating}`"
-        >
-          <Icon
-            v-for="index in 5"
-            :key="`${review.id}-${index}`"
-            :name="index <= review.rating ? 'mdi:star' : 'mdi:star-outline'"
-            class="org-reviews__item-star"
-            aria-hidden="true"
-          />
-        </div>
-
-        <p class="org-reviews__item-content">
-          {{ review.content }}
-        </p>
-
-        <p class="org-reviews__item-source">
-          {{ review.source }}
-        </p>
-
-        <div class="org-reviews__item-actions">
-          <span class="org-reviews__votes">
-            <Icon
-              name="mdi:thumb-up-outline"
-              aria-hidden="true"
-            />
-            {{ review.likesCount }}
-            <span aria-hidden="true">|</span>
-            <Icon
-              name="mdi:thumb-down-outline"
-              aria-hidden="true"
-            />
-            {{ review.dislikesCount }}
-          </span>
-          <button
-            type="button"
-            class="org-reviews__reply"
-          >
-            <Icon
-              name="mdi:reply"
-              aria-hidden="true"
-            />
-            Ответить
-          </button>
-        </div>
-      </li>
-    </ul>
+    <catalog-organization-review-list
+      v-model:sort="sort"
+      :reviews="reviews"
+      :review-count-upper-label="reviewCountUpperLabel"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
+  import {
+    ORGANIZATION_REVIEW_QUESTIONS,
+    formatOrganizationReviewCount,
+  } from '~/common/modules/catalog'
+  import CatalogOrganizationReviewList from '~/components/catalog/organization-detail/CatalogOrganizationReviewList.vue'
   import type {
     OrganizationReview,
     OrganizationReviewSort,
     OrganizationReviewStats,
     OrganizationReviewsResponse,
   } from '~/types/organization-reviews'
-
-  const reviewQuestions = [
-    'Вас плохо или хорошо проконсультировали?',
-    'Вам понравилась или не понравилась коммуникация?',
-    'Компания не выполнила свои обязательства или выполнила их превосходя ваши ожидания?',
-    'Нарушены сроки поставки?',
-    'Вам необоснованно подняли тариф на электроэнергию?',
-  ]
-
-  const sortOptions: Array<{ value: OrganizationReviewSort; label: string }> = [
-    { value: 'newest', label: 'Новые' },
-    { value: 'oldest', label: 'Старые' },
-    { value: 'rating-desc', label: 'Высокая оценка' },
-    { value: 'rating-asc', label: 'Низкая оценка' },
-  ]
 
   const props = defineProps<{
     organizationSlug: string
@@ -424,11 +310,13 @@
     return Math.round(stats.value.rating)
   })
 
-  const reviewCountLabel = computed(() => formatReviewCount(stats.value.reviewCount))
+  const reviewCountLabel = computed(() =>
+    formatOrganizationReviewCount(stats.value.reviewCount),
+  )
 
   const reviewCountUpperLabel = computed(() => {
     const count = stats.value.reviewCount
-    const word = formatReviewCount(count).split(' ').slice(1).join(' ')
+    const word = formatOrganizationReviewCount(count).split(' ').slice(1).join(' ')
 
     return `${count} ${word}`.toUpperCase()
   })
@@ -476,41 +364,6 @@
     } finally {
       isSubmitting.value = false
     }
-  }
-
-  function formatReviewCount(count: number) {
-    const mod10 = count % 10
-    const mod100 = count % 100
-
-    if (mod100 >= 11 && mod100 <= 14) {
-      return `${count} отзывов`
-    }
-
-    if (mod10 === 1) {
-      return `${count} отзыв`
-    }
-
-    if (mod10 >= 2 && mod10 <= 4) {
-      return `${count} отзыва`
-    }
-
-    return `${count} отзывов`
-  }
-
-  function formatReviewDate(isoDate: string) {
-    const date = new Date(isoDate)
-
-    if (Number.isNaN(date.getTime())) {
-      return isoDate
-    }
-
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-
-    return `${day}.${month}.${year} ${hours}:${minutes}`
   }
 </script>
 
@@ -627,14 +480,14 @@
     padding-top: 4px;
   }
 
-  .org-reviews__avatar-logo,
-  .org-reviews__item-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 999px;
+  .org-reviews__avatar-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
     object-fit: contain;
-    background: #fff;
-    padding: 8px;
+    background: #161e35;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
   .org-reviews__form-main {
@@ -694,7 +547,7 @@
     padding: 16px 28px;
     border: 0;
     border-radius: 999px;
-    background: #ff741f;
+    background: var(--tm-orange-accent-light);
     color: #fff;
     font-family: inherit;
     font-size: 18px;
@@ -772,161 +625,6 @@
     font-size: 16px;
     line-height: 1.5;
     text-align: center;
-  }
-
-  .org-reviews__footer {
-    display: grid;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .org-reviews__footer-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .org-reviews__footer-count {
-    margin: 0;
-    color: #8a8a8a;
-    font-size: 14px;
-    letter-spacing: 0.04em;
-  }
-
-  .org-reviews__footer-line {
-    height: 1px;
-    background: #3a3a3a;
-  }
-
-  .org-reviews__sort {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .org-reviews__sort-select {
-    appearance: none;
-    padding: 8px 32px 8px 12px;
-    border: 0;
-    border-radius: 12px;
-    background: transparent;
-    color: #fff;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .org-reviews__sort-icon {
-    position: absolute;
-    right: 8px;
-    pointer-events: none;
-    color: #bdbdbd;
-    font-size: 20px;
-  }
-
-  .org-reviews__list {
-    display: grid;
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .org-reviews__item {
-    padding: 20px 24px;
-    border-radius: 24px;
-    background: #141414;
-  }
-
-  .org-reviews__item-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .org-reviews__item-meta {
-    min-width: 0;
-  }
-
-  .org-reviews__item-name {
-    margin: 0 0 4px;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.3;
-  }
-
-  .org-reviews__item-date {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 0;
-    color: #bdbdbd;
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .org-reviews__item-stars {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .org-reviews__item-star {
-    color: #ffb400;
-    font-size: 22px;
-  }
-
-  .org-reviews__item-content {
-    margin: 0 0 12px;
-    font-size: 16px;
-    line-height: 1.6;
-  }
-
-  .org-reviews__item-source {
-    margin: 0 0 16px;
-    color: #757575;
-    font-size: 14px;
-    line-height: 1.4;
-  }
-
-  .org-reviews__item-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    color: #bdbdbd;
-    font-size: 14px;
-  }
-
-  .org-reviews__votes {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .org-reviews__reply {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: #fff;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
   }
 
   @media (max-width: 900px) {

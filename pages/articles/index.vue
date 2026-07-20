@@ -29,16 +29,16 @@
         role="tablist"
         aria-label="Темы статей"
       >
-        <NuxtLink
-          v-for="topic in TOP_MINING_ARTICLES_TOPICS"
+        <nuxt-link
+          v-for="topic in TOP_MINING_ARTICLES_TOPICS"    
+          role="tab"
           :key="topic.id"
           :to="topicLink(topic.id)"
-          role="tab"
           :class="['articles-page__topic', { 'articles-page__topic--active': activeTopic === topic.id }]"
           :aria-selected="activeTopic === topic.id"
         >
           {{ topic.label }}
-        </NuxtLink>
+        </nuxt-link>
       </div>
 
       <div class="articles-page__toolbar">
@@ -49,8 +49,8 @@
         >
           <button
             type="button"
-            :class="['articles-page__view-btn', { 'articles-page__view-btn--active': viewMode === 'grid' }]"
             aria-label="Сетка"
+            :class="['articles-page__view-btn', { 'articles-page__view-btn--active': viewMode === 'grid' }]"
             :aria-pressed="viewMode === 'grid'"
             @click="setViewMode('grid')"
           >
@@ -63,16 +63,16 @@
           </button>
           <button
             type="button"
+            aria-label="Список"           
             :class="['articles-page__view-btn', { 'articles-page__view-btn--active': viewMode === 'list' }]"
-            aria-label="Список"
             :aria-pressed="viewMode === 'list'"
             @click="setViewMode('list')"
           >
             <img
               :src="viewListIcon"
+              :class="['articles-page__view-icon', { 'articles-page__view-icon--active': viewMode === 'list' }]"
               alt=""
               aria-hidden="true"
-              :class="['articles-page__view-icon', { 'articles-page__view-icon--active': viewMode === 'list' }]"
             />
           </button>
         </div>
@@ -102,10 +102,9 @@
         >
           <top-mining-article-row
             v-for="item in paginatedArticles"
-            :key="item.id"
+            title-tag="h2":key="item.id"
             :article="item"
             :to="`/articles/${item.slug}`"
-            title-tag="h2"
           />
         </div>
 
@@ -113,19 +112,19 @@
           v-if="totalPages > 1"
           class="articles-page__pagination"
         >
-          <NuxtLink
+          <nuxt-link
             v-if="currentPage < totalPages"
-            :to="pageLink(currentPage + 1)"
             class="articles-page__next-page"
+            :to="pageLink(currentPage + 1)"
           >
             <span>Следующая страница</span>
             <img
-              :src="articleArrowRight"
               alt=""
               aria-hidden="true"
               class="articles-page__next-page-arrow articles-page__arrow-icon articles-page__arrow-icon--sm"
+              :src="articleArrowRight"
             />
-          </NuxtLink>
+          </nuxt-link>
 
           <div class="articles-page__pagination-controls">
             <span class="articles-page__page-indicator">
@@ -133,37 +132,37 @@
             </span>
 
             <div class="articles-page__page-nav">
-              <NuxtLink
+              <nuxt-link
+                aria-label="Предыдущая страница"
                 :to="pageLink(currentPage - 1)"
                 :class="['articles-page__page-btn', { 'articles-page__page-btn--disabled': currentPage <= 1 }]"
-                aria-label="Предыдущая страница"
                 @click="preventDisabledNav($event, currentPage <= 1)"
               >
                 <img
-                  :src="chevronLeft"
                   alt=""
                   aria-hidden="true"
                   class="articles-page__chevron-icon"
+                  :src="chevronLeft"
                 />
-              </NuxtLink>
+              </nuxt-link>
 
-              <NuxtLink
+              <nuxt-link
+               aria-label="Следующая страница"
                 :to="pageLink(currentPage + 1)"
                 :class="[
                   'articles-page__page-btn',
                   'articles-page__page-btn--next',
                   { 'articles-page__page-btn--disabled': currentPage >= totalPages },
                 ]"
-                aria-label="Следующая страница"
                 @click="preventDisabledNav($event, currentPage >= totalPages)"
               >
                 <img
-                  :src="chevronRight"
                   alt=""
                   aria-hidden="true"
                   class="articles-page__chevron-icon"
+                  :src="chevronRight"
                 />
-              </NuxtLink>
+              </nuxt-link>
             </div>
           </div>
         </footer>
@@ -173,14 +172,14 @@
 </template>
 
 <script setup lang="ts">
-  import TopMiningArticleRow from '~/components/global/TopMiningArticleRow.vue'
+  import TopMiningArticleRow from '~/components/global/articles/TopMiningArticleRow.vue'
   import {
     TOP_MINING_ARTICLES_SECTION,
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
   } from '~/common/modules/top-mining/articles-section'
   import type { BreadcrumbItem } from '@nuxt/ui'
-  import type { ArticlePreview, ArticlesFeedResponse } from '~/types/articles'
+  import type { ArticlePreview, ArticlesFeedResponse } from '~/common/modules/articles'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
   import chevronLeft from '~/assets/images/articles/chevron-left.png'
   import chevronRight from '~/assets/images/articles/chevron-right.png'
@@ -188,7 +187,11 @@
   import viewListIcon from '~/assets/images/articles/view-list.png'
 
   type ArticlesViewMode = 'grid' | 'list'
-
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'Главная', to: '/' },
+    { label: 'Статьи' },
+  ]
+  
   const route = useRoute()
   const router = useRouter()
 
@@ -213,10 +216,6 @@
 
   const perPage = computed(() => (viewMode.value === 'grid' ? 12 : 8))
 
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Главная', to: '/' },
-    { label: 'Статьи' },
-  ]
 
   const { data: feed, pending } = await useFetch<ArticlesFeedResponse>(
     () => `/api/articles?topic=${activeTopic.value}`,

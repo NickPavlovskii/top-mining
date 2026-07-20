@@ -55,7 +55,6 @@
                 href="#"
                 title="Смотреть все компании"
                 v-bind="TOP_MINING_BUTTON_PROPS"
-                :width="TOP_MINING_BUTTON_WIDTH.catalog"
                 :append-icon="buttonArrow"
               />
             </div>
@@ -102,7 +101,6 @@
                 href="#"
                 title="Рассчитать"
                 v-bind="TOP_MINING_BUTTON_PROPS"
-                :width="TOP_MINING_BUTTON_WIDTH.card"
               />
             </div>
 
@@ -150,8 +148,8 @@
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 class="top-mining-button--right"
                 href="/rating/"
+                :title="TOP_MINING_BUTTON_LABELS.viewRatings"
                 :append-icon="buttonArrow"
-                :width="TOP_MINING_BUTTON_WIDTH.card"
               />
             </div>
           </article>
@@ -204,9 +202,8 @@
               <top-mining-button
                 class="top-mining-button--right"
                 href="#"
-                title="В Telegram"
+                :title="TOP_MINING_BUTTON_LABELS.inTelegram"
                 v-bind="TOP_MINING_BUTTON_PROPS"
-                :width="TOP_MINING_BUTTON_WIDTH.card"
                 :prepend-icon="telegramIcon"
                 :append-icon="buttonArrow"
               />
@@ -220,8 +217,8 @@
 
 <script setup lang="ts">
   import {
+    TOP_MINING_BUTTON_LABELS,
     TOP_MINING_BUTTON_PROPS,
-    TOP_MINING_BUTTON_WIDTH,
     TOP_MINING_COMPANIES,
   } from '~/common/modules/top-mining'
   import blurLeft from '~/assets/images/top-mining/blur-left.png'
@@ -610,17 +607,56 @@
     object-fit: contain;
   }
 
-  .top-mining-button {
+  .top-mining__cards :deep(.top-mining-button.q-btn.top-mining-button--big) {
+    min-width: 0 !important;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .top-mining__cards :deep(.top-mining-button.q-btn) {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 280px;
-    height: 48px;
-    padding: 0 28px;
-    font-size: 13px;
-    line-height: 1;
-    text-align: center;
-    color: var(--tm-white) !important;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 46px;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    background: linear-gradient(94.62deg, #ec5100 2.06%, #ff741f 93.25%) !important;
+    border: 0;
+    border-radius: 100px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .top-mining__cards :deep(.top-mining-button.q-btn .q-btn__content) {
+    padding: 0;
+  }
+
+  .top-mining__cards :deep(.top-mining-button__inner) {
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .top-mining__cards :deep(.top-mining-button__label) {
+    font-size: 16px;
+    line-height: 22px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .top-mining__cards :deep(.top-mining-button__icon--prepend) {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .top-mining__cards :deep(.top-mining-button__icon--append) {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
   }
 
   .top-mining-button svg {
@@ -640,41 +676,28 @@
     height: 24px;
   }
 
-  .top-mining-button--right {
+  .top-mining__cards :deep(.top-mining-button.q-btn.top-mining-button--right) {
     position: absolute;
     right: 28px;
     bottom: 24px;
-    min-width: 150px;
-    height: 42px;
-    padding: 0 18px;
-    font-size: 11px;
+    left: auto;
+    max-width: calc(100% - 56px);
   }
 
-  .top-mining__card--calculator .top-mining-button--right {
-    right: 28px;
-    bottom: 24px;
-    min-width: 170px;
-    height: 48px;
-    font-size: 13px;
+  .top-mining__card--rating :deep(.top-mining-button.q-btn.top-mining-button--right) {
+    right: 24px;
+    bottom: 30px;
+    max-width: calc(100% - 48px);
+  }
+
+  .top-mining__card--telegram :deep(.top-mining-button.q-btn.top-mining-button--right) {
+    right: 24px;
+    bottom: 36px;
+    max-width: calc(100% - 48px);
   }
 
   .top-mining__card--rating p {
     max-width: calc(100% - 250px);
-  }
-
-  .top-mining__card--rating .top-mining-button--right,
-  .top-mining__card--telegram .top-mining-button--right {
-    right: 24px;
-    bottom: 30px;
-    width: 148px !important;
-    min-width: 148px;
-    height: 40px;
-    padding: 0 14px;
-    font-size: 10px;
-  }
-
-  .top-mining__card--telegram .top-mining-button--right {
-    bottom: 36px;
   }
 
   .top-mining__card-stats {
@@ -1165,7 +1188,7 @@
       bottom: 28px;
     }
 
-    .top-mining__card--calculator .top-mining-button--right {
+    .top-mining__card--calculator :deep(.top-mining-button.q-btn.top-mining-button--right) {
       bottom: 26px;
     }
 
@@ -1429,6 +1452,7 @@
 
     .top-mining__card {
       border-radius: 24px;
+      overflow-x: clip;
     }
 
     .top-mining__card--catalog {
@@ -1524,23 +1548,36 @@
       width: 16px;
     }
 
-    .top-mining-button {
+    .top-mining__cards :deep(.top-mining-button.q-btn.top-mining-button--big) {
       width: 100% !important;
-      min-width: 0;
-      height: 46px;
-      font-size: 16px;
+      min-width: 0 !important;
     }
 
-    .top-mining-button--right,
-    .top-mining__card--calculator .top-mining-button--right {
+    .top-mining__cards :deep(.top-mining-button.q-btn) {
+      width: 100% !important;
+      min-width: 0;
+      height: auto;
+      min-height: 46px;
+      padding: 12px 24px;
+      font-size: 16px;
+      line-height: 22px;
+      justify-content: center;
+    }
+
+    .top-mining__cards :deep(.top-mining-button.q-btn .top-mining-button__inner) {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .top-mining__cards :deep(.top-mining-button.q-btn.top-mining-button--right) {
       position: absolute;
       left: 18px;
       right: 18px;
       bottom: 20px;
       width: auto !important;
-      min-width: 0;
-      height: 46px;
-      font-size: 16px;
+      min-width: 0 !important;
+      max-width: none;
+      margin: 0;
     }
 
     .top-mining__card-stats {
@@ -1619,7 +1656,7 @@
       opacity: 0.9;
     }
 
-    .top-mining__card--rating .top-mining-button--right {
+    .top-mining__card--rating :deep(.top-mining-button.q-btn.top-mining-button--right) {
       bottom: 20px;
     }
 

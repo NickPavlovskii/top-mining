@@ -24,9 +24,9 @@
           <article class="crypto-section__chart">
             <div v-if="bitcoinUsd" class="crypto-section__chart-meta">
               <img
-                :src="bitcoinIcon"
                 alt="Bitcoin"
                 class="crypto-section__chart-icon"
+                :src="bitcoinIcon"
               />
               <strong class="crypto-section__chart-price">
                 {{ formatUsd(bitcoinUsd.price) }}
@@ -38,46 +38,21 @@
                 ]"
               >
                 <Icon
-                  :name="
-                    bitcoinUsd.change7d >= 0
-                      ? 'mdi:triangle'
-                      : 'mdi:triangle-down'
-                  "
+                  :name="bitcoinChangeIcon"
                   class="crypto-section__chart-arrow"
                 />
                 {{ formatChangeAbs(bitcoinUsd.change7d) }} (7д.)
               </span>
             </div>
 
-            <svg
-              class="crypto-section__chart-svg"
-              viewBox="0 0 500 180"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <g class="crypto-section__chart-grid">
-                <line
-                  v-for="x in gridLines"
-                  :key="x"
-                  :x1="x"
-                  y1="0"
-                  :x2="x"
-                  y2="180"
-                />
-              </g>
-
-              <polyline
-                :points="chartPoints"
-                fill="none"
-                stroke="#4ade80"
-                stroke-width="2.5"
-                vector-effect="non-scaling-stroke"
-              />
-            </svg>
+            <sparkline-chart :values="chartValues" />
           </article>
         </div>
 
-        <crypto-coin-list title="Лидер роста" :coins="growthCoins" />
+        <crypto-coin-list
+          title="Лидер роста"
+          :coins="growthCoins" 
+        />
 
         <crypto-coin-list
           title="Монета с максимальным объемом"
@@ -90,15 +65,14 @@
 
 <script setup lang="ts">
   import {
-    CRYPTO_CHART_GRID_LINES,
     FALLBACK_BITCOIN_USD,
     GROWTH_COIN_IDS,
     POPULAR_COIN_IDS,
     VOLUME_COIN_IDS,
   } from '~/common/modules/crypto'
-  import type { CryptoCoin, CryptoResponse } from '~/types/crypto-coin'
-  import { bitcoinIcon } from '~/utils/cryptoIcons'
-  import { getChangeToneClass } from '~/utils/cryptoPeriod'
+  import type { CryptoCoin, CryptoResponse } from '~/common/modules/crypto'
+  import { bitcoinIcon, getChangeToneClass } from '~/common/modules/crypto'
+  import SparklineChart from '~/components/charts/SparklineChart.vue'
 
   const { data } = await useFetch<CryptoResponse>('/api/crypto', {
     default: () => ({
@@ -113,6 +87,10 @@
   const coins = computed(() => data.value?.coins ?? [])
   const bitcoinUsd = computed(
     () => data.value?.bitcoinUsd ?? FALLBACK_BITCOIN_USD,
+  )
+
+  const bitcoinChangeIcon = computed(() =>
+    bitcoinUsd.value.change7d >= 0 ? 'mdi:triangle' : 'mdi:triangle-down',
   )
 
   const popularCoins = computed(() =>
@@ -142,31 +120,6 @@
     const values = bitcoinUsd.value.sparkline
 
     return values.length > 1 ? values : FALLBACK_BITCOIN_USD.sparkline
-  })
-
-  const gridLines = CRYPTO_CHART_GRID_LINES
-
-  const chartPoints = computed(() => {
-    const values = chartValues.value
-    const min = Math.min(...values)
-    const max = Math.max(...values)
-    const range = max - min || 1
-    const width = 500
-    const height = 180
-    const paddingTop = 28
-    const paddingBottom = 8
-
-    return values
-      .map((value, index) => {
-        const x = (index / (values.length - 1)) * width
-        const y =
-          height -
-          paddingBottom -
-          ((value - min) / range) * (height - paddingTop - paddingBottom)
-
-        return `${x.toFixed(1)},${y.toFixed(1)}`
-      })
-      .join(' ')
   })
 
   function formatUsd(value: number) {
@@ -299,20 +252,6 @@
   .crypto-section__chart-arrow {
     width: 14px;
     height: 14px;
-  }
-
-  .crypto-section__chart-svg {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: calc(100% - 44px);
-  }
-
-  .crypto-section__chart-grid line {
-    stroke: rgba(255, 255, 255, 0.06);
-    stroke-width: 1;
   }
 
   .is-positive {

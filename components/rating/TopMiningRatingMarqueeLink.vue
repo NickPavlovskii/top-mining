@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink
+  <nuxt-link
     class="rating-marquee-link"
     :to="href"
     :aria-label="`${label} (${number})`"
@@ -40,7 +40,7 @@
         </span>
       </span>
     </span>
-  </NuxtLink>
+  </nuxt-link>
 </template>
 
 <script setup lang="ts">
@@ -50,9 +50,7 @@
     href: string
   }>()
 
-  const marqueeStyle = computed(() => ({
-    animationDuration: `${Math.max(10, props.label.length * 0.22)}s`,
-  }))
+  const marqueeStyle = useMarqueeTrackStyle(() => props.label)
 </script>
 
 <style scoped>

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
   import { CATALOG_MANUFACTURERS_PAGE_META } from '~/common/modules/catalog/manufacturers-page'
-  import CatalogManufacturersView from '~/components/catalog/CatalogManufacturersView.vue'
+  import CatalogManufacturersView from '~/components/catalog/manufacturers/CatalogManufacturersView.vue'
 
   useSeoMeta({
     title: `${CATALOG_MANUFACTURERS_PAGE_META.title} — ТОП МАЙНИНГ`,

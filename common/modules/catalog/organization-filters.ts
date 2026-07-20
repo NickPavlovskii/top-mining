@@ -1,4 +1,4 @@
-import type { CatalogFilterOption } from '~/types/catalog-manufacturers'
+import type { CatalogFilterOption } from './types'
 import {
   CATALOG_CATEGORY_DEFINITIONS,
   getCatalogCategoryTabLabel,

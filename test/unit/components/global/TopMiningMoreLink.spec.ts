@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningMoreLink from '~/components/global/TopMiningMoreLink.vue'
+import TopMiningMoreLink from '~/components/global/buttons/TopMiningMoreLink.vue'
 
 describe('TopMiningMoreLink', () => {
   it('renders label and catalog size by default', () => {

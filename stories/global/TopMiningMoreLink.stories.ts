@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import TopMiningMoreLink from '~/components/global/TopMiningMoreLink.vue'
+import TopMiningMoreLink from '~/components/global/buttons/TopMiningMoreLink.vue'
 import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
 
 import { CANVAS_WIDTH, canvasDarkMaxWidth } from '../helpers/decorators'
@@ -19,7 +19,7 @@ const meta = {
 
 - **size \`md\`** — блок каталога («Ещё категории»)
 - **size \`lg\`** — лента статей («Смотреть ещё»)
-- Использует \`NuxtLink\` через prop \`to\`
+- Использует \`nuxt-link\` через prop \`to\`
 - При наведении фон становится оранжевым, стрелка сдвигается на 3px вправо
         `.trim(),
       },

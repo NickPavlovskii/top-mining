@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningButton from '~/components/global/TopMiningButton.vue'
+import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
 describe('TopMiningButton', () => {
   it('renders as button with title', () => {

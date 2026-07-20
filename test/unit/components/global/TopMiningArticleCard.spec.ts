@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningArticleCard from '~/components/global/TopMiningArticleCard.vue'
+import TopMiningArticleCard from '~/components/global/articles/TopMiningArticleCard.vue'
 import { sampleArticlePreview } from '~/test/fixtures/article-preview'
 
 describe('TopMiningArticleCard', () => {

@@ -1,4 +1,4 @@
-import type { CatalogCategory } from '~/types/catalog'
+import type { CatalogCategory } from './types'
 
 import { MANUFACTURERS_CATEGORY_ID } from './nav-links'
 

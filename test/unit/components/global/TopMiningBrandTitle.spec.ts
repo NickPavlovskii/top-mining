@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningBrandTitle from '~/components/global/TopMiningBrandTitle.vue'
+import TopMiningBrandTitle from '~/components/global/pageTitle/TopMiningBrandTitle.vue'
 
 describe('TopMiningBrandTitle', () => {
   it('renders hero title with default h1 tag', () => {

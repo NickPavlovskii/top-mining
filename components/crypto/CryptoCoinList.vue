@@ -36,8 +36,8 @@
           >
             <li
               v-for="period in periods"
-              :key="period.value"
               role="option"
+              :key="period.value"
               :aria-selected="selectedPeriod === period.value"
             >
               <button
@@ -91,15 +91,15 @@
     DEFAULT_CRYPTO_PRICE_PERIOD,
     type CryptoPricePeriodValue,
   } from '~/common/modules/crypto'
-  import type { CryptoCoin } from '~/types/crypto-coin'
-  import { getCryptoIcon } from '~/utils/cryptoIcons'
+  import type { CryptoCoin } from '~/common/modules/crypto'
   import {
     formatChangePercent,
     formatPriceRub,
     getChangeToneClass,
     getCoinChangeByPeriod,
+    getCryptoIcon,
     getPeriodLabel,
-  } from '~/utils/cryptoPeriod'
+  } from '~/common/modules/crypto'
 
   withDefaults(
     defineProps<{

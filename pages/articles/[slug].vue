@@ -2,9 +2,9 @@
   <article class="article-page">
     <div class="article-page__inner">
       <nav class="article-page__breadcrumbs" aria-label="Хлебные крошки">
-        <NuxtLink to="/">Главная</NuxtLink>
+        <nuxt-link to="/">Главная</nuxt-link>
         <span aria-hidden="true">/</span>
-        <NuxtLink to="/articles">Статьи</NuxtLink>
+        <nuxt-link to="/articles">Статьи</nuxt-link>
         <span aria-hidden="true">/</span>
         <span>{{ article?.title }}</span>
       </nav>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
   import { formatArticleDate, formatReadingTime } from '~/common/modules/articles'
-  import type { ArticleResponse } from '~/types/articles'
+  import type { ArticleResponse } from '~/common/modules/articles'
   import clockIcon from '~/assets/images/articles/clock.png'
 
   const route = useRoute()

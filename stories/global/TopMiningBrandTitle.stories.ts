@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import TopMiningBrandTitle from '~/components/global/TopMiningBrandTitle.vue'
+import TopMiningBrandTitle from '~/components/global/pageTitle/TopMiningBrandTitle.vue'
 
 import {
   CANVAS_WIDTH,

@@ -1,17 +1,4 @@
-/**
- * GraphQL-запросы к Go-бэкенду (POST http://localhost:8080/graphql).
- *
- * Зачем отдельный файл:
- * - строки запросов не размазаны по server/api/*.get.ts;
- * - один список полей для карточки статьи (ARTICLE_PREVIEW_FIELDS);
- * - при смене схемы на Go правим запросы в одном месте.
- *
- * Цепочка данных:
- *   Vue (useFetch) → Nuxt BFF (/api/*) → fetchGraphQL() → Go GraphQL → PostgreSQL
- *   при ошибке BFF отдаёт fallback из common/modules/*
- */
 
-/** Поля превью статьи — карточка в ленте (hero / featured / list). */
 export const ARTICLE_PREVIEW_FIELDS = `
   id
   slug
@@ -40,8 +27,6 @@ export const ARTICLES_FEED_QUERY = `
     }
   }
 `
-
-/** Полная статья для страницы /articles/[slug]. */
 export const ARTICLE_QUERY = `
   query Article($slug: String!) {
     article(slug: $slug) {
@@ -50,8 +35,6 @@ export const ARTICLE_QUERY = `
     }
   }
 `
-
-/** Каталог организаций на главной и в разделе каталога. */
 export const CATALOG_QUERY = `
   query Catalog {
     catalog {
@@ -68,6 +51,7 @@ export const CATALOG_QUERY = `
           name
           slug
           logoUrl
+          logoTheme
           rating
           reviewCount
           href
@@ -76,10 +60,12 @@ export const CATALOG_QUERY = `
           verification {
             contracts
             legalEntity
+            dataCenter
             miningRegistry
           }
           cardTags
           cardFeatures
+          cardPromo
           officeCity
           siteCity
         }
@@ -87,8 +73,6 @@ export const CATALOG_QUERY = `
     }
   }
 `
-
-/** Профиль организации для /sale_asic/[slug] и аналогичных страниц. */
 export const ORGANIZATION_QUERY = `
   query Organization($slug: String!) {
     organization(slug: $slug) {
@@ -110,9 +94,12 @@ export const ORGANIZATION_QUERY = `
       phone
       email
       workHours
+      domainRegisteredAt
       verification {
         contracts
         legalEntity
+        dataCenter
+        miningRegistry
       }
       addresses {
         city
@@ -138,6 +125,37 @@ export const ORGANIZATION_QUERY = `
         minDevicesLabel
         energyType
       }
+      miningPool {
+        mobileApp
+        referralProgram
+        totalHashrate
+        rewardDistribution
+        poolCommission
+        minPayout
+        payoutFrequency
+        minedCoins
+      }
+      cryptoExchange {
+        tradingPairsLabel
+        coinsCountLabel
+        verificationType
+        liquidityCoefficient
+        spotMarkets
+        supportedCurrencies
+        makerFee
+        takerFee
+        derivativeMarkets
+        extras
+      }
+      cryptoWallet {
+        supportedCoins
+        platform
+        commission
+        commissionCalculation
+        extras
+      }
+      referralProgramUrl
+      referralPromoText
       paymentTerms {
         paymentMethods
         paymentFormats
@@ -178,8 +196,6 @@ const RATING_CARD_FIELDS = `
     href
   }
 `
-
-/** Полный список рейтингов для страницы /rating. */
 export const RATINGS_QUERY = `
   query Ratings {
     ratings {
@@ -188,7 +204,6 @@ export const RATINGS_QUERY = `
   }
 `
 
-/** Сокращённый набор карточек для главной. */
 export const RATINGS_HOME_QUERY = `
   query RatingsHome {
     ratingsHome {

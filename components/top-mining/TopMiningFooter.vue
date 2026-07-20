@@ -34,7 +34,7 @@
           />
           <span>
             Даю согласие на
-            <NuxtLink to="/privacy">обработку персональных данных</NuxtLink>
+            <nuxt-link to="/privacy">обработку персональных данных</nuxt-link>
           </span>
         </label>
 
@@ -78,9 +78,9 @@
             />
           </form>
 
-          <NuxtLink to="/privacy" class="site-footer__privacy">
+          <nuxt-link to="/privacy" class="site-footer__privacy">
             Политика конфиденциальности
-          </NuxtLink>
+          </nuxt-link>
         </section>
 
         <nav class="site-footer__nav" aria-label="Навигация футера">
@@ -131,7 +131,9 @@
 </template>
 
 <script setup lang="ts">
-  import { NuxtLink } from '#components'
+  /**
+   * Подвал сайта с навигацией, контактами и формой согласия.
+   */
   import type { TopMiningFooterNavLink } from '~/common/modules/top-mining/footer-nav'
   import {
     TOP_MINING_FOOTER_CALCULATOR_LINKS,
@@ -149,7 +151,7 @@
   }
 
   function getFooterLinkComponent(link: TopMiningFooterNavLink) {
-    return isExternalFooterLink(link) || link.href.startsWith('#') ? 'a' : NuxtLink
+    return isExternalFooterLink(link) || link.href.startsWith('#') ? 'a' : 'nuxt-link'
   }
 
   function getFooterLinkProps(link: TopMiningFooterNavLink) {

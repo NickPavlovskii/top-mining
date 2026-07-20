@@ -1,3 +1,7 @@
 export * from './fallback'
+export * from './coingecko-types'
+export * from './types'
 export * from './lists'
 export * from './periods'
+export * from './crypto-period'
+export * from './crypto-icons'

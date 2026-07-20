@@ -1,5 +1,6 @@
 import { RATINGS_FALLBACK_CARDS } from '~/common/modules/ratings/fallback'
-import type { RatingsResponse, TopMiningRatingCard } from '~/types/ratings'
+import { mergeRatingsWithFallback } from '~/common/modules/ratings/merge-ratings-fallback'
+import type { RatingsResponse, TopMiningRatingCard } from '~/common/modules/ratings'
 import { RATINGS_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 
@@ -12,7 +13,7 @@ export default defineEventHandler(async () => {
     return {
       source: 'graphql',
       updatedAt: new Date().toISOString(),
-      cards: data.ratings,
+      cards: mergeRatingsWithFallback(data.ratings, RATINGS_FALLBACK_CARDS),
     } satisfies RatingsResponse
   } catch {
     return {

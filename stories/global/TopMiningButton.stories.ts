@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import catalogArrowIcon from '~/assets/images/catalog/arrow-right.png'
-import TopMiningButton from '~/components/global/TopMiningButton.vue'
+import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
 import {
   canvasDarkMaxWidth,
@@ -25,7 +25,7 @@ const meta = {
     docs: {
       description: {
         component: `
-Универсальная кнопка Top Mining.
+Универсальная кнопка Top Mining на базе Quasar \`q-btn\`.
 
 - **variant** — \`primary\` (заливка), \`secondary\` (обводка), \`tertiary\` (текстовая)
 - **surface** — \`light\` / \`dark\` — контраст на светлом или тёмном фоне

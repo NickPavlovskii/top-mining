@@ -11,5 +11,3 @@ export const GROWTH_COIN_IDS = [
 ] as const
 
 export const VOLUME_COIN_IDS = ['bitcoin', 'ethereum', 'solana'] as const
-
-export const CRYPTO_CHART_GRID_LINES = [0, 100, 200, 300, 400, 500] as const

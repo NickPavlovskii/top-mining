@@ -1,8 +1,8 @@
-import type { CatalogOrganization } from '~/types/catalog'
+import type { CatalogOrganization } from './types'
 import type {
   CatalogSidebarFilterGroup,
   CatalogSidebarFilterOption,
-} from '~/types/catalog-category-filters'
+} from './types'
 import { getOrganizationMarketAge } from './organization-filters'
 
 const MARKET_AGE_FILTER_MAP: Record<string, string> = {

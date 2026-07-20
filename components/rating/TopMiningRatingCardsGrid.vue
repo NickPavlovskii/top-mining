@@ -32,13 +32,13 @@
             v-for="item in columnItems"
             :key="item.number"
           >
-            <NuxtLink
+            <nuxt-link
               class="rating-cards-grid__link"
               :to="item.href"
             >
               <span class="rating-cards-grid__num">({{ item.number }})</span>
               <span class="rating-cards-grid__label">{{ item.label }}</span>
-            </NuxtLink>
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -51,13 +51,13 @@
           v-for="item in card.items"
           :key="item.number"
         >
-          <NuxtLink
+          <nuxt-link
             class="rating-cards-grid__link"
             :to="item.href"
           >
             <span class="rating-cards-grid__num">({{ item.number }})</span>
             <span class="rating-cards-grid__label">{{ item.label }}</span>
-          </NuxtLink>
+          </nuxt-link>
         </li>
       </ul>
     </article>
@@ -69,7 +69,7 @@
     DEFAULT_RATING_CARD_COLUMNS,
     type TopMiningRatingCard,
     type TopMiningRatingItem,
-  } from '~/types/ratings'
+  } from '~/common/modules/ratings'
 
   const props = withDefaults(
     defineProps<{
@@ -199,7 +199,7 @@
     .rating-cards-grid__link:hover .rating-cards-grid__num,
     .rating-cards-grid__link:focus-visible,
     .rating-cards-grid__link:focus-visible .rating-cards-grid__num {
-      color: #ff741f;
+      color: var(--tm-orange-accent-light);
     }
 
     .rating-cards-grid__link:hover .rating-cards-grid__label::after,

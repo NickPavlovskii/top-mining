@@ -5,11 +5,11 @@
         class="org-detail__breadcrumbs"
         aria-label="Хлебные крошки"
       >
-        <NuxtLink to="/">Главная</NuxtLink>
+        <nuxt-link to="/">Главная</nuxt-link>
         <span aria-hidden="true">/</span>
-        <NuxtLink :to="categoryHref">
+        <nuxt-link :to="categoryHref">
           {{ organization.categoryName }}
-        </NuxtLink>
+        </nuxt-link>
         <span aria-hidden="true">/</span>
         <span>{{ organization.name }}</span>
       </nav>
@@ -30,16 +30,12 @@
           </p>
         </div>
 
-        <div
+        <img
           v-if="heroLogoUrl"
-          :class="['org-detail__logo-card', heroLogoCardClass]"
-        >
-          <img
-            :src="heroLogoUrl"
-            :alt="organization.name"
-            class="org-detail__logo-image"
-          />
-        </div>
+          class="org-detail__logo"
+          :src="heroLogoUrl"
+          :alt="organization.name"
+        />
       </header>
 
       <section
@@ -102,7 +98,7 @@
               </div>
             </div>
             <div
-              v-if="organization.equipmentSales.extras.length"
+              v-if="equipmentSalesExtras.length"
               class="org-detail__extras"
             >
               <p class="org-detail__extras-title">
@@ -110,7 +106,363 @@
               </p>
               <ul class="org-detail__extras-list">
                 <li
-                  v-for="extra in organization.equipmentSales.extras"
+                  v-for="extra in equipmentSalesExtras"
+                  :key="extra"
+                >
+                  {{ extra }}
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section
+            v-else-if="organization.miningHotel"
+            class="org-detail__card org-detail__card--stretch"
+          >
+            <h2 class="org-detail__card-title">
+              Майнинг-отель {{ organization.name }}
+            </h2>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div class="org-detail__row">
+                <span class="org-detail__row-label">Цена за кВт/ч</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.pricePerKwhLabel }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningHotel.sitesCount"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Количество площадок</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.sitesCount }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningHotel.totalCapacityMw"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Мощности площадок</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.totalCapacityMw }} МВт
+                </span>
+              </div>
+              <div
+                v-if="organization.miningHotel.siteCities"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Города площадок</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.siteCities }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningHotel.minDevicesLabel"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">
+                  Количество устройств для размещения
+                </span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.minDevicesLabel }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningHotel.energyType"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Тип энергии</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningHotel.energyType }}
+                </span>
+              </div>
+            </div>
+            <div
+              v-if="miningHotelExtras.length"
+              class="org-detail__extras"
+            >
+              <p class="org-detail__extras-title">
+                Дополнительно для хостинга:
+              </p>
+              <ul class="org-detail__extras-list">
+                <li
+                  v-for="extra in miningHotelExtras"
+                  :key="extra"
+                >
+                  {{ extra }}
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section
+            v-else-if="organization.miningPool"
+            class="org-detail__card org-detail__card--stretch"
+          >
+            <h2 class="org-detail__card-title">
+              Майнинг-пул
+            </h2>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div
+                v-if="organization.miningPool.mobileApp"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Мобильное приложение</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.mobileApp }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.referralProgram"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Реферальная программа</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.referralProgram }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.totalHashrate"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Общий хешрейт</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.totalHashrate }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.rewardDistribution"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Способ распределения награды</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.rewardDistribution }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.poolCommission"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Комиссия пула</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.poolCommission }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.minPayout"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Минимальный лимит выплат</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.minPayout }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.payoutFrequency"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Периодичность начисления награды</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.payoutFrequency }}
+                </span>
+              </div>
+              <div
+                v-if="organization.miningPool.minedCoins"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Добываемые монеты</span>
+                <span class="org-detail__row-value">
+                  {{ organization.miningPool.minedCoins }}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section
+            v-else-if="organization.cryptoExchange"
+            class="org-detail__card org-detail__card--stretch"
+          >
+            <h2 class="org-detail__card-title">
+              Криптобиржа
+            </h2>
+
+            <h3 class="org-detail__card-subtitle">
+              Общие характеристики
+            </h3>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div
+                v-if="organization.cryptoExchange.tradingPairsLabel"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Число торговых пар</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.tradingPairsLabel }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.coinsCountLabel"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Количество монет</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.coinsCountLabel }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.verificationType"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Верификация</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.verificationType }}
+                </span>
+              </div>
+            </div>
+
+            <div
+              v-if="cryptoExchangeExtras.length"
+              class="org-detail__extras"
+            >
+              <p class="org-detail__extras-title">
+                Общие дополнительные функции
+              </p>
+              <ul class="org-detail__extras-list org-detail__extras-list--checks">
+                <li
+                  v-for="extra in cryptoExchangeExtras"
+                  :key="extra"
+                >
+                  {{ extra }}
+                </li>
+              </ul>
+            </div>
+
+            <h3 class="org-detail__card-subtitle">
+              Характеристики Spot биржи
+            </h3>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div
+                v-if="organization.cryptoExchange.liquidityCoefficient"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Коэф. ликвидности</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.liquidityCoefficient }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.spotMarkets"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">SPOT Рынки</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.spotMarkets }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.supportedCurrencies"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Поддержка валют</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.supportedCurrencies }}
+                </span>
+              </div>
+            </div>
+
+            <h3 class="org-detail__card-subtitle">
+              Характеристики биржи деривативов
+            </h3>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div
+                v-if="organization.cryptoExchange.makerFee"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Комиссии мейкера</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.makerFee }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.takerFee"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Комиссии тейкера</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.takerFee }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoExchange.derivativeMarkets"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Рынки деривативов</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoExchange.derivativeMarkets }}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section
+            v-else-if="organization.cryptoWallet"
+            class="org-detail__card org-detail__card--stretch"
+          >
+            <h2 class="org-detail__card-title">
+              Криптокошелек
+            </h2>
+
+            <h3 class="org-detail__card-subtitle">
+              Возможности кошелька:
+            </h3>
+            <div class="org-detail__rows org-detail__rows--wide">
+              <div
+                v-if="organization.cryptoWallet.supportedCoins"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Поддержка монет</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoWallet.supportedCoins }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoWallet.platform"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Платформа</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoWallet.platform }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoWallet.commission"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Комиссия</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoWallet.commission }}
+                </span>
+              </div>
+              <div
+                v-if="organization.cryptoWallet.commissionCalculation"
+                class="org-detail__row"
+              >
+                <span class="org-detail__row-label">Расчет комиссии</span>
+                <span class="org-detail__row-value">
+                  {{ organization.cryptoWallet.commissionCalculation }}
+                </span>
+              </div>
+            </div>
+
+            <div
+              v-if="cryptoWalletExtras.length"
+              class="org-detail__extras"
+            >
+              <p class="org-detail__extras-title">
+                Дополнительно:
+              </p>
+              <ul class="org-detail__extras-list org-detail__extras-list--checks">
+                <li
+                  v-for="extra in cryptoWalletExtras"
                   :key="extra"
                 >
                   {{ extra }}
@@ -120,135 +472,15 @@
           </section>
         </div>
 
-        <aside class="org-detail__sidebar">
-          <section class="org-detail__top-control">
-            <span
-              class="org-detail__top-ribbon"
-              aria-hidden="true"
-            />
-
-            <div class="org-detail__top-control-content">
-              <div class="org-detail__top-control-head">
-                <h2 class="org-detail__top-control-title">
-                  ТОП МАЙНИНГ
-                </h2>
-                <Icon
-                  name="mdi:check-decagram"
-                  class="org-detail__top-control-badge"
-                  aria-hidden="true"
-                />
-              </div>
-              <p class="org-detail__top-control-subtitle">
-                Проверка ТОП МАЙНИНГ:
-              </p>
-              <div class="org-detail__top-control-rows">
-                <div class="org-detail__top-control-row">
-                  <span class="org-detail__top-control-label">Договора</span>
-                  <verification-status-badge
-                    :verified="organization.verification.contracts"
-                  />
-                </div>
-                <div class="org-detail__top-control-row">
-                  <span class="org-detail__top-control-label">Юридическое лицо</span>
-                  <verification-status-badge
-                    :verified="organization.verification.legalEntity"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="org-detail__card org-detail__contacts-card org-detail__card--stretch">
-            <span class="org-detail__rating-badge">
-              {{ ratingLabel }}
-            </span>
-
-            <ul class="org-detail__contacts">
-              <li
-                v-if="organization.foundedYear"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:calendar-month-outline"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <span>Год основания: {{ organization.foundedYear }}</span>
-              </li>
-              <li
-                v-if="organization.website"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:web"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <a
-                  :href="organization.website"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {{ organization.website }}
-                </a>
-              </li>
-              <li
-                v-if="organization.phone"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:phone-outline"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <a :href="phoneHref">
-                  {{ organization.phone }}
-                </a>
-              </li>
-              <li
-                v-if="organization.email"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:email-outline"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <a :href="`mailto:${organization.email}`">
-                  {{ organization.email }}
-                </a>
-              </li>
-              <li
-                v-if="organization.workHours"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:clock-outline"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <span>{{ organization.workHours }}</span>
-              </li>
-              <li
-                v-for="(address, index) in organization.addresses"
-                :key="`${address.city}-${index}`"
-                class="org-detail__contact"
-              >
-                <Icon
-                  name="mdi:map-marker-outline"
-                  class="org-detail__contact-icon"
-                  aria-hidden="true"
-                />
-                <span>{{ address.addressLine }}</span>
-              </li>
-            </ul>
-          </section>
-        </aside>
+        <catalog-organization-detail-sidebar
+          :organization="organization"
+          :rating-label="ratingLabel"
+        />
       </div>
 
       <div class="org-detail__full-width">
         <section
-          v-if="organization.miningHotel"
+          v-if="organization.miningHotel && organization.equipmentSales"
           class="org-detail__card org-detail__card--full"
         >
           <h2 class="org-detail__card-title">
@@ -320,46 +552,46 @@
           </h2>
           <div class="org-detail__rows org-detail__rows--wide">
             <div
-              v-if="organization.paymentTerms.paymentMethods.length"
+              v-if="paymentMethodsLabel"
               class="org-detail__row"
             >
               <span class="org-detail__row-label">Оплата</span>
               <span class="org-detail__row-value">
-                {{ organization.paymentTerms.paymentMethods.join(', ') }}
+                {{ paymentMethodsLabel }}
               </span>
             </div>
             <div
-              v-if="organization.paymentTerms.paymentFormats.length"
+              v-if="paymentFormatsLabel"
               class="org-detail__row"
             >
               <span class="org-detail__row-label">Формат оплаты</span>
               <span class="org-detail__row-value">
-                {{ organization.paymentTerms.paymentFormats.join(', ') }}
+                {{ paymentFormatsLabel }}
               </span>
             </div>
             <div
-              v-if="organization.paymentTerms.extraTerms.length"
+              v-if="paymentExtraTermsLabel"
               class="org-detail__row"
             >
               <span class="org-detail__row-label">Доп. условия оплаты</span>
               <span class="org-detail__row-value">
-                {{ organization.paymentTerms.extraTerms.join(', ') }}
+                {{ paymentExtraTermsLabel }}
               </span>
             </div>
             <div
-              v-if="organization.paymentTerms.contractForms.length"
+              v-if="paymentContractFormsLabel"
               class="org-detail__row"
             >
               <span class="org-detail__row-label">Форма договора</span>
               <span class="org-detail__row-value">
-                {{ organization.paymentTerms.contractForms.join(', ') }}
+                {{ paymentContractFormsLabel }}
               </span>
             </div>
           </div>
         </section>
 
         <section
-          v-if="organization.showArticleBlock && organization.legalProfile"
+          v-if="organization.showArticleBlock"
           class="org-detail__card org-detail__card--full org-detail__more-card"
         >
           <div class="org-detail__more">
@@ -368,7 +600,7 @@
                 Подробнее
               </h2>
               <component
-                :is="organization.articleHref ? 'NuxtLink' : 'span'"
+                :is="organization.articleHref ? 'nuxt-link' : 'span'"
                 :to="organization.articleHref || undefined"
                 class="org-detail__more-link"
               >
@@ -432,8 +664,8 @@
       </div>
 
       <catalog-organization-gallery
-        v-if="organization.showGallery && organization.gallery.length"
-        :images="organization.gallery"
+        v-if="organization.showGallery && galleryImages.length"
+        :images="galleryImages"
       />
 
       <catalog-organization-reviews
@@ -451,9 +683,9 @@
 <script setup lang="ts">
   import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
   import CatalogOrganizationGallery from '~/components/catalog/organization-detail/CatalogOrganizationGallery.vue'
+  import CatalogOrganizationDetailSidebar from '~/components/catalog/organization-detail/CatalogOrganizationDetailSidebar.vue'
   import CatalogOrganizationReviews from '~/components/catalog/organization-detail/CatalogOrganizationReviews.vue'
-  import VerificationStatusBadge from '~/components/catalog/VerificationStatusBadge.vue'
-  import type { CatalogOrganizationDetail } from '~/types/catalog-organization-detail'
+  import type { CatalogOrganizationDetail } from '~/common/modules/catalog'
   import type { OrganizationReviewStats } from '~/types/organization-reviews'
 
   const props = defineProps<{
@@ -492,23 +724,6 @@
     () => props.organization.detailLogoUrl || props.organization.logoUrl,
   )
 
-  const heroLogoCardClass = computed(() => {
-    if (!props.organization.detailLogoUrl) {
-      return 'org-detail__logo-card--brand'
-    }
-
-    if (props.organization.slug === 'ttm-mining') {
-      return 'org-detail__logo-card--banner'
-    }
-
-    return 'org-detail__logo-card--compact'
-  })
-
-  const phoneHref = computed(() => {
-    const digits = props.organization.phone.replace(/\D/g, '')
-    return digits ? `tel:+${digits}` : ''
-  })
-
   const heroTitleParts = computed(() => {
     const source = props.organization.pageTitle || props.organization.name
     const colonIndex = source.indexOf(':')
@@ -538,6 +753,45 @@
     return `Рейтинг: ${value}`
   })
 
+  function asStringList(values: string[] | null | undefined): string[] {
+    return Array.isArray(values) ? values.filter(Boolean) : []
+  }
+
+  function joinList(values: string[] | null | undefined): string {
+    const list = asStringList(values)
+    return list.length ? list.join(', ') : ''
+  }
+
+  const equipmentSalesExtras = computed(() =>
+    asStringList(props.organization.equipmentSales?.extras),
+  )
+  const miningHotelExtras = computed(() =>
+    asStringList(props.organization.miningHotel?.extras),
+  )
+  const cryptoExchangeExtras = computed(() =>
+    asStringList(props.organization.cryptoExchange?.extras),
+  )
+  const cryptoWalletExtras = computed(() =>
+    asStringList(props.organization.cryptoWallet?.extras),
+  )
+
+  const paymentMethodsLabel = computed(() =>
+    joinList(props.organization.paymentTerms?.paymentMethods),
+  )
+  const paymentFormatsLabel = computed(() =>
+    joinList(props.organization.paymentTerms?.paymentFormats),
+  )
+  const paymentExtraTermsLabel = computed(() =>
+    joinList(props.organization.paymentTerms?.extraTerms),
+  )
+  const paymentContractFormsLabel = computed(() =>
+    joinList(props.organization.paymentTerms?.contractForms),
+  )
+
+  const galleryImages = computed(() =>
+    Array.isArray(props.organization.gallery) ? props.organization.gallery : [],
+  )
+
   const legalProfileRows = computed(() => {
     const profile = props.organization.legalProfile
 
@@ -552,11 +806,14 @@
     }> = [
       {
         label: 'Основной вид деятельности',
-        value: profile.primaryActivity,
+        value: formatLegalProfileValue(profile.primaryActivity),
       },
       {
         label: 'ОГРН / ИНН',
-        value: `${profile.ogrn}/${profile.inn}`,
+        value:
+          profile.ogrn?.trim() && profile.inn?.trim()
+            ? `${profile.ogrn}/${profile.inn}`
+            : 'Не определено',
       },
     ]
 
@@ -570,45 +827,55 @@
     rows.push(
       {
         label: 'Юридический адрес',
-        value: profile.legalAddress,
+        value: formatLegalProfileValue(profile.legalAddress),
       },
       {
         label: 'Уставный капитал',
-        value: profile.authorizedCapital,
+        value: formatLegalProfileValue(profile.authorizedCapital),
       },
       {
         label: 'Надежность',
-        value: profile.reliability,
-        isReliabilityBadge: true,
+        value: formatLegalProfileValue(profile.reliability),
+        isReliabilityBadge: Boolean(profile.reliability?.trim()),
       },
       {
         label: 'Судебные дела в роли ответчика',
-        value: profile.defendantCases,
+        value: formatLegalProfileValue(profile.defendantCases),
       },
       {
         label: 'Выручка',
-        value: profile.revenue,
+        value: formatLegalProfileValue(profile.revenue),
       },
       {
         label: 'Прибыль',
-        value: profile.profit,
+        value: formatLegalProfileValue(profile.profit),
       },
       {
         label: 'Налоговая задолженность',
-        value: profile.taxDebt,
+        value: formatLegalProfileValue(profile.taxDebt),
       },
       {
         label: 'Компания в санкционных списках',
-        value: profile.inSanctionsLists,
+        value: formatLegalProfileValue(profile.inSanctionsLists),
       },
       {
         label: 'Санкционные ограничения',
-        value: profile.sanctionsRestrictions,
+        value: formatLegalProfileValue(profile.sanctionsRestrictions),
       },
     )
 
     return rows
   })
+
+  function formatLegalProfileValue(value: string | null | undefined) {
+    const normalized = value?.trim()
+
+    if (!normalized) {
+      return 'Не определено'
+    }
+
+    return normalized
+  }
 
   function formatDate(isoDate: string) {
     const [year, month, day] = isoDate.split('-')
@@ -652,7 +919,7 @@
 
   @media (hover: hover) {
     .org-detail__breadcrumbs a:hover {
-      color: #ff741f;
+      color: var(--tm-orange-accent-light);
     }
   }
 
@@ -698,47 +965,17 @@
     line-height: 20px;
   }
 
-  .org-detail__logo-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 132px;
-    padding: 28px 36px;
-    border-radius: 32px;
-    background: #1a1a1a;
-    overflow: hidden;
-  }
-
-  .org-detail__logo-image {
+  .org-detail__logo {
     display: block;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 3 / 2;
+    border-radius: 24px;
     object-fit: contain;
-  }
-
-  .org-detail__logo-card--compact .org-detail__logo-image {
-    width: auto;
-    max-width: min(100%, 300px);
-    height: auto;
-    max-height: 68px;
-  }
-
-  .org-detail__logo-card--banner {
-    min-height: 140px;
-    padding: 20px 28px;
-    background: #000;
-  }
-
-  .org-detail__logo-card--banner .org-detail__logo-image {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: 120px;
-  }
-
-  .org-detail__logo-card--brand .org-detail__logo-image {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: 120px;
+    object-position: center;
+    background: #fff;
+    justify-self: end;
+    align-self: start;
   }
 
   .org-detail__card {
@@ -763,6 +1000,41 @@
 
   .org-detail__card-title--upper {
     text-transform: uppercase;
+  }
+
+  .org-detail__card-subtitle {
+    margin: 24px 0 12px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .org-detail__card-subtitle:first-of-type {
+    margin-top: 0;
+  }
+
+  .org-detail__extras-list--checks {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .org-detail__extras-list--checks li {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .org-detail__extras-list--checks li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: var(--tm-orange-accent, #ff6b00)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.5 11.2 3.3 8l1.2-1.2 2 2 5-5L12.7 5z'/%3E%3C/svg%3E")
+      center / 12px no-repeat;
   }
 
   .org-detail__about {
@@ -794,7 +1066,7 @@
     padding: 0;
     border: 0;
     background: none;
-    color: #ff741f;
+    color: var(--tm-orange-accent-light);
     font-family: inherit;
     font-size: 16px;
     line-height: 24px;
@@ -839,30 +1111,37 @@
   }
 
   .org-detail__rows--wide .org-detail__row {
-    grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+    grid-template-columns: minmax(160px, 280px) minmax(0, 1fr);
   }
 
   .org-detail__row {
     display: grid;
-    grid-template-columns: minmax(140px, 1fr) minmax(0, 1.4fr);
+    grid-template-columns: minmax(120px, 1fr) minmax(0, 1.4fr);
     gap: 12px;
     align-items: center;
     font-size: 16px;
     line-height: 24px;
+    min-width: 0;
   }
 
   .org-detail__row-label {
+    min-width: 0;
     color: #fff;
     font-weight: 400;
   }
 
   .org-detail__row-value {
+    min-width: 0;
+    max-width: 100%;
+    justify-self: stretch;
     padding: 12px 16px;
     border-radius: 16px;
     background: #0a0a0a;
     color: #fff;
     font-weight: 400;
     line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .org-detail__extras {
@@ -924,13 +1203,13 @@
   }
 
   .org-detail__more-link-icon {
-    color: #ff741f;
+    color: var(--tm-orange-accent-light);
     font-size: 18px;
   }
 
   @media (hover: hover) {
     .org-detail__more-link:hover {
-      color: #ff741f;
+      color: var(--tm-orange-accent-light);
     }
   }
 
@@ -1029,168 +1308,6 @@
     text-transform: uppercase;
   }
 
-  .org-detail__sidebar {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    gap: 20px;
-    min-height: 100%;
-    position: sticky;
-    top: 24px;
-    align-self: stretch;
-  }
-
-  .org-detail__top-control {
-    position: relative;
-    overflow: hidden;
-    padding: 24px;
-    border-radius: 32px;
-    background:
-      radial-gradient(
-        circle at 100% 0%,
-        rgba(255, 116, 31, 0.18),
-        transparent 45%
-      ),
-      linear-gradient(180deg, #1f2a2a 0%, #141414 100%);
-    isolation: isolate;
-  }
-
-  .org-detail__top-control-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .org-detail__top-control-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 8px;
-  }
-
-  .org-detail__top-control-title {
-    margin: 0;
-    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-
-  .org-detail__top-control-badge {
-    flex: 0 0 auto;
-    color: #ff741f;
-    font-size: 28px;
-  }
-
-  .org-detail__top-control-subtitle {
-    margin: 0 0 16px;
-    color: #bdbdbd;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .org-detail__top-control-rows {
-    display: grid;
-    gap: 8px;
-  }
-
-  .org-detail__top-control-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    font-size: 18px;
-    line-height: 24px;
-  }
-
-  .org-detail__top-control-label {
-    color: #fff;
-  }
-
-  .org-detail__top-ribbon {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .org-detail__top-ribbon::before {
-    content: 'TOP';
-    position: absolute;
-    right: -34px;
-    bottom: 0px;
-    width: 140px;
-    padding: 8px 0;
-    background: linear-gradient(135deg, #ff853b, #ec5100);
-    color: #fff;
-    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    text-align: center;
-    transform: rotate(-45deg);
-    box-shadow: 0 4px 12px rgba(236, 81, 0, 0.35);
-  }
-
-  .org-detail__contacts-card {
-    margin-bottom: 0;
-  }
-
-  .org-detail__contacts-card.org-detail__card--stretch {
-    justify-content: flex-start;
-  }
-
-  .org-detail__rating-badge {
-    display: inline-flex;
-    margin-bottom: 20px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: #2e2e2e;
-    color: #fff;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .org-detail__contacts {
-    display: grid;
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .org-detail__contact {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.45;
-  }
-
-  .org-detail__contact-icon {
-    flex: 0 0 auto;
-    margin-top: 2px;
-    color: #757575;
-    font-size: 20px;
-  }
-
-  .org-detail__contact a {
-    color: inherit;
-    text-decoration: none;
-    word-break: break-word;
-  }
-
-  @media (hover: hover) {
-    .org-detail__contact a:hover {
-      color: #ff741f;
-    }
-  }
-
   @media (max-width: 1100px) {
     .org-detail__hero {
       grid-template-columns: 1fr;
@@ -1204,14 +1321,12 @@
       min-height: auto;
     }
 
-    .org-detail__sidebar {
-      position: static;
-      grid-template-rows: auto;
-      min-height: auto;
-    }
-
     .org-detail__card--stretch {
       flex: none;
+    }
+
+    .org-detail__rows--wide .org-detail__row {
+      grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
     }
 
     .org-detail__extras {
@@ -1220,8 +1335,21 @@
   }
 
   @media (max-width: 640px) {
-    .org-detail__row {
+    .org-detail__inner {
+      padding: 24px clamp(14px, 4vw, 24px) 12px;
+    }
+
+    .org-detail__row,
+    .org-detail__rows--wide .org-detail__row {
       grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .org-detail__row-value {
+      justify-self: start;
+      width: fit-content;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .org-detail__rusprofile-row {
@@ -1241,11 +1369,6 @@
     .org-detail__more-cursor {
       align-self: flex-end;
       width: min(140px, 50vw);
-    }
-
-    .org-detail__top-control-row {
-      flex-direction: column;
-      align-items: flex-start;
     }
   }
 </style>

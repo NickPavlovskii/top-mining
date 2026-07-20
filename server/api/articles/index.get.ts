@@ -1,7 +1,7 @@
 import { buildArticlesFeedFallback } from '~/common/modules/articles'
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
 import { TOP_MINING_ARTICLES_TOPICS } from '~/common/modules/top-mining/articles-section'
-import type { ArticlesFeed, ArticlesFeedResponse } from '~/types/articles'
+import type { ArticlesFeed, ArticlesFeedResponse } from '~/common/modules/articles'
 import { ARTICLES_FEED_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 

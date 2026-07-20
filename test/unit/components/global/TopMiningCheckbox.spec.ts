@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningCheckbox from '~/components/global/TopMiningCheckbox.vue'
+import TopMiningCheckbox from '~/components/global/selection-controls/TopMiningCheckbox.vue'
 
 describe('TopMiningCheckbox', () => {
   it('renders label and default size', () => {

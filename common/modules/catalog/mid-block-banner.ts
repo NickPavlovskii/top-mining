@@ -79,10 +79,10 @@ export function buildCatalogGridWithBanners<T>(
       data: item,
     })
 
-    if (variant && (index + 1) % interval === 0) {
+    if (variant && index + 1 === interval) {
       result.push({
         type: 'banner',
-        key: `catalog-mid-block-${variant}-${index + 1}`,
+        key: `catalog-mid-block-${variant}`,
         variant,
       })
     }

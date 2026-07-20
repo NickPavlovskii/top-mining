@@ -24,7 +24,14 @@ export default defineNuxtConfig({
   },
 
   css: [
+    '@fontsource/unbounded/cyrillic-400.css',
+    '@fontsource/unbounded/cyrillic-500.css',
+    '@fontsource/unbounded/cyrillic-600.css',
+    '@fontsource/unbounded/latin-400.css',
+    '@fontsource/unbounded/latin-500.css',
+    '@fontsource/unbounded/latin-600.css',
     './assets/scss/variables.scss',
+    './assets/scss/vertical-scrollbar.scss',
     './assets/scss/scrollbar.scss',
     './assets/scss/main.css',
   ],

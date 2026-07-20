@@ -143,19 +143,34 @@
     }
   }
 
-  function playTelegramVideo() {
+  function playTelegramVideo(options: { withSound?: boolean } = {}) {
     clearAutoPlayTimeout()
     isTelegramVideoPlaying.value = true
 
-    void nextTick(() => {
+    void nextTick(async () => {
       const video = telegramVideoRef.value
 
       if (!video) {
         return
       }
 
-      video.muted = false
-      void video.play()
+      video.muted = !options.withSound
+
+      try {
+        await video.play()
+      } catch {
+        if (!options.withSound) {
+          return
+        }
+
+        video.muted = true
+
+        try {
+          await video.play()
+        } catch {
+          isTelegramVideoPlaying.value = false
+        }
+      }
     })
   }
 
@@ -173,13 +188,13 @@
     if (isTelegramVideoPlaying.value) {
       pauseTelegramVideo()
     } else {
-      playTelegramVideo()
+      playTelegramVideo({ withSound: true })
     }
   }
 
   onMounted(() => {
     autoPlayTimeoutId = setTimeout(() => {
-      playTelegramVideo()
+      playTelegramVideo({ withSound: false })
     }, 10_000)
   })
 
@@ -800,7 +815,7 @@
       width: 100%;
       min-height: 0;
       max-width: min(65vw, 240px);
-      margin: clamp(24px, 6vw, 40px) auto 0;
+      margin: 0 auto 0;
       transform: none;
     }
 

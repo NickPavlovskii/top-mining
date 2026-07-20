@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import TopMiningArticleRow from '~/components/global/TopMiningArticleRow.vue'
+import TopMiningArticleRow from '~/components/global/articles/TopMiningArticleRow.vue'
 import { sampleArticlePreview } from '~/test/fixtures/article-preview'
 
 describe('TopMiningArticleRow', () => {

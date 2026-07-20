@@ -2,7 +2,7 @@
   <article class="privacy-page">
     <div class="privacy-page__inner">
       <nav class="privacy-page__breadcrumbs" aria-label="Хлебные крошки">
-        <NuxtLink to="/">Главная</NuxtLink>
+        <nuxt-link to="/">Главная</nuxt-link>
         <span aria-hidden="true">/</span>
         <span>Политика конфиденциальности (обработки персональных данных)</span>
       </nav>
