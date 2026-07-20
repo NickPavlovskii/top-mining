@@ -15,7 +15,7 @@
 
 ```
 niklad/
-├── app.vue                     # Корневой компонент, подключает TheDefault layout
+├── app.vue                     # Корневой компонент + layout
 ├── app.config.ts
 ├── nuxt.config.ts
 │
@@ -30,41 +30,37 @@ niklad/
 │       └── top-mining/         # Изображения лендинга
 │
 ├── common/
-│   └── modules/                # Данные и конфигурация по фичам
-│       ├── constants.ts        # Re-export всех модулей
-│       ├── top-mining/         # Навигация, кнопки, промо-блоки
-│       ├── crypto/             # Списки монет, периоды, fallback-данные
-│       └── process/            # Шаги секции «Как мы работаем»
+│   └── modules/                # Данные, типы, чистая логика по доменам
+│       ├── top-mining/
+│       ├── catalog/
+│       ├── crypto/
+│       ├── ratings/
+│       ├── charts/
+│       ├── not-found/
+│       └── ...
 │
-├── components/
-│   ├── global/                 # Переиспользуемые UI-компоненты (Vue-плагин)
-│   ├── top-mining/             # Шапка, футер, секции лендинга
+├── components/                 # Vue UI по доменам (см. components/README.md)
+│   ├── global/                 # Кнопки, чипы, brand title, 404
+│   ├── top-mining/             # Секции лендинга + footer
+│   │   └── header/             # Шапка сайта (TopMiningHeader + nav)
+│   ├── catalog/                # Каталог (home, filters, cards, detail)
 │   ├── crypto/                 # Блок крипторынка
-│   └── process/                # Секция процесса работы
+│   ├── charts/                 # Графики (SparklineChart)
+│   ├── rating/                 # Рейтинги
+│   └── process/                # «Как мы работаем»
 │
 ├── layouts/
-│   └── TheDefault.vue          # Основной layout (header + content + footer)
+│   └── default.vue             # Header + slot + footer
 │
-├── pages/                      # Маршруты (аналог views/ в Vue SPA)
-│   ├── index.vue               # Главная
-│   └── privacy.vue             # Политика конфиденциальности
+├── pages/                      # Маршруты (тонкая композиция)
 │
-├── plugins/
-│   └── global-components.ts    # Регистрация глобальных компонентов
-│
-├── public/                     # Статика (видео, favicon, robots.txt)
+├── composables/                # Реэкспорты доменных хуков (Nuxt auto-import)
 │
 ├── server/
-│   └── api/
-│       └── crypto.get.ts       # API-прокси данных крипторынка
-│
-├── types/                      # Общие TypeScript-типы
-│   └── crypto-coin.ts
-│
-└── utils/                      # Чистые функции без Vue-зависимостей
-    ├── cryptoPeriod.ts
-    └── cryptoIcons.ts
+│   └── api/                    # Nitro API / прокси
 ```
+
+Подробнее про зоны папок и слои: [`docs/frontend.md`](./docs/frontend.md) (полная карта клиента), кратко — [`components/README.md`](./components/README.md).
 
 ## Принципы организации
 
@@ -74,28 +70,35 @@ niklad/
 
 | Папка | Назначение |
 |-------|------------|
-| `components/global/` | Кнопки, заголовки — используются по всему сайту |
-| `components/top-mining/` | Header, Footer, Section, EpicBlocks, CalculatorPromo |
+| `components/global/` | Переиспользуемый UI по всему сайту |
+| `components/top-mining/` | Секции главной, футер |
+| `components/top-mining/header/` | Шапка: header + desktop/compact/mobile nav |
+| `components/catalog/` | Каталог организаций / manufacturers / detail |
 | `components/crypto/` | CryptoMarketSection, CryptoCoinList |
+| `components/charts/` | Sparkline и другие графики |
+| `components/rating/` | Рейтинги |
 | `components/process/` | WorkProcessSection |
 
 Nuxt автоматически импортирует компоненты из вложенных папок — имя берётся из файла (`TopMiningHeader.vue` → `<TopMiningHeader>`).
 
 ### Модули (`common/modules/`)
 
-Константы, конфиги и статические данные вынесены в модули по фичам. Импорт:
+Каждый домен — самодостаточный пакет: типы, данные, логика, fallback. Импорт предпочтительно через `index.ts`:
 
 ```ts
-import { TOP_MINING_BUTTON_VARIANTS } from '~/common/modules/top-mining'
+import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining'
 import { CRYPTO_PERIODS } from '~/common/modules/crypto'
+import type { CatalogOrganization } from '~/common/modules/catalog'
 ```
+
+Внутри модуля: `types.ts`, `fallback.ts`, чистые функции, доменные composables.
 
 > Папка `common/modules/`, а не `modules/` в корне — в Nuxt корневая `modules/` зарезервирована под Nuxt-модули (`nuxt-quasar-ui`, `@nuxt/ui` и т.д.).
 
 ### Страницы и layout
 
 - `pages/` — file-based routing Nuxt (аналог `views/` в эталонном Vue-проекте).
-- `layouts/TheDefault.vue` — обёртка с шапкой и футером; подключается в `app.vue`.
+- `layouts/default.vue` — обёртка с шапкой и футером.
 
 ### Стили
 
@@ -107,8 +110,6 @@ background: var(--bg);
 ```
 
 Подключение глобальных стилей — в `nuxt.config.ts` → `css: [...]`.
-
-## Глобальные компоненты
 
 ## Запуск
 
@@ -123,11 +124,11 @@ npm run preview  # предпросмотр сборки
 
 | Задача | Куда |
 |--------|------|
-| Новая страница | `pages/<route>.vue` |
-| UI-компонент фичи | `components/<feature>/` |
-| Константы, конфиг фичи | `common/modules/<feature>/` |
-| Переиспользуемая логика | `composables/` |
-| Чистая функция | `utils/` |
-| API-эндпоинт | `server/api/` |
-| TypeScript-тип | `types/` |
+| Новая страница | `pages/<route>.vue` (тонкая, только композиция) |
+| UI-компонент фичи | `components/<домен>/` |
+| Шапка / пункты меню | `components/top-mining/header/` + данные в `common/modules/top-mining/` |
+| Типы, константы, логика домена | `common/modules/<домен>/` |
+| Vue-хук домена | `common/modules/<домен>/use*.ts` + реэкспорт в `composables/` |
+| API-эндпоинт | `server/api/<домен>/` |
+| Кросс-доменный хелпер | `utils/` (только если не принадлежит одному домену) |
 | Глобальный стиль / переменная | `assets/scss/` |
