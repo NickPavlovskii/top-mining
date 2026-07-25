@@ -39,8 +39,8 @@
 .sb-canvas--light .top-mining-button.top-mining-button--primary.top-mining-button--surface-light:not(
     :hover
   ):not(.top-mining-button--disabled):not(.top-mining-button--loading) {
-  background-color: var(--tm-orange, #ff6418);
-  border-color: var(--tm-orange, #ff6418);
+  background-color: var(--tm-orange);
+  border-color: var(--tm-orange);
   color: #ffffff;
 }
 
@@ -276,7 +276,7 @@
   margin: 40px 0 16px;
   padding-bottom: 8px;
   border-bottom: 1px solid #2a2a2a;
-  color: #ff6418;
+  color: var(--tm-orange);
   font-family: 'Unbounded', 'Roboto', sans-serif;
   font-size: 18px;
   font-weight: 600;
@@ -326,7 +326,7 @@
 .tm-docs-panel blockquote {
   margin: 16px 0;
   padding: 12px 16px;
-  border-left: 3px solid #ff6418;
+  border-left: 3px solid var(--tm-orange);
   border-radius: 0 8px 8px 0;
   background: #1a1a1a;
   color: #d8d8d8;

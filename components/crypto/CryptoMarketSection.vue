@@ -167,7 +167,7 @@
     margin: 0;
     font-size: clamp(78px, 9.8vw, 178px);
     font-weight: 900;
-    line-height: 0.88;
+    line-height: 0.96;
     letter-spacing: -0.04em;
   }
 
@@ -180,6 +180,7 @@
   }
 
   .crypto-section__title-outline {
+    margin-top: 0.02em;
     color: transparent;
     -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.55);
     paint-order: stroke fill;
