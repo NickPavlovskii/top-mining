@@ -61,7 +61,7 @@ SELECT
         '[]'
     ) AS organizations
 FROM catalog_categories c
-LEFT JOIN catalog_organizations o ON o.category_id = c.id
+LEFT JOIN catalog_organizations o ON o.category_id = c.id AND o.is_published = TRUE
 LEFT JOIN media_assets logo_m ON logo_m.id = o.logo_media_id
 LEFT JOIN organization_equipment_sales es ON es.organization_id = o.id
 GROUP BY c.id, c.name, c.slug, c.profile_block, c.sort_order

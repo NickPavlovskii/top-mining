@@ -14,6 +14,7 @@ type Preview struct {
 	ReadingTimeMin *int    `json:"readingTimeMin"`
 	PublishedAt    string  `json:"publishedAt"`
 	DisplayType    string  `json:"displayType"`
+	ViewCount      int     `json:"viewCount"`
 }
 
 // Block — блок статьи (миграция 018).

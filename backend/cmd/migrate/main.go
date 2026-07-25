@@ -37,6 +37,10 @@ func main() {
 		if len(base) < 3 || base[0] != '0' {
 			continue
 		}
+		info, err := os.Stat(f)
+		if err != nil || info.IsDir() {
+			continue
+		}
 		toApply = append(toApply, f)
 	}
 	sort.Strings(toApply)

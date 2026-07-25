@@ -47,9 +47,11 @@ export default defineEventHandler(async () => {
       ...normalizeCatalog(data.catalog),
     } satisfies CatalogResponse
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
     throw createError({
       statusCode: 503,
       statusMessage: 'Catalog unavailable',
+      message: `Catalog unavailable: ${detail}`,
       cause: error,
     })
   }

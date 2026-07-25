@@ -1,8 +1,16 @@
-import { createError, isError } from 'h3'
-import { getArticleFallback } from '~/common/modules/articles'
+import { createError } from 'h3'
+import {
+  getArticleFallback,
+  getArticleFallbackFromRatings,
+} from '~/common/modules/articles'
 import type { Article, ArticleResponse } from '~/common/modules/articles'
 import { ARTICLE_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
+
+function resolveFallbackArticle(slug: string): Article | null {
+  return getArticleFallback(slug) ?? getArticleFallbackFromRatings(slug)
+}
+
 export default defineEventHandler(async (event) => {
   const slug = String(getRouterParam(event, 'slug') || '')
 
@@ -11,30 +19,26 @@ export default defineEventHandler(async (event) => {
       slug,
     })
 
-    if (!data.article) {
-      throw createError({ statusCode: 404, statusMessage: 'Article not found' })
+    if (data.article) {
+      return {
+        source: 'graphql',
+        updatedAt: new Date().toISOString(),
+        ...data.article,
+      } satisfies ArticleResponse
     }
-
-    return {
-      source: 'graphql',
-      updatedAt: new Date().toISOString(),
-      ...data.article,
-    } satisfies ArticleResponse
-  } catch (error) {
-    if (isError(error)) {
-      throw error
-    }
-
-    const fallback = getArticleFallback(slug)
-
-    if (!fallback) {
-      throw createError({ statusCode: 404, statusMessage: 'Article not found' })
-    }
-
-    return {
-      source: 'fallback',
-      updatedAt: new Date().toISOString(),
-      ...fallback,
-    } satisfies ArticleResponse
+  } catch {
+    // GraphQL недоступен — ниже возьмём fallback.
   }
+
+  const fallback = resolveFallbackArticle(slug)
+
+  if (!fallback) {
+    throw createError({ statusCode: 404, statusMessage: 'Article not found' })
+  }
+
+  return {
+    source: 'fallback',
+    updatedAt: new Date().toISOString(),
+    ...fallback,
+  } satisfies ArticleResponse
 })
