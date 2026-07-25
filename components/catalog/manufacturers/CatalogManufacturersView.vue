@@ -84,7 +84,10 @@
             />
           </div>
 
-          <p class="catalog-mfr-page__count">
+          <p
+            v-if="resultCount > 0"
+            class="catalog-mfr-page__count"
+          >
             Найдено организаций: {{ resultCount }}
           </p>
 
@@ -120,12 +123,24 @@
             </template>
           </div>
 
-          <p
+          <div
             v-else
             class="catalog-mfr-page__empty"
           >
-            По вашему запросу ничего не найдено. Попробуйте изменить фильтры.
-          </p>
+            <p class="catalog-mfr-page__empty-title">
+              По данному запросу ничего не найдено
+            </p>
+            <p class="catalog-mfr-page__empty-text">
+              Попробуйте изменить запрос или критерии поиска
+            </p>
+            <button
+              type="button"
+              class="catalog-mfr-page__empty-reset"
+              @click="resetSearchAndFilters"
+            >
+              Сбросить фильтры
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -183,6 +198,7 @@
   import CatalogSortDropdown from '~/components/catalog/filters/CatalogSortDropdown.vue'
 
   const route = useRoute()
+  const router = useRouter()
 
   const selectedCategorySlug = computed(() =>
     getCatalogCategoryFromRoute(route.query.category),
@@ -273,7 +289,9 @@
     return activeCategoryName.value ?? undefined
   })
 
-  const searchQuery = ref('')
+  const searchQuery = ref(
+    typeof route.query.search === 'string' ? route.query.search : '',
+  )
   const sortBy = ref<CatalogManufacturersSort>('name-asc')
 
   const selectedAlgorithms = reactive<Record<string, boolean>>({})
@@ -455,38 +473,105 @@
     ),
   )
 
-  watch(selectedCategorySlug, (categorySlug) => {
+  watch(
+    selectedCategorySlug,
+    (categorySlug, previousCategorySlug) => {
+      const isInitial = previousCategorySlug === undefined
+
+      if (!isInitial) {
+        searchQuery.value = ''
+        sortBy.value = 'name-asc'
+        Object.keys(selectedAlgorithms).forEach((key) => {
+          selectedAlgorithms[key] = false
+        })
+        Object.keys(selectedModelCounts).forEach((key) => {
+          selectedModelCounts[key] = false
+        })
+        Object.keys(selectedMarketAge).forEach((key) => {
+          selectedMarketAge[key] = false
+        })
+        Object.keys(selectedServices).forEach((key) => {
+          selectedServices[key] = false
+        })
+        Object.keys(selectedOrgMarketAge).forEach((key) => {
+          selectedOrgMarketAge[key] = false
+        })
+        Object.keys(selectedMinAsic).forEach((key) => {
+          selectedMinAsic[key] = false
+        })
+        Object.keys(selectedCategoryFilters).forEach((key) => {
+          selectedCategoryFilters[key] = false
+        })
+
+        const nextQuery = { ...route.query, category: categorySlug }
+        delete nextQuery.search
+        void router.replace({ query: nextQuery })
+      }
+
+      if (
+        !isAllOrganizationsCatalogCategory(categorySlug)
+        && !isManufacturersCatalogCategory(categorySlug)
+      ) {
+        selectedServices[categorySlug] = true
+      }
+    },
+    { immediate: true },
+  )
+
+  watch(
+    () => route.query.search,
+    (search) => {
+      const next = typeof search === 'string' ? search : ''
+      if (next !== searchQuery.value) {
+        searchQuery.value = next
+      }
+    },
+  )
+
+  watch(searchQuery, (query) => {
+    const trimmed = query.trim()
+    const current =
+      typeof route.query.search === 'string' ? route.query.search : ''
+
+    if (trimmed === current) {
+      return
+    }
+
+    const nextQuery = { ...route.query }
+
+    if (trimmed) {
+      nextQuery.search = trimmed
+    } else {
+      delete nextQuery.search
+    }
+
+    void router.replace({ query: nextQuery })
+  })
+
+  function clearFilterMap(map: Record<string, boolean>) {
+    Object.keys(map).forEach((key) => {
+      map[key] = false
+    })
+  }
+
+  function resetSearchAndFilters() {
     searchQuery.value = ''
     sortBy.value = 'name-asc'
-    Object.keys(selectedAlgorithms).forEach((key) => {
-      selectedAlgorithms[key] = false
-    })
-    Object.keys(selectedModelCounts).forEach((key) => {
-      selectedModelCounts[key] = false
-    })
-    Object.keys(selectedMarketAge).forEach((key) => {
-      selectedMarketAge[key] = false
-    })
-    Object.keys(selectedServices).forEach((key) => {
-      selectedServices[key] = false
-    })
-    Object.keys(selectedOrgMarketAge).forEach((key) => {
-      selectedOrgMarketAge[key] = false
-    })
-    Object.keys(selectedMinAsic).forEach((key) => {
-      selectedMinAsic[key] = false
-    })
-    Object.keys(selectedCategoryFilters).forEach((key) => {
-      selectedCategoryFilters[key] = false
-    })
+    clearFilterMap(selectedAlgorithms)
+    clearFilterMap(selectedModelCounts)
+    clearFilterMap(selectedMarketAge)
+    clearFilterMap(selectedServices)
+    clearFilterMap(selectedOrgMarketAge)
+    clearFilterMap(selectedMinAsic)
+    clearFilterMap(selectedCategoryFilters)
 
     if (
-      !isAllOrganizationsCatalogCategory(categorySlug)
-      && !isManufacturersCatalogCategory(categorySlug)
+      !isAllOrganizationsMode.value
+      && !isManufacturersMode.value
     ) {
-      selectedServices[categorySlug] = true
+      selectedServices[selectedCategorySlug.value] = true
     }
-  }, { immediate: true })
+  }
 
   function compareManufacturers(
     left: CatalogManufacturer,
@@ -612,7 +697,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 0 0 clamp(200px, 34%, 300px);
+    flex: 1 1 auto;
     min-width: 0;
     min-height: 48px;
     padding: 0 16px;
@@ -648,9 +733,9 @@
   }
 
   .catalog-mfr-page__toolbar :deep(.catalog-sort) {
-    flex: 1 1 auto;
-    min-width: 0;
-    flex-shrink: 1;
+    flex: 0 0 auto;
+    min-width: 180px;
+    max-width: 280px;
   }
 
   .catalog-mfr-page__count {
@@ -674,14 +759,55 @@
   }
 
   .catalog-mfr-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     margin: 0;
-    padding: 32px 20px;
-    border-radius: 24px;
+    padding: clamp(48px, 8vw, 80px) 24px;
+    border-radius: 32px;
     background: #fff;
-    color: var(--tm-text-muted);
-    font-size: 16px;
-    line-height: 1.5;
     text-align: center;
+  }
+
+  .catalog-mfr-page__empty-title {
+    margin: 0;
+    color: #141414;
+    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .catalog-mfr-page__empty-text {
+    margin: 0;
+    max-width: 420px;
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .catalog-mfr-page__empty-reset {
+    margin-top: 12px;
+    padding: 14px 28px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--tm-orange);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .catalog-mfr-page__empty-reset:hover {
+      background: var(--tm-orange-anim-4, #e85a12);
+    }
   }
 
   @media (max-width: 1200px) {
