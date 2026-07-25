@@ -13,10 +13,22 @@ export interface ArticlePreview {
   readingTimeMin: number | null
   publishedAt: string
   displayType: ArticleDisplayType
+  viewCount?: number | null
 }
 
 export interface Article extends ArticlePreview {
   content: string
+  usesBlocks?: boolean
+  blocks?: ArticleDbBlock[]
+  related?: ArticlePreview[]
+}
+
+export interface ArticleDbBlock {
+  id?: number
+  position?: number
+  type: string
+  payload: unknown
+  anchor?: string | null
 }
 
 export interface ArticlesFeed {

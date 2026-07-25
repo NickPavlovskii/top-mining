@@ -1,4 +1,5 @@
 import type { TopMiningRatingCard } from './types'
+import { toRatingArticleHref } from './article-href'
 
 function hasCyrillic(text: string): boolean {
   return /[а-яА-ЯёЁ]/.test(text)
@@ -44,13 +45,16 @@ export function mergeRatingsWithFallback(
         const fallbackItem = fallbackItems?.get(item.number)
 
         if (!fallbackItem) {
-          return item
+          return {
+            ...item,
+            href: toRatingArticleHref(item.href),
+          }
         }
 
         return {
           ...item,
           label: needsTextFix(item.label) ? fallbackItem.label : item.label,
-          href: item.href || fallbackItem.href,
+          href: toRatingArticleHref(item.href || fallbackItem.href),
         }
       }),
     }

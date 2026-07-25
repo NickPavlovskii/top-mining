@@ -16,3 +16,23 @@ export function formatReadingTime(minutes: number | null | undefined): string | 
 
   return `${minutes} мин.`
 }
+
+export function splitArticleTitle(title: string): {
+  primary: string
+  secondary: string | null
+} {
+  const separatorIndex = title.indexOf(':')
+
+  if (separatorIndex === -1) {
+    return { primary: title.trim(), secondary: null }
+  }
+
+  const primary = title.slice(0, separatorIndex).trim()
+  const secondary = title.slice(separatorIndex + 1).trim()
+
+  if (!primary || !secondary) {
+    return { primary: title.trim(), secondary: null }
+  }
+
+  return { primary, secondary }
+}

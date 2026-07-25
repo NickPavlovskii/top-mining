@@ -227,7 +227,7 @@ export const RATINGS_FALLBACK_CARDS: TopMiningRatingCard[] = [
       {
         "href": "/articles/rejting-proshivok-dlya-asikov-top-5",
         "number": "09",
-        "label": "Рейтинг прошивок для асиков: ТОП-5"
+        "label": "Рейтинг прошивок для асиков: ТОП-6"
       },
       {
         "href": "/articles/rejting-kriptoobmennikov-top-10-luchshih-obmennikov-kriptovalyut-v-2024-godu",
@@ -242,7 +242,7 @@ export const RATINGS_FALLBACK_CARDS: TopMiningRatingCard[] = [
       {
         "href": "/articles/luchshie-kanaly-o-majninge-na-youtube-top-10",
         "number": "12",
-        "label": "Лучшие каналы о майнинге на youtube: ТОП-10"
+        "label": "Лучшие каналы о майнинге на YouTube: ТОП-10"
       },
       {
         "href": "/articles/luchshie-kanaly-o-majninge-v-telegram-top-10",
@@ -315,8 +315,10 @@ export const RATINGS_FALLBACK_HOME_CARDS: TopMiningRatingCard[] = [
     'sales',
     'ТОП: Продажи и услуги',
     [
+      { cardId: 'sales', itemNumber: '01' },
+      { cardId: 'sales', itemNumber: '02' },
       { cardId: 'sales', itemNumber: '03' },
-      { cardId: 'equipment', itemNumber: '17' },
+      { cardId: 'sales', itemNumber: '04' },
     ],
     1,
   ),

@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     class="rating-marquee-link"
-    :to="href"
+    :to="articleHref"
     :aria-label="`${label} (${number})`"
   >
     <span class="rating-marquee-link__number">({{ number }})</span>
@@ -44,12 +44,15 @@
 </template>
 
 <script setup lang="ts">
+  import { toRatingArticleHref } from '~/common/modules/ratings'
+
   const props = defineProps<{
     number: string
     label: string
     href: string
   }>()
 
+  const articleHref = computed(() => toRatingArticleHref(props.href))
   const marqueeStyle = useMarqueeTrackStyle(() => props.label)
 </script>
 

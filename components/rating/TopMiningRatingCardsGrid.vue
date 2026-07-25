@@ -34,7 +34,7 @@
           >
             <nuxt-link
               class="rating-cards-grid__link"
-              :to="item.href"
+              :to="toRatingArticleHref(item.href)"
             >
               <span class="rating-cards-grid__num">({{ item.number }})</span>
               <span class="rating-cards-grid__label">{{ item.label }}</span>
@@ -53,13 +53,27 @@
         >
           <nuxt-link
             class="rating-cards-grid__link"
-            :to="item.href"
+            :to="toRatingArticleHref(item.href)"
           >
             <span class="rating-cards-grid__num">({{ item.number }})</span>
             <span class="rating-cards-grid__label">{{ item.label }}</span>
           </nuxt-link>
         </li>
       </ul>
+
+      <nuxt-link
+        v-if="showMore && shouldShowMore(card)"
+        class="rating-cards-grid__more"
+        :to="getRatingsPageHref(card.id)"
+      >
+        Показать еще
+        <img
+          :src="arrowUpRightIcon"
+          alt=""
+          class="rating-cards-grid__more-icon"
+          aria-hidden="true"
+        >
+      </nuxt-link>
     </article>
   </div>
 </template>
@@ -67,21 +81,40 @@
 <script setup lang="ts">
   import {
     DEFAULT_RATING_CARD_COLUMNS,
+    getRatingsPageHref,
+    toRatingArticleHref,
     type TopMiningRatingCard,
     type TopMiningRatingItem,
   } from '~/common/modules/ratings'
+  import arrowUpRightIcon from '~/assets/images/articles/arrow-up-right.png'
 
   const props = withDefaults(
     defineProps<{
       cards: TopMiningRatingCard[]
       highlightedCardId?: string | null
       anchorPrefix?: string
+      /** «Показать еще» → страница рейтинга категории */
+      showMore?: boolean
+      /** Показывать «Показать еще» только у карточек с 2 колонками */
+      showMoreTwoColumnOnly?: boolean
     }>(),
     {
       highlightedCardId: null,
       anchorPrefix: '',
+      showMore: false,
+      showMoreTwoColumnOnly: true,
     },
   )
+
+  function shouldShowMore(card: TopMiningRatingCard) {
+    if (!props.showMore) {
+      return false
+    }
+    if (props.showMoreTwoColumnOnly) {
+      return getCardColumnCount(card) === 2
+    }
+    return true
+  }
 
   function getCardColumnCount(card: TopMiningRatingCard) {
     return card.columns ?? DEFAULT_RATING_CARD_COLUMNS
@@ -114,6 +147,8 @@
   }
 
   .rating-cards-grid__card {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 6px;
     padding: 24px;
     border: 1px solid #5c5c5c;
@@ -194,7 +229,36 @@
     vertical-align: middle;
   }
 
+  .rating-cards-grid__more {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+    color: #fff;
+    font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.15s ease;
+  }
+
+  .rating-cards-grid__more-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
   @media (hover: hover) {
+    .rating-cards-grid__more:hover,
+    .rating-cards-grid__more:focus-visible {
+      color: var(--tm-orange-accent-light, #ff7a35);
+    }
+
     .rating-cards-grid__link:hover,
     .rating-cards-grid__link:hover .rating-cards-grid__num,
     .rating-cards-grid__link:focus-visible,
