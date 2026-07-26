@@ -63,6 +63,7 @@ export const PODBOR_MINING_HOTEL_PARTNERS: readonly PodborPartnerLogo[] = [
 ] as const
 
 const PLACEMENT_DIR = '/images/podbor-majning-otelya/placement'
+const SALE_DIR = '/images/podbor-majning-otelya/sale'
 
 export type PodborPlacementOffer = {
   id: string
@@ -72,6 +73,35 @@ export type PodborPlacementOffer = {
   priceValue: string
   location: string
   image: string
+}
+
+export type PodborAddCardModalCopy = {
+  title: string
+  subtitle: string
+  nameLabel: string
+  namePlaceholder: string
+  phoneLabel: string
+  phonePlaceholder: string
+  powerLabel: string
+  powerPlaceholder: string
+  regionLabel: string
+  regionPlaceholder: string
+  submitLabel: string
+  privacyPrefix: string
+  privacyLinkLabel: string
+  privacyHref: string
+}
+
+export type PodborOfferLeadModalCopy = {
+  badge: string
+  onlineLabel: string
+  description: string
+  phoneLabel: string
+  phonePlaceholder: string
+  submitLabel: string
+  privacyPrefix: string
+  privacyLinkLabel: string
+  privacyHref: string
 }
 
 export const PODBOR_MINING_HOTEL_PLACEMENT = {
@@ -178,6 +208,78 @@ export const PODBOR_MINING_HOTEL_PLACEMENT = {
       priceValue: 'от 4,6₽',
       location: 'Другие регионы РФ',
       image: `${PLACEMENT_DIR}/other-regions.png`,
+    },
+  ] satisfies readonly PodborPlacementOffer[],
+} as const
+
+export const PODBOR_MINING_HOTEL_SALE = {
+  title: 'Продажа',
+  ctaLabel: 'Узнать цену',
+  addCardLabel: 'Добавить свою карточку',
+  modal: {
+    title: 'Добавление вашей площадки на продажу',
+    subtitle: 'Оставьте заявку и мы перезвоним вам в ближайшее время',
+    nameLabel: 'Ваше имя',
+    namePlaceholder: 'Имя',
+    phoneLabel: 'Ваш номер телефона',
+    phonePlaceholder: '+7 (',
+    powerLabel: 'Мощность площадки',
+    powerPlaceholder: '1',
+    regionLabel: 'Ваш регион',
+    regionPlaceholder: 'Регион',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  },
+  priceModal: {
+    badge: 'В продаже',
+    onlineLabel: 'Мы всегда online',
+    description:
+      'Оставьте заявку, чтобы узнать цену и получить информацию о площадке',
+    phoneLabel: 'Телефон',
+    phonePlaceholder: '+7 (',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  },
+  offers: [
+    {
+      id: 'sale-moscow-50',
+      title: 'Продается площадка 50 МВт в Мск области',
+      capacityTitle: '50 МВт мощности',
+      priceLabel: 'Мощность площадки:',
+      priceValue: '50 МВт',
+      location: 'Московская область',
+      image: `${SALE_DIR}/moscow.png`,
+    },
+    {
+      id: 'sale-moscow-15',
+      title: 'Продается площадка 15 МВт в Мск области',
+      capacityTitle: '15 МВт мощности',
+      priceLabel: 'Мощность площадки:',
+      priceValue: '15 МВт',
+      location: 'Московская область',
+      image: `${SALE_DIR}/moscow.png`,
+    },
+    {
+      id: 'sale-tula-10',
+      title: 'Продается площадка 10 МВт в Туле',
+      capacityTitle: '10 МВт мощности',
+      priceLabel: 'Мощность площадки:',
+      priceValue: '10 МВт',
+      location: 'Тула',
+      image: `${SALE_DIR}/tula.png`,
+    },
+    {
+      id: 'sale-other-regions',
+      title: 'Продается площадка 5+ МВт в регионах',
+      capacityTitle: '5+ МВт мощности',
+      priceLabel: 'Мощность площадки:',
+      priceValue: '5+ МВт',
+      location: 'Другие регионы РФ',
+      image: `${SALE_DIR}/other-regions.png`,
     },
   ] satisfies readonly PodborPlacementOffer[],
 } as const

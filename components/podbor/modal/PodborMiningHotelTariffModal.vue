@@ -134,16 +134,25 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type {
+    PodborOfferLeadModalCopy,
+    PodborPlacementOffer,
+  } from '~/common/modules/top-mining/podbor-mining-hotel'
   import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor-mining-hotel'
 
   const open = defineModel<boolean>('open', { default: false })
 
-  const props = defineProps<{
-    offer: PodborPlacementOffer | null
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      offer: PodborPlacementOffer | null
+      copy?: PodborOfferLeadModalCopy
+    }>(),
+    {
+      copy: undefined,
+    },
+  )
 
-  const copy = PODBOR_MINING_HOTEL_PLACEMENT.tariffModal
+  const copy = computed(() => props.copy ?? PODBOR_MINING_HOTEL_PLACEMENT.tariffModal)
 
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')

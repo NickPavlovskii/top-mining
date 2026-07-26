@@ -69,6 +69,7 @@
     <podbor-mining-hotel-marquee />
 
     <podbor-mining-hotel-placement />
+    <podbor-mining-hotel-sale />
   </div>
 </template>
 
@@ -78,6 +79,7 @@
   import PodborMiningHotelLogos from '~/components/podbor/hero/PodborMiningHotelLogos.vue'
   import PodborMiningHotelOffer from '~/components/podbor/hero/PodborMiningHotelOffer.vue'
   import PodborMiningHotelPlacement from '~/components/podbor/placement/PodborMiningHotelPlacement.vue'
+  import PodborMiningHotelSale from '~/components/podbor/sale/PodborMiningHotelSale.vue'
   import PodborMiningHotelMarquee from '~/components/podbor/shared/PodborMiningHotelMarquee.vue'
 
   const page = PODBOR_MINING_HOTEL_PAGE

@@ -141,11 +141,21 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor-mining-hotel'
   import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor-mining-hotel'
 
   const open = defineModel<boolean>('open', { default: false })
 
-  const modal = PODBOR_MINING_HOTEL_PLACEMENT.modal
+  const props = withDefaults(
+    defineProps<{
+      copy?: PodborAddCardModalCopy
+    }>(),
+    {
+      copy: undefined,
+    },
+  )
+
+  const modal = computed(() => props.copy ?? PODBOR_MINING_HOTEL_PLACEMENT.modal)
 
   const panelRef = ref<HTMLElement | null>(null)
   const name = ref('')
