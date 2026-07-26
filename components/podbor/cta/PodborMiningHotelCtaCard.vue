@@ -115,7 +115,7 @@
 
   .podbor-cta-card__title {
     margin: 0;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: clamp(18px, 1.6vw, 24px);
     font-weight: 500;
@@ -189,9 +189,24 @@
       max-width: 28ch;
     }
 
-    .podbor-cta-card__button {
-      width: 100% !important;
-      max-width: 320px;
+    .podbor-cta-card__button.top-mining-button {
+      width: auto !important;
+      max-width: 100%;
+      min-height: 44px;
+      padding: 0 18px;
+      font-size: 12px;
+      box-shadow: 0 2px 10px
+        color-mix(in srgb, var(--orange-accent-deep-color) 20%, transparent);
+    }
+
+    .podbor-cta-card__button :deep(.top-mining-button__inner) {
+      justify-content: center;
+      gap: 8px;
+      width: auto;
+    }
+
+    .podbor-cta-card__button-plus {
+      font-size: 18px;
     }
   }
 </style>

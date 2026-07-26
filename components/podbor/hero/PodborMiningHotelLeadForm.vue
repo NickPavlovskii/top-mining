@@ -85,7 +85,7 @@
 
   .podbor-lead-form__title {
     margin: 0 0 40px;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: 22px;
     font-weight: 400;

@@ -228,7 +228,7 @@
     padding: 36px 40px 36px;
     border-radius: 28px;
     background: #1a1a1a;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     outline: none;
     box-sizing: border-box;
     scrollbar-width: none;

@@ -848,7 +848,7 @@
     line-height: 16px;
     padding: 8px 10px;
     border-radius: 9px;
-    background: #f6f6f6;
+    background: var(--tm-off-white);
     color: #141414;
     overflow-wrap: anywhere;
   }
@@ -913,7 +913,7 @@
     display: flex;
     flex-wrap: wrap;
     padding: 5px 10px;
-    background: #f6f6f6;
+    background: var(--tm-off-white);
     border-radius: 9px;
     gap: 10px 15px;
     order: 10;

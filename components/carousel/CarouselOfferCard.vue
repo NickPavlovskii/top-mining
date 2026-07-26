@@ -98,7 +98,7 @@
 
   .carousel-offer-card__title {
     margin: 0 0 10px;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -117,7 +117,7 @@
   }
 
   .carousel-offer-card__meta-value {
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-weight: 600;
   }
 

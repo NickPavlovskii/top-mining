@@ -72,6 +72,7 @@
     <podbor-mining-hotel-sale />
     <podbor-mining-hotel-cta-section />
     <podbor-mining-hotel-useful />
+    <podbor-mining-hotel-how-we-work />
   </div>
 </template>
 
@@ -83,6 +84,7 @@
   import PodborMiningHotelOffer from '~/components/podbor/hero/PodborMiningHotelOffer.vue'
   import PodborMiningHotelPlacement from '~/components/podbor/placement/PodborMiningHotelPlacement.vue'
   import PodborMiningHotelSale from '~/components/podbor/sale/PodborMiningHotelSale.vue'
+  import PodborMiningHotelHowWeWork from '~/components/podbor/shared/PodborMiningHotelHowWeWork.vue'
   import PodborMiningHotelMarquee from '~/components/podbor/shared/PodborMiningHotelMarquee.vue'
   import PodborMiningHotelUseful from '~/components/podbor/shared/PodborMiningHotelUseful.vue'
 
@@ -152,7 +154,7 @@
     grid-area: title;
     margin: 40px 0 24px;
     max-width: none;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: clamp(40px, 4.2vw, 78px);
     font-weight: 500;
@@ -168,7 +170,7 @@
     grid-area: lead;
     margin: 0 0 32px;
     max-width: none;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: clamp(18px, 1.6vw, 28px);
     font-weight: 400;

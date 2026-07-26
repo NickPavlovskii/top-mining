@@ -225,7 +225,7 @@
 
   .horizontal-carousel__title {
     margin: 0;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: clamp(28px, 3vw, 44px);
     font-weight: 500;

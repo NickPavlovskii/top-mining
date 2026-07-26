@@ -415,3 +415,63 @@ export const PODBOR_MINING_HOTEL_USEFUL = {
     { text: 'вам в рамках наших услуг.' },
   ],
 } as const
+
+export type PodborHowWeWorkPart = {
+  text: string
+  strong?: boolean
+}
+
+export type PodborHowWeWorkStep = {
+  id: string
+  number?: number
+  highlight?: boolean
+  parts: readonly PodborHowWeWorkPart[]
+}
+
+export const PODBOR_MINING_HOTEL_HOW_WE_WORK = {
+  titleLead: 'Снизим цену на 15%',
+  titleSub: 'на размещение ASIC-майнеров',
+  panelTitle: 'Как мы работаем:',
+  steps: [
+    {
+      id: 'request',
+      number: 1,
+      parts: [
+        { text: 'Скидываем всем компаниям ' },
+        { text: 'запрос на размещение асиков', strong: true },
+      ],
+    },
+    {
+      id: 'tariffs',
+      number: 2,
+      parts: [
+        { text: 'Собираем всю ' },
+        { text: 'информацию по тарифам, ценам', strong: true },
+      ],
+    },
+    {
+      id: 'negotiate',
+      number: 3,
+      parts: [
+        { text: 'Ведем ' },
+        { text: 'переговоры', strong: true },
+        {
+          text: ' со всеми компаниями. Вносим правки в договор. Торгуемся. Учитываем все риски',
+        },
+      ],
+    },
+    {
+      id: 'offer',
+      highlight: true,
+      parts: [{ text: 'Делаем вам наиболее выгодное предложение' }],
+    },
+    {
+      id: 'place',
+      number: 4,
+      parts: [
+        { text: 'Размещаем ваши ASIC-майнеры', strong: true },
+        { text: ' в майнинг-отеле' },
+      ],
+    },
+  ] satisfies readonly PodborHowWeWorkStep[],
+} as const

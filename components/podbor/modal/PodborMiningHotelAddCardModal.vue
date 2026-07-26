@@ -227,7 +227,7 @@
     padding: 40px 40px 32px;
     border-radius: 28px;
     background: #1a1a1a;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
     outline: none;
     box-sizing: border-box;
   }
@@ -293,7 +293,7 @@
   .podbor-add-modal__label {
     font-size: 14px;
     line-height: 1.3;
-    color: #f6f6f6;
+    color: var(--tm-off-white);
   }
 
   .podbor-add-modal__input {
