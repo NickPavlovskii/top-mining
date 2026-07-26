@@ -61,3 +61,123 @@ export const PODBOR_MINING_HOTEL_PARTNERS: readonly PodborPartnerLogo[] = [
   { src: `${LOGO_DIR}/16.jpg`, alt: 'R7miner' },
   { src: `${LOGO_DIR}/5.jpg`, alt: 'IBMM' },
 ] as const
+
+const PLACEMENT_DIR = '/images/podbor-majning-otelya/placement'
+
+export type PodborPlacementOffer = {
+  id: string
+  title: string
+  capacityTitle: string
+  priceLabel: string
+  priceValue: string
+  location: string
+  image: string
+}
+
+export const PODBOR_MINING_HOTEL_PLACEMENT = {
+  title: 'Размещение',
+  ctaLabel: 'Узнать тариф',
+  addCardLabel: 'Добавить свою карточку',
+  modal: {
+    title: 'Добавление вашей площадки под размещение',
+    subtitle: 'Оставьте заявку и мы перезвоним вам в ближайшее время',
+    nameLabel: 'Ваше имя',
+    namePlaceholder: 'Имя',
+    phoneLabel: 'Ваш номер телефона',
+    phonePlaceholder: '+7 (',
+    powerLabel: 'Мощность площадки',
+    powerPlaceholder: '1',
+    regionLabel: 'Ваш регион',
+    regionPlaceholder: 'Регион',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  },
+  tariffModal: {
+    badge: 'Свободно',
+    onlineLabel: 'Мы всегда online',
+    description:
+      'Оставьте заявку, чтобы узнать тариф и получить информацию о размещении',
+    phoneLabel: 'Телефон',
+    phonePlaceholder: '+7 (',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  },
+  offers: [
+    {
+      id: 'moscow-region',
+      title: 'Свободно 40 МВт в Московской области',
+      capacityTitle: '40 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'опт от 4,7₽',
+      location: 'Московская область',
+      image: `${PLACEMENT_DIR}/moscow-region.png`,
+    },
+    {
+      id: 'stupino',
+      title: 'Свободно 10 МВт в Ступино',
+      capacityTitle: '10 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 5,2₽',
+      location: 'Ступино',
+      image: `${PLACEMENT_DIR}/stupino.png`,
+    },
+    {
+      id: 'domodedovo',
+      title: 'Свободно 8 МВт в Домодедово',
+      capacityTitle: '8 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'опт от 5,0₽',
+      location: 'Москва',
+      image: `${PLACEMENT_DIR}/domodedovo.png`,
+    },
+    {
+      id: 'udomlya',
+      title: 'Свободно 4 МВт в Удомле',
+      capacityTitle: '4 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 5,5₽',
+      location: 'Удомля',
+      image: `${PLACEMENT_DIR}/udomlya.png`,
+    },
+    {
+      id: 'irkutsk',
+      title: 'Свободно 10 МВт в Иркутске',
+      capacityTitle: '10 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 5,0₽',
+      location: 'Иркутск',
+      image: `${PLACEMENT_DIR}/irkutsk.png`,
+    },
+    {
+      id: 'nizhny',
+      title: 'Свободно 20 МВт в Нижегородской области',
+      capacityTitle: '20 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 5,3₽',
+      location: 'Нижегородская область',
+      image: `${PLACEMENT_DIR}/nizhny.png`,
+    },
+    {
+      id: 'krasnoyarsk',
+      title: 'Свободно 7 МВт в Красноярске',
+      capacityTitle: '7 МВт мощности',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 5,0₽',
+      location: 'Красноярск',
+      image: `${PLACEMENT_DIR}/krasnoyarsk.png`,
+    },
+    {
+      id: 'other-regions',
+      title: 'Другие регионы РФ',
+      capacityTitle: 'Другие регионы РФ',
+      priceLabel: 'Цена за кВт/ч:',
+      priceValue: 'от 4,6₽',
+      location: 'Другие регионы РФ',
+      image: `${PLACEMENT_DIR}/other-regions.png`,
+    },
+  ] satisfies readonly PodborPlacementOffer[],
+} as const
