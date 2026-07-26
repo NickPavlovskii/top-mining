@@ -1,0 +1,22 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: HTTP API бэкенда (health + GraphQL).
+  title: Top Mining API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      description: Возвращает ok, если HTTP-сервер запущен
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Проверка сервера
+      tags:
+      - system
+swagger: "2.0"

@@ -13,9 +13,9 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 
 	_ "niklad/backend/docs"
-	appgraphql "niklad/backend/internal/graphql"
 	"niklad/backend/internal/catalog"
 	"niklad/backend/internal/envfile"
+	appgraphql "niklad/backend/internal/graphql"
 )
 
 func main() {
