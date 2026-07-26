@@ -70,17 +70,21 @@
 
     <podbor-mining-hotel-placement />
     <podbor-mining-hotel-sale />
+    <podbor-mining-hotel-cta-section />
+    <podbor-mining-hotel-useful />
   </div>
 </template>
 
 <script setup lang="ts">
   import { PODBOR_MINING_HOTEL_PAGE } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import PodborMiningHotelCtaSection from '~/components/podbor/cta/PodborMiningHotelCtaSection.vue'
   import PodborMiningHotelLeadForm from '~/components/podbor/hero/PodborMiningHotelLeadForm.vue'
   import PodborMiningHotelLogos from '~/components/podbor/hero/PodborMiningHotelLogos.vue'
   import PodborMiningHotelOffer from '~/components/podbor/hero/PodborMiningHotelOffer.vue'
   import PodborMiningHotelPlacement from '~/components/podbor/placement/PodborMiningHotelPlacement.vue'
   import PodborMiningHotelSale from '~/components/podbor/sale/PodborMiningHotelSale.vue'
   import PodborMiningHotelMarquee from '~/components/podbor/shared/PodborMiningHotelMarquee.vue'
+  import PodborMiningHotelUseful from '~/components/podbor/shared/PodborMiningHotelUseful.vue'
 
   const page = PODBOR_MINING_HOTEL_PAGE
 

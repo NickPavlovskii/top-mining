@@ -283,3 +283,135 @@ export const PODBOR_MINING_HOTEL_SALE = {
     },
   ] satisfies readonly PodborPlacementOffer[],
 } as const
+
+export type PodborCtaTitlePart = {
+  text: string
+  accent?: boolean
+}
+
+export type PodborCtaCard = {
+  id: string
+  titleParts: readonly PodborCtaTitlePart[]
+  description?: string
+  buttonLabel: string
+  buttonIcon: 'arrow' | 'plus'
+  image?: string
+  imageAlt?: string
+}
+
+export const PODBOR_MINING_HOTEL_CTA = {
+  getOffersModal: {
+    title: 'Актуальные предложения по размещению',
+    subtitle: 'Оставьте заявку и мы перезвоним вам в ближайшее время',
+    nameLabel: 'Ваше имя',
+    namePlaceholder: 'Имя',
+    phoneLabel: 'Ваш номер телефона',
+    phonePlaceholder: '+7 (',
+    powerLabel: 'Мощность площадки',
+    powerPlaceholder: '1',
+    regionLabel: 'Ваш регион',
+    regionPlaceholder: 'Регион',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  } satisfies PodborAddCardModalCopy,
+  addCardModal: {
+    title: 'Добавление вашей площадки под размещение',
+    subtitle: 'Оставьте заявку и мы перезвоним вам в ближайшее время',
+    nameLabel: 'Ваше имя',
+    namePlaceholder: 'Имя',
+    phoneLabel: 'Ваш номер телефона',
+    phonePlaceholder: '+7 (',
+    powerLabel: 'Мощность площадки',
+    powerPlaceholder: '1',
+    regionLabel: 'Ваш регион',
+    regionPlaceholder: 'Регион',
+    submitLabel: 'Оставить заявку',
+    privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+    privacyLinkLabel: 'Политикой конфиденциальности',
+    privacyHref: '/privacy',
+  } satisfies PodborAddCardModalCopy,
+  cards: [
+    {
+      id: 'get-offers',
+      titleParts: [
+        { text: 'Получить все ' },
+        { text: 'актуальные предложения по размещению', accent: true },
+        { text: ' ваших ASIC-майнеров' },
+      ],
+      description:
+        'Получите список площадок и условия размещения ваших ASIC-майнеров',
+      buttonLabel: 'Получить предложение',
+      buttonIcon: 'arrow',
+    },
+    {
+      id: 'add-card',
+      titleParts: [
+        { text: 'Добавить ' },
+        { text: 'карточку вашей площадки', accent: true },
+        { text: ' под размещение' },
+      ],
+      description:
+        'Разместить свои площадки на сайте TOP MINING, чтобы быстрее найти клиентов',
+      buttonLabel: 'Добавить карточку',
+      buttonIcon: 'plus',
+      image: '/images/podbor-majning-otelya/cta/add-cards.png',
+      imageAlt: 'Добавьте свою карточку',
+    },
+  ] satisfies readonly PodborCtaCard[],
+} as const
+
+export const PODBOR_MINING_HOTEL_USEFUL = {
+  titleLead: 'Чем полезен',
+  titleAccent: 'ТОП МАЙНИНГ',
+  /**
+   * Фразы для пословной анимации blur → clear.
+   * `br` — перенос строки, `spacer` — вертикальный отступ между абзацами.
+   */
+  segments: [
+    { text: 'Мы являемся экспертами' },
+    { text: 'в области' },
+    { text: 'майнинга.' },
+    { type: 'spacer' },
+    { text: 'Мы' },
+    { text: 'не занимаемся продажей' },
+    { text: 'оборудования или хостингом.' },
+    { type: 'br' },
+    { text: 'Наша' },
+    { text: 'основная' },
+    { text: 'задача - помочь' },
+    { text: 'вам найти' },
+    { text: 'подходящую майнинг-компанию.' },
+    { type: 'spacer' },
+    { text: 'Мы' },
+    { text: 'хорошо знаем' },
+    { text: 'рынок' },
+    { text: 'и располагаем' },
+    { text: 'списком' },
+    { text: 'проверенных компаний,' },
+    { text: 'которые' },
+    { text: 'соответствуют нашим' },
+    { text: 'высоким стандартам' },
+    { text: '(честность, безопасность,' },
+    { text: 'репутация, цена).' },
+    { type: 'br' },
+    { text: 'Эти компании конкурируют друг' },
+    { text: 'с другом, предлагая' },
+    { text: 'вам лучшие' },
+    { text: 'цены.' },
+    { type: 'spacer' },
+    { text: 'Сотрудничая' },
+    { text: 'с нами,' },
+    { text: 'эти компании' },
+    { text: 'снижают' },
+    { text: 'затраты' },
+    { text: 'на маркетинг' },
+    { text: 'и продажи, что' },
+    { text: 'позволяет им предлагать нам' },
+    { text: 'более выгодные' },
+    { text: 'условия, которые мы затем' },
+    { text: 'предлагаем' },
+    { text: 'вам в рамках наших услуг.' },
+  ],
+} as const
