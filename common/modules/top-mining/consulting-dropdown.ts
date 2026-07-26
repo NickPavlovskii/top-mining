@@ -1,7 +1,23 @@
-export const TOP_MINING_CONSULTING_DROPDOWN_ITEMS = [
-  'Consulting в майнинге',
-  'Помогаем купить ASIC выгодно',
-  'Увеличим ваш доход',
-  'Подбираем майнинг-отель',
-  'Строительство дата-центров',
-] as const
+import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
+
+export type TopMiningConsultingDropdownItem = {
+  label: string
+  href: string
+}
+
+export const TOP_MINING_CONSULTING_DROPDOWN_ITEMS: readonly TopMiningConsultingDropdownItem[] =
+  [
+    { label: 'Consulting в майнинге', href: '/consulting/' },
+    { label: 'Помогаем купить ASIC выгодно', href: '#' },
+    { label: 'Увеличим ваш доход', href: '#' },
+    { label: 'Подбираем майнинг-отель', href: PODBOR_MINING_HOTEL_PATH },
+    { label: 'Строительство дата-центров', href: '#' },
+  ] as const
+
+const consultingHrefByLabel = new Map(
+  TOP_MINING_CONSULTING_DROPDOWN_ITEMS.map((item) => [item.label, item.href]),
+)
+
+export function getConsultingServiceHref(label: string): string {
+  return consultingHrefByLabel.get(label) ?? '#'
+}

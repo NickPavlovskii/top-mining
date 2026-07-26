@@ -86,19 +86,17 @@
 </template>
 
 <script setup lang="ts">
-  import type { CryptoCoin,
+  import {
     CRYPTO_PRICE_PERIODS,
     DEFAULT_CRYPTO_PRICE_PERIOD,
-    type CryptoPricePeriodValue 
-   
-  } from '~/common/modules/crypto';
-    import {
     formatChangePercent,
     formatPriceRub,
     getChangeToneClass,
     getCoinChangeByPeriod,
     getCryptoIcon,
     getPeriodLabel,
+    type CryptoCoin,
+    type CryptoPricePeriodValue,
   } from '~/common/modules/crypto'
 
   withDefaults(

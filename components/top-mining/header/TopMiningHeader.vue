@@ -109,21 +109,21 @@
             role="menu"
             aria-label="Consulting-услуги"
           >
-            <a
-              v-for="item in TOP_MINING_CONSULTING_DROPDOWN_ITEMS"
-              :key="item"
-              href="#"
-              class="top-mining__consulting-panel-link"
-              role="menuitem"
-            >
-              <img
-                alt=""
-                aria-hidden="true"
-                class="top-mining__consulting-panel-link-icon"
-                :src="consultingServiceIcon"
-              />
-              <span>{{ item }}</span>
-            </a>
+              <nuxt-link
+                v-for="item in TOP_MINING_CONSULTING_DROPDOWN_ITEMS"
+                :key="item.label"
+                class="top-mining__consulting-panel-link"
+                role="menuitem"
+                :to="item.href"
+              >
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  class="top-mining__consulting-panel-link-icon"
+                  :src="consultingServiceIcon"
+                />
+                <span>{{ item.label }}</span>
+              </nuxt-link>
 
             <top-mining-contact-pill-buttons
               class="top-mining__consulting-panel-contacts"

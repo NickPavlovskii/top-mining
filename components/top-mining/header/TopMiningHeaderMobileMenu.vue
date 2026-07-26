@@ -105,6 +105,19 @@
                   />
                   <span>{{ item }}</span>
                 </nuxt-link>
+                <nuxt-link
+                  v-else-if="column.slug === 'consulting'"
+                  :to="getConsultingServiceHref(item)"
+                  class="top-mining__mobile-menu-link"
+                  @click="emit('nav-link-click')"
+                >
+                  <img
+                    alt=""
+                    class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image top-mining__mobile-menu-link-icon--consulting"
+                    :src="consultingServiceIcon"
+                  />
+                  <span>{{ item }}</span>
+                </nuxt-link>
                 <a
                   v-else
                   href="#"
@@ -115,12 +128,6 @@
                     alt=""
                     class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
                     :src="telegramMenuIcon"
-                  />
-                  <img
-                    v-else-if="column.slug === 'consulting'"
-                    alt=""
-                    class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image top-mining__mobile-menu-link-icon--consulting"
-                    :src="consultingServiceIcon"
                   />
                   <Icon
                     v-else
@@ -178,6 +185,7 @@
   } from '~/common/modules/top-mining/articles-section'
   import {
     TOP_MINING_NAV_COLUMNS,
+    getConsultingServiceHref,
     getMobileNavItemGroups,
     getMobileNavItemColumns,
     getVisiblePhoneMenuItems,

@@ -11,7 +11,6 @@
 
       <top-mining-button
         class="btn-link btn-link--dark"
-        target="_blank"
         variant="primary"
         size="small"
         surface="dark"
