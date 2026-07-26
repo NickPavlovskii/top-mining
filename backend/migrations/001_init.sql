@@ -57,7 +57,6 @@ JOIN (
         ('equipment-manufacturers', 'Bombax', '/images/catalog/volcminer.png', 'Производитель ASIC-майнеров Bombax.', 0, 0, 7),
         ('equipment-manufacturers', 'VolcMiner', '/images/catalog/volcminer.png', 'Производитель майнинг-оборудования VolcMiner.', 0, 0, 8),
         ('equipment-manufacturers', 'ElphaPex', '/images/catalog/elphapex.png', 'Производитель ASIC-майнеров ElphaPex.', 0, 0, 9),
-        -- Майнинг-пулы (только с полным профилем)
         ('mining-pools', 'K8X', 'https://top-mining.ru/wp-content/uploads/2026/03/avatar.jpg', 'Майнинг-пул K8X для добычи криптовалют.', 5, 5, 1),
         ('mining-pools', 'Neopool', 'https://top-mining.ru/wp-content/uploads/2025/12/logo-neopul.png', 'Майнинг-пул Neopool для майнеров.', 5, 1, 2),
         ('mining-pools', 'RUPOOL.PRO', '/images/catalog/rupool.png', 'Российский майнинг-пул RUPOOL.PRO.', 5, 1, 3),

@@ -6,9 +6,6 @@ import (
 	"strings"
 )
 
-// Feed возвращает hero / featured / list для главной.
-// Сначала выбирается hero, затем остальные раскладываются по корзинам —
-// чтобы fallback-hero не дублировался в Featured/List.
 func (r *Repository) Feed(ctx context.Context, topic string) (*Feed, error) {
 	topic = strings.TrimSpace(topic)
 	if topic == "" {
@@ -70,7 +67,6 @@ func buildFeed(items []Preview) *Feed {
 				feed.Featured = append(feed.Featured, item)
 			}
 		case "hero":
-			// Лишние hero уходят в list, чтобы не терять карточку.
 			if len(feed.List) < maxList {
 				feed.List = append(feed.List, item)
 			}

@@ -6,8 +6,6 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// Колонки превью: COALESCE закрывает переход на media_assets (миграция 016)
-// и старые reading_time_min / reading_minutes.
 const previewColumns = `
     a.id, a.slug, a.title, a.excerpt,
     COALESCE(cover.path, NULLIF(a.image_url, ''), ''),

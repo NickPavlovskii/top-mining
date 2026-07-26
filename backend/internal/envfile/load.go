@@ -6,8 +6,6 @@ import (
 	"strings"
 )
 
-// Load читает первый доступный .env-файл и выставляет переменные,
-// только если они ещё не заданы в окружении.
 func Load(paths ...string) {
 	for _, path := range paths {
 		file, err := os.Open(path)

@@ -107,7 +107,7 @@
 
   .article-related-ratings__cta:hover,
   .article-related-ratings__cta:focus-visible {
-    background: #ff7a35;
+    background: var(--tm-orange-hover);
     transform: translateY(-1px);
   }
 

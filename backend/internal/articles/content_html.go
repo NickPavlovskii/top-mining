@@ -7,9 +7,6 @@ import (
 	"strings"
 )
 
-// AssembleContentFromBlocks собирает упрощённый HTML из блоков.
-// Это слой представления, не доступа к БД: text экранируется,
-// html из payload считается доверенным (санитизация — при сохранении).
 func AssembleContentFromBlocks(blocks []Block) string {
 	var b strings.Builder
 	for _, block := range blocks {

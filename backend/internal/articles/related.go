@@ -5,7 +5,6 @@ import (
 	"fmt"
 )
 
-// Related возвращает связанные статьи. Пустой слайс без ошибки — связей нет.
 func (r *Repository) Related(ctx context.Context, articleID int) ([]Preview, error) {
 	rows, err := r.db.Query(ctx, `
 		SELECT`+previewColumns+`

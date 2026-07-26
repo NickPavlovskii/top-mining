@@ -18,11 +18,8 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      /** id первой секции (например «vvedenie») */
       targetId?: string | null
-      /** Встроить в мобильную панель действий */
       inline?: boolean
-      /** Не скрывать до скролла */
       alwaysVisible?: boolean
     }>(),
     {
@@ -91,7 +88,7 @@
 
   .article-scroll-top:hover,
   .article-scroll-top:focus-visible {
-    background: #ff7a35;
+    background: var(--tm-orange-hover);
     transform: translateY(-2px);
   }
 
