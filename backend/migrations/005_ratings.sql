@@ -81,10 +81,10 @@ JOIN (VALUES
   ('06', 'Какой кошелек для криптовалюты выбрать: 10 лучших &#8220;горячих&#8221; хранилищ', '/articles/kakoj-koshelek-dlya-kriptovalyuty-vybrat-10-luchshih-goryachih-hranilishh', 6),
   ('07', 'Лучший пул для майнинга Биткоина в 2026 году для России: ТОП-3', '/articles/luchshij-pul-dlya-majninga-bitkoina-v-2024-godu-dlya-rossii-top-3-3', 7),
   ('08', 'Лучшие пулы для майнинга: ТОП-10', '/articles/luchshie-puly-dlya-majninga-top-10', 8),
-  ('09', 'Рейтинг прошивок для асиков: ТОП-5', '/articles/rejting-proshivok-dlya-asikov-top-5', 9),
+  ('09', 'Рейтинг прошивок для асиков: ТОП-6', '/articles/rejting-proshivok-dlya-asikov-top-5', 9),
   ('10', 'ТОП-8 лучших обменников криптовалют в 2026 году', '/articles/rejting-kriptoobmennikov-top-10-luchshih-obmennikov-kriptovalyut-v-2024-godu', 10),
   ('11', 'Книги про майнинг: ТОП-5 изданий', '/articles/knigi-pro-majning-top-5-izdanij', 11),
-  ('12', 'Лучшие каналы о майнинге на youtube: ТОП-10', '/articles/luchshie-kanaly-o-majninge-na-youtube-top-10', 12),
+  ('12', 'Лучшие каналы о майнинге на YouTube: ТОП-10', '/articles/luchshie-kanaly-o-majninge-na-youtube-top-10', 12),
   ('13', 'Лучшие каналы о майнинге в Telegram: ТОП-10', '/articles/luchshie-kanaly-o-majninge-v-telegram-top-10', 13)
 ) AS v(display_number, label, href, sort_order) ON c.slug = 'tools'
 ON CONFLICT DO NOTHING;
@@ -123,8 +123,8 @@ JOIN (VALUES
   ('equipment', '13', 7, '07'), ('equipment', '14', 8, '08'), ('equipment', '15', 9, '09'),
   ('tools', '02', 1, '01'), ('tools', '03', 2, '02'), ('tools', '08', 3, '03'),
   ('tools', '04', 4, '04'), ('tools', '05', 5, '05'), ('tools', '06', 6, '06'),
-  ('sales', '03', 1, '01'),
-  ('equipment', '17', 10, '02'),
+  ('sales', '01', 1, '01'), ('sales', '02', 2, '02'), ('sales', '03', 3, '03'),
+  ('sales', '04', 4, '04'),
   ('crypto', '02', 1, '01'), ('crypto', '03', 2, '02')
 ) AS v(cat, disp, ord, home_num) ON c.slug = v.cat
 WHERE i.category_id = c.id AND i.display_number = v.disp;

@@ -40,8 +40,8 @@
       <div class="ok-wrap-block">
         <div
           v-for="(benefit, index) in config.benefits"
-          class="ok-wrap-block-item"
           :key="index"
+          class="ok-wrap-block-item"
         >
           <span
             class="ok-wrap-block-item__icon"

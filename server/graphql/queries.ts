@@ -32,6 +32,15 @@ export const ARTICLE_QUERY = `
     article(slug: $slug) {
       ${ARTICLE_PREVIEW_FIELDS}
       content
+      usesBlocks
+      viewCount
+      blocks {
+        id
+        position
+        type
+        payload
+        anchor
+      }
     }
   }
 `
@@ -265,6 +274,14 @@ export const CREATE_ORGANIZATION_REVIEW_MUTATION = `
       stats {
         ${ORGANIZATION_REVIEW_STATS_FIELDS}
       }
+    }
+  }
+`
+
+export const INCREMENT_ARTICLE_VIEW_MUTATION = `
+  mutation IncrementArticleView($slug: String!) {
+    incrementArticleView(slug: $slug) {
+      viewCount
     }
   }
 `

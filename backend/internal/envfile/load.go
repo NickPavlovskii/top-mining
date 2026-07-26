@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// Load читает KEY=VALUE из первого существующего файла и задаёт переменные окружения.
 func Load(paths ...string) {
 	for _, path := range paths {
 		file, err := os.Open(path)
@@ -30,7 +29,7 @@ func Load(paths ...string) {
 			value = strings.TrimSpace(value)
 			value = strings.Trim(value, `"'`)
 
-			if key != "" {
+			if key != "" && os.Getenv(key) == "" {
 				_ = os.Setenv(key, value)
 			}
 		}

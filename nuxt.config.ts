@@ -41,7 +41,14 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/icon',
     '@nuxt/test-utils/module',
+    '@nuxt/eslint',
   ],
+
+  eslint: {
+    config: {
+      stylistic: false,
+    },
+  },
 
   fonts: {
     providers: {

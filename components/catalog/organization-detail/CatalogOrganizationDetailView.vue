@@ -39,7 +39,7 @@
       </header>
 
       <section
-        v-if="organization.aboutHtml"
+        v-if="aboutHtml"
         class="org-detail__card org-detail__about-card"
       >
         <h2 class="org-detail__card-title">
@@ -50,10 +50,10 @@
             'org-detail__about',
             { 'org-detail__about--collapsed': !aboutExpanded },
           ]"
-          v-html="organization.aboutHtml"
+          v-html="aboutHtml"
         />
         <button
-          v-if="!aboutExpanded"
+          v-if="!aboutExpanded && aboutNeedsExpand"
           type="button"
           class="org-detail__read-more"
           @click="aboutExpanded = true"
@@ -62,8 +62,16 @@
         </button>
       </section>
 
-      <div class="org-detail__layout">
-        <div class="org-detail__main">
+      <div
+        :class="[
+          'org-detail__layout',
+          { 'org-detail__layout--sidebar-only': !hasMainProfile },
+        ]"
+      >
+        <div
+          v-if="hasMainProfile"
+          class="org-detail__main"
+        >
           <section
             v-if="organization.equipmentSales"
             class="org-detail__card org-detail__card--stretch"
@@ -792,6 +800,19 @@
     Array.isArray(props.organization.gallery) ? props.organization.gallery : [],
   )
 
+  const aboutHtml = computed(() => props.organization.aboutHtml?.trim() || '')
+
+  const aboutNeedsExpand = computed(() => aboutHtml.value.length > 420)
+
+  const hasMainProfile = computed(
+    () =>
+      Boolean(props.organization.equipmentSales)
+      || Boolean(props.organization.miningHotel)
+      || Boolean(props.organization.miningPool)
+      || Boolean(props.organization.cryptoExchange)
+      || Boolean(props.organization.cryptoWallet),
+  )
+
   const legalProfileRows = computed(() => {
     const profile = props.organization.legalProfile
 
@@ -1078,6 +1099,28 @@
     grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
     gap: 20px;
     align-items: stretch;
+  }
+
+  .org-detail__layout--sidebar-only {
+    grid-template-columns: 1fr;
+  }
+
+  .org-detail__layout--sidebar-only :deep(.org-detail__sidebar) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-rows: none;
+    gap: 20px;
+    min-height: 0;
+    position: static;
+    align-self: stretch;
+  }
+
+  .org-detail__layout--sidebar-only :deep(.org-detail__contacts-card) {
+    grid-column: 1 / -1;
+  }
+
+  .org-detail__layout--sidebar-only :deep(.org-detail__card--stretch) {
+    flex: none;
   }
 
   .org-detail__main {

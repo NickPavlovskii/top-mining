@@ -32,7 +32,6 @@ JOIN (
     VALUES
         -- Продажа ASIC
         ('asic-sales', 'Algoritm', 'https://top-mining.ru/wp-content/uploads/2025/07/algoritm-1.png', 'Поставщик майнинг-оборудования и комплексных решений для дата-центров.', 0, 0, 1),
-        ('asic-sales', 'MBTC', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров и сопутствующего оборудования.', 4.9, 113, 2),
         ('asic-sales', 'Mining center', '/images/catalog/mining-center.png', 'Продажа ASIC-майнеров, подбор оборудования и сервисное обслуживание.', 0, 0, 3),
         ('asic-sales', 'r7miner', '/images/catalog/r7miner.png', 'Продажа ASIC-майнеров с высоким рейтингом и большим числом отзывов.', 4.9, 113, 4),
         ('asic-sales', 'IBMM', 'https://top-mining.ru/wp-content/uploads/2024/08/ibmm-90x90-1.png', 'Продажа ASIC-майнеров, консультации и техническая поддержка.', 4.8, 485, 5),
@@ -58,12 +57,14 @@ JOIN (
         ('equipment-manufacturers', 'Bombax', '/images/catalog/volcminer.png', 'Производитель ASIC-майнеров Bombax.', 0, 0, 7),
         ('equipment-manufacturers', 'VolcMiner', '/images/catalog/volcminer.png', 'Производитель майнинг-оборудования VolcMiner.', 0, 0, 8),
         ('equipment-manufacturers', 'ElphaPex', '/images/catalog/elphapex.png', 'Производитель ASIC-майнеров ElphaPex.', 0, 0, 9),
-        -- Майнинг-пулы
         ('mining-pools', 'K8X', 'https://top-mining.ru/wp-content/uploads/2026/03/avatar.jpg', 'Майнинг-пул K8X для добычи криптовалют.', 5, 5, 1),
-        ('mining-pools', 'Masspool.io', '/images/catalog/masspool.png', 'Майнинг-пул Masspool.io с прозрачной статистикой и выплатами.', 5, 7, 2),
-        ('mining-pools', 'Neopool', 'https://top-mining.ru/wp-content/uploads/2025/12/logo-neopul.png', 'Майнинг-пул Neopool для майнеров.', 5, 1, 3),
-        ('mining-pools', 'RUPOOL.PRO', '/images/catalog/rupool.png', 'Российский майнинг-пул RUPOOL.PRO.', 5, 1, 4),
-        ('mining-pools', 'ViaBTC', '/images/catalog/viabtc.png', 'Крупный международный майнинг-пул ViaBTC.', 3.3, 18, 5)
+        ('mining-pools', 'Neopool', 'https://top-mining.ru/wp-content/uploads/2025/12/logo-neopul.png', 'Майнинг-пул Neopool для майнеров.', 5, 1, 2),
+        ('mining-pools', 'RUPOOL.PRO', '/images/catalog/rupool.png', 'Российский майнинг-пул RUPOOL.PRO.', 5, 1, 3),
+        ('mining-pools', 'Luxor Mining Pool', '/images/catalog/luxor.png', 'Международный майнинг-пул Luxor.', 0, 0, 4),
+        ('mining-pools', 'TPool', '/images/catalog/tpool.png', 'Майнинг-пул TPool от команды Trustpool.', 0, 0, 5),
+        ('mining-pools', 'Trustpool', '/images/catalog/trustpool.png', 'Международный майнинг-пул Trustpool.', 0, 0, 6),
+        ('mining-pools', 'Antpool', '/images/catalog/antpool.png', 'Майнинг-пул Antpool — один из крупнейших пулов.', 3.6, 5, 7),
+        ('mining-pools', 'F2Pool', '/images/catalog/f2pool.png', 'Майнинг-пул F2Pool с поддержкой множества монет.', 4.5, 4, 8)
 ) AS v(slug, name, logo_url, description, rating, review_count, sort_order)
     ON c.slug = v.slug
 WHERE NOT EXISTS (

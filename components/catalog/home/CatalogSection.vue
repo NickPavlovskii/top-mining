@@ -46,7 +46,7 @@
         <form
           class="catalog-section__search"
           :action="CATALOG_PAGE_HREF"
-          @submit.prevent
+          @submit.prevent="goToCatalogSearch"
         >
           <label class="catalog-section__search-field">
             <input
@@ -57,22 +57,23 @@
               placeholder="Поиск по названию"
               autocomplete="off"
             />
-            <span
+            <button
+              type="submit"
               class="catalog-section__search-icon"
-              aria-hidden="true"
+              aria-label="Искать"
             >
               <img
                 alt=""
                 class="catalog-section__search-icon-img"
                 :src="catalogSearchIcon"
               />
-            </span>
+            </button>
           </label>
         </form>
 
         <div class="catalog-section__categories">
           <catalog-category-row
-            v-for="category in visibleCategories"
+            v-for="category in categoriesWithOrganizations"
             :key="category.id"
             :category="category"
           />
@@ -94,11 +95,15 @@
    * Главная секция каталога на главной странице с поиском и категориями.
    */
   import { EMPTY_CATALOG_META, emptyCatalogResponse } from '~/common/modules/catalog'
-  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
+  import {
+    CATALOG_PAGE_HREF,
+    getCatalogSearchHref,
+  } from '~/common/modules/catalog/nav-links'
   import type { CatalogResponse } from '~/common/modules/catalog'
   import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
 
+  const router = useRouter()
   const searchQuery = ref('')
 
   const { data } = await useFetch<CatalogResponse>('/api/catalog', {
@@ -118,23 +123,15 @@
     categories.value.filter((category) => category.organizations.length > 0),
   )
 
-  const visibleCategories = computed(() => {
-    const query = searchQuery.value.trim().toLowerCase()
-    const base = categoriesWithOrganizations.value
+  function goToCatalogSearch() {
+    const query = searchQuery.value.trim()
 
     if (!query) {
-      return base
+      return
     }
 
-    return base
-      .map((category) => ({
-        ...category,
-        organizations: category.organizations.filter((organization) =>
-          organization.name.toLowerCase().includes(query),
-        ),
-      }))
-      .filter((category) => category.organizations.length > 0)
-  })
+    return router.push(getCatalogSearchHref(query))
+  }
 </script>
 
 <style scoped>
@@ -275,7 +272,7 @@
     align-items: center;
     gap: 12px;
     width: 100%;
-    max-width: 300px;
+    max-width: none;
     min-height: 48px;
     padding: 0 16px;
     border: 1px solid #e5e7eb;
@@ -288,15 +285,26 @@
   .catalog-section__search-icon {
     display: inline-flex;
     flex-shrink: 0;
-    width: 16px;
-    height: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
     opacity: 0.72;
+    cursor: pointer;
+  }
+
+  .catalog-section__search-icon:hover,
+  .catalog-section__search-icon:focus-visible {
+    opacity: 1;
   }
 
   .catalog-section__search-icon-img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
   }
 

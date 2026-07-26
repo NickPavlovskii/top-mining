@@ -42,8 +42,8 @@
     >
       <catalog-category-sidebar-filter-item
         v-for="child in option.children"
-        v-model="selectedFilters"
         :key="child.id"
+        v-model="selectedFilters"
         :option="child"
         :expanded-nodes="expandedNodes"
         :search-query="searchQuery"

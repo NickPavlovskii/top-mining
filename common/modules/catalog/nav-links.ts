@@ -3,6 +3,19 @@ export const ALL_ORGANIZATIONS_CATEGORY_ID = 'all'
 
 export const CATALOG_PAGE_HREF = `/asic-manufacturers/?category=${ALL_ORGANIZATIONS_CATEGORY_ID}`
 
+export function getCatalogSearchHref(search: string): string {
+  const query = search.trim()
+  const params = new URLSearchParams({
+    category: ALL_ORGANIZATIONS_CATEGORY_ID,
+  })
+
+  if (query) {
+    params.set('search', query)
+  }
+
+  return `/asic-manufacturers/?${params.toString()}`
+}
+
 export function getCatalogCategoryHref(categoryId: string): string {
   if (categoryId === MANUFACTURERS_CATEGORY_ID) {
     return '/asic-manufacturers/'

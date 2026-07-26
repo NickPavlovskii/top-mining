@@ -15,6 +15,8 @@ import (
 )
 
 func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
+	articlesRepo := articles.New(pool)
+
 	organizationType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Organization",
 		Fields: graphql.Fields{
@@ -117,6 +119,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"displayType":    &graphql.Field{Type: graphql.String},
 			"content":        &graphql.Field{Type: graphql.String},
 			"usesBlocks":     &graphql.Field{Type: graphql.Boolean},
+			"viewCount":      &graphql.Field{Type: graphql.Int},
 			"blocks":         &graphql.Field{Type: graphql.NewList(articleBlockType)},
 			"related":        &graphql.Field{Type: graphql.NewList(articlePreviewType)},
 		},
@@ -380,7 +383,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 				},
 				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 					topic, _ := params.Args["topic"].(string)
-					feed, err := articles.FetchFeed(params.Context, pool, topic)
+					feed, err := articlesRepo.Feed(params.Context, topic)
 					if err != nil {
 						return nil, err
 					}
@@ -395,7 +398,7 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 				},
 				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 					slug, _ := params.Args["slug"].(string)
-					article, err := articles.FetchBySlug(params.Context, pool, slug)
+					article, err := articlesRepo.BySlug(params.Context, slug)
 					if errors.Is(err, pgx.ErrNoRows) {
 						return nil, nil
 					}
@@ -481,6 +484,30 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 	rootMutation := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Mutation",
 		Fields: graphql.Fields{
+			"incrementArticleView": &graphql.Field{
+				Type: graphql.NewObject(graphql.ObjectConfig{
+					Name: "IncrementArticleViewResult",
+					Fields: graphql.Fields{
+						"viewCount": &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
+					},
+				}),
+				Args: graphql.FieldConfigArgument{
+					"slug": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					slug, _ := params.Args["slug"].(string)
+					viewCount, err := articlesRepo.IncrementViewBySlug(params.Context, slug)
+					if errors.Is(err, pgx.ErrNoRows) {
+						return nil, nil
+					}
+					if err != nil {
+						return nil, err
+					}
+					return map[string]interface{}{
+						"viewCount": viewCount,
+					}, nil
+				},
+			},
 			"createOrganizationReview": &graphql.Field{
 				Type: createOrganizationReviewResultType,
 				Args: graphql.FieldConfigArgument{
@@ -586,6 +613,7 @@ func toGraphQLArticlePreview(preview articles.Preview) map[string]interface{} {
 		"topicId":      preview.TopicID,
 		"publishedAt":  preview.PublishedAt,
 		"displayType":  preview.DisplayType,
+		"viewCount":    preview.ViewCount,
 	}
 
 	if preview.ReadingTimeMin != nil {

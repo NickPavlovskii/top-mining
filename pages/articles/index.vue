@@ -31,8 +31,8 @@
       >
         <nuxt-link
           v-for="topic in TOP_MINING_ARTICLES_TOPICS"    
-          role="tab"
           :key="topic.id"
+          role="tab"
           :to="topicLink(topic.id)"
           :class="['articles-page__topic', { 'articles-page__topic--active': activeTopic === topic.id }]"
           :aria-selected="activeTopic === topic.id"
@@ -102,7 +102,8 @@
         >
           <top-mining-article-row
             v-for="item in paginatedArticles"
-            title-tag="h2":key="item.id"
+            :key="item.id"
+            title-tag="h2"
             :article="item"
             :to="`/articles/${item.slug}`"
           />
