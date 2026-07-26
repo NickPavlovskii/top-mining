@@ -68,11 +68,10 @@
     FALLBACK_BITCOIN_USD,
     GROWTH_COIN_IDS,
     POPULAR_COIN_IDS,
-    VOLUME_COIN_IDS,
+    VOLUME_COIN_IDS, bitcoinIcon, getChangeToneClass 
   } from '~/common/modules/crypto'
   import type { CryptoCoin, CryptoResponse } from '~/common/modules/crypto'
-  import { bitcoinIcon, getChangeToneClass } from '~/common/modules/crypto'
-  import SparklineChart from '~/components/charts/SparklineChart.vue'
+    import SparklineChart from '~/components/charts/SparklineChart.vue'
 
   const { data } = await useFetch<CryptoResponse>('/api/crypto', {
     default: () => ({

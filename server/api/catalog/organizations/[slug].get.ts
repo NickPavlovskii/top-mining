@@ -1,6 +1,5 @@
 import { setResponseStatus } from 'h3'
-import type { CatalogOrganizationDetailResponse } from '~/common/modules/catalog'
-import type { CatalogOrganizationDetail } from '~/common/modules/catalog'
+import type { CatalogOrganizationDetailResponse, CatalogOrganizationDetail  } from '~/common/modules/catalog'
 import { ORGANIZATION_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 

@@ -68,8 +68,8 @@
           <ul class="catalog-cat-filters__list">
             <catalog-category-sidebar-filter-item
               v-for="option in visibleOptions(group)"
-              v-model="selectedFilters"
               :key="option.id"
+              v-model="selectedFilters"
               :option="option"
               :expanded-nodes="expandedNodes"
               :search-query="searchQueries[group.id] ?? ''"

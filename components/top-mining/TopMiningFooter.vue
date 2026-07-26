@@ -74,7 +74,7 @@
             <top-mining-round-icon-button
               type="submit"
               size="small"
-              ariaLabel="Подписаться"
+              aria-label="Подписаться"
             />
           </form>
 
@@ -106,10 +106,10 @@
 
           <div class="site-footer__nav-column">
             <component
-              v-for="link in TOP_MINING_FOOTER_MAIN_LINKS"
-              :key="link.label"
               v-bind="getFooterLinkProps(link)"
               :is="getFooterLinkComponent(link)"
+              v-for="link in TOP_MINING_FOOTER_MAIN_LINKS"
+              :key="link.label"
             >
               {{ link.label }}
               <Icon name="mdi:arrow-top-right" />
@@ -122,7 +122,7 @@
       <div class="site-footer__scroll-wrap">
         <top-mining-round-icon-button
           class="site-footer__scroll-top"
-          ariaLabel="Наверх"
+          aria-label="Наверх"
           @click="scrollToTop"
         />
       </div>

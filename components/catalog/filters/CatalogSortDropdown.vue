@@ -29,10 +29,10 @@
     >
       <button
         v-for="option in options"
-        type="button"
-        role="option"
         :id="`sort-${option.value}`"
         :key="option.value"
+        type="button"
+        role="option"
         :aria-selected="modelValue === option.value"
         :class="[
           'catalog-sort__option',

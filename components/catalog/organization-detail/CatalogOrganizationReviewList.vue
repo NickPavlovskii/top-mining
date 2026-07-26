@@ -68,9 +68,9 @@
         >
           <Icon
             v-for="index in 5"            
+            :key="`${review.id}-${index}`"
             class="org-reviews__item-star"
             aria-hidden="true"
-            :key="`${review.id}-${index}`"
             :name="index <= review.rating ? 'mdi:star' : 'mdi:star-outline'"
           />
         </div>

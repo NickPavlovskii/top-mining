@@ -179,13 +179,11 @@
     findCatalogCategoryName,
     flattenCatalogOrganizations,
   } from '~/common/modules/catalog/organizations-page'
-  import type { CatalogResponse } from '~/common/modules/catalog'
-  import type {
+  import type { CatalogResponse,
     CatalogManufacturer,
     CatalogManufacturersResponse,
-    CatalogManufacturersSort,
-  } from '~/common/modules/catalog'
-  import utpStar from '~/assets/images/catalog/star-24.png'
+    CatalogManufacturersSort } from '~/common/modules/catalog'
+    import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
   import CatalogManufacturerCard from '~/components/catalog/manufacturers/CatalogManufacturerCard.vue'
   import CatalogCategoryTabs from '~/components/catalog/shared/CatalogCategoryTabs.vue'

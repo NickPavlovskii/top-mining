@@ -29,9 +29,9 @@
         <template v-if="column.slug === 'catalog'">
           <nuxt-link
             v-for="category in visibleCatalogCategories"
+            :key="category.id"
             class="top-mining__nav-compact-panel-link"
             role="menuitem"
-            :key="category.id"
             :to="getCatalogCategoryHref(category.id)"
             @click="emit('nav-link-click')"
           >

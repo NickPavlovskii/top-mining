@@ -66,7 +66,7 @@
                         type="submit"
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
-                        ariaLabel="Отправить телефон"
+                        aria-label="Отправить телефон"
                         :width="questionSubmitMetrics.width"
                         :height="questionSubmitMetrics.height"
                         :icon-size="questionSubmitMetrics.iconSize"
@@ -169,7 +169,7 @@
                         type="submit"
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
-                        ariaLabel="Подписаться"
+                        aria-label="Подписаться"
                         :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
                         :hover-background-color="
                           TOP_MINING_CONTACT_BUTTON_GRADIENT
