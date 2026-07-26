@@ -1,7 +1,15 @@
 <template>
-  <footer :class="['site-footer', { 'site-footer--privacy': isPrivacyPage }]">
+  <footer
+    :class="[
+      'site-footer',
+      {
+        'site-footer--privacy': isPrivacyPage,
+        'site-footer--no-contact': hideContactBlock,
+      },
+    ]"
+  >
     <section
-      v-if="!isPrivacyPage"
+      v-if="!hideContactBlock"
       class="site-footer__contact"
       aria-labelledby="footer-contact-title"
     >
@@ -131,20 +139,24 @@
 </template>
 
 <script setup lang="ts">
-  /**
-   * Подвал сайта с навигацией, контактами и формой согласия.
-   */
   import type { TopMiningFooterNavLink } from '~/common/modules/top-mining/footer-nav'
   import {
     TOP_MINING_FOOTER_CALCULATOR_LINKS,
     TOP_MINING_FOOTER_MAIN_LINKS,
     TOP_MINING_FOOTER_TELEGRAM_HREF,
   } from '~/common/modules/top-mining/footer-nav'
+  import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
 
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
 
   const isPrivacyPage = computed(() => route.path === '/privacy')
+  const isPodborMiningHotelPage = computed(() =>
+    route.path.startsWith(PODBOR_MINING_HOTEL_PATH.replace(/\/$/, '')),
+  )
+  const hideContactBlock = computed(
+    () => isPrivacyPage.value || isPodborMiningHotelPage.value,
+  )
 
   function isExternalFooterLink(link: TopMiningFooterNavLink) {
     return link.external ?? /^https?:\/\//.test(link.href)
@@ -197,6 +209,10 @@
   }
 
   .site-footer--privacy {
+    margin-top: 0;
+  }
+
+  .site-footer--no-contact {
     margin-top: 0;
   }
 

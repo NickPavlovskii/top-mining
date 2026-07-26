@@ -52,7 +52,7 @@
 
 <style scoped>
   .podbor-cta-section {
-    background: #141414;
+    background: var(--tm-page-bg);
     padding: 24px 0 72px;
   }
 

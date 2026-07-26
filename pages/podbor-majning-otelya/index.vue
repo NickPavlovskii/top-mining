@@ -74,6 +74,15 @@
     <podbor-mining-hotel-useful />
     <podbor-mining-hotel-how-we-work />
     <podbor-mining-hotel-key-factors />
+    <podbor-mining-hotel-security />
+    <podbor-mining-hotel-time-save />
+    <podbor-mining-hotel-summary />
+    <podbor-mining-hotel-promo-banners />
+    <top-mining-contact-section
+      class="podbor-hotel-page__contact"
+      flush
+      :show-articles="false"
+    />
   </div>
 </template>
 
@@ -88,7 +97,12 @@
   import PodborMiningHotelHowWeWork from '~/components/podbor/shared/PodborMiningHotelHowWeWork.vue'
   import PodborMiningHotelKeyFactors from '~/components/podbor/shared/PodborMiningHotelKeyFactors.vue'
   import PodborMiningHotelMarquee from '~/components/podbor/shared/PodborMiningHotelMarquee.vue'
+  import PodborMiningHotelPromoBanners from '~/components/podbor/banners/PodborMiningHotelPromoBanners.vue'
+  import PodborMiningHotelSecurity from '~/components/podbor/shared/PodborMiningHotelSecurity.vue'
+  import PodborMiningHotelSummary from '~/components/podbor/shared/PodborMiningHotelSummary.vue'
+  import PodborMiningHotelTimeSave from '~/components/podbor/shared/PodborMiningHotelTimeSave.vue'
   import PodborMiningHotelUseful from '~/components/podbor/shared/PodborMiningHotelUseful.vue'
+  import TopMiningContactSection from '~/components/top-mining/TopMiningContactSection.vue'
 
   const page = PODBOR_MINING_HOTEL_PAGE
 
@@ -101,7 +115,7 @@
 
 <style scoped>
   .podbor-hotel-page {
-    background: #141414;
+    background: var(--tm-page-bg);
     color: var(--tm-white);
     min-height: 60vh;
   }

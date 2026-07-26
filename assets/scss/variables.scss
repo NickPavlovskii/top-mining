@@ -75,6 +75,7 @@
   --text-placeholder-color: #8c8c8c;
 
   // Тёмные поверхности
+  --page-canvas-color: #141414;
   --dark-bg-color: #1e1e1e;
   --card-bg-color: #2a2a2a;
   --rating-surface-color: #2b2b2b;
@@ -123,6 +124,7 @@
   --tm-icon: var(--icon-color);
   --tm-shadow: var(--shadow-color);
   --tm-dark-bg: var(--dark-bg-color);
+  --tm-page-bg: var(--page-canvas-color);
   --tm-card-bg: var(--card-bg-color);
   --tm-rating-surface: var(--rating-surface-color);
   --tm-surface-dark: var(--surface-dark-page-color);

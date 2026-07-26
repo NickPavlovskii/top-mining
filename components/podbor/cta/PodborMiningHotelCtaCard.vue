@@ -96,7 +96,7 @@
     padding: 32px 28px;
     border: 1px solid var(--tm-orange);
     border-radius: 28px;
-    background: #141414;
+    background: var(--tm-page-bg);
     color: var(--tm-white);
   }
 

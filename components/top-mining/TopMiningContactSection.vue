@@ -1,7 +1,10 @@
 <template>
   <section
     id="home-contact-form"
-    class="contact-section"
+    :class="[
+      'contact-section',
+      { 'contact-section--flush': flush },
+    ]"
     aria-labelledby="contact-section-question-title"
   >
     <div class="contact-section__wrapper">
@@ -186,7 +189,10 @@
           </article>
         </div>
 
-        <top-mining-articles-section v-model:active-topic="articlesTopic">
+        <top-mining-articles-section
+          v-if="showArticles"
+          v-model:active-topic="articlesTopic"
+        >
           <top-mining-articles-feed :topic="articlesTopic" />
         </top-mining-articles-section>
       </div>
@@ -208,6 +214,18 @@
   import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
   import TopMiningArticlesFeed from '~/components/top-mining/TopMiningArticlesFeed.vue'
   import TopMiningArticlesSection from '~/components/top-mining/TopMiningArticlesSection.vue'
+
+  withDefaults(
+    defineProps<{
+      showArticles?: boolean
+      /** Без серого overlap с предыдущей секцией — сплошной тёмный фон страницы */
+      flush?: boolean
+    }>(),
+    {
+      showArticles: true,
+      flush: false,
+    },
+  )
 
   const articlesTopic = ref<TopMiningArticlesTopicId>('all')
 
@@ -260,12 +278,23 @@
     background: #f2f2f2;
   }
 
+  .contact-section--flush {
+    margin-top: 0;
+    padding-top: 0;
+    background: var(--tm-page-bg);
+  }
+
   .contact-section__wrapper {
     width: 100%;
     border-radius: 64px 64px 0 0;
     background-color: #000;
     color: var(--tm-white);
     overflow: hidden;
+  }
+
+  .contact-section--flush .contact-section__wrapper {
+    border-radius: 0;
+    background-color: var(--tm-page-bg);
   }
 
   .contact-section__inner {

@@ -39,7 +39,7 @@
 
 <style scoped>
   .podbor-factors {
-    background: #141414;
+    background: var(--tm-page-bg);
     color: var(--tm-white);
     padding: 24px 0 88px;
   }

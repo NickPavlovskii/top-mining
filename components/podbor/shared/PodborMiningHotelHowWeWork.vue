@@ -70,7 +70,7 @@
 
 <style scoped>
   .podbor-how {
-    background: #141414;
+    background: var(--tm-page-bg);
     color: var(--tm-white);
     padding: 24px 0 80px;
   }

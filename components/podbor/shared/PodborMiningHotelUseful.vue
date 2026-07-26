@@ -122,7 +122,7 @@
 
 <style scoped>
   .podbor-useful {
-    background: #141414;
+    background: var(--tm-page-bg);
     color: var(--tm-white);
     padding: 48px 0 96px;
   }
