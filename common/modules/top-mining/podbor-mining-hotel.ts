@@ -475,3 +475,36 @@ export const PODBOR_MINING_HOTEL_HOW_WE_WORK = {
     },
   ] satisfies readonly PodborHowWeWorkStep[],
 } as const
+
+export type PodborKeyFactor = {
+  id: string
+  number: string
+  title: string
+}
+
+export const PODBOR_MINING_HOTEL_KEY_FACTORS = {
+  titleLead: 'Ключевые факторы',
+  titleRest: 'для увеличения прибыли',
+  factors: [
+    {
+      id: 'energy',
+      number: '01',
+      title: 'Снижение затрат на электроэнергию',
+    },
+    {
+      id: 'tariff',
+      number: '02',
+      title: 'Правильный расчет тарифа',
+    },
+    {
+      id: 'uptime',
+      number: '03',
+      title: 'Экономически выгодный UP-TIME',
+    },
+    {
+      id: 'location',
+      number: '04',
+      title: 'Расположение майнинг-отеля',
+    },
+  ] satisfies readonly PodborKeyFactor[],
+} as const

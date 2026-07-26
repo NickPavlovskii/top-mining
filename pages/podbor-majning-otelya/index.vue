@@ -73,6 +73,7 @@
     <podbor-mining-hotel-cta-section />
     <podbor-mining-hotel-useful />
     <podbor-mining-hotel-how-we-work />
+    <podbor-mining-hotel-key-factors />
   </div>
 </template>
 
@@ -85,6 +86,7 @@
   import PodborMiningHotelPlacement from '~/components/podbor/placement/PodborMiningHotelPlacement.vue'
   import PodborMiningHotelSale from '~/components/podbor/sale/PodborMiningHotelSale.vue'
   import PodborMiningHotelHowWeWork from '~/components/podbor/shared/PodborMiningHotelHowWeWork.vue'
+  import PodborMiningHotelKeyFactors from '~/components/podbor/shared/PodborMiningHotelKeyFactors.vue'
   import PodborMiningHotelMarquee from '~/components/podbor/shared/PodborMiningHotelMarquee.vue'
   import PodborMiningHotelUseful from '~/components/podbor/shared/PodborMiningHotelUseful.vue'
 
