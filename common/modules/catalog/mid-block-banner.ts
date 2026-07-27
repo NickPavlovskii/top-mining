@@ -20,8 +20,8 @@ export const CATALOG_MID_BLOCK_BANNER_CONFIG: Record<
   'mining-hotels': {
     title: 'НУЖЕН МАЙНИНГ-ОТЕЛЬ?',
     subtitle: 'Подберем вам майнинг-отель, где вы сможете разместить асики',
-    subtitleAccent: 'на 5% дешевле рынка',
-    href: 'https://top-mining.ru/podbor-majning-otelya/',
+    subtitleAccent: 'на 15% дешевле рынка',
+    href: '/podbor-majning-otelya/',
     benefits: [
       'Договоримся\nо минимальном тарифе\nна размещение',
       'Сэкономим вам\n100+ часов на подборе, договорах, поломках',

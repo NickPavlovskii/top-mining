@@ -154,10 +154,10 @@
     </template>
 
     <template v-else-if="column.slug === 'consulting'">
-      <a
+      <nuxt-link
         v-for="(item, itemIndex) in column.items"
         :key="item"
-        href="#"
+        :to="getConsultingServiceHref(item)"
         :class="[
           'top-mining__nav-link',
           {
@@ -165,6 +165,7 @@
               itemIndex >= column.mobileVisible && !props.isNavColumnExpanded(column.title),
           },
         ]"
+        @click="emit('nav-link-click')"
       >
         <img
           alt=""
@@ -172,7 +173,7 @@
           :src="consultingServiceIcon"
         />
         <span class="top-mining__nav-link-text">{{ item }}</span>
-      </a>
+      </nuxt-link>
 
       <div class="top-mining__nav-column-contacts">
         <div class="top-mining__nav-contact-icons">
@@ -234,6 +235,7 @@
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
     getCalculatorNavItemIcon,
+    getConsultingServiceHref,
     isNavHeadingLink,
   } from '~/common/modules/top-mining'
   import type { TopMiningNavColumn } from '~/common/modules/top-mining/nav-columns'

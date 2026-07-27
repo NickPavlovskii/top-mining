@@ -7,8 +7,8 @@
     <span class="top-mining-brand-title__inner">
       <img
         class="top-mining-brand-title__logo"
-        :src="logoMark"
         alt=""
+        :src="logoMark"
       />
       {{ titleText }}
     </span>
@@ -21,8 +21,8 @@
     <span class="top-mining-brand-title__inner">
       <img
         class="top-mining-brand-title__logo"
-        :src="logoMark"
         alt=""
+        :src="logoMark"
       />
       {{ titleText }}
     </span>
@@ -35,8 +35,8 @@
     <span class="top-mining-brand-title__inner">
       <img
         class="top-mining-brand-title__logo"
-        :src="logoMark"
         alt=""
+        :src="logoMark"
       />
       {{ titleText }}
     </span>
@@ -49,8 +49,8 @@
     <span class="top-mining-brand-title__inner">
       <img
         class="top-mining-brand-title__logo"
-        :src="logoMark"
         alt=""
+        :src="logoMark"
       />
       {{ titleText }}
     </span>
@@ -61,14 +61,6 @@
 
   type TopMiningBrandTitleVariant = 'hero' | 'menu' | 'footer'
 
-  /**
-   * Логотип-заголовок бренда «ТОП-МАЙНИНГ» с вариантами для hero, меню и футера.
-   *
-   * @param {String} variant - вариант оформления: hero, menu или footer
-   * @param {String} [tag] - HTML-тег заголовка; по умолчанию зависит от variant
-   * @param {Boolean} [spaced = false] - пробелы в тексте: «ТОП - МАЙНИНГ» вместо «ТОП-МАЙНИНГ»
-   * @param {String} [ariaLabel = 'топ-майнинг'] - ARIA-метка для скринридеров
-   */
   const props = withDefaults(
     defineProps<{
       variant: TopMiningBrandTitleVariant
@@ -95,7 +87,7 @@
     `top-mining-brand-title--${props.variant}`,
   ])
 
-  const titleText = computed(() =>    props.spaced ? 'ТОП - МАЙНИНГ' : 'ТОП-МАЙНИНГ',
+  const titleText = computed(() => props.spaced ? 'ТОП - МАЙНИНГ' : 'ТОП-МАЙНИНГ',
   )
 </script>
 
@@ -162,6 +154,7 @@
     --tm-brand-logo-size: 0.28em;
 
     display: inline;
+    max-width: 100%;
     font: inherit;
     letter-spacing: inherit;
     line-height: inherit;
@@ -172,7 +165,6 @@
     .top-mining-brand-title--hero {
       --tm-brand-logo-left: 1.1em;
       --tm-brand-logo-top: 0.31em;
-
       font-size: clamp(58px, 10.4vw, 112px);
     }
   }
@@ -181,7 +173,6 @@
     .top-mining-brand-title--hero {
       --tm-brand-logo-left: 1.1em;
       --tm-brand-logo-top: 0.3em;
-
       margin: 18px 0 -9px;
       margin-left: calc(50% - 50vw);
       font-size: clamp(54px, 10.5vw, 108px);
