@@ -278,9 +278,11 @@
     height: 18px;
   }
 
-  .podbor-time-card__button {
-    width: auto !important;
+  .podbor-time-card
+    .podbor-time-card__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+    width: auto;
     max-width: max-content;
+    min-width: 0;
     margin-top: auto;
   }
 
@@ -331,8 +333,9 @@
       padding: 24px 20px;
     }
 
-    .podbor-time-card__button.top-mining-button {
-      width: 100% !important;
+    .podbor-time-card
+      .podbor-time-card__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+      width: 100%;
       max-width: 100%;
       min-height: 44px;
       padding: 0 18px;

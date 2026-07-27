@@ -268,8 +268,8 @@
     text-transform: uppercase;
   }
 
-  .site-footer__contact-consent {
-    display: flex !important;
+  .site-footer__contact-form label.site-footer__contact-consent {
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
@@ -716,8 +716,8 @@
       text-transform: uppercase;
     }
 
-    .site-footer__contact-consent {
-      display: flex !important;
+    .site-footer__contact-form label.site-footer__contact-consent {
+      display: flex;
       flex-direction: row;
       align-items: center;
       gap: 7px;
