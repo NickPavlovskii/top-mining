@@ -332,10 +332,12 @@
     border-color: rgba(255, 255, 255, 0.7);
   }
 
-  .podbor-summary__submit {
+  .podbor-summary__row
+    .podbor-summary__submit.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
     flex: 0 0 auto;
-    width: auto !important;
+    width: auto;
     max-width: max-content;
+    min-width: 0;
   }
 
   .podbor-summary__privacy {
@@ -429,8 +431,9 @@
       flex-direction: column;
     }
 
-    .podbor-summary__submit.top-mining-button {
-      width: 100% !important;
+    .podbor-summary__row
+      .podbor-summary__submit.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+      width: 100%;
       max-width: 100%;
       min-height: 48px;
     }

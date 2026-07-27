@@ -134,10 +134,12 @@
     line-height: 1.45;
   }
 
-  .podbor-cta-card__button {
+  .podbor-cta-card
+    .podbor-cta-card__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
     margin-top: auto;
-    width: auto !important;
+    width: auto;
     max-width: max-content;
+    min-width: 0;
   }
 
   .podbor-cta-card__button-plus {
@@ -189,9 +191,11 @@
       max-width: 28ch;
     }
 
-    .podbor-cta-card__button.top-mining-button {
-      width: auto !important;
+    .podbor-cta-card
+      .podbor-cta-card__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+      width: auto;
       max-width: 100%;
+      min-width: 0;
       min-height: 44px;
       padding: 0 18px;
       font-size: 12px;

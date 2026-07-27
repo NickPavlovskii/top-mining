@@ -132,9 +132,11 @@
     margin-bottom: 32px;
   }
 
-  .podbor-promo-banner__button {
-    width: auto !important;
+  .podbor-promo-banner
+    .podbor-promo-banner__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+    width: auto;
     max-width: max-content;
+    min-width: 0;
   }
 
   .podbor-promo-banner__media {
@@ -228,8 +230,9 @@
       display: none;
     }
 
-    .podbor-promo-banner__button.top-mining-button {
-      width: 100% !important;
+    .podbor-promo-banner
+      .podbor-promo-banner__button.top-mining-button.q-btn.top-mining-button--contact-pill.top-mining-button--primary {
+      width: 100%;
       max-width: 100%;
       min-height: 48px;
     }
