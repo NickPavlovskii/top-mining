@@ -435,9 +435,13 @@
   .site-footer__brand {
     position: relative;
     z-index: 1;
+    width: 100%;
     margin: 0 0 36px;
+    overflow: hidden;
+    container-type: inline-size;
+    color: var(--tm-black);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(78px, 10.8vw, 148px);
+    font-size: clamp(72px, 7.8cqw, 128px);
     font-weight: 600;
     line-height: 0.78;
     letter-spacing: -0.08em;
@@ -575,7 +579,7 @@
 
     .site-footer__brand {
       margin-bottom: 28px;
-      font-size: clamp(74px, 9vw, 104px);
+      font-size: clamp(56px, 7.2cqw, 92px);
       letter-spacing: -0.075em;
     }
 

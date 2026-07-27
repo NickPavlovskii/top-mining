@@ -1,10 +1,10 @@
 <template>
   <div>
-    <HorizontalCarousel
+    <horizontal-carousel
       :title="sale.title"
       title-id="podbor-sale-title"
     >
-      <CarouselOfferCard
+      <carousel-offer-card
         v-for="offer in sale.offers"
         :key="offer.id"
         :title="offer.title"
@@ -16,17 +16,17 @@
         @cta="openPriceModal(offer)"
       />
 
-      <CarouselAddCard
+      <carousel-add-card
         :label="sale.addCardLabel"
         @click="isAddModalOpen = true"
       />
-    </HorizontalCarousel>
+    </horizontal-carousel>
 
-    <PodborMiningHotelAddCardModal
+    <podbor-mining-hotel-add-card-modal
       v-model:open="isAddModalOpen"
       :copy="sale.modal"
     />
-    <PodborMiningHotelTariffModal
+    <podbor-mining-hotel-tariff-modal
       v-model:open="isPriceModalOpen"
       :offer="selectedOffer"
       :copy="sale.priceModal"

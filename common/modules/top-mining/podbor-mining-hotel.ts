@@ -482,9 +482,46 @@ export type PodborKeyFactor = {
   title: string
 }
 
+export type PodborKeyFactorCaseLine = {
+  text: string
+  muted?: string
+}
+
+export type PodborKeyFactorCase = {
+  badge: string
+  title: string
+  description: string
+  calculatorHref: string
+  lines: readonly PodborKeyFactorCaseLine[]
+  footnote: string
+}
+
+export type PodborKeyFactorColumn = {
+  title: string
+  text: string
+}
+
+export type PodborKeyFactorDetail = {
+  id: string
+  number: string
+  title: string
+  lead?: string
+  items?: readonly string[]
+  note?: string
+  infoBanner?: string
+  caseStudy?: PodborKeyFactorCase
+  columns?: readonly PodborKeyFactorColumn[]
+  withForm?: boolean
+}
+
 export const PODBOR_MINING_HOTEL_KEY_FACTORS = {
   titleLead: 'Ключевые факторы',
   titleRest: 'для увеличения прибыли',
+  phonePlaceholder: 'Телефон',
+  submitLabel: 'Оставить заявку',
+  privacyPrefix: 'Продолжая, вы соглашаетесь с ',
+  privacyLinkLabel: 'Политикой конфиденциальности',
+  privacyHref: '/privacy',
   factors: [
     {
       id: 'energy',
@@ -507,6 +544,75 @@ export const PODBOR_MINING_HOTEL_KEY_FACTORS = {
       title: 'Расположение майнинг-отеля',
     },
   ] satisfies readonly PodborKeyFactor[],
+  details: [
+    {
+      id: 'energy',
+      number: '01',
+      title: 'Сбиваем цену на электроэнергию на 5% и закрепляем цену',
+      items: [
+        'Тариф всегда повышается. Как утвердить и зафиксировать сроки размещения по вашему тарифу?',
+        'Как учесть тариф на хостинг при покупке асиков?',
+        'Есть ли смысл оплачивать хостинг на годы вперёд?',
+        'Как правильно составить договор на майнинг-отель, что нужно учитывать?',
+      ],
+    },
+    {
+      id: 'tariff',
+      number: '02',
+      title: '95% майнинг-отелей неправильно считают тариф',
+      lead: 'На консультации ответим на эти вопросы:',
+      items: [
+        'Как правильно считать тариф, чтобы вас не обманули?',
+        'Как правильно в договоре прописать тариф, чтобы вам его необоснованно не подняли?',
+        'Как оплачивать: по счетчикам или по тарифу? Плюсы и минусы',
+        'Как утвердить и зафиксировать сроки размещения по вашему тарифу?',
+      ],
+      caseStudy: {
+        badge: 'КЕЙС',
+        title: 'Вы теряете в доходе больше 10%',
+        description:
+          'Чаще всего заявленная стоимость ЭЭ отличается с реальной на 10%. Расскажем почему, оставьте заявку на консультацию',
+        calculatorHref: '/calculator/',
+        lines: [
+          { text: 'Обещанный тариф - 5,5 ₽ за 1кВт.' },
+          { text: 'Реальный тариф, который вы заплатите - 6,1 ₽ за 1кВт от майнинг-отеля.' },
+          {
+            text: 'На 1 асике вы теряете 9,8% в месяц ',
+            muted:
+              '(это 1 671 ₽, а если у вас 100 асиков - сумма потери - 167 100 ₽ в месяц).',
+          },
+        ],
+        footnote: '*Расчет на примере ASIC-майнера T21 190 Th/s',
+      },
+      withForm: true,
+    },
+    {
+      id: 'uptime',
+      number: '03',
+      title: 'Фиксируем аптайм в договоре',
+      infoBanner: 'UP-TIME — время безостановочной работы устройства',
+      items: [
+        'У каких дата-центров экономически выгодный аптайм?',
+        'Как закрепить up-time в договоре?',
+      ],
+      note: '*Также решаем вопросы затяжных ремонтов: вы не потеряете деньги при поломке асиков. В случае долгого ремонта - ускоряем или предлагаем подмену устройства.',
+    },
+    {
+      id: 'location',
+      number: '04',
+      title: 'Расположение',
+      columns: [
+        {
+          title: 'Территориальное расположение',
+          text: 'Какой регион выбрать для размещения оборудования для майнинга?',
+        },
+        {
+          title: 'Реестр',
+          text: 'Находится ли майнинг-отель в реестре майнинга?',
+        },
+      ],
+    },
+  ] satisfies readonly PodborKeyFactorDetail[],
 } as const
 
 export type PodborSecurityCard = {
