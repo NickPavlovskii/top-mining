@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TopMiningPromoBanner > matches snapshot 1`] = `
+"<article data-v-1696fd5d="" class="tm-promo-banner">
+  <div data-v-1696fd5d="" class="tm-promo-banner__content">
+    <h2 data-v-1696fd5d="" class="tm-promo-banner__title">Найдем для вас самые выгодные и дешевые асики</h2><a data-v-1696fd5d="" href="/asic-majnery-po-czenam-nizhe-rynka/" class="tm-promo-banner__button"><span data-v-1696fd5d="">ПЕРЕЙТИ НА СТРАНИЦУ</span>
+      <consulting-diagonal-arrow-icon-stub data-v-1696fd5d="" class="tm-promo-banner__button-icon"></consulting-diagonal-arrow-icon-stub>
+    </a>
+  </div>
+  <div data-v-1696fd5d="" class="tm-promo-banner__media" aria-hidden="true"><img data-v-1696fd5d="" class="tm-promo-banner__image" loading="lazy" decoding="async" src="/banner-asic.png" alt="ASIC-майнеры"></div>
+</article>"
+`;

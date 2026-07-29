@@ -24,6 +24,10 @@
   } from '~/common/modules/http/status'
   import CatalogOrganizationDetailView from '~/components/catalog/organization-detail/CatalogOrganizationDetailView.vue'
 
+  definePageMeta({
+    path: '/sale_asic/:slug',
+  })
+
   const route = useRoute()
   const event = useRequestEvent()
   const slug = computed(() => String(route.params.slug || ''))

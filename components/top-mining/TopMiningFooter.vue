@@ -145,6 +145,7 @@
     TOP_MINING_FOOTER_MAIN_LINKS,
     TOP_MINING_FOOTER_TELEGRAM_HREF,
   } from '~/common/modules/top-mining/footer-nav'
+  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
   import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
 
   const route = useRoute()
@@ -154,8 +155,14 @@
   const isPodborMiningHotelPage = computed(() =>
     route.path.startsWith(PODBOR_MINING_HOTEL_PATH.replace(/\/$/, '')),
   )
+  const isIncreaseIncomePage = computed(() =>
+    route.path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, '')),
+  )
   const hideContactBlock = computed(
-    () => isPrivacyPage.value || isPodborMiningHotelPage.value,
+    () =>
+      isPrivacyPage.value
+      || isPodborMiningHotelPage.value
+      || isIncreaseIncomePage.value,
   )
 
   function isExternalFooterLink(link: TopMiningFooterNavLink) {

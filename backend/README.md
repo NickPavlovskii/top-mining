@@ -169,7 +169,7 @@ npm run dev
 ```
 
 Секция «Каталог организаций» на главной берёт данные из `/api/catalog` (Nuxt BFF → GraphQL → PostgreSQL).  
-Страницы организаций (`/sale_asic/[slug]/`) — из `/api/catalog/organizations/[slug]`.  
+Страницы организаций (`/sale_asic/[slug]/`, папка `pages/sale-asic/`) — из `/api/catalog/organizations/[slug]`.  
 Требуется запущенный Go GraphQL-сервер и PostgreSQL с применёнными миграциями.
 
 ## Как добавить данные в БД

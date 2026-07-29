@@ -104,6 +104,10 @@
   import PodborMiningHotelUseful from '~/components/podbor/shared/PodborMiningHotelUseful.vue'
   import TopMiningContactSection from '~/components/top-mining/TopMiningContactSection.vue'
 
+  definePageMeta({
+    path: '/podbor-majning-otelya',
+  })
+
   const page = PODBOR_MINING_HOTEL_PAGE
 
   useSeoMeta({

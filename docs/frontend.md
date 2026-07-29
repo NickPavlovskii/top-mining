@@ -87,7 +87,7 @@ Backend Go (`backend/`) — **не** клиентская зона; фронт �
 | `articles/[slug].vue` | `/articles/:slug` | Статья |
 | `rating/index.vue` | `/rating` | Страница рейтингов → `TopMiningRatingsView` |
 | `asic-manufacturers/index.vue` | `/asic-manufacturers` | Производители ASIC |
-| `sale_asic/[slug].vue` | `/sale_asic/:slug` | Карточка организации: fetch + статус HTTP + detail / error |
+| `sale-asic/[slug].vue` | `/sale_asic/:slug` | Карточка организации: fetch + статус HTTP + detail / error |
 
 Страница не рисует сложные карточки сама — подключает view/section из `components/`.
 
@@ -381,7 +381,7 @@ Backend Go (`backend/`) — **не** клиентская зона; фронт �
 
 ## Пример: карточка организации
 
-1. `pages/sale_asic/[slug].vue` — `useFetch('/api/catalog/organizations/:slug')`, HTTP-статусы из `common/modules/http/status`.
+1. `pages/sale-asic/[slug].vue` — `useFetch('/api/catalog/organizations/:slug')`, HTTP-статусы из `common/modules/http/status`.
 2. `server/api/catalog/organizations/[slug].get.ts` — GraphQL к backend.
 3. `CatalogOrganizationDetailView.vue` — раскладка страницы.
 4. Сайдбар / отзывы / галерея — соседние компоненты в `organization-detail/`.

@@ -14,7 +14,13 @@
         { 'top-mining__header--menu-open': isMobileMenuOpen },
         { 'top-mining__header--tablet-menu': isTabletMenuOpen },
         { 'top-mining__header--mobile-top': isMobileTopState },
-        { 'top-mining__header--sticky': isCompactHeader && !isMobileMenuOpen && !isMobileTopState },
+        { 'top-mining__header--simple-menu': isSimpleMenuPage && !isMobileMenuOpen },
+        {
+          'top-mining__header--sticky':
+            isCompactHeader
+            && !isMobileMenuOpen
+            && !isMobileTopState,
+        },
       ]"
     >
       <div class="top-mining__header-inner">
@@ -176,6 +182,7 @@
     TOP_MINING_CONTACT_PHONE,
     TOP_MINING_CONTACT_TELEGRAM,
   } from '~/common/modules/top-mining/contact-section'
+  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
   import TopMiningHeaderDesktopNav from '~/components/top-mining/header/TopMiningHeaderDesktopNav.vue'
@@ -192,13 +199,19 @@
     },
   )
 
+  const route = useRoute()
   const expandedNavColumns = ref<string[]>([])
   const isMobileMenuOpen = ref(false)
-  const isHeaderSticky = ref(props.forceCompact)
+  const isSimpleMenuPage = computed(() =>
+    route.path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, '')),
+  )
+  const isHeaderSticky = ref(props.forceCompact || isSimpleMenuPage.value)
   const headerRef = ref<HTMLElement | null>(null)
   const headerShellHeight = ref(0)
 
-  const isCompactHeader = computed(() => props.forceCompact || isHeaderSticky.value)
+  const isCompactHeader = computed(
+    () => props.forceCompact || isHeaderSticky.value || isSimpleMenuPage.value,
+  )
 
   const HEADER_STICKY_OFFSET = 80
   const MOBILE_HEADER_MAX_PLACEHOLDER = 120
@@ -225,7 +238,11 @@
   })
 
   const isMobileTopState = computed(
-    () => isPhoneViewport.value && !isHeaderSticky.value && !isMobileMenuOpen.value,
+    () =>
+      !isSimpleMenuPage.value
+      && isPhoneViewport.value
+      && !isHeaderSticky.value
+      && !isMobileMenuOpen.value,
   )
 
   const isTabletViewport = computed(
@@ -233,7 +250,10 @@
   )
 
   const isTabletMenuOpen = computed(
-    () => isMobileMenuOpen.value && isTabletViewport.value,
+    () =>
+      isMobileMenuOpen.value
+      && (isTabletViewport.value
+        || (isSimpleMenuPage.value && !isPhoneViewport.value)),
   )
 
   const mobileHeaderSocials = TOP_MINING_MOBILE_MENU_SOCIALS.filter(
@@ -299,7 +319,10 @@
     const wasSticky = isHeaderSticky.value
 
     if (!isMobileMenuOpen.value) {
-      isHeaderSticky.value = props.forceCompact || window.scrollY > HEADER_STICKY_OFFSET
+      isHeaderSticky.value =
+        props.forceCompact
+        || isSimpleMenuPage.value
+        || window.scrollY > HEADER_STICKY_OFFSET
     }
 
     if (wasSticky !== isHeaderSticky.value) {
@@ -847,6 +870,179 @@
     display: none;
   }
 
+  .top-mining__header--simple-menu {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    max-width: none;
+    padding: 0 12px;
+    background: transparent !important;
+    box-shadow: none;
+  }
+
+  .top-mining__header--simple-menu .top-mining__header-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: 'logo menu' !important;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: none;
+    min-height: 56px;
+    padding: 12px 16px;
+    border-radius: 0 0 22px 22px;
+    background: var(--tm-white);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .top-mining__header--simple-menu .top-mining__logo {
+    grid-area: logo;
+  }
+
+  .top-mining__header--simple-menu .top-mining__menu-toggle {
+    grid-area: menu;
+    position: relative;
+    z-index: 2;
+    display: grid !important;
+    align-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    align-self: center;
+  }
+
+  .top-mining__header--simple-menu .top-mining__menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--tm-black);
+  }
+
+  .top-mining__header--simple-menu .top-mining__nav,
+  .top-mining__header--simple-menu .top-mining__nav--desktop,
+  .top-mining__header--simple-menu .top-mining__nav-compact,
+  .top-mining__header--simple-menu .top-mining__header-actions,
+  .top-mining__header--simple-menu .top-mining__mobile-menu-title,
+  .top-mining__header--simple-menu .top-mining__mobile-nav,
+  .top-mining__header--simple-menu .top-mining__nav-column {
+    display: none !important;
+  }
+
+  .top-mining__header-shell:has(.top-mining__header--simple-menu) {
+    position: relative;
+    z-index: 300;
+    background: transparent;
+  }
+
+  @media (min-width: 901px) {
+    .top-mining__header--menu-open.top-mining__header--tablet-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      margin: 0;
+      padding: 24px 40px 32px;
+      border-radius: 0;
+      background: var(--tm-white);
+      overflow: hidden;
+      overscroll-behavior: none;
+      box-shadow: none;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__header-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'logo . toggle'
+        'nav nav nav';
+      align-items: start;
+      gap: 24px 32px;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__logo {
+      grid-area: logo;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__menu-toggle {
+      grid-area: toggle;
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__menu-toggle span {
+      display: block;
+      position: absolute;
+      top: 14px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: var(--tm-black);
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu
+      .top-mining__menu-toggle
+      span:first-child {
+      transform: rotate(45deg);
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu
+      .top-mining__menu-toggle
+      span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu
+      .top-mining__menu-toggle
+      span:last-child {
+      transform: rotate(-45deg);
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__mobile-nav {
+      display: block !important;
+      grid-area: nav;
+      width: 100%;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__nav,
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__nav--desktop,
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__nav-compact,
+    .top-mining__header--menu-open.top-mining__header--tablet-menu .top-mining__header-actions {
+      display: none !important;
+    }
+  }
+
   .top-mining__mobile-menu-footer {
     display: none;
   }
@@ -1161,6 +1357,15 @@
       padding: 0 12px;
       background: transparent;
       box-sizing: border-box;
+    }
+
+    .top-mining__header--simple-menu,
+    .top-mining__header--sticky.top-mining__header--simple-menu {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 300;
     }
 
     .top-mining__header-inner {
