@@ -210,7 +210,7 @@
 
 <style scoped>
   .consulting-management-card-wrap {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .consulting-management-card-wrap:last-child {

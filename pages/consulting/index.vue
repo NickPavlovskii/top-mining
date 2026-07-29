@@ -92,11 +92,13 @@
     <consulting-soprovod />
     <consulting-management />
     <consulting-black-ring />
+    <consulting-best-speaker />
   </div>
 </template>
 
 <script setup lang="ts">
   import { CONSULTING_PAGE } from '~/common/modules/top-mining/consulting-page'
+  import ConsultingBestSpeaker from '~/components/consulting/ConsultingBestSpeaker.vue'
   import ConsultingBlackRing from '~/components/consulting/ConsultingBlackRing.vue'
   import ConsultingCompaniesBanner from '~/components/consulting/ConsultingCompaniesBanner.vue'
   import ConsultingEnterMining from '~/components/consulting/ConsultingEnterMining.vue'

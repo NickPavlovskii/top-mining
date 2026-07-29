@@ -29,7 +29,7 @@
 
 <style scoped>
   .consulting-management {
-    padding: 144px 0;
+    padding: 64px 0 144px;
     background: var(--tm-off-white);
     color: var(--tm-page-bg);
   }
@@ -41,7 +41,7 @@
   }
 
   .consulting-management__title {
-    margin: 0 0 24px;
+    margin: 0 0 16px;
     color: var(--tm-page-bg);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: 95px;
@@ -53,7 +53,7 @@
 
   @media (max-width: 1299px) {
     .consulting-management {
-      padding: 56px 0;
+      padding: 40px 0 56px;
     }
 
     .consulting-management__inner {
@@ -68,7 +68,7 @@
 
   @media (max-width: 767px) {
     .consulting-management {
-      padding: 40px 0;
+      padding: 24px 0 40px;
     }
 
     .consulting-management__inner {

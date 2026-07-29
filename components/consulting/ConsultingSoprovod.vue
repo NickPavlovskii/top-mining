@@ -29,7 +29,7 @@
 
 <style scoped>
   .consulting-soprovod {
-    padding: 144px 0 144px;
+    padding: 144px 0 64px;
     background: var(--tm-off-white);
     color: var(--tm-page-bg);
   }
@@ -68,7 +68,7 @@
 
   @media (max-width: 767px) {
     .consulting-soprovod {
-      padding: 40px 0;
+      padding: 40px 0 0;
     }
 
     .consulting-soprovod__inner {
