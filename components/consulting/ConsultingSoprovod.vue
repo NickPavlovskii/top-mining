@@ -53,7 +53,7 @@
 
   @media (max-width: 1299px) {
     .consulting-soprovod {
-      padding: 56px 0;
+      padding: 0;
     }
 
     .consulting-soprovod__inner {
