@@ -90,13 +90,17 @@
     <consulting-why-us />
     <consulting-companies-banner />
     <consulting-soprovod />
+    <consulting-management />
+    <consulting-black-ring />
   </div>
 </template>
 
 <script setup lang="ts">
   import { CONSULTING_PAGE } from '~/common/modules/top-mining/consulting-page'
+  import ConsultingBlackRing from '~/components/consulting/ConsultingBlackRing.vue'
   import ConsultingCompaniesBanner from '~/components/consulting/ConsultingCompaniesBanner.vue'
   import ConsultingEnterMining from '~/components/consulting/ConsultingEnterMining.vue'
+  import ConsultingManagement from '~/components/consulting/ConsultingManagement.vue'
   import ConsultingSoprovod from '~/components/consulting/ConsultingSoprovod.vue'
   import ConsultingWhyUs from '~/components/consulting/ConsultingWhyUs.vue'
 
