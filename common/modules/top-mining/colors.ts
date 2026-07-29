@@ -1,7 +1,5 @@
-/**
- * Brand color hex values for JS/TS contexts (Storybook theme, docs).
- * CSS source of truth: `assets/scss/variables.scss` → `--orange-color` / `--tm-orange`.
- */
+export const TM_PAGE_BG = '#141414' as const
+export const TM_OFF_WHITE = '#f6f6f6' as const
 export const TM_ORANGE = '#ff6418' as const
 export const TM_ORANGE_HOVER = '#ff6a18' as const
 export const TM_ORANGE_DARK = '#f25b12' as const

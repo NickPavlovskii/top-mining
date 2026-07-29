@@ -161,9 +161,29 @@
 
           <div
             v-if="column.slug === 'consulting'"
-            class="top-mining__mobile-menu-contacts"
+            class="top-mining__mobile-menu-contacts top-mining__mobile-menu-contacts--consulting"
           >
-            <top-mining-contact-pill-buttons />
+            <div class="top-mining__mobile-menu-contact-icons">
+              <a
+                v-for="social in mobileMenuSocialLinks"
+                class="top-mining__mobile-menu-contact-btn"
+                :key="social.label"
+                :href="social.href"
+                :aria-label="social.label"
+                :target="social.target"
+                :rel="social.rel"
+                @click="emit('nav-link-click')"
+              >
+                <Icon :name="social.icon" />
+              </a>
+            </div>
+            <a
+              class="top-mining__mobile-menu-contact-phone"
+              :href="TOP_MINING_MOBILE_MENU_PHONE.href"
+              @click="emit('nav-link-click')"
+            >
+              {{ TOP_MINING_MOBILE_MENU_PHONE.label }}
+            </a>
           </div>
         </li>
       </ul>
@@ -184,6 +204,8 @@
     getArticlesNavHref,
   } from '~/common/modules/top-mining/articles-section'
   import {
+    TOP_MINING_MOBILE_MENU_PHONE,
+    TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
     getConsultingServiceHref,
     getMobileNavItemGroups,
@@ -196,7 +218,6 @@
   import telegramMenuIcon from '~/assets/images/top-mining/telegram-menu-icon.png'
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
   import pickaxeIcon from '~/assets/images/top-mining/pickaxe-icon.png'
-  import TopMiningContactPillButtons from '~/components/top-mining/header/TopMiningContactPillButtons.vue'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
 
   const props = defineProps<{
@@ -212,6 +233,18 @@
   }>()
 
   const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
+
+  const mobileMenuSocialLinks = computed(() =>
+    TOP_MINING_MOBILE_MENU_SOCIALS.map((social) => {
+      const isExternal = social.href.startsWith('http')
+
+      return {
+        ...social,
+        target: isExternal ? '_blank' as const : undefined,
+        rel: isExternal ? 'noopener noreferrer' : undefined,
+      }
+    }),
+  )
 
   function getColumnNavItems(column: TopMiningNavColumn) {
     if (column.slug === 'catalog') {

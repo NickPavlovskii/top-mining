@@ -2,6 +2,8 @@ export type TopMiningChipPreset =
   | 'blue'
   | 'green'
   | 'orange'
+  | 'orange-fill'
+  | 'commercial'
   | 'red'
   | 'purple'
   | 'gray'

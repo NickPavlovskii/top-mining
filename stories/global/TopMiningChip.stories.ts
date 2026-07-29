@@ -54,6 +54,8 @@ const meta = {
         'blue',
         'green',
         'orange',
+        'orange-fill',
+        'commercial',
         'red',
         'purple',
         'gray',

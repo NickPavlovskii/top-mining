@@ -689,6 +689,31 @@
     --tm-chip-border-color: rgba(154, 52, 18, 0.22);
   }
 
+  .top-mining-chip.top-mining-chip--preset-orange-fill {
+    --tm-chip-bg: linear-gradient(94.62deg, #ec5100 2.06%, #ff741f 93.25%);
+    --tm-chip-color: #fff;
+    --tm-chip-border-color: transparent;
+    font-weight: 400;
+  }
+
+  .top-mining-chip.top-mining-chip--preset-commercial {
+    --tm-chip-bg: #f6f6f6;
+    --tm-chip-color: transparent;
+    --tm-chip-border-color: transparent;
+    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .top-mining-chip.top-mining-chip--preset-commercial .top-mining-chip__title {
+    background: linear-gradient(94.62deg, #ec5100 2.06%, #ff741f 93.25%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
   .top-mining-chip.top-mining-chip--preset-red {
     --tm-chip-bg: #fef2f2;
     --tm-chip-color: #991b1b;
@@ -750,7 +775,7 @@
   }
 
   .top-mining-chip.top-mining-chip--shape-pill {
-    --tm-chip-radius: 25px;
+    --tm-chip-radius: 999px;
   }
 
   .top-mining-chip.top-mining-chip--shape-rounded {

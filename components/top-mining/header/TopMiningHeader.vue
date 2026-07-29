@@ -112,9 +112,9 @@
               <nuxt-link
                 v-for="item in TOP_MINING_CONSULTING_DROPDOWN_ITEMS"
                 :key="item.label"
+                :to="item.href"
                 class="top-mining__consulting-panel-link"
                 role="menuitem"
-                :to="item.href"
               >
                 <img
                   alt=""
@@ -125,9 +125,36 @@
                 <span>{{ item.label }}</span>
               </nuxt-link>
 
-            <top-mining-contact-pill-buttons
-              class="top-mining__consulting-panel-contacts"
-            />
+            <div class="top-mining__consulting-panel-contacts">
+              <div class="top-mining__consulting-panel-compact-contacts">
+                <div class="top-mining__consulting-panel-compact-icons">
+                  <a
+                    class="top-mining__consulting-panel-compact-icon"
+                    target="_blank"
+                    rel="noopener noreferrer"  
+                    :href="TOP_MINING_CONTACT_TELEGRAM.href"
+                    :aria-label="TOP_MINING_CONTACT_TELEGRAM.handle"
+                  >
+                    <Icon name="mdi:telegram" />
+                  </a>
+
+                  <a
+                    class="top-mining__consulting-panel-compact-icon"
+                    :href="TOP_MINING_CONTACT_PHONE.href"
+                    :aria-label="TOP_MINING_CONTACT_PHONE.label"
+                  >
+                    <Icon name="mdi:phone" />
+                  </a>
+                </div>
+
+                <a
+                  class="top-mining__consulting-panel-compact-phone"
+                  :href="TOP_MINING_CONTACT_PHONE.href"
+                >
+                  {{ TOP_MINING_CONTACT_PHONE.label }}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -145,8 +172,11 @@
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
   } from '~/common/modules/top-mining'
+  import {
+    TOP_MINING_CONTACT_PHONE,
+    TOP_MINING_CONTACT_TELEGRAM,
+  } from '~/common/modules/top-mining/contact-section'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
-  import TopMiningContactPillButtons from '~/components/top-mining/header/TopMiningContactPillButtons.vue'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
   import TopMiningHeaderDesktopNav from '~/components/top-mining/header/TopMiningHeaderDesktopNav.vue'
   import TopMiningHeaderCompactNav from '~/components/top-mining/header/TopMiningHeaderCompactNav.vue'
@@ -453,6 +483,47 @@
     margin-top: 12px;
     padding-top: 14px;
     border-top: 1px solid var(--tm-border);
+  }
+
+  .top-mining__consulting-panel-compact-contacts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .top-mining__consulting-panel-compact-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+
+  .top-mining__consulting-panel-compact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(94.62deg, #ec5100 2.06%, #ff741f 93.25%);
+    color: var(--tm-white);
+    text-decoration: none;
+  }
+
+  .top-mining__consulting-panel-compact-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .top-mining__consulting-panel-compact-phone {
+    color: #141414;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
   .top-mining__header-inner {
@@ -826,6 +897,15 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  .top-mining__consulting-pill--panel {
+    align-self: flex-start;
+    margin-bottom: 14px;
+    border: 1px solid var(--tm-orange);
+    background: var(--tm-white);
+    color: #303030;
+    text-decoration: none;
   }
 
   .top-mining__nav-column--consulting .top-mining__nav-link {
@@ -1560,6 +1640,48 @@
       width: 100%;
     }
 
+    .top-mining__mobile-menu-contacts--consulting {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #d9d9d9;
+    }
+
+    .top-mining__mobile-menu-contact-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .top-mining__mobile-menu-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(94.62deg, #ec5100 2.06%, #ff741f 93.25%);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .top-mining__mobile-menu-contact-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .top-mining__mobile-menu-contact-phone {
+      color: #303030;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
     @media (hover: hover) {
       .top-mining__header--menu-open .top-mining__mobile-menu-link:hover,
       .top-mining__header--menu-open .top-mining__mobile-menu-link:focus-visible {
@@ -1778,6 +1900,25 @@
     .top-mining__header--tablet-menu .top-mining__mobile-menu-contacts {
       margin-top: 14px;
     }
+
+    .top-mining__header--tablet-menu .top-mining__mobile-menu-contacts--consulting {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      width: auto;
+      margin-top: 18px;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .top-mining__header--tablet-menu .top-mining__mobile-menu-contact-btn {
+      width: 48px;
+      height: 48px;
+    }
+
+    .top-mining__header--tablet-menu .top-mining__mobile-menu-contact-phone {
+      font-size: 18px;
+    }
   }
 
   @media (max-width: 560px) {
@@ -1884,6 +2025,10 @@
 
       .top-mining__mobile-menu-contacts {
         margin-top: 8px;
+      }
+
+      .top-mining__mobile-menu-contacts--consulting {
+        gap: 8px;
       }
     }
 
