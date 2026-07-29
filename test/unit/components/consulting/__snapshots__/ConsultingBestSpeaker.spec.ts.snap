@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConsultingBestSpeaker > matches section snapshot 1`] = `
+"<section data-v-7a8c288b="" id="best-speker" class="consulting-best-speaker" aria-labelledby="consulting-best-speaker-title">
+  <div data-v-7a8c288b="" class="consulting-best-speaker__inner">
+    <div data-v-7a8c288b="" class="consulting-best-speaker__image" aria-hidden="true"></div>
+    <div data-v-7a8c288b="" class="consulting-best-speaker__content">
+      <h2 data-v-7a8c288b="" id="consulting-best-speaker-title" class="consulting-best-speaker__title">МЫ СОБИРАЕМ ЛУЧШИХ ЭКСПЕРТОВ В&nbsp;МИРЕ МАЙНИНГА!</h2>
+      <p data-v-7a8c288b="" class="consulting-best-speaker__subtitle">Вы лучший в какой-то сфере в майнинге и хотите стать нашим партнером, экспертом ТОП МАЙНИНГА ?</p>
+      <p data-v-7a8c288b="" class="consulting-best-speaker__text">Напишите нам в <a data-v-7a8c288b="" class="consulting-best-speaker__link" target="_blank" rel="noopener noreferrer" href="https://t.me/Top_mining_consulting">TELEGRAM</a> или оставьте резюме / напишите о себе / оставьте ваш контакт</p>
+      <p data-v-7a8c288b="" class="consulting-best-speaker__text">Все отклики абсолютно анонимны!</p>
+      <form data-v-7a8c288b="" class="consulting-best-speaker__form">
+        <div data-v-7a8c288b="" class="consulting-best-speaker__fields"><label data-v-7a8c288b="" class="consulting-best-speaker__field consulting-best-speaker__field--half"><span data-v-7a8c288b="" class="consulting-best-speaker__visually-hidden">Ваше имя</span><input data-v-7a8c288b="" class="consulting-best-speaker__input" type="text" name="your-name" placeholder="Ваше имя" required="" autocomplete="name"></label><label data-v-7a8c288b="" class="consulting-best-speaker__field consulting-best-speaker__field--half"><span data-v-7a8c288b="" class="consulting-best-speaker__visually-hidden">Ваш Telegram</span><input data-v-7a8c288b="" class="consulting-best-speaker__input" type="text" name="your-telegram" placeholder="Ваш Telegram" required=""></label><label data-v-7a8c288b="" class="consulting-best-speaker__field consulting-best-speaker__field--full"><span data-v-7a8c288b="" class="consulting-best-speaker__visually-hidden">В чем вы лучший в майнинге</span><textarea data-v-7a8c288b="" class="consulting-best-speaker__textarea" rows="4" name="textarea-best" placeholder="В чем вы лучший в майнинге" required=""></textarea></label>
+          <top-mining-file-upload-stub data-v-7a8c288b="" error="" accept=".pdf,.doc" allowedextensions="pdf,doc" maxfiles="1" maxsizemb="10" chooselabel="Выберите файл" countertemplate="из" invalidformaterror="Неправильный формат файла. Разрешены PDF и DOC" invalidsizeerror="Размер файла не должен превышать 10 МБ" removefilelabel="Удалить файл"></top-mining-file-upload-stub>
+        </div><label data-v-7a8c288b="" class="consulting-best-speaker__honeypot"><span data-v-7a8c288b="">Оставьте это поле пустым.</span><input data-v-7a8c288b="" type="text" name="email" tabindex="-1" autocomplete="off"></label><button data-v-7a8c288b="" type="submit" class="consulting-best-speaker__submit"><span data-v-7a8c288b="">ОТПРАВИТЬ</span>
+          <consulting-diagonal-arrow-icon-stub data-v-7a8c288b=""></consulting-diagonal-arrow-icon-stub>
+        </button>
+        <div data-v-7a8c288b="" class="consulting-best-speaker__privacy"><label data-v-7a8c288b="" class="consulting-best-speaker__privacy-label"><input data-v-7a8c288b="" type="checkbox" class="consulting-best-speaker__privacy-check" required=""><span data-v-7a8c288b="">Продолжая, вы соглашаетесь с</span></label><a data-v-7a8c288b="" href="/privacy" class="consulting-best-speaker__privacy-link" target="_blank">Политикой конфиденциальности</a></div>
+      </form>
+    </div>
+  </div>
+</section>"
+`;

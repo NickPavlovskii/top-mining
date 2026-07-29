@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TopMiningFileUpload > matches empty state snapshot 1`] = `
+"<div data-v-8f4f9bfc="" class="top-mining-file-upload"><input data-v-8f4f9bfc="" class="top-mining-file-upload__input" type="file" accept=".pdf,.doc">
+  <div data-v-8f4f9bfc="" class="top-mining-file-upload__handler">
+    <div data-v-8f4f9bfc="" class="top-mining-file-upload__container"><button data-v-8f4f9bfc="" type="button" class="top-mining-file-upload__btn">Выберите файл</button></div><span data-v-8f4f9bfc="" class="top-mining-file-upload__counter">0 из 1</span>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`TopMiningFileUpload > matches invalid format state snapshot 1`] = `
+"<div data-v-8f4f9bfc="" class="top-mining-file-upload"><input data-v-8f4f9bfc="" class="top-mining-file-upload__input" type="file" accept=".pdf,.doc">
+  <div data-v-8f4f9bfc="" class="top-mining-file-upload__handler top-mining-file-upload__handler--invalid">
+    <div data-v-8f4f9bfc="" class="top-mining-file-upload__container"><button data-v-8f4f9bfc="" type="button" class="top-mining-file-upload__btn">Выберите файл</button></div><span data-v-8f4f9bfc="" class="top-mining-file-upload__counter">0 из 1</span>
+  </div>
+  <div data-v-8f4f9bfc="" class="top-mining-file-upload__status">
+    <div data-v-8f4f9bfc="" class="top-mining-file-upload__icon" aria-hidden="true">
+      <top-mining-file-icon-stub data-v-8f4f9bfc=""></top-mining-file-icon-stub>
+    </div>
+    <div data-v-8f4f9bfc="" class="top-mining-file-upload__details">
+      <div data-v-8f4f9bfc="" class="top-mining-file-upload__name"><span data-v-8f4f9bfc="">notes.docx</span><em data-v-8f4f9bfc="">(300.00KB)</em></div>
+      <div data-v-8f4f9bfc="" class="top-mining-file-upload__progress"><span data-v-8f4f9bfc="" class=""></span></div><span data-v-8f4f9bfc="" class="top-mining-file-upload__error">Неправильный формат файла. Разрешены PDF и DOC</span><button data-v-8f4f9bfc="" type="button" class="top-mining-file-upload__remove" aria-label="Удалить файл"><svg data-v-8f4f9bfc="" width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path data-v-8f4f9bfc="" d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg></button>
+    </div>
+  </div>
+</div>"
+`;

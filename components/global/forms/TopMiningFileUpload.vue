@@ -185,19 +185,27 @@
     return ''
   }
 
-  function syncModel() {
-    model.value = selectedFile.value && !error.value ? selectedFile.value : null
+  function syncModel(nextError = error.value) {
+    model.value = selectedFile.value && !nextError ? selectedFile.value : null
   }
 
   function setFile(file: File) {
     selectedFile.value = file
-    error.value = validateFile(file)
-    syncModel()
+    const nextError = validateFile(file)
+    error.value = nextError
+    syncModel(nextError)
 
-    if (fileInputRef.value) {
+    if (!fileInputRef.value) {
+      return
+    }
+
+    try {
       const dataTransfer = new DataTransfer()
       dataTransfer.items.add(file)
       fileInputRef.value.files = dataTransfer.files
+    }
+    catch {
+      // FileList assignment may be blocked in test environments
     }
   }
 
