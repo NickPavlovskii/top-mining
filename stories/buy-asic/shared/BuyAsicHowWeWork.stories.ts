@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import BuyAsicHowWeWork from '~/components/buy-asic/BuyAsicHowWeWork.vue'
+import BuyAsicHowWeWork from '~/components/buy-asic/shared/BuyAsicHowWeWork.vue'
 
 import { canvasFullBleed } from '../helpers/decorators'
 

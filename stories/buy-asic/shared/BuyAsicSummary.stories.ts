@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import BuyAsicSummary from '~/components/buy-asic/BuyAsicSummary.vue'
+import BuyAsicSummary from '~/components/buy-asic/shared/BuyAsicSummary.vue'
 import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
 import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
 import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'

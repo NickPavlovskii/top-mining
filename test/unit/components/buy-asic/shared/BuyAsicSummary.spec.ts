@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import { BUY_ASIC_SUMMARY } from '~/common/modules/top-mining/buy-asic-summary'
-import BuyAsicSummary from '~/components/buy-asic/BuyAsicSummary.vue'
+import BuyAsicSummary from '~/components/buy-asic/shared/BuyAsicSummary.vue'
 import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
 import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
 import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'

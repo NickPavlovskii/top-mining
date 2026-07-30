@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import BuyAsicPromoBanners from '~/components/buy-asic/BuyAsicPromoBanners.vue'
+import BuyAsicPromoBanners from '~/components/buy-asic/banners/BuyAsicPromoBanners.vue'
 import PodborMiningHotelPromoBanner from '~/components/podbor/banners/PodborMiningHotelPromoBanner.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 

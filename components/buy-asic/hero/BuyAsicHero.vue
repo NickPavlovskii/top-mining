@@ -160,7 +160,7 @@
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
-  import BuyAsicCompanyCard from '~/components/buy-asic/BuyAsicCompanyCard.vue'
+  import BuyAsicCompanyCard from '~/components/buy-asic/hero/BuyAsicCompanyCard.vue'
 
   const copy = BUY_ASIC_PAGE
 

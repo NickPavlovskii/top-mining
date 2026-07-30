@@ -17,15 +17,15 @@
 </template>
 
 <script setup lang="ts">
-  import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
-  import BuyAsicHero from '~/components/buy-asic/BuyAsicHero.vue'
-  import BuyAsicHowWeWork from '~/components/buy-asic/BuyAsicHowWeWork.vue'
-  import BuyAsicModels from '~/components/buy-asic/BuyAsicModels.vue'
-  import BuyAsicModelsMarquee from '~/components/buy-asic/BuyAsicModelsMarquee.vue'
-  import BuyAsicPromoBanners from '~/components/buy-asic/BuyAsicPromoBanners.vue'
-  import BuyAsicSafetyAndTime from '~/components/buy-asic/BuyAsicSafetyAndTime.vue'
-  import BuyAsicSummary from '~/components/buy-asic/BuyAsicSummary.vue'
-  import BuyAsicUseful from '~/components/buy-asic/BuyAsicUseful.vue'
+  import BuyAsicPromoBanners from '~/components/buy-asic/banners/BuyAsicPromoBanners.vue'
+  import BuyAsicHero from '~/components/buy-asic/hero/BuyAsicHero.vue'
+  import BuyAsicModels from '~/components/buy-asic/models/BuyAsicModels.vue'
+  import BuyAsicModelsMarquee from '~/components/buy-asic/models/BuyAsicModelsMarquee.vue'
+  import BuyAsicClientProblems from '~/components/buy-asic/shared/BuyAsicClientProblems.vue'
+  import BuyAsicHowWeWork from '~/components/buy-asic/shared/BuyAsicHowWeWork.vue'
+  import BuyAsicSafetyAndTime from '~/components/buy-asic/shared/BuyAsicSafetyAndTime.vue'
+  import BuyAsicSummary from '~/components/buy-asic/shared/BuyAsicSummary.vue'
+  import BuyAsicUseful from '~/components/buy-asic/shared/BuyAsicUseful.vue'
   import TopMiningContactSection from '~/components/top-mining/TopMiningContactSection.vue'
 
   definePageMeta({

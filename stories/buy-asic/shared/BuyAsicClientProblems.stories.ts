@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
+import BuyAsicClientProblems from '~/components/buy-asic/shared/BuyAsicClientProblems.vue'
 
 import { canvasFullBleed } from '../helpers/decorators'
 

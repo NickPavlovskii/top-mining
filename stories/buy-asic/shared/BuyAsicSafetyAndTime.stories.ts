@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import BuyAsicSafetyAndTime from '~/components/buy-asic/BuyAsicSafetyAndTime.vue'
+import BuyAsicSafetyAndTime from '~/components/buy-asic/shared/BuyAsicSafetyAndTime.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
 import { canvasFullBleed } from '../helpers/decorators'

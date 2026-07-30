@@ -17,11 +17,11 @@
     getBuyAsicModelBySlug,
     getBuyAsicModelShortName,
   } from '~/common/modules/top-mining/buy-asic-page'
-  import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
-  import BuyAsicModelOffer from '~/components/buy-asic/BuyAsicModelOffer.vue'
-  import BuyAsicModels from '~/components/buy-asic/BuyAsicModels.vue'
-  import BuyAsicModelsMarquee from '~/components/buy-asic/BuyAsicModelsMarquee.vue'
-  import BuyAsicUseful from '~/components/buy-asic/BuyAsicUseful.vue'
+  import BuyAsicModelOffer from '~/components/buy-asic/models/BuyAsicModelOffer.vue'
+  import BuyAsicModels from '~/components/buy-asic/models/BuyAsicModels.vue'
+  import BuyAsicModelsMarquee from '~/components/buy-asic/models/BuyAsicModelsMarquee.vue'
+  import BuyAsicClientProblems from '~/components/buy-asic/shared/BuyAsicClientProblems.vue'
+  import BuyAsicUseful from '~/components/buy-asic/shared/BuyAsicUseful.vue'
 
   definePageMeta({
     path: '/asic-majnery-po-czenam-nizhe-rynka/:slug',

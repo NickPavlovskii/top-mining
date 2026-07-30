@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import { BUY_ASIC_CLIENT_PROBLEMS } from '~/common/modules/top-mining/buy-asic-client-problems'
-import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
+import BuyAsicClientProblems from '~/components/buy-asic/shared/BuyAsicClientProblems.vue'
 import TopMiningOutlineTitle from '~/components/global/pageTitle/TopMiningOutlineTitle.vue'
 import TopMiningPillTabs from '~/components/global/navigation/TopMiningPillTabs.vue'
 
