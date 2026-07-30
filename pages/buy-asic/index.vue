@@ -7,6 +7,12 @@
     <buy-asic-client-problems />
     <buy-asic-how-we-work />
     <buy-asic-safety-and-time />
+    <buy-asic-summary />
+    <buy-asic-promo-banners />
+    <top-mining-contact-section
+      flush
+      :show-articles="false"
+    />
   </div>
 </template>
 
@@ -16,8 +22,11 @@
   import BuyAsicHowWeWork from '~/components/buy-asic/BuyAsicHowWeWork.vue'
   import BuyAsicModels from '~/components/buy-asic/BuyAsicModels.vue'
   import BuyAsicModelsMarquee from '~/components/buy-asic/BuyAsicModelsMarquee.vue'
+  import BuyAsicPromoBanners from '~/components/buy-asic/BuyAsicPromoBanners.vue'
   import BuyAsicSafetyAndTime from '~/components/buy-asic/BuyAsicSafetyAndTime.vue'
+  import BuyAsicSummary from '~/components/buy-asic/BuyAsicSummary.vue'
   import BuyAsicUseful from '~/components/buy-asic/BuyAsicUseful.vue'
+  import TopMiningContactSection from '~/components/top-mining/TopMiningContactSection.vue'
 
   definePageMeta({
     path: '/asic-majnery-po-czenam-nizhe-rynka',
