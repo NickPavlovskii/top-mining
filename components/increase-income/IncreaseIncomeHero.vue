@@ -65,21 +65,16 @@
             @submit.prevent="onSubmit"
           >
             <div class="increase-income-hero__form-row">
-              <label class="increase-income-hero__field">
-                <span class="increase-income-hero__visually-hidden">
-                  {{ copy.phonePlaceholder }}
-                </span>
-                <input
-                  v-model="phone"
-                  type="tel"
-                  name="your-telegram"
-                  class="increase-income-hero__input"
-                  autocomplete="tel"
-                  inputmode="tel"
-                  :placeholder="copy.phonePlaceholder"
-                  required
-                >
-              </label>
+              <top-mining-input
+                v-model="phone"
+                type="tel"
+                name="your-telegram"
+                autocomplete="tel"
+                inputmode="tel"
+                required
+                :placeholder="copy.phonePlaceholder"
+                :accessible-label="copy.phonePlaceholder"
+              />
 
               <button
                 type="submit"
@@ -101,23 +96,12 @@
               >
             </label>
 
-            <div class="increase-income-hero__privacy">
-              <label class="increase-income-hero__privacy-label">
-                <input
-                  v-model="privacyAccepted"
-                  type="checkbox"
-                  class="increase-income-hero__privacy-check"
-                  required
-                >
-                <span>{{ copy.privacyPrefix }}</span>
-              </label>
-              <nuxt-link
-                class="increase-income-hero__privacy-link"
-                :to="copy.privacyHref"
-              >
-                {{ copy.privacyLinkLabel }}
-              </nuxt-link>
-            </div>
+            <top-mining-privacy-consent
+              v-model="privacyAccepted"
+              :prefix="copy.privacyPrefix"
+              :privacy-link-label="copy.privacyLinkLabel"
+              :privacy-href="copy.privacyHref"
+            />
           </form>
         </div>
       </div>
@@ -128,6 +112,8 @@
 <script setup lang="ts">
   import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/increase-income-page'
   import ConsultingDiagonalArrowIcon from '~/components/consulting/icons/ConsultingDiagonalArrowIcon.vue'
+  import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
+  import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
   const copy = INCREASE_INCOME_PAGE
 
@@ -146,7 +132,7 @@
 
 <style scoped>
   .increase-income-hero {
-    background: #101010;
+    background: var(--tm-ink);
     border-radius: 64px 64px 0 0;
     padding: 64px 0;
     color: #fff;
@@ -215,7 +201,7 @@
   .increase-income-hero__title-lead {
     display: block;
     margin-bottom: 0;
-    color: #101010;
+    color: var(--tm-ink);
     font-size: 202px;
     font-weight: 500;
     line-height: 100%;
@@ -264,34 +250,9 @@
     gap: 20px;
   }
 
-  .increase-income-hero__field {
-    display: block;
-    min-width: 0;
+  .increase-income-hero__form-row :deep(.top-mining-input) {
     flex: 1 1 auto;
-  }
-
-  .increase-income-hero__input {
-    box-sizing: border-box;
-    width: 100%;
-    height: 56px;
-    padding: 0 24px;
-    border: 1px solid #5c5c5c;
-    border-radius: 999px;
-    background: transparent;
-    color: #fff;
-    font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24px;
-    outline: none;
-  }
-
-  .increase-income-hero__input::placeholder {
-    color: rgba(255, 255, 255, 0.45);
-  }
-
-  .increase-income-hero__input:focus-visible {
-    border-color: rgba(255, 255, 255, 0.7);
+    min-width: 0;
   }
 
   .increase-income-hero__submit {
@@ -346,45 +307,8 @@
     white-space: nowrap;
   }
 
-  .increase-income-hero__privacy {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px;
+  .increase-income-hero__form :deep(.top-mining-privacy-consent) {
     margin-top: 20px;
-    width: 100%;
-    color: #757575;
-    font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    line-height: 16px;
-  }
-
-  .increase-income-hero__privacy-label {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    cursor: pointer;
-  }
-
-  .increase-income-hero__privacy-check {
-    flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-    margin: 0;
-    accent-color: #ec5100;
-  }
-
-  .increase-income-hero__privacy-link {
-    color: inherit;
-    font-size: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .increase-income-hero__privacy-link:hover,
-  .increase-income-hero__privacy-link:focus-visible {
-    color: #999;
   }
 
   .increase-income-hero__visually-hidden {
@@ -457,15 +381,6 @@
       gap: 10px;
     }
 
-    .increase-income-hero__field {
-      max-width: 250px;
-    }
-
-    .increase-income-hero__input {
-      height: 46px;
-      padding: 0 16px;
-    }
-
     .increase-income-hero__submit {
       width: 158px;
       min-width: 158px;
@@ -518,10 +433,6 @@
     .increase-income-hero__form-row {
       flex-direction: column;
       gap: 10px;
-    }
-
-    .increase-income-hero__field {
-      max-width: 100%;
     }
 
     .increase-income-hero__submit {

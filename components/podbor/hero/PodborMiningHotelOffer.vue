@@ -11,21 +11,11 @@
         <strong>{{ offer.titleLead }}</strong>{{ offer.titleRest }}
       </h2>
 
-      <ul class="podbor-offer__benefits">
-        <li
-          v-for="(item, index) in offer.benefits"
-          :key="index"
-          class="podbor-offer__benefit"
-        >
-          <img
-            class="podbor-offer__check"
-            alt=""
-            aria-hidden="true"
-            :src="checkIcon"
-          >
-          <span class="podbor-offer__benefit-text">{{ item }}</span>
-        </li>
-      </ul>
+      <top-mining-icon-list
+        class="podbor-offer__list"
+        :items="offer.benefits"
+        :icon-src="checkIcon"
+      />
     </article>
   </section>
 </template>
@@ -33,6 +23,7 @@
 <script setup lang="ts">
   import checkIcon from '~/assets/images/podbor-majning-otelya/check-icon.png'
   import { PODBOR_MINING_HOTEL_OFFER } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
 
   const offer = PODBOR_MINING_HOTEL_OFFER
 </script>
@@ -63,36 +54,13 @@
     font-weight: 700;
   }
 
-  .podbor-offer__benefits {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+  .podbor-offer__list :deep(.top-mining-icon-list) {
     gap: 20px;
   }
 
-  .podbor-offer__benefit {
-    display: flex;
+  .podbor-offer__list :deep(.top-mining-icon-list__item) {
     align-items: center;
-    justify-content: flex-start;
     gap: 15px;
-  }
-
-  .podbor-offer__check {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    display: block;
-    object-fit: contain;
-  }
-
-  .podbor-offer__benefit-text {
-    color: #fff;
-    font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24px;
   }
 
   @media (max-width: 1600px) {
@@ -100,7 +68,7 @@
       padding: 30px;
     }
 
-    .podbor-offer__benefits {
+    .podbor-offer__list :deep(.top-mining-icon-list) {
       gap: 15px;
     }
   }
@@ -120,12 +88,12 @@
       line-height: 22px;
     }
 
-    .podbor-offer__benefit-text {
+    .podbor-offer__list :deep(.top-mining-icon-list__item) {
       font-size: 15px;
       line-height: 22px;
     }
 
-    .podbor-offer__check {
+    .podbor-offer__list :deep(.top-mining-icon-list__icon) {
       width: 28px;
       height: 28px;
     }
@@ -143,18 +111,18 @@
       margin-bottom: 16px;
     }
 
-    .podbor-offer__check {
-      width: 24px;
-      height: 24px;
+    .podbor-offer__list :deep(.top-mining-icon-list) {
+      gap: 12px;
     }
 
-    .podbor-offer__benefit-text {
+    .podbor-offer__list :deep(.top-mining-icon-list__item) {
       font-size: 14px;
       line-height: 20px;
     }
 
-    .podbor-offer__benefits {
-      gap: 12px;
+    .podbor-offer__list :deep(.top-mining-icon-list__icon) {
+      width: 24px;
+      height: 24px;
     }
   }
 </style>

@@ -18,6 +18,7 @@
       :disabled="disabled"
       :name="name"
       :value="value"
+      :required="required"
       :aria-checked="indeterminate ? 'mixed' : model"
       @change="onChange"
     />
@@ -50,6 +51,7 @@
       size?: 'md' | 'sm'
       name?: string
       value?: string | number | boolean
+      required?: boolean
     }>(),
     {
       label: '',
@@ -58,6 +60,7 @@
       size: 'md',
       name: undefined,
       value: undefined,
+      required: false,
     },
   )
 

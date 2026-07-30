@@ -5,7 +5,11 @@ import TopMiningArticleRow from './articles/TopMiningArticleRow.vue'
 import TopMiningButton from './buttons/TopMiningButton.vue'
 import TopMiningMoreLink from './buttons/TopMiningMoreLink.vue'
 import TopMiningRoundIconButton from './buttons/TopMiningRoundIconButton.vue'
+import TopMiningFileUpload from './forms/TopMiningFileUpload.vue'
+import TopMiningInput from './forms/TopMiningInput.vue'
+import TopMiningPrivacyConsent from './forms/TopMiningPrivacyConsent.vue'
 import TopMiningChip from './labels/TopMiningChip.vue'
+import TopMiningIconList from './lists/TopMiningIconList.vue'
 import TopMiningBrandTitle from './pageTitle/TopMiningBrandTitle.vue'
 import TopMiningCheckbox from './selection-controls/TopMiningCheckbox.vue'
 import TopMiningRadio from './selection-controls/TopMiningRadio.vue'
@@ -17,7 +21,11 @@ const components = [
   { name: 'top-mining-button', component: TopMiningButton },
   { name: 'top-mining-checkbox', component: TopMiningCheckbox },
   { name: 'top-mining-chip', component: TopMiningChip },
+  { name: 'top-mining-file-upload', component: TopMiningFileUpload },
+  { name: 'top-mining-icon-list', component: TopMiningIconList },
+  { name: 'top-mining-input', component: TopMiningInput },
   { name: 'top-mining-more-link', component: TopMiningMoreLink },
+  { name: 'top-mining-privacy-consent', component: TopMiningPrivacyConsent },
   { name: 'top-mining-radio', component: TopMiningRadio },
   { name: 'top-mining-round-icon-button', component: TopMiningRoundIconButton },
 ]

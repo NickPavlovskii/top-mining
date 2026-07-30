@@ -26,17 +26,12 @@
           aria-label="Закрыть"
           @click="close"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
+          <img
+            class="podbor-tariff-modal__close-icon"
+            alt=""
             aria-hidden="true"
+            :src="closeIcon"
           >
-            <path
-              fill="currentColor"
-              d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.59 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12l4.9 4.9a1 1 0 0 0 1.4-1.4L13.41 10.6z"
-            />
-          </svg>
         </button>
 
         <div class="podbor-tariff-modal__badge">
@@ -134,6 +129,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import type {
     PodborOfferLeadModalCopy,
     PodborPlacementOffer,
@@ -261,6 +257,14 @@
   .podbor-tariff-modal__close:focus-visible {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .podbor-tariff-modal__close-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    mix-blend-mode: screen;
   }
 
   .podbor-tariff-modal__badge {
