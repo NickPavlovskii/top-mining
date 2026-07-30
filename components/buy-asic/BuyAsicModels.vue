@@ -1,5 +1,6 @@
 <template>
   <section
+    id="buy-asic-models"
     class="buy-asic-models"
     aria-label="Актуальные модели ASIC"
   >

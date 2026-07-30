@@ -5,14 +5,18 @@
     <buy-asic-models />
     <buy-asic-useful />
     <buy-asic-client-problems />
+    <buy-asic-how-we-work />
+    <buy-asic-safety-and-time />
   </div>
 </template>
 
 <script setup lang="ts">
   import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
   import BuyAsicHero from '~/components/buy-asic/BuyAsicHero.vue'
+  import BuyAsicHowWeWork from '~/components/buy-asic/BuyAsicHowWeWork.vue'
   import BuyAsicModels from '~/components/buy-asic/BuyAsicModels.vue'
   import BuyAsicModelsMarquee from '~/components/buy-asic/BuyAsicModelsMarquee.vue'
+  import BuyAsicSafetyAndTime from '~/components/buy-asic/BuyAsicSafetyAndTime.vue'
   import BuyAsicUseful from '~/components/buy-asic/BuyAsicUseful.vue'
 
   definePageMeta({
