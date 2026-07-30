@@ -124,7 +124,7 @@
   .buy-asic-useful {
     background: var(--tm-ink);
     color: #fff;
-    padding: 48px 0 96px;
+    padding: 48px 0 40px;
   }
 
   .buy-asic-useful__inner {
@@ -232,7 +232,7 @@
 
   @media (max-width: 767px) {
     .buy-asic-useful {
-      padding: 32px 0 72px;
+      padding: 32px 0 28px;
     }
 
     .buy-asic-useful__logo {

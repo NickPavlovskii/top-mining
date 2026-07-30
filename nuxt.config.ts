@@ -1,6 +1,8 @@
 const isStorybook =
+  process.env.STORYBOOK === 'true' ||
   process.env.npm_lifecycle_event === 'storybook' ||
-  process.env.npm_lifecycle_event === 'build-storybook'
+  process.env.npm_lifecycle_event === 'build-storybook' ||
+  process.argv.some((arg) => /storybook/.test(arg))
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -31,7 +33,8 @@ export default defineNuxtConfig({
     '@fontsource/unbounded/latin-500.css',
     '@fontsource/unbounded/latin-600.css',
     './assets/scss/variables.scss',
-    './assets/scss/vertical-scrollbar.scss',
+    // Global orange scrollbar — only in the app, not Storybook docs/canvas.
+    ...(!isStorybook ? ['./assets/scss/vertical-scrollbar.scss'] : []),
     './assets/scss/scrollbar.scss',
     './assets/scss/main.css',
   ],
@@ -43,6 +46,13 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/eslint',
   ],
+
+  // `@storybook-vue/nuxt` rewrites color-mode imports to absolute Windows paths
+  // (backslashes → broken JS escapes) and the iframe then 404s the plugin.
+  // Keep color-mode enabled for normal `nuxt dev` / production.
+  ui: {
+    colorMode: !isStorybook,
+  },
 
   eslint: {
     config: {
@@ -73,7 +83,9 @@ export default defineNuxtConfig({
       },
     },
     server: {
-      hmr: isStorybook ? { port: 24679, clientPort: 24679 } : undefined,
+      // Do not pin a separate Storybook HMR port here. Storybook runs Vite in
+      // middleware mode on its HTTP port (:6007); a clientPort like 24679 makes
+      // the browser open a WebSocket that never connects.
       watch: {
         ignored: [
           '**/storybook-static/**',

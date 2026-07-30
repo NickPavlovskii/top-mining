@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BuyAsicClientProblems > matches snapshot 1`] = `
+"<section data-v-608551c8="" class="buy-asic-problems" aria-labelledby="buy-asic-problems-title">
+  <div data-v-608551c8="" class="buy-asic-problems__inner">
+    <h2 data-v-8cbea3d5="" data-v-608551c8="" class="top-mining-outline-title buy-asic-problems__title" id="buy-asic-problems-title">ЧАСТЫЕ ПРОБЛЕМЫ <span data-v-8cbea3d5="" class="top-mining-outline-title__accent">КЛИЕНТОВ</span></h2>
+    <div data-v-bb5e86e2="" data-v-608551c8="" class="top-mining-pill-tabs buy-asic-problems__tabs" role="tablist" aria-label="Категории проблем"><button data-v-bb5e86e2="" type="button" role="tab" id="buy-asic-problems-tab-prices" class="top-mining-pill-tabs__tab top-mining-pill-tabs__tab--active" aria-selected="true" aria-controls="buy-asic-problems-panel-prices" tabindex="0">Повышение тарифа, цены</button><button data-v-bb5e86e2="" type="button" role="tab" id="buy-asic-problems-tab-repair" class="top-mining-pill-tabs__tab" aria-selected="false" aria-controls="buy-asic-problems-panel-repair" tabindex="-1">Ремонт</button><button data-v-bb5e86e2="" type="button" role="tab" id="buy-asic-problems-tab-delivery" class="top-mining-pill-tabs__tab" aria-selected="false" aria-controls="buy-asic-problems-panel-delivery" tabindex="-1">Сроки поставки</button><button data-v-bb5e86e2="" type="button" role="tab" id="buy-asic-problems-tab-service" class="top-mining-pill-tabs__tab" aria-selected="false" aria-controls="buy-asic-problems-panel-service" tabindex="-1">Сервис</button><button data-v-bb5e86e2="" type="button" role="tab" id="buy-asic-problems-tab-hosting" class="top-mining-pill-tabs__tab" aria-selected="false" aria-controls="buy-asic-problems-panel-hosting" tabindex="-1">Размещение</button></div>
+    <div data-v-608551c8="" id="buy-asic-problems-panel-prices" class="buy-asic-problems__panel" role="tabpanel" aria-labelledby="buy-asic-problems-tab-prices">
+      <div data-v-608551c8="" class="buy-asic-problems__carousel">
+        <article data-v-608551c8="" class="buy-asic-problems__card"><img data-v-608551c8="" class="buy-asic-problems__icon" alt="" aria-hidden="true" src="/images/podbor-majning-otelya/marquee-icon.png">
+          <div data-v-608551c8="" class="buy-asic-problems__content">
+            <div data-v-608551c8="" class="buy-asic-problems__top">
+              <div data-v-608551c8="" class="buy-asic-problems__name" aria-hidden="true"><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span><span data-v-608551c8="" class="buy-asic-problems__name-bar"></span></div><span data-v-608551c8="" class="icon-stub buy-asic-problems__clock" name="mdi:clock-outline" aria-hidden="true"></span><span data-v-608551c8="" class="buy-asic-problems__time">3 года назад</span>
+            </div>
+            <div data-v-608551c8="" class="buy-asic-problems__stars" aria-label="Оценка 1 из 5"><span data-v-608551c8="" class="icon-stub buy-asic-problems__star buy-asic-problems__star--active" aria-hidden="true" name="mdi:star"></span><span data-v-608551c8="" class="icon-stub buy-asic-problems__star" aria-hidden="true" name="mdi:star-outline"></span><span data-v-608551c8="" class="icon-stub buy-asic-problems__star" aria-hidden="true" name="mdi:star-outline"></span><span data-v-608551c8="" class="icon-stub buy-asic-problems__star" aria-hidden="true" name="mdi:star-outline"></span><span data-v-608551c8="" class="icon-stub buy-asic-problems__star" aria-hidden="true" name="mdi:star-outline"></span></div>
+            <p data-v-608551c8="" class="buy-asic-problems__text">Отдавал в ремонт whatsminer m21. Починили без согласования 2 платы. Взяли 36т. <span data-v-608551c8="" class="buy-asic-problems__highlight">Через мес опять по ним поломка. Гарантии нет.</span> Выброшенные деньги</p>
+            <p data-v-608551c8="" class="buy-asic-problems__source">Яндекс.Карты</p>
+            <div data-v-608551c8="" class="buy-asic-problems__footer">
+              <div data-v-608551c8="" class="buy-asic-problems__votes" aria-hidden="true"><span data-v-608551c8="" class="buy-asic-problems__vote"><span data-v-608551c8="" class="icon-stub" name="mdi:thumb-up-outline"></span><span data-v-608551c8="">0</span></span><span data-v-608551c8="" class="buy-asic-problems__vote-sep"></span><span data-v-608551c8="" class="buy-asic-problems__vote"><span data-v-608551c8="">0</span><span data-v-608551c8="" class="icon-stub" name="mdi:thumb-down-outline"></span></span></div><span data-v-608551c8="" class="buy-asic-problems__reply" aria-hidden="true"><span data-v-608551c8="" class="icon-stub" name="mdi:reply"></span><span data-v-608551c8="">Ответить</span></span>
+            </div>
+          </div>
+        </article><button data-v-608551c8="" type="button" class="buy-asic-problems__nav buy-asic-problems__nav--prev" aria-label="Предыдущий отзыв"><span data-v-608551c8="" class="icon-stub" name="mdi:chevron-left" aria-hidden="true"></span></button><button data-v-608551c8="" type="button" class="buy-asic-problems__nav buy-asic-problems__nav--next" aria-label="Следующий отзыв"><span data-v-608551c8="" class="icon-stub" name="mdi:chevron-right" aria-hidden="true"></span></button>
+        <div data-v-608551c8="" class="buy-asic-problems__dots" role="tablist" aria-label="Слайды отзывов"><button data-v-608551c8="" type="button" class="buy-asic-problems__dot buy-asic-problems__dot--active" aria-label="Отзыв 1" aria-current="true"></button><button data-v-608551c8="" type="button" class="buy-asic-problems__dot" aria-label="Отзыв 2"></button><button data-v-608551c8="" type="button" class="buy-asic-problems__dot" aria-label="Отзыв 3"></button><button data-v-608551c8="" type="button" class="buy-asic-problems__dot" aria-label="Отзыв 4"></button><button data-v-608551c8="" type="button" class="buy-asic-problems__dot" aria-label="Отзыв 5"></button></div>
+      </div>
+    </div>
+    <div data-v-608551c8="" id="buy-asic-problems-panel-repair" class="buy-asic-problems__panel" role="tabpanel" hidden="" aria-labelledby="buy-asic-problems-tab-repair">
+      <!--v-if-->
+    </div>
+    <div data-v-608551c8="" id="buy-asic-problems-panel-delivery" class="buy-asic-problems__panel" role="tabpanel" hidden="" aria-labelledby="buy-asic-problems-tab-delivery">
+      <!--v-if-->
+    </div>
+    <div data-v-608551c8="" id="buy-asic-problems-panel-service" class="buy-asic-problems__panel" role="tabpanel" hidden="" aria-labelledby="buy-asic-problems-tab-service">
+      <!--v-if-->
+    </div>
+    <div data-v-608551c8="" id="buy-asic-problems-panel-hosting" class="buy-asic-problems__panel" role="tabpanel" hidden="" aria-labelledby="buy-asic-problems-tab-hosting">
+      <!--v-if-->
+    </div>
+  </div>
+</section>"
+`;

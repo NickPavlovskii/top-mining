@@ -4,10 +4,12 @@
     <buy-asic-models-marquee />
     <buy-asic-models />
     <buy-asic-useful />
+    <buy-asic-client-problems />
   </div>
 </template>
 
 <script setup lang="ts">
+  import BuyAsicClientProblems from '~/components/buy-asic/BuyAsicClientProblems.vue'
   import BuyAsicHero from '~/components/buy-asic/BuyAsicHero.vue'
   import BuyAsicModels from '~/components/buy-asic/BuyAsicModels.vue'
   import BuyAsicModelsMarquee from '~/components/buy-asic/BuyAsicModelsMarquee.vue'

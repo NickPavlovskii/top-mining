@@ -178,7 +178,6 @@
     TOP_MINING_CONTACT_PHONE,
     TOP_MINING_CONTACT_TELEGRAM,
   } from '~/common/modules/top-mining/contact-section'
-  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
   import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
@@ -200,10 +199,7 @@
   const isMobileMenuOpen = ref(false)
   const isSimpleMenuPage = computed(() => {
     const path = route.path.replace(/\/$/, '')
-    return (
-      path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, ''))
-      || path.startsWith(BUY_ASIC_PAGE_PATH.replace(/\/$/, ''))
-    )
+    return path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, ''))
   })
   const isHeaderSticky = ref(props.forceCompact || isSimpleMenuPage.value)
   const headerRef = ref<HTMLElement | null>(null)
