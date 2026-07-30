@@ -525,7 +525,7 @@
 
   .podbor-factor-card__note {
     margin: 20px 0 0;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 18px;
     font-weight: 400;
     line-height: 24px;
@@ -640,7 +640,7 @@
   }
 
   .podbor-factor-case__body p span {
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .podbor-factor-case__body p:last-of-type {
@@ -650,7 +650,7 @@
   .podbor-factor-case__body small {
     display: block;
     margin-top: 20px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 14px;
     font-weight: 400;
     line-height: 24px;

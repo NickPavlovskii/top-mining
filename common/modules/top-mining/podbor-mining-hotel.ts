@@ -751,7 +751,7 @@ export const PODBOR_MINING_HOTEL_SUMMARY = {
   privacyHref: '/privacy',
 } as const
 
-export type PodborPromoBannerVariant = 'asic' | 'you-miner'
+export type PodborPromoBannerVariant = 'asic' | 'you-miner' | 'hotel'
 
 export type PodborPromoBanner = {
   id: string
@@ -761,6 +761,10 @@ export type PodborPromoBanner = {
   buttonLabel: string
   href: string
   imageAlt: string
+  /** Optional override; defaults to asic/miner visuals by variant */
+  image?: string
+  /** Mobile decor for hotel variant (WordPress mining-hotel-bg-1-m) */
+  imageMobile?: string
   external?: boolean
 }
 

@@ -208,7 +208,7 @@
   .rating-cards-grid__num {
     flex: 0 0 34px;
     padding-right: 4px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 14px;
     line-height: 20px;
     box-sizing: border-box;

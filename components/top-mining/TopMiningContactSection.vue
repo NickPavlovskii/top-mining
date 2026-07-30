@@ -362,6 +362,7 @@
     align-items: center;
     width: min(100%, var(--cc-width));
     flex-shrink: 0;
+    container-type: inline-size;
   }
 
   .contact-section__stack > * {
@@ -391,6 +392,8 @@
 
   .contact-section__title {
     width: min(100%, var(--cc-width));
+    max-width: 100%;
+    min-width: 0;
     min-height: var(--cc-title-lh);
     margin: 0;
     color: var(--tm-white);
@@ -404,6 +407,13 @@
 
   .contact-section__title--single {
     display: block;
+  }
+
+  /* Длиннее «Подпишитесь» — масштабируем, чтобы nowrap не обрезался кругом */
+  .contact-section__stack--question .contact-section__title {
+    min-height: 0;
+    font-size: min(var(--cc-title-size), 8cqi);
+    line-height: 1.15;
   }
 
   .contact-section__stack--question .contact-section__title,

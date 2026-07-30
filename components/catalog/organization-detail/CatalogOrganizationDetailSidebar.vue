@@ -522,7 +522,7 @@
   .org-detail__contact-icon {
     flex: 0 0 auto;
     margin-top: 2px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 20px;
   }
 

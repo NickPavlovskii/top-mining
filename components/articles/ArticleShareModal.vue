@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body">
+  <<teleport to="body"> to="body">
     <div
       v-if="open"
       class="article-share-modal"
@@ -26,17 +26,12 @@
           aria-label="Закрыть"
           @click="close"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
+          <img
+            class="article-share-modal__close-icon"
+            alt=""
             aria-hidden="true"
+            :src="closeIcon"
           >
-            <path
-              fill="currentColor"
-              d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.59 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12l4.9 4.9a1 1 0 0 0 1.4-1.4L13.41 10.6z"
-            />
-          </svg>
         </button>
 
         <ul class="article-share-modal__networks">
@@ -186,6 +181,8 @@
 </template>
 
 <script setup lang="ts">
+  import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
+
   const props = withDefaults(
     defineProps<{
       modelValue: boolean
@@ -361,6 +358,14 @@
   .article-share-modal__close:focus-visible {
     color: #64748b;
     background: #f1f5f9;
+  }
+
+  .article-share-modal__close-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    mix-blend-mode: screen;
   }
 
   .article-share-modal__networks {

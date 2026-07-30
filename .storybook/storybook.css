@@ -2,6 +2,36 @@
 @import '@fontsource/unbounded/600.css';
 @import '@fontsource/unbounded/700.css';
 
+/*
+ * App `vertical-scrollbar.scss` paints orange bars on every overflow box.
+ * Hide them in Storybook preview (docs + canvas); scrolling still works.
+ */
+*,
+*::before,
+*::after {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-track {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+.tm-docs-panel,
+.tm-docs-panel table,
+.sbdocs,
+.sbdocs-wrapper,
+.sbdocs-content,
+.docs-story,
+.sb-story {
+  scrollbar-width: none !important;
+}
+
 .sb-canvas {
   box-sizing: border-box;
   width: 100%;
@@ -337,6 +367,8 @@
   margin: 16px 0;
   border-collapse: collapse;
   font-size: 14px;
+  display: table;
+  overflow: visible;
 }
 
 .tm-docs-panel th,

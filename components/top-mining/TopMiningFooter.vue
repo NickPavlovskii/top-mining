@@ -52,7 +52,7 @@
           :disabled="!isPersonalDataAccepted"
         >
           Отправить
-          <Icon name="mdi:arrow-top-right" />
+          <icon name="mdi:arrow-top-right" />
         </button>
       </form>
 
@@ -93,15 +93,27 @@
 
         <nav class="site-footer__nav" aria-label="Навигация футера">
           <div class="site-footer__nav-column">
-            <component
-              :is="getFooterLinkComponent(link)"
+            <template
               v-for="link in TOP_MINING_FOOTER_CALCULATOR_LINKS"
               :key="link.label"
-              v-bind="getFooterLinkProps(link)"
             >
-              {{ link.label }}
-              <Icon name="mdi:arrow-top-right" />
-            </component>
+              <a
+                v-if="isExternalOrAnchorLink(link)"
+                :href="link.href"
+                :target="isExternalFooterLink(link) ? '_blank' : undefined"
+                :rel="isExternalFooterLink(link) ? 'noopener noreferrer' : undefined"
+              >
+                {{ link.label }}
+                <icon name="mdi:arrow-top-right" />
+              </a>
+              <nuxt-link
+                v-else
+                :to="link.href"
+              >
+                {{ link.label }}
+                <icon name="mdi:arrow-top-right" />
+              </nuxt-link>
+            </template>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -113,15 +125,27 @@
           </div>
 
           <div class="site-footer__nav-column">
-            <component
-              v-bind="getFooterLinkProps(link)"
-              :is="getFooterLinkComponent(link)"
+            <template
               v-for="link in TOP_MINING_FOOTER_MAIN_LINKS"
               :key="link.label"
             >
-              {{ link.label }}
-              <Icon name="mdi:arrow-top-right" />
-            </component>
+              <a
+                v-if="isExternalOrAnchorLink(link)"
+                :href="link.href"
+                :target="isExternalFooterLink(link) ? '_blank' : undefined"
+                :rel="isExternalFooterLink(link) ? 'noopener noreferrer' : undefined"
+              >
+                {{ link.label }}
+                <icon name="mdi:arrow-top-right" />
+              </a>
+              <nuxt-link
+                v-else
+                :to="link.href"
+              >
+                {{ link.label }}
+                <icon name="mdi:arrow-top-right" />
+              </nuxt-link>
+            </template>
             <small>© 2026 Топ - Майнинг</small>
           </div>
         </nav>
@@ -145,6 +169,7 @@
     TOP_MINING_FOOTER_MAIN_LINKS,
     TOP_MINING_FOOTER_TELEGRAM_HREF,
   } from '~/common/modules/top-mining/footer-nav'
+  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
   import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
   import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
 
@@ -158,35 +183,23 @@
   const isIncreaseIncomePage = computed(() =>
     route.path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, '')),
   )
+  const isBuyAsicPage = computed(() =>
+    route.path.startsWith(BUY_ASIC_PAGE_PATH.replace(/\/$/, '')),
+  )
   const hideContactBlock = computed(
     () =>
       isPrivacyPage.value
       || isPodborMiningHotelPage.value
-      || isIncreaseIncomePage.value,
+      || isIncreaseIncomePage.value
+      || isBuyAsicPage.value,
   )
 
   function isExternalFooterLink(link: TopMiningFooterNavLink) {
     return link.external ?? /^https?:\/\//.test(link.href)
   }
 
-  function getFooterLinkComponent(link: TopMiningFooterNavLink) {
-    return isExternalFooterLink(link) || link.href.startsWith('#') ? 'a' : 'nuxt-link'
-  }
-
-  function getFooterLinkProps(link: TopMiningFooterNavLink) {
-    if (isExternalFooterLink(link)) {
-      return {
-        href: link.href,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-      }
-    }
-
-    if (link.href.startsWith('#')) {
-      return { href: link.href }
-    }
-
-    return { to: link.href }
+  function isExternalOrAnchorLink(link: TopMiningFooterNavLink) {
+    return isExternalFooterLink(link) || link.href.startsWith('#')
   }
 
   function scrollToTop() {

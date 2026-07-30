@@ -248,7 +248,7 @@
   }
 
   .consulting-black-ring__input::placeholder {
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .consulting-black-ring__input:focus-visible {
@@ -315,7 +315,7 @@
     align-items: baseline;
     gap: 4px;
     margin-top: 20px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
     font-size: 12px;
     font-weight: 300;
@@ -355,7 +355,7 @@
   }
 
   .consulting-black-ring__privacy-link {
-    color: #757575;
+    color: var(--tm-text-soft);
     text-decoration: underline;
   }
 

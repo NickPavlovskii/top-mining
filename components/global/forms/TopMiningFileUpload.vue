@@ -332,7 +332,7 @@
     position: absolute;
     right: 18px;
     bottom: 18px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 12px;
   }
 
@@ -351,7 +351,7 @@
     height: 40px;
     border: 1px solid #a5a5a5;
     border-radius: 100%;
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .top-mining-file-upload__details {
@@ -365,7 +365,7 @@
     align-items: baseline;
     gap: 4px;
     padding: 4px 36px 4px 0;
-    color: #757575;
+    color: var(--tm-text-soft);
     font: inherit;
   }
 
@@ -377,7 +377,7 @@
 
   .top-mining-file-upload__name em {
     flex-shrink: 0;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-style: normal;
     font-weight: 400;
   }
@@ -426,7 +426,7 @@
     border: 1px solid #a5a5a5;
     border-radius: 100%;
     background: transparent;
-    color: #757575;
+    color: var(--tm-text-soft);
     cursor: pointer;
   }
 

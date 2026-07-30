@@ -277,7 +277,7 @@
 
   .consulting-best-speaker__input::placeholder,
   .consulting-best-speaker__textarea::placeholder {
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .consulting-best-speaker__input:focus-visible,
@@ -350,7 +350,7 @@
     align-items: baseline;
     gap: 4px;
     margin-top: 20px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
     font-size: 12px;
     font-weight: 300;
@@ -390,7 +390,7 @@
   }
 
   .consulting-best-speaker__privacy-link {
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 12px;
     text-decoration: underline;
   }

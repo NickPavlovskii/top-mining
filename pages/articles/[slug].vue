@@ -542,7 +542,7 @@
 
   .article-page__state {
     padding: 48px 0;
-    color: var(--tm-text-gray, #757575);
+    color: var(--tm-text-soft);
     text-align: center;
   }
 
@@ -552,7 +552,7 @@
     padding: 40px 24px;
     border-radius: 24px;
     background: #fff;
-    color: var(--tm-text-gray, #757575);
+    color: var(--tm-text-soft);
     font-size: 18px;
     line-height: 1.45;
     text-align: center;

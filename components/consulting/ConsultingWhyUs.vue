@@ -171,7 +171,7 @@
 
   .consulting-why__phrase {
     display: inline-block;
-    color: #757575;
+    color: var(--tm-text-soft);
     opacity: 0.8;
     filter: blur(3px);
   }

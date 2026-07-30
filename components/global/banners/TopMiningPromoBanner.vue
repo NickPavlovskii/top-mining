@@ -80,7 +80,7 @@
 
   .tm-promo-banner__title {
     margin: 0 0 40px;
-    color: var(--tm-page-bg, #101010);
+    color: var(--tm-ink);
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: 48px;
     font-weight: 500;
@@ -114,7 +114,7 @@
   .tm-promo-banner__button:hover,
   .tm-promo-banner__button:focus-visible {
     background: transparent;
-    color: var(--tm-page-bg, #101010);
+    color: var(--tm-ink);
   }
 
   .tm-promo-banner__button-icon {
