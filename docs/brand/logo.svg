@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80" fill="none" role="img" aria-label="ТОП МАЙНИНГ">
+  <defs>
+    <linearGradient id="tmMark" x1="8" y1="8" x2="64" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF8A3D"/>
+      <stop offset="0.5" stop-color="#FF741F"/>
+      <stop offset="1" stop-color="#EC5100"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="80" rx="16" fill="#141414"/>
+  <rect x="20" y="16" width="16" height="48" rx="8" fill="url(#tmMark)"/>
+  <rect x="42" y="28" width="16" height="36" rx="8" fill="url(#tmMark)"/>
+  <rect x="64" y="16" width="16" height="48" rx="8" fill="url(#tmMark)"/>
+  <text x="100" y="38" fill="#F6F6F6" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="2">ТОП</text>
+  <text x="100" y="62" fill="#FF741F" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="4">МАЙНИНГ</text>
+</svg>
