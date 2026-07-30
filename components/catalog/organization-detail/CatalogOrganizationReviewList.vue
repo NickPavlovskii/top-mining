@@ -256,7 +256,7 @@
 
   .org-reviews__item-source {
     margin: 0 0 16px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 14px;
     line-height: 1.4;
   }

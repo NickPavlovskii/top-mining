@@ -144,7 +144,7 @@
     border: 1px solid #d3d3d3;
     border-radius: 32px;
     background: transparent;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
     font-size: 18px;
     font-weight: 400;
@@ -153,7 +153,7 @@
   }
 
   .consulting-construction-form-card__input::placeholder {
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .consulting-construction-form-card__input:focus-visible {
@@ -224,7 +224,7 @@
     align-items: baseline;
     gap: 4px;
     margin-top: 20px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
     font-size: 12px;
     font-weight: 300;
@@ -264,7 +264,7 @@
   }
 
   .consulting-construction-form-card__privacy-link {
-    color: #757575;
+    color: var(--tm-text-soft);
     text-decoration: underline;
   }
 

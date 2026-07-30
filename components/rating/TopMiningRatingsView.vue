@@ -254,7 +254,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 20px;
     font-weight: 400;
     line-height: 34px;

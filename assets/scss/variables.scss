@@ -72,9 +72,11 @@
   --text-muted-color: #404040;
   --text-subtle-color: #777777;
   --text-gray-color: #666666;
+  --text-soft-color: #757575;
   --text-placeholder-color: #8c8c8c;
 
   // Тёмные поверхности
+  --ink-color: #101010;
   --page-canvas-color: #141414;
   --dark-bg-color: #1e1e1e;
   --card-bg-color: #2a2a2a;
@@ -110,6 +112,7 @@
   --tm-text-muted: var(--text-muted-color);
   --tm-text-subtle: var(--text-subtle-color);
   --tm-text-gray: var(--text-gray-color);
+  --tm-text-soft: var(--text-soft-color);
   --tm-text-placeholder: var(--text-placeholder-color);
 
   --tm-white: var(--white-color);
@@ -124,6 +127,7 @@
   --tm-icon: var(--icon-color);
   --tm-shadow: var(--shadow-color);
   --tm-dark-bg: var(--dark-bg-color);
+  --tm-ink: var(--ink-color);
   --tm-page-bg: var(--page-canvas-color);
   --tm-card-bg: var(--card-bg-color);
   --tm-rating-surface: var(--rating-surface-color);

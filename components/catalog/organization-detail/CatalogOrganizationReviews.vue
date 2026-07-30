@@ -582,7 +582,7 @@
 
   .org-reviews__field-icon {
     flex: 0 0 auto;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 20px;
   }
 
@@ -598,7 +598,7 @@
   }
 
   .org-reviews__input::placeholder {
-    color: #757575;
+    color: var(--tm-text-soft);
   }
 
   .org-reviews__field-hint {

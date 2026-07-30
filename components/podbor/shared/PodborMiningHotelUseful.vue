@@ -172,7 +172,7 @@
   .podbor-useful__phrase {
     display: inline-block;
     opacity: 0.8;
-    color: #757575;
+    color: var(--tm-text-soft);
     filter: blur(3px);
   }
 

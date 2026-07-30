@@ -928,7 +928,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 32px;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 14px;
     line-height: 20px;
   }
@@ -981,7 +981,7 @@
 
   .org-detail__rating {
     margin: 0;
-    color: #757575;
+    color: var(--tm-text-soft);
     font-size: 14px;
     line-height: 20px;
   }
