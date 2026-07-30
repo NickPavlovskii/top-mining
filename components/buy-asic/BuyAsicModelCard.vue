@@ -31,7 +31,12 @@
     </nuxt-link>
 
     <h3 class="buy-asic-model-card__title">
-      {{ model.name }}
+      <nuxt-link
+        class="buy-asic-model-card__title-link"
+        :to="href"
+      >
+        {{ model.name }}
+      </nuxt-link>
     </h3>
 
     <p class="buy-asic-model-card__coins">
@@ -70,7 +75,7 @@
 
 <script setup lang="ts">
   import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic-page'
-  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
+  import { getBuyAsicModelHref } from '~/common/modules/top-mining/buy-asic-page'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
 
   const props = withDefaults(
@@ -93,9 +98,7 @@
     cta: [model: BuyAsicModel]
   }>()
 
-  const href = computed(
-    () => `${BUY_ASIC_PAGE_PATH}${props.model.slug}/`,
-  )
+  const href = computed(() => getBuyAsicModelHref(props.model))
 
   const typedText = ref('')
   const prefersReducedMotion = ref(false)
@@ -233,6 +236,16 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 1.3;
+  }
+
+  .buy-asic-model-card__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .buy-asic-model-card__title-link:hover,
+  .buy-asic-model-card__title-link:focus-visible {
+    color: var(--tm-orange);
   }
 
   .buy-asic-model-card__coins {
