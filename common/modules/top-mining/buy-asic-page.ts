@@ -207,3 +207,33 @@ export const BUY_ASIC_MODELS = {
     privacyHref: '/privacy',
   },
 } as const
+
+export function getBuyAsicModelBySlug(
+  slug: string,
+): BuyAsicModel | undefined {
+  return BUY_ASIC_MODELS.items.find((item) => item.slug === slug)
+}
+
+export function getBuyAsicModelShortName(model: BuyAsicModel): string {
+  return model.name.replace(/^(Bitmain|MicroBT)\s+/i, '')
+}
+
+export function getBuyAsicModelHref(model: BuyAsicModel): string {
+  return `${BUY_ASIC_PAGE_PATH}${model.slug}/`
+}
+
+export const BUY_ASIC_MODEL_OFFER = {
+  titlePrefix: 'ХОТИТЕ КУПИТЬ',
+  subtitleLead: 'Подберем вам майнинг-компанию, где вы сможете купить ASIC',
+  subtitleAccent: 'на 10% дешевле рынка',
+  companiesIntro: BUY_ASIC_PAGE.companiesIntro,
+  companiesIntroMobile: BUY_ASIC_PAGE.companiesIntroMobile,
+  benefits: BUY_ASIC_PAGE.benefits,
+  formTitle: BUY_ASIC_PAGE.formTitle,
+  phonePlaceholder: BUY_ASIC_PAGE.phonePlaceholder,
+  submitLabel: BUY_ASIC_PAGE.submitLabel,
+  honeypotLabel: BUY_ASIC_PAGE.honeypotLabel,
+  privacyPrefix: BUY_ASIC_PAGE.privacyPrefix,
+  privacyLinkLabel: BUY_ASIC_PAGE.privacyLinkLabel,
+  privacyHref: BUY_ASIC_PAGE.privacyHref,
+} as const
