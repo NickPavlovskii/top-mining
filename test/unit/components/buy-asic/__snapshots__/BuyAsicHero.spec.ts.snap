@@ -1,0 +1,111 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BuyAsicHero > matches snapshot 1`] = `
+"<section data-v-9d45ab5b="" class="buy-asic-hero">
+  <div data-v-9d45ab5b="" class="buy-asic-hero__inner">
+    <nav data-v-9d45ab5b="" class="buy-asic-hero__breadcrumbs" aria-label="Хлебные крошки" itemscope="" itemtype="https://schema.org/BreadcrumbList"><span data-v-9d45ab5b="" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a data-v-9d45ab5b="" aria-current="page" href="/" class="router-link-active router-link-exact-active buy-asic-hero__breadcrumbs-link" itemprop="item"><span data-v-9d45ab5b="" itemprop="name">Главная</span></a>
+      <meta data-v-9d45ab5b="" itemprop="position" content="1"></span><span data-v-9d45ab5b="" class="buy-asic-hero__breadcrumbs-sep" aria-hidden="true">/</span><span data-v-9d45ab5b="" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><span data-v-9d45ab5b="" class="buy-asic-hero__breadcrumbs-current" itemprop="name">ASIC-майнеры по ценам ниже рынка</span>
+      <meta data-v-9d45ab5b="" itemprop="position" content="2"></span>
+    </nav>
+    <div data-v-9d45ab5b="" class="buy-asic-hero__stage">
+      <h1 data-v-9d45ab5b="" class="buy-asic-hero__title">ХОТИТЕ КУПИТЬ ASIC-МАЙНЕРЫ?</h1>
+      <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon" aria-label="Компании по продаже ASIC">
+        <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-rotator">
+          <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-track">
+            <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-group"><a data-v-9d45ab5b="" href="/sale_asic/sibmain/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/umnus/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/gis-mining/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/uminers/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/bitriver/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/promminer/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/ibmm/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/corporation-intelion-data-systems-2/" class="buy-asic-hero__ribbon-link">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a></div>
+            <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-group"><a data-v-9d45ab5b="" href="/sale_asic/sibmain/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/umnus/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/gis-mining/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/uminers/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/bitriver/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/promminer/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/ibmm/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/corporation-intelion-data-systems-2/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a></div>
+            <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-group"><a data-v-9d45ab5b="" href="/sale_asic/sibmain/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/umnus/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/gis-mining/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/uminers/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/bitriver/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/promminer/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/ibmm/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/corporation-intelion-data-systems-2/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a></div>
+            <div data-v-9d45ab5b="" class="buy-asic-hero__ribbon-group"><a data-v-9d45ab5b="" href="/sale_asic/sibmain/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/umnus/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/gis-mining/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/uminers/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/bitriver/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/promminer/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/ibmm/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a><a data-v-9d45ab5b="" href="/sale_asic/corporation-intelion-data-systems-2/" class="buy-asic-hero__ribbon-link" tabindex="-1" aria-hidden="true">
+                <buy-asic-company-card-stub data-v-9d45ab5b="" company="[object Object]"></buy-asic-company-card-stub>
+              </a></div>
+          </div>
+        </div>
+      </div>
+      <div data-v-9d45ab5b="" class="buy-asic-hero__copy">
+        <p data-v-9d45ab5b="" class="buy-asic-hero__subtitle">Подберем вам майнинг-компанию, где вы сможете купить асики <span data-v-9d45ab5b="" class="buy-asic-hero__subtitle-accent">на 10% дешевле рынка</span></p>
+        <div data-v-9d45ab5b="" class="buy-asic-hero__bottom">
+          <div data-v-9d45ab5b="" class="buy-asic-hero__benefits-card">
+            <p data-v-9d45ab5b="" class="buy-asic-hero__companies-intro buy-asic-hero__companies-intro--desktop">46 компаний по продаже майнинг-оборудования, которые конкурируют за вас, предлагая самую низкую цену</p>
+            <p data-v-9d45ab5b="" class="buy-asic-hero__companies-intro buy-asic-hero__companies-intro--mobile">46 компаний по продаже майнинг-оборудования</p>
+            <ul data-v-9d45ab5b="" class="buy-asic-hero__benefit-stub">
+              <li class="buy-asic-hero__benefit">Собьем цены поставщиков на 7%</li>
+              <li class="buy-asic-hero__benefit">Договоримся о минимальном тарифе на размещение</li>
+              <li class="buy-asic-hero__benefit">Сэкономим вам 100+ часов времени на подборе, договорах, поломках</li>
+              <li class="buy-asic-hero__benefit">Сбережем 5% от вложений, обезопасив вас от рисков</li>
+              <li class="buy-asic-hero__benefit">С нами ваши асики и вложения в безопасности</li>
+            </ul>
+          </div>
+          <div data-v-9d45ab5b="" class="buy-asic-hero__form-card">
+            <h2 data-v-9d45ab5b="" class="buy-asic-hero__form-title">Оставьте заявку, мы отправим вам цены всех компаний</h2>
+            <form data-v-9d45ab5b="" class="buy-asic-hero__form"><input data-v-9d45ab5b="" name="your-telegram" type="tel" modelvalue="" autocomplete="tel" inputmode="tel" required="" placeholder="Телефон" accessible-label="Телефон"><button data-v-9d45ab5b="" type="submit" class="buy-asic-hero__submit"><span data-v-9d45ab5b="">ОСТАВИТЬ ЗАЯВКУ</span><img data-v-9d45ab5b="" class="buy-asic-hero__submit-icon" alt="" aria-hidden="true" src="/assets/images/articles/arrow-up-right.png"></button><label data-v-9d45ab5b="" class="buy-asic-hero__honeypot"><span data-v-9d45ab5b="">Оставьте это поле пустым.</span><input data-v-9d45ab5b="" type="text" name="email" tabindex="-1" autocomplete="off"></label>
+              <top-mining-privacy-consent-stub data-v-9d45ab5b="" privacylinklabel="Политикой конфиденциальности" privacyhref="/privacy" required="true" disabled="false" modelvalue="true"></top-mining-privacy-consent-stub>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>"
+`;

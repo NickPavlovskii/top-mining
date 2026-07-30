@@ -41,9 +41,8 @@
       >
         <a
           v-for="social in mobileHeaderSocials"
-          :key="social.label"
-          :href="social.href"
           class="top-mining__mobile-header-contact-btn"
+          :href="social.href"
           :aria-label="social.label"
           target="_blank"
           rel="noopener noreferrer"
@@ -75,17 +74,17 @@
         class="top-mining__nav top-mining__nav--desktop"
         aria-label="Навигация по разделам"
       >
-        <TopMiningHeaderDesktopNav
+        <top-mining-header-desktop-nav
           :is-nav-column-expanded="isNavColumnExpanded"
           :nav-column-toggle-labels="navColumnToggleLabels"
           @toggle-column="toggleNavColumn"
           @nav-link-click="onNavLinkClick"
         />
 
-        <TopMiningHeaderCompactNav @nav-link-click="onNavLinkClick" />
+        <top-mining-header-compact-nav @nav-link-click="onNavLinkClick" />
       </nav>
 
-      <TopMiningHeaderMobileMenu
+      <top-mining-header-mobile-menu
         :open="isMobileMenuOpen || isMobileTopState"
         :is-phone-viewport="isPhoneViewport"
         :is-nav-column-expanded="isNavColumnExpanded"
@@ -170,9 +169,6 @@
 </template>
 
 <script setup lang="ts">
-  /**
-   * Шапка сайта с навигацией, мобильным меню и липким поведением.
-   */
   import {
     TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
     TOP_MINING_MOBILE_MENU_SOCIALS,
@@ -182,6 +178,7 @@
     TOP_MINING_CONTACT_PHONE,
     TOP_MINING_CONTACT_TELEGRAM,
   } from '~/common/modules/top-mining/contact-section'
+  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
   import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
@@ -191,7 +188,6 @@
 
   const props = withDefaults(
     defineProps<{
-      /** Компактная шапка сразу (горизонтальное меню), без развёрнутых колонок */
       forceCompact?: boolean
     }>(),
     {
@@ -202,9 +198,13 @@
   const route = useRoute()
   const expandedNavColumns = ref<string[]>([])
   const isMobileMenuOpen = ref(false)
-  const isSimpleMenuPage = computed(() =>
-    route.path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, '')),
-  )
+  const isSimpleMenuPage = computed(() => {
+    const path = route.path.replace(/\/$/, '')
+    return (
+      path.startsWith(INCREASE_INCOME_PAGE_PATH.replace(/\/$/, ''))
+      || path.startsWith(BUY_ASIC_PAGE_PATH.replace(/\/$/, ''))
+    )
+  })
   const isHeaderSticky = ref(props.forceCompact || isSimpleMenuPage.value)
   const headerRef = ref<HTMLElement | null>(null)
   const headerShellHeight = ref(0)
