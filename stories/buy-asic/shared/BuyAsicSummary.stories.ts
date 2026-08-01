@@ -5,7 +5,7 @@ import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
 import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
 import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
-import { canvasFullBleed } from '../helpers/decorators'
+import { canvasFullBleed } from '../../helpers/decorators'
 
 const meta = {
   title: 'Buy ASIC/BuyAsicSummary',

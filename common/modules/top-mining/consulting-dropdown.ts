@@ -1,6 +1,7 @@
 import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
 import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
 import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
+import { DATA_CENTER_CONSTRUCTION_PAGE_PATH } from '~/common/modules/top-mining/data-center-construction-page'
 
 export type TopMiningConsultingDropdownItem = {
   label: string
@@ -13,7 +14,10 @@ export const TOP_MINING_CONSULTING_DROPDOWN_ITEMS: readonly TopMiningConsultingD
     { label: 'Помогаем купить ASIC выгодно', href: BUY_ASIC_PAGE_PATH },
     { label: 'Увеличим ваш доход', href: INCREASE_INCOME_PAGE_PATH },
     { label: 'Подбираем майнинг-отель', href: PODBOR_MINING_HOTEL_PATH },
-    { label: 'Строительство дата-центров', href: '#' },
+    {
+      label: 'Строительство дата-центров',
+      href: DATA_CENTER_CONSTRUCTION_PAGE_PATH,
+    },
   ] as const
 
 const consultingHrefByLabel = new Map(

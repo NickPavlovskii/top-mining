@@ -84,7 +84,7 @@ export const CONSULTING_MANAGEMENT = {
       ctaLabel: 'Оставить заявку',
       ctaHref: '#home_contact_form',
       detailsLabel: 'Подробнее',
-      detailsHref: '/stroitelstvo-data-czentrov/',
+      detailsHref: '/data-center-construction/',
     },
   ],
 } as const satisfies {
