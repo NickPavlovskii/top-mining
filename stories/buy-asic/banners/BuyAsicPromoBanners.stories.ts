@@ -4,7 +4,7 @@ import BuyAsicPromoBanners from '~/components/buy-asic/banners/BuyAsicPromoBanne
 import PodborMiningHotelPromoBanner from '~/components/podbor/banners/PodborMiningHotelPromoBanner.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
-import { canvasFullBleed } from '../helpers/decorators'
+import { canvasFullBleed } from '../../helpers/decorators'
 
 const meta = {
   title: 'Buy ASIC/BuyAsicPromoBanners',

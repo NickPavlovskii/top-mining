@@ -15,6 +15,8 @@ import TopMiningOutlineTitle from './pageTitle/TopMiningOutlineTitle.vue'
 import TopMiningPillTabs from './navigation/TopMiningPillTabs.vue'
 import TopMiningCheckbox from './selection-controls/TopMiningCheckbox.vue'
 import TopMiningRadio from './selection-controls/TopMiningRadio.vue'
+import TopMiningCompareTable from './tables/TopMiningCompareTable.vue'
+import TopMiningCollapse from './disclosure/TopMiningCollapse.vue'
 
 const components = [
   { name: 'top-mining-article-card', component: TopMiningArticleCard },
@@ -23,6 +25,8 @@ const components = [
   { name: 'top-mining-button', component: TopMiningButton },
   { name: 'top-mining-checkbox', component: TopMiningCheckbox },
   { name: 'top-mining-chip', component: TopMiningChip },
+  { name: 'top-mining-collapse', component: TopMiningCollapse },
+  { name: 'top-mining-compare-table', component: TopMiningCompareTable },
   { name: 'top-mining-file-upload', component: TopMiningFileUpload },
   { name: 'top-mining-icon-list', component: TopMiningIconList },
   { name: 'top-mining-input', component: TopMiningInput },
