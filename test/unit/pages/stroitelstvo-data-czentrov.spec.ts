@@ -30,6 +30,12 @@ describe('pages/stroitelstvo-data-czentrov', () => {
           'stroy-advantages': {
             template: '<section data-testid="stroy-advantages" />',
           },
+          StroyDiscuss: {
+            template: '<section data-testid="stroy-discuss" />',
+          },
+          'stroy-discuss': {
+            template: '<section data-testid="stroy-discuss" />',
+          },
           StroyOffer: { template: '<section data-testid="stroy-offer" />' },
           'stroy-offer': { template: '<section data-testid="stroy-offer" />' },
           StroyModels: { template: '<section data-testid="stroy-models" />' },
@@ -73,6 +79,7 @@ describe('pages/stroitelstvo-data-czentrov', () => {
     expect(sections).toEqual([
       'stroy-hero',
       'stroy-advantages',
+      'stroy-discuss',
       'stroy-offer',
       'stroy-models',
       'stroy-why-invest',

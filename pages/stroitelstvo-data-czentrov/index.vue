@@ -2,6 +2,7 @@
   <div class="stroy-page">
     <stroy-hero />
     <stroy-advantages />
+    <stroy-discuss />
     <stroy-offer />
     <stroy-models />
     <stroy-why-invest />
@@ -16,6 +17,7 @@
   import { STROITELSTVO_DATA_CZENTROV_PAGE } from '~/common/modules/top-mining/stroitelstvo-data-czentrov-page'
   import StroyAdvantages from '~/components/stroitelstvo/advantages/StroyAdvantages.vue'
   import StroyConsult from '~/components/stroitelstvo/cta/StroyConsult.vue'
+  import StroyDiscuss from '~/components/stroitelstvo/cta/StroyDiscuss.vue'
   import StroyHero from '~/components/stroitelstvo/hero/StroyHero.vue'
   import StroyLead from '~/components/stroitelstvo/cta/StroyLead.vue'
   import StroyModels from '~/components/stroitelstvo/models/StroyModels.vue'
