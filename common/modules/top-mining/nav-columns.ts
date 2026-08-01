@@ -139,7 +139,12 @@ export function hasPhoneMenuMoreItems(
 }
 
 export function isNavHeadingLink(slug: TopMiningNavColumn['slug']): boolean {
-  return slug === 'catalog' || slug === 'ratings' || slug === 'articles'
+  return (
+    slug === 'catalog'
+    || slug === 'ratings'
+    || slug === 'articles'
+    || slug === 'calculator'
+  )
 }
 
 export function getCalculatorNavItemIcon(item: string): string {
