@@ -2,7 +2,7 @@ import { create } from 'storybook/theming/create'
 import {
   TM_ORANGE,
   TM_ORANGE_GRADIENT_START,
-} from '../common/modules/top-mining/colors'
+} from '../common/modules/top-mining/ui/colors'
 
 /** Общая тёмная тема UI Storybook в стиле лендинга ТОП-МАЙНИНГ */
 export const topMiningTheme = create({

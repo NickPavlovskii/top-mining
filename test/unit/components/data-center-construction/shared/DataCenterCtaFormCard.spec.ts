@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import type { DataCenterCtaFormCardProps } from '~/common/modules/top-mining/data-center-construction-page'
+import type { DataCenterCtaFormCardProps } from '~/common/modules/top-mining/pages/data-center-construction'
 import DataCenterCtaFormCard from '~/components/data-center-construction/shared/DataCenterCtaFormCard.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'

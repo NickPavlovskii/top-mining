@@ -1,7 +1,7 @@
 import {
   applyCatalogReviewStatsToManufacturers,
   buildCatalogManufacturersResponse,
-} from '~/common/modules/catalog/manufacturers-page'
+} from '~/common/modules/catalog/pages/manufacturers'
 import type { CatalogResponse } from '~/common/modules/catalog'
 import { CATALOG_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'

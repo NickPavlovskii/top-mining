@@ -122,8 +122,8 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import type { PodborTimeSaveCard } from '~/common/modules/top-mining/podbor-mining-hotel'
-  import { PODBOR_MINING_HOTEL_TIME_SAVE } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborTimeSaveCard } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { PODBOR_MINING_HOTEL_TIME_SAVE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const TOGGLE_ICON_EXPANDED = 'mdi:chevron-up'

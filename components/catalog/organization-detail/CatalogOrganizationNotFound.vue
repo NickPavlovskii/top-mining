@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
+  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
   import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining'
 
   const props = withDefaults(

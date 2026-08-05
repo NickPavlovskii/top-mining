@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/data-center-construction-page'
-  import type { DataCenterCtaFormSubmitPayload } from '~/common/modules/top-mining/data-center-construction-page'
+  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
+  import type { DataCenterCtaFormSubmitPayload } from '~/common/modules/top-mining/pages/data-center-construction'
   import DataCenterCtaFormCard from '~/components/data-center-construction/shared/DataCenterCtaFormCard.vue'
 
   const copy = DATA_CENTER_CONSTRUCTION_PAGE.lead

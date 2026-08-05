@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_BLACK_RING } from '~/common/modules/top-mining/consulting-black-ring'
+  import { CONSULTING_BLACK_RING } from '~/common/modules/top-mining/consulting/black-ring'
 
   const copy = CONSULTING_BLACK_RING
   const blackRingBgStyle = `url(${copy.blackRingBg})`

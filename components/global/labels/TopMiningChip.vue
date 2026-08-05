@@ -120,7 +120,7 @@
     type TopMiningChipPreset,
     type TopMiningChipShape,
     type TopMiningChipSize,
-  } from '~/common/modules/top-mining/chip'
+  } from '~/common/modules/top-mining/ui/chip'
 
   defineOptions({
     name: 'TopMiningChip',

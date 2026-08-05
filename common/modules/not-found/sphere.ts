@@ -6,16 +6,11 @@ export const NOT_FOUND_PHRASES = [
   'На главную',
 ] as const
 
-/** Угол золотого сечения для равномерного распределения точек на сфере. */
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5))
 
 export const SPHERE_TAG_COUNT = 54
 export const SPHERE_RADIUS_RATIO = 0.34
 
-/**
- * Строит набор меток на сфере (Fibonacci sphere).
- * Каждая метка получает текст из `phrases` по кругу и координаты x/y/z.
- */
 export function buildSphereTags(
   phrases: readonly string[],
   count: number,
@@ -41,7 +36,6 @@ export function buildSphereTags(
   return tags
 }
 
-/** Считает радиус сферы по размеру canvas (доля от меньшей стороны). */
 export function getSphereRadius(width: number, height: number): number {
   return Math.min(width, height) * SPHERE_RADIUS_RATIO
 }

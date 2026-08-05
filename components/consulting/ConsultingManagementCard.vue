@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { ConsultingManagementCard } from '~/common/modules/top-mining/consulting-management'
+  import type { ConsultingManagementCard } from '~/common/modules/top-mining/consulting/management'
   import ConsultingManagementConstructionForms from '~/components/consulting/ConsultingManagementConstructionForms.vue'
   import ConsultingManagementPriceBlock from '~/components/consulting/ConsultingManagementPriceBlock.vue'
 

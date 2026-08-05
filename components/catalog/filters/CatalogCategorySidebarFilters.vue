@@ -101,7 +101,7 @@
     CatalogSidebarFilterGroup,
     CatalogSidebarFilterOption,
   } from '~/common/modules/catalog'
-  import { flattenSidebarFilterOptions } from '~/common/modules/catalog/category-sidebar-filters'
+  import { flattenSidebarFilterOptions } from '~/common/modules/catalog/filters/sidebar'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
   import CatalogCategorySidebarFilterItem from '~/components/catalog/filters/CatalogCategorySidebarFilterItem.vue'
 

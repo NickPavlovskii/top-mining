@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConverterAbout > matches about snapshot 1`] = `
+"<section data-v-d71788b5="" class="converter-about" aria-labelledby="converter-about-title">
+  <div data-v-d71788b5="" class="converter-about__inner">
+    <h2 data-v-d71788b5="" id="converter-about-title" class="converter-about__title">ДЛЯ ЧЕГО НЕОБХОДИМ КАЛЬКУЛЯТОР ХЕШРЕЙТА?</h2>
+    <div data-v-d71788b5="" class="converter-about__content">
+      <p data-v-d71788b5="" class="converter-about__paragraph">Несмотря на единую систему измерения производительности оборудования, параметры мощности, помимо классической интерпретации в хешах, могут рассчитываться с добавлением метрических приставок.</p>
+      <p data-v-d71788b5="" class="converter-about__paragraph converter-about__paragraph--strong">KH/s, MH/s, GH/s, TH/s, PH/s, EH/s – все это возможные варианты, которые используются в сегменте добычи цифровых активов.</p>
+      <p data-v-d71788b5="" class="converter-about__paragraph">Наличие удобного калькулятора хешрейта позволяет решить сразу несколько целевых задач:</p>
+      <ul data-v-d71788b5="" class="converter-about__list">
+        <li data-v-d71788b5="">быстрая конвертация из одной метрики в другую;</li>
+        <li data-v-d71788b5="">сведение вероятности ошибки к минимуму;</li>
+        <li data-v-d71788b5="">максимально точный расчет эффективности и производительности.</li>
+      </ul>
+      <p data-v-d71788b5="" class="converter-about__paragraph">Разнообразные ресурсы используют свои метрики, что во время сравнения показателей может привести к ошибкам во время конвертации.</p>
+      <p data-v-d71788b5="" class="converter-about__paragraph">Удобный конвертер хешрейта позволяет узнать искомое значение всего за один клик, получив гарантированно точный результат.</p>
+      <p data-v-d71788b5="" class="converter-about__paragraph">Калькулятор хешрейта от ТОП МАЙНИНГ – удобный инструмент, позволяющий всего за один клик перевести метрики расчета мощности из одной единицы измерения в другую. Используйте профессиональный инструмент с расширенными опциями от практикующих майнеров.</p>
+    </div>
+  </div>
+</section>"
+`;

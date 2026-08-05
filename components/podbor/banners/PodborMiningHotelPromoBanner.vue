@@ -109,7 +109,7 @@
   import hotelDecorMobileWide from '~/assets/images/buy-asic/mining-hotel-bg-all-m.png'
   import youMinerVisual from '~/assets/images/buy-asic/you-miner-bg.jpg'
   import asicVisual from '~/assets/images/podbor-majning-otelya/banner-asic-visual.png'
-  import type { PodborPromoBanner } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborPromoBanner } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const props = defineProps<{

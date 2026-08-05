@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_WHY_US } from '~/common/modules/top-mining/consulting-why-us'
+  import { CONSULTING_WHY_US } from '~/common/modules/top-mining/consulting/why-us'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
 
   const copy = CONSULTING_WHY_US

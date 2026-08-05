@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CATALOG_MANUFACTURERS_PAGE_META } from '~/common/modules/catalog/manufacturers-page'
+  import { CATALOG_MANUFACTURERS_PAGE_META } from '~/common/modules/catalog/pages/manufacturers'
   import CatalogManufacturersView from '~/components/catalog/manufacturers/CatalogManufacturersView.vue'
 
   useSeoMeta({

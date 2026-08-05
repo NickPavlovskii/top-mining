@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConverterFaq > matches faq snapshot 1`] = `
+"<section data-v-380b4c80="" class="converter-faq" aria-labelledby="converter-faq-title">
+  <div data-v-380b4c80="" class="converter-faq__inner">
+    <h2 data-v-380b4c80="" id="converter-faq-title" class="converter-faq__title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ О КАЛЬКУЛЯТОРЕ ХЕШРЕЙТА</h2>
+    <div data-v-380b4c80="" class="converter-faq__list">
+      <article data-v-380b4c80="" class="converter-faq__item">
+        <h3 data-v-380b4c80="" class="converter-faq__question">1. Почему конвертер хешрейта именно от ТОП МАЙНИНГ?</h3>
+        <p data-v-380b4c80="" class="converter-faq__answer">В разработке наших инструментов принимают участие практикующие майнеры. Так мы можем предлагать решения, которое действительно удобны и эффективны для владельцев майнинг-оборудования.</p>
+      </article>
+      <article data-v-380b4c80="" class="converter-faq__item">
+        <h3 data-v-380b4c80="" class="converter-faq__question">2. Насколько универсален инструмент?</h3>
+        <p data-v-380b4c80="" class="converter-faq__answer">Наш конвертер хешрейта можно использовать для расчетов в рамках любых алгоритмов майнинга, включая SHA-256 и Scrypt.</p>
+      </article>
+      <article data-v-380b4c80="" class="converter-faq__item">
+        <h3 data-v-380b4c80="" class="converter-faq__question">3. Почему такие калькуляторы особенно актуальны сегодня?</h3>
+        <p data-v-380b4c80="" class="converter-faq__answer">По мере роста сложности майнинга и мощности техники растут ключевые метрики, включая хешрейт. Ручная конвертация из привычных хешей в MH/s или GH/s становится более сложной, вместе с чем растет вероятность совершения ошибки. А особенно эффективны калькуляторы при расчете больших значений для масштабных ферм.</p>
+      </article>
+    </div>
+  </div>
+</section>"
+`;

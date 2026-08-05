@@ -98,7 +98,7 @@
   import {
     CATALOG_PAGE_HREF,
     getCatalogSearchHref,
-  } from '~/common/modules/catalog/nav-links'
+  } from '~/common/modules/catalog/nav/links'
   import type { CatalogResponse } from '~/common/modules/catalog'
   import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'

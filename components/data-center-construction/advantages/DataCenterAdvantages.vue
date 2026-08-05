@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/data-center-construction-page'
+  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
 
   const copy = DATA_CENTER_CONSTRUCTION_PAGE.advantages
 

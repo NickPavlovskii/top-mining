@@ -1,7 +1,13 @@
 /* Критичная вёрстка промо-блоков — в глобальном бандле, без ожидания Vue */
-.calculator-promo__epic-blocks {
+.calculator-promo__epic-blocks,
+.calculator-page__epic {
   box-sizing: border-box;
   width: 100%;
+  border-radius: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0 0;
+  background: linear-gradient(180deg, #f2f2f2 0%, #fff 28%, #fff 100%);
+}
+
+.calculator-promo__epic-blocks {
   max-width: 1720px;
   margin-left: auto;
   margin-right: auto;

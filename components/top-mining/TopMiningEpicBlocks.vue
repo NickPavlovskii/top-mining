@@ -86,7 +86,11 @@
       </div>
     </article>
 
-    <article class="epic-block--converter">
+    <article
+      v-if="!hideConverter"
+      id="calculator-converter"
+      class="epic-block--converter"
+    >
       <div
         class="epic-block__converter-wrap"
         :style="{ '--converter-bg': `url(${konverBlockWrapBg})` }"
@@ -131,6 +135,15 @@
   import tgPlaneSmall from '~/assets/images/top-mining/tg-plane-small.png'
   import konverBlockWrapBg from '~/assets/images/top-mining/konver-block-wrap-bg.png'
   import hashrateConverterVisual from '~/assets/images/top-mining/hashrate-converter-visual.png'
+
+  withDefaults(
+    defineProps<{
+      hideConverter?: boolean
+    }>(),
+    {
+      hideConverter: false,
+    },
+  )
 
   const telegramVideoRef = ref<HTMLVideoElement | null>(null)
   const isTelegramVideoPlaying = ref(false)

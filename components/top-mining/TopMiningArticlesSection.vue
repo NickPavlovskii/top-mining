@@ -53,7 +53,7 @@
     TOP_MINING_ARTICLES_SECTION,
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
-  } from '~/common/modules/top-mining/articles-section'
+  } from '~/common/modules/top-mining/layout/articles-section'
 
   const activeTopic = defineModel<TopMiningArticlesTopicId>('activeTopic', {
     default: 'all',

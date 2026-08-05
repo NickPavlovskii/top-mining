@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConverterHero > matches hero snapshot 1`] = `
+"<section data-v-a5efe318="" class="converter-hero" aria-labelledby="converter-hero-title">
+  <div data-v-a5efe318="" class="converter-hero__inner">
+    <nav data-v-a5efe318="" class="converter-hero__breadcrumbs" aria-label="Хлебные крошки" itemscope="" itemtype="https://schema.org/BreadcrumbList"><span data-v-a5efe318="" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a data-v-a5efe318="" href="/" class="converter-hero__breadcrumbs-link" itemprop="item"><span data-v-a5efe318="" itemprop="name">Главная</span></a>
+      <meta data-v-a5efe318="" itemprop="position" content="1"></span><span data-v-a5efe318="" class="converter-hero__breadcrumbs-sep" aria-hidden="true">&gt;</span><span data-v-a5efe318="" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><span data-v-a5efe318="" class="converter-hero__breadcrumbs-current" itemprop="name">Конвертер хешрейта</span>
+      <meta data-v-a5efe318="" itemprop="position" content="2"></span>
+    </nav>
+    <h1 data-v-a5efe318="" id="converter-hero-title" class="converter-hero__title">Конвертер <span data-v-a5efe318="">хешрейта</span></h1>
+  </div>
+</section>"
+`;

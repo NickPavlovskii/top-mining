@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import TopMiningMoreLink from '~/components/global/buttons/TopMiningMoreLink.vue'
-import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
+import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
 
 import { CANVAS_WIDTH, canvasDarkMaxWidth } from '../helpers/decorators'
 

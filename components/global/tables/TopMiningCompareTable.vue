@@ -135,7 +135,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { TopMiningCompareTableProps, TopMiningCompareTableRow } from '~/common/modules/top-mining/compare-table'
+  import type { TopMiningCompareTableProps, TopMiningCompareTableRow } from '~/common/modules/top-mining/ui/compare-table'
 
   const props = withDefaults(
     defineProps<TopMiningCompareTableProps>(),

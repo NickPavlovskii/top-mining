@@ -337,7 +337,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { PODBOR_MINING_HOTEL_KEY_FACTORS } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_KEY_FACTORS } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const factors = PODBOR_MINING_HOTEL_KEY_FACTORS

@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { BuyAsicCompany } from '~/common/modules/top-mining/buy-asic-page'
+  import type { BuyAsicCompany } from '~/common/modules/top-mining/buy-asic/page'
 
   defineProps<{
     company: BuyAsicCompany

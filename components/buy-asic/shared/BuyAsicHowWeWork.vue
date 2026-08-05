@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BUY_ASIC_HOW_WE_WORK } from '~/common/modules/top-mining/buy-asic-value-blocks'
+  import { BUY_ASIC_HOW_WE_WORK } from '~/common/modules/top-mining/buy-asic/value-blocks'
 
   const copy = BUY_ASIC_HOW_WE_WORK
 </script>

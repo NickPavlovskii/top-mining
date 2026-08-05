@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import type { PodborCtaTitlePart } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborCtaTitlePart } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const props = defineProps<{

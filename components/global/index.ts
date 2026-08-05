@@ -8,6 +8,7 @@ import TopMiningRoundIconButton from './buttons/TopMiningRoundIconButton.vue'
 import TopMiningFileUpload from './forms/TopMiningFileUpload.vue'
 import TopMiningInput from './forms/TopMiningInput.vue'
 import TopMiningPrivacyConsent from './forms/TopMiningPrivacyConsent.vue'
+import TopMiningSelect from './forms/TopMiningSelect.vue'
 import TopMiningChip from './labels/TopMiningChip.vue'
 import TopMiningIconList from './lists/TopMiningIconList.vue'
 import TopMiningBrandTitle from './pageTitle/TopMiningBrandTitle.vue'
@@ -36,6 +37,7 @@ const components = [
   { name: 'top-mining-privacy-consent', component: TopMiningPrivacyConsent },
   { name: 'top-mining-radio', component: TopMiningRadio },
   { name: 'top-mining-round-icon-button', component: TopMiningRoundIconButton },
+  { name: 'top-mining-select', component: TopMiningSelect },
 ]
 
 export default {

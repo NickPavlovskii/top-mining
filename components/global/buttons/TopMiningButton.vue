@@ -64,7 +64,7 @@
     TopMiningButtonSize,
     TopMiningButtonSurface,
     TopMiningButtonVariant,
-  } from '~/common/modules/top-mining/button'
+  } from '~/common/modules/top-mining/ui/button'
 
   /**
    * Кнопка Top Mining на базе Quasar q-btn.

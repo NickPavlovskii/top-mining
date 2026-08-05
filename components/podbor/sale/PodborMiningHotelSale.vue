@@ -35,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor-mining-hotel'
-  import { PODBOR_MINING_HOTEL_SALE } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { PODBOR_MINING_HOTEL_SALE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import CarouselAddCard from '~/components/carousel/CarouselAddCard.vue'
   import CarouselOfferCard from '~/components/carousel/CarouselOfferCard.vue'
   import HorizontalCarousel from '~/components/carousel/HorizontalCarousel.vue'

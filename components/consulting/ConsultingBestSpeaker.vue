@@ -131,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting-best-speaker'
+  import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting/best-speaker'
 
   const copy = CONSULTING_BEST_SPEAKER
   const imageStyle = `url(${copy.bestImgGirl})`

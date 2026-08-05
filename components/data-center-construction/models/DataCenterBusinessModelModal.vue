@@ -132,7 +132,7 @@
   import {
     DATA_CENTER_CONSTRUCTION_PAGE,
     type DataCenterBusinessModelItem,
-  } from '~/common/modules/top-mining/data-center-construction-page'
+  } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'

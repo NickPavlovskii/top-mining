@@ -163,15 +163,15 @@
 </template>
 
 <script setup lang="ts">
-  import type { TopMiningFooterNavLink } from '~/common/modules/top-mining/footer-nav'
+  import type { TopMiningFooterNavLink } from '~/common/modules/top-mining/layout/footer-nav'
   import {
     TOP_MINING_FOOTER_CALCULATOR_LINKS,
     TOP_MINING_FOOTER_MAIN_LINKS,
     TOP_MINING_FOOTER_TELEGRAM_HREF,
-  } from '~/common/modules/top-mining/footer-nav'
-  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
-  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
-  import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
+  } from '~/common/modules/top-mining/layout/footer-nav'
+  import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic/page'
+  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/pages/increase-income'
+  import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor/mining-hotel'
 
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
@@ -188,10 +188,12 @@
   )
   const hideContactBlock = computed(
     () =>
-      isPrivacyPage.value
+      Boolean(route.meta.hideFooterContact)
+      || isPrivacyPage.value
       || isPodborMiningHotelPage.value
       || isIncreaseIncomePage.value
-      || isBuyAsicPage.value,
+      || isBuyAsicPage.value
+      || route.path.includes('konverter-heshrejta'),
   )
 
   function isExternalFooterLink(link: TopMiningFooterNavLink) {

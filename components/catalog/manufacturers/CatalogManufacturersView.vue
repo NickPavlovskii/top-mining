@@ -152,33 +152,33 @@
   import {
     buildCatalogGridWithBanners,
     getCatalogMidBlockBannerVariant,
-  } from '~/common/modules/catalog/mid-block-banner'
+  } from '~/common/modules/catalog/content/mid-block-banner'
   import {
     buildCatalogManufacturersResponse,
     getManufacturerMarketAge,
-  } from '~/common/modules/catalog/manufacturers-page'
+  } from '~/common/modules/catalog/pages/manufacturers'
   import {
     getCatalogCategoryFromRoute,
     isAllOrganizationsCatalogCategory,
     isManufacturersCatalogCategory,
-  } from '~/common/modules/catalog/nav-links'
+  } from '~/common/modules/catalog/nav/links'
   import {
     getCategorySidebarFilters,
     matchesCategorySidebarFilters,
-  } from '~/common/modules/catalog/category-sidebar-filters'
+  } from '~/common/modules/catalog/filters/sidebar'
   import {
     getCatalogOrganizationServiceFilters,
     CATALOG_ORGANIZATION_MARKET_AGE_FILTERS,
     CATALOG_ORGANIZATION_MIN_ASIC_FILTERS,
     getOrganizationMarketAge,
     matchesMinAsicFilter,
-  } from '~/common/modules/catalog/organization-filters'
+  } from '~/common/modules/catalog/filters/organization'
   import {
     CATALOG_ORGANIZATIONS_PAGE_META,
     compareCatalogOrganizations,
     findCatalogCategoryName,
     flattenCatalogOrganizations,
-  } from '~/common/modules/catalog/organizations-page'
+  } from '~/common/modules/catalog/pages/organizations'
   import type { CatalogResponse,
     CatalogManufacturer,
     CatalogManufacturersResponse,

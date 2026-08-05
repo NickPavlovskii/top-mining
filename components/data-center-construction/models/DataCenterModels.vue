@@ -208,8 +208,8 @@
   import {
     DATA_CENTER_CONSTRUCTION_PAGE,
     type DataCenterBusinessModelItem,
-  } from '~/common/modules/top-mining/data-center-construction-page'
-  import { toCompareTableRows } from '~/common/modules/top-mining/compare-table'
+  } from '~/common/modules/top-mining/pages/data-center-construction'
+  import { toCompareTableRows } from '~/common/modules/top-mining/ui/compare-table'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningCollapse from '~/components/global/disclosure/TopMiningCollapse.vue'
   import TopMiningCompareTable from '~/components/global/tables/TopMiningCompareTable.vue'

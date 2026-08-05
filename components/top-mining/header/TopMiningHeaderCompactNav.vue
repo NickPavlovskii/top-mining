@@ -63,7 +63,7 @@
           </nuxt-link>
         </template>
 
-        <template v-else>
+        <template v-else-if="column.slug === 'calculator'">
           <template
             v-for="(item, itemIndex) in column.items"
             :key="item"
@@ -73,26 +73,55 @@
               class="top-mining__nav-compact-panel-divider"
             />
             <a
-              href="#"
+              v-if="isCalculatorExternalNavItem(item)"
+              :href="getCalculatorNavItemHref(item)"
+              target="_blank"
+              rel="noopener noreferrer"
               class="top-mining__nav-compact-panel-link"
               role="menuitem"
+              @click="emit('nav-link-click')"
             >
               <img
-                v-if="item === 'Калькулятор в Telegram'"
                 alt=""
                 aria-hidden="true"
                 class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image"
                 :src="telegramMenuIcon"
               />
+              <span>{{ item }}</span>
+            </a>
+            <nuxt-link
+              v-else
+              :to="getCalculatorNavItemHref(item)"
+              class="top-mining__nav-compact-panel-link"
+              role="menuitem"
+              @click="emit('nav-link-click')"
+            >
               <Icon
-                v-else
                 class="top-mining__nav-compact-panel-icon"
                 aria-hidden="true"
                 :name="getCompactNavItemIcon(column, item)"
               />
               <span>{{ item }}</span>
-            </a>
+            </nuxt-link>
           </template>
+        </template>
+
+        <template v-else-if="column.slug === 'articles'">
+          <nuxt-link
+            v-for="item in column.items"
+            :key="item"
+            :to="getArticlesNavHref(item)"
+            class="top-mining__nav-compact-panel-link"
+            role="menuitem"
+            @click="emit('nav-link-click')"
+          >
+            <Icon
+              class="top-mining__nav-compact-panel-icon"
+              aria-hidden="true"
+              :name="column.icon"
+            />
+            <span>{{ item }}</span>
+          </nuxt-link>
         </template>
       </div>
     </div>
@@ -103,17 +132,22 @@
   import {
     getCatalogCategoryHref,
     getTopMiningNavHeadingHref,
-  } from '~/common/modules/catalog/nav-links'
+  } from '~/common/modules/catalog/nav/links'
   import {
     getRatingsCategoryIdByLabel,
     getRatingsPageHref,
   } from '~/common/modules/ratings'
   import {
+    getArticlesNavHref,
+  } from '~/common/modules/top-mining/layout/articles-section'
+  import {
     TOP_MINING_NAV_COLUMNS,
+    getCalculatorNavItemHref,
     getCalculatorNavItemIcon,
+    isCalculatorExternalNavItem,
     isNavHeadingLink,
   } from '~/common/modules/top-mining'
-  import type { TopMiningNavColumn } from '~/common/modules/top-mining/nav-columns'
+  import type { TopMiningNavColumn } from '~/common/modules/top-mining/layout/nav-columns'
   import telegramMenuIcon from '~/assets/images/top-mining/telegram-menu-icon.png'
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
 

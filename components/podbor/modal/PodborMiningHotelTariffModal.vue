@@ -133,8 +133,8 @@
   import type {
     PodborOfferLeadModalCopy,
     PodborPlacementOffer,
-  } from '~/common/modules/top-mining/podbor-mining-hotel'
-  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor-mining-hotel'
+  } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
 
   const open = defineModel<boolean>('open', { default: false })
 

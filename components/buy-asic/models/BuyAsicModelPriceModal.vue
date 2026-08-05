@@ -109,8 +109,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic-page'
-  import { BUY_ASIC_MODELS } from '~/common/modules/top-mining/buy-asic-page'
+  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
+  import { BUY_ASIC_MODELS } from '~/common/modules/top-mining/buy-asic/page'
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'

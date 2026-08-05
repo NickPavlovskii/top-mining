@@ -5,7 +5,7 @@ import {
   BUY_ASIC_SAFETY,
   BUY_ASIC_TIME_SAVE,
   BUY_ASIC_VALUE_BLOCKS,
-} from '~/common/modules/top-mining/buy-asic-value-blocks'
+} from '~/common/modules/top-mining/buy-asic/value-blocks'
 import BuyAsicSafetyAndTime from '~/components/buy-asic/shared/BuyAsicSafetyAndTime.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 

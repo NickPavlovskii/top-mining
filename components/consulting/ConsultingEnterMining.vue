@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_ENTER_MINING } from '~/common/modules/top-mining/consulting-enter-mining'
+  import { CONSULTING_ENTER_MINING } from '~/common/modules/top-mining/consulting/enter-mining'
   import TopMiningChip from '~/components/global/labels/TopMiningChip.vue'
 
   const copy = CONSULTING_ENTER_MINING

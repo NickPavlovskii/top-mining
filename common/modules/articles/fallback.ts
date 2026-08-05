@@ -3,7 +3,7 @@ import type {
   ArticlePreview,
   ArticlesFeedResponse,
 } from './types'
-import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
+import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
 
 const SAMPLE_CONTENT = `Материал подготовлен редакцией TOP MINING. Здесь будет полный текст новости с разбором темы, практическими рекомендациями и ссылками на инструменты платформы.`
 

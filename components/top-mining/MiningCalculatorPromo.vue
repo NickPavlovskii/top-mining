@@ -66,10 +66,16 @@
           />
         </div>
       </div>
-      <div class="calculator-promo__epic-blocks">
-        <top-mining-epic-blocks />
-      </div>
     </div>
+
+    <div class="calculator-promo__form">
+      <calculator-form />
+    </div>
+
+    <div class="calculator-promo__epic-blocks">
+      <top-mining-epic-blocks />
+    </div>
+
     <div class="calculator-promo__ratings">
       <top-mining-rating-section />
     </div>
@@ -77,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+  import CalculatorForm from '~/components/calculator/form/CalculatorForm.vue'
   import TopMiningEpicBlocks from '~/components/top-mining/TopMiningEpicBlocks.vue'
   import TopMiningRatingSection from '~/components/rating/TopMiningRatingSection.vue'
   import {
@@ -88,7 +95,7 @@
 
 <style scoped>
   .calculator-promo {
-    background: #1f1f1f;
+    background: var(--tm-white);
   }
 
   .calculator-promo__panel {
@@ -107,8 +114,31 @@
     min-height: 480px;
     max-width: 1720px;
     margin: 0 auto;
-    padding: 64px clamp(16px, 2vw, 32px) 32px;
+    padding: 64px clamp(16px, 2vw, 32px) 64px;
     overflow: hidden;
+  }
+
+  .calculator-promo__form {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-top: -32px;
+    padding-top: 32px;
+    background: #1a1a1a;
+    border-radius: 48px;
+    overflow: hidden;
+  }
+
+  .calculator-promo__form:has(.calculator-form__results-wrap) {
+    border-radius: 48px 48px 0 0;
+  }
+
+  .calculator-promo__form :deep(.calculator-form) {
+    padding-bottom: 0;
+  }
+
+  .calculator-promo__form :deep(.calculator-form__results-wrap) {
+    overflow: visible;
   }
 
   .calculator-promo__epic-blocks {
@@ -116,10 +146,15 @@
     z-index: 2;
     width: 100%;
     max-width: 1720px;
-    margin: clamp(32px, 4vw, 56px) auto 0;
-    padding: 0 clamp(16px, 2vw, 32px);
+    margin: clamp(-32px, -3vw, -20px) auto 0;
+    padding:
+      clamp(56px, 7vw, 96px)
+      clamp(16px, 2vw, 32px)
+      clamp(32px, 4vw, 56px);
     overflow: visible;
     box-sizing: border-box;
+    border-radius: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0 0;
+    background: linear-gradient(180deg, #f2f2f2 0%, #fff 28%, #fff 100%);
   }
 
   .calculator-promo__ratings {
@@ -361,12 +396,23 @@
 
   @media (min-width: 901px) {
     .calculator-promo__epic-blocks {
-      margin-top: clamp(64px, 6vw, 96px);
+      margin-top: clamp(-40px, -3.5vw, -24px);
       padding-inline: 60px;
+      padding-bottom: clamp(48px, 5vw, 80px);
     }
 
     .calculator-promo__inner {
       padding-inline: 60px;
+    }
+
+    .calculator-promo__form {
+      margin-top: -40px;
+      padding-top: 40px;
+      border-radius: 60px;
+    }
+
+    .calculator-promo__form:has(.calculator-form__results-wrap) {
+      border-radius: 60px 60px 0 0;
     }
   }
 
@@ -376,12 +422,25 @@
     }
 
     .calculator-promo__panel {
+      display: none;
+    }
+
+    .calculator-promo__form {
+      margin-top: 0;
+      padding-top: 0;
+      border-radius: 32px;
+    }
+
+    .calculator-promo__form:has(.calculator-form__results-wrap) {
       border-radius: 32px 32px 0 0;
     }
 
     .calculator-promo__epic-blocks {
-      margin-top: 0;
-      padding: 24px 18px;
+      margin-top: clamp(-24px, -3vw, -12px);
+      padding:
+        clamp(40px, 6vw, 56px)
+        18px
+        24px;
     }
   }
 
@@ -389,25 +448,40 @@
     .calculator-promo__epic-blocks {
       width: 100%;
       max-width: none;
-      margin-top: 0;
-      padding: 0;
-      background: transparent;
+      margin-top: clamp(-20px, -2.5vw, -8px);
+      padding:
+        clamp(40px, 6vw, 56px)
+        18px
+        clamp(24px, 4vw, 40px);
     }
   }
 
   @media (max-width: 560px) {
     .calculator-promo {
-      background: var(--tm-black);
+      background: var(--tm-white);
     }
 
     .calculator-promo__panel {
       border-radius: 28px 28px 0 0;
-      background: var(--tm-black);
+      background: var(--tm-white);
+    }
+
+    .calculator-promo__form {
+      margin-top: 0;
+      padding-top: 0;
+      border-radius: 28px;
+    }
+
+    .calculator-promo__form:has(.calculator-form__results-wrap) {
+      border-radius: 28px 28px 0 0;
     }
 
     .calculator-promo__epic-blocks {
-      padding: 12px 18px 24px;
-      background: var(--tm-black);
+      margin-top: clamp(-16px, -2vw, -8px);
+      padding:
+        clamp(36px, 5vw, 48px)
+        18px
+        24px;
     }
   }
 </style>

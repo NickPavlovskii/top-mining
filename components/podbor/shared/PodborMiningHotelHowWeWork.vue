@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_HOW_WE_WORK } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_HOW_WE_WORK } from '~/common/modules/top-mining/podbor/mining-hotel'
 
   const how = PODBOR_MINING_HOTEL_HOW_WE_WORK
 </script>
