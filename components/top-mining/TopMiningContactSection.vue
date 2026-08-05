@@ -158,13 +158,14 @@
                           E-mail
                         </span>
                         <input
-                          v-model="email"
+                          v-model="subscribeEmail"
                           type="email"
+                          autocomplete="email"
                           class="contact-section__input"
                           :placeholder="
                             TOP_MINING_CONTACT_SUBSCRIBE.placeholder
                           "
-                          autocomplete="email"
+                          :disabled="subscribeStatus === 'loading'"
                         />
                       </label>
 
@@ -173,6 +174,7 @@
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
                         aria-label="Подписаться"
+                        :disabled="subscribeStatus === 'loading'"
                         :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
                         :hover-background-color="
                           TOP_MINING_CONTACT_BUTTON_GRADIENT
@@ -182,6 +184,15 @@
                         :icon-size="subscribeSubmitMetrics.iconSize"
                       />
                     </div>
+
+                    <p
+                      v-if="subscribeMessage"
+                      class="contact-section__form-status"
+                      :data-status="subscribeStatus"
+                      role="status"
+                    >
+                      {{ subscribeMessage }}
+                    </p>
                   </form>
                 </div>
               </div>
@@ -242,14 +253,19 @@
   } = useTopMiningContactCircleLayout('subscribe')
 
   const phone = ref('')
-  const email = ref('')
+  const {
+    email: subscribeEmail,
+    status: subscribeStatus,
+    message: subscribeMessage,
+    submit: submitSubscribe,
+  } = useSubscribeEmail('contact-section')
 
   function onQuestionSubmit() {
     // TODO: отправка телефона
   }
 
-  function onSubscribeSubmit() {
-    // TODO: подписка на рассылку
+  async function onSubscribeSubmit() {
+    await submitSubscribe()
   }
 
   function getContactSubmitMetrics(layoutStyle: Ref<Record<string, string>>) {
@@ -496,6 +512,22 @@
 
   .contact-section__form {
     width: min(100%, var(--cc-input-row-w));
+  }
+
+  .contact-section__form-status {
+    margin: 10px 0 0;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .contact-section__form-status[data-status='success'] {
+    color: #9be67e;
+  }
+
+  .contact-section__form-status[data-status='error'] {
+    color: #ff8f8f;
   }
 
   .contact-section__input-row {

@@ -1,3 +1,7 @@
+/**
+ * Пакет not-found — данные 3D-сферы на странице 404.
+ * Barrel пакета.
+ */
 export {
   NOT_FOUND_PHRASES,
   SPHERE_RADIUS_RATIO,

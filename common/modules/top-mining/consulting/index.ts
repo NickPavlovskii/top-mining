@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Barrel подпакета.
+ */
 export * from './page'
 export * from './dropdown'
 export * from './enter-mining'

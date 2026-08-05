@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация каталога.
+ * URL категорий, CATALOG_PAGE_HREF, getCatalogCategoryHref.
+ */
 import { CALCULATOR_PAGE_PATH } from '../../top-mining/calculator/path'
 
 export const MANUFACTURERS_CATEGORY_ID = 'equipment-manufacturers'

@@ -1,3 +1,7 @@
+/**
+ * Пакет not-found — страница 404.
+ * Типы тегов сферы и проекции.
+ */
 export type SphereTag = {
   text: string
   x: number

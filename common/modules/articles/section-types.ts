@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Типы блоков, секций и TOC.
+ */
 export type ArticleBlock =
   | { type: 'paragraph'; text: string }
   | { type: 'list'; items: string[] }

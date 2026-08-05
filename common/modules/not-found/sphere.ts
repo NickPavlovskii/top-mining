@@ -1,3 +1,7 @@
+/**
+ * Пакет not-found — страница 404.
+ * Фразы, построение и проекция тегов сферы.
+ */
 import type { ProjectedSphereTag, SphereTag } from './types'
 
 export const NOT_FOUND_PHRASES = [

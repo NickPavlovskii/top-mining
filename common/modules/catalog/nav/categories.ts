@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация каталога.
+ * Определения категорий и getVisibleCatalogCategories.
+ */
 import type { CatalogCategory } from '../types'
 
 import { MANUFACTURERS_CATEGORY_ID } from './links'

@@ -1,3 +1,7 @@
+/**
+ * Папка content — контент каталога.
+ * Пустой CatalogResponse для loading / SSR-заглушек.
+ */
 import type { CatalogMeta, CatalogResponse } from '../types'
 
 export const EMPTY_CATALOG_META: CatalogMeta = {

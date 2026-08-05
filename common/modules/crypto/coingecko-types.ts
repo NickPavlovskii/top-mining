@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * Сырые типы ответа CoinGecko.
+ */
 export interface CoinGeckoMarketCoin {
   id: string
   symbol: string

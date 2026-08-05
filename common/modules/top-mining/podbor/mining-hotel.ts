@@ -1,3 +1,7 @@
+/**
+ * Папка podbor — лендинг подбора майнинг-отеля.
+ * Весь контент страницы /podbor-majning-otelya/.
+ */
 export const PODBOR_MINING_HOTEL_PATH = '/podbor-majning-otelya/'
 
 const NBH = '\u2011'

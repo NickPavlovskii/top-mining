@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * Алгоритмы и монеты для GPU/CPU.
+ */
 import type { CalculatorCoin } from './coins'
 
 export const CALCULATOR_GPU_ALGORITHMS: string[] = [

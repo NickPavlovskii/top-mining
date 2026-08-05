@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * Каталог устройств ASIC/GPU/CPU и фильтры брендов.
+ */
 export type CalculatorDeviceKind = 'asic' | 'gpu' | 'cpu'
 
 export type CalculatorHardwareModel = {

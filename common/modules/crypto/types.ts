@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * Нормализованные типы монет и Bitcoin USD.
+ */
 export interface CryptoCoin {
   id: string
   symbol: string

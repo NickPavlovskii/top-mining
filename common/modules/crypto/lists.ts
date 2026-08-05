@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * ID популярных / растущих монет.
+ */
 export const POPULAR_COIN_IDS = [
   'binancecoin',
   'bitcoin',

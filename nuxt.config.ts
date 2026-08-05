@@ -106,5 +106,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     catalogGraphqlUrl:
       process.env.CATALOG_GRAPHQL_URL || 'http://localhost:8080/graphql',
+    smtpHost: process.env.SMTP_HOST || '',
+    smtpPort: process.env.SMTP_PORT || '587',
+    smtpUser: process.env.SMTP_USER || '',
+    smtpPass: process.env.SMTP_PASS || '',
+    smtpFrom: process.env.SMTP_FROM || '',
+    smtpSecure: process.env.SMTP_SECURE || '',
   },
 })

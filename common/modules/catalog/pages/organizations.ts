@@ -1,3 +1,7 @@
+/**
+ * Папка pages — данные списков каталога.
+ * Плоский список организаций и сортировка.
+ */
 import type { CatalogCategory, CatalogOrganization, CatalogManufacturersSort  } from '../types'
 import { findCatalogCategoryLabel } from '../nav/categories'
 

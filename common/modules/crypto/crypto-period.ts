@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * % изменения за период и формат цены.
+ */
 import {
   CRYPTO_PRICE_PERIODS,
   DEFAULT_CRYPTO_PRICE_PERIOD,

@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Слияние ответа API с fallback-карточками.
+ */
 import type { TopMiningRatingCard } from './types'
 import { toRatingArticleHref } from './article-href'
 

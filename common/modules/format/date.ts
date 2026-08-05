@@ -1,3 +1,7 @@
+/**
+ * Пакет format — форматтеры.
+ * formatDateTime для отображения дат.
+ */
 export function formatDateTime(isoDate: string): string {
   const date = new Date(isoDate)
 

@@ -1,3 +1,7 @@
+/**
+ * Папка layout — секции главной.
+ * Карточки «Чем полезен ТОП майнинг».
+ */
 import { CATALOG_PAGE_HREF } from '../../catalog/nav/links'
 
 export interface TopMiningUsefulAction {

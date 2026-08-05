@@ -1,3 +1,7 @@
+/**
+ * Папка buy-asic — лендинг покупки ASIC.
+ * Путь, hero, компании и модели; getBuyAsicModelBySlug.
+ */
 export const BUY_ASIC_PAGE_PATH = '/asic-majnery-po-czenam-nizhe-rynka/'
 
 export type BuyAsicCompany = {

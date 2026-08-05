@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация и структура категорий каталога.
+ * Barrel подпакета.
+ */
 export * from './links'
 export * from './categories'
 export * from './tabs'

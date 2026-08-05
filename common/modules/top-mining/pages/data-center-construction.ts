@@ -1,3 +1,7 @@
+/**
+ * Папка pages — отдельные лендинги.
+ * Контент «Строительство дата-центров».
+ */
 import heroContainer from '~/assets/images/data-center-construction/hero-container.png'
 import investIconNoRisk from '~/assets/images/data-center-construction/invest/invest-wrap-icon-1.svg'
 import investIconStableIncome from '~/assets/images/data-center-construction/invest/invest-wrap-icon-2.svg'

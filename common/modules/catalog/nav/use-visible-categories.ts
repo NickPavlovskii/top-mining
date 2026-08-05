@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация каталога.
+ * Composable: fetch и видимые категории.
+ */
 import { emptyCatalogResponse } from '../content/empty'
 import { getVisibleCatalogCategories } from './categories'
 import { buildCatalogManufacturersResponse } from '../pages/manufacturers'

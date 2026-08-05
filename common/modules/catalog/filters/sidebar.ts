@@ -1,3 +1,7 @@
+/**
+ * Папка filters — фильтрация каталога.
+ * Сайдбар-фильтры бирж / кошельков и matches*.
+ */
 import type { CatalogOrganization,
   CatalogSidebarFilterGroup,
   CatalogSidebarFilterOption } from '../types'

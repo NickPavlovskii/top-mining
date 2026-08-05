@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги: карточки, ссылки, merge с API.
+ * Barrel пакета.
+ */
 export * from './nav-links'
 export * from './stagger'
 export * from './article-href'

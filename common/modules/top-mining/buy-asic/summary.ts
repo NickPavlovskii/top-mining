@@ -1,3 +1,7 @@
+/**
+ * Папка buy-asic — лендинг покупки ASIC.
+ * Блок «ИТОГО» и CTA.
+ */
 export const BUY_ASIC_SUMMARY = {
   titleId: 'buy-asic-summary-title',
   title: 'ИТОГО',

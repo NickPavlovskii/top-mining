@@ -1,3 +1,7 @@
+/**
+ * Папка ui — дизайн-система.
+ * Варианты, размеры и цвета кнопок TopMiningButton.
+ */
 export type TopMiningButtonVariant = 'primary' | 'secondary' | 'tertiary'
 
 export type TopMiningButtonSize = 'big' | 'small'

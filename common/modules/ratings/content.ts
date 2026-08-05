@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Реэкспорт типов и DEFAULT_RATING_CARD_COLUMNS.
+ */
 export type {
   TopMiningRatingCard,
   TopMiningRatingItem,

@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Пункты дропдауна услуг и getConsultingServiceHref.
+ */
 import { BUY_ASIC_PAGE_PATH } from '../buy-asic/page'
 import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
 import { PODBOR_MINING_HOTEL_PATH } from '../podbor/mining-hotel'

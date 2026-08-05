@@ -1,3 +1,7 @@
+/**
+ * Папка filters — фильтрация каталога.
+ * Возраст рынка, min ASIC и опции фильтров организаций.
+ */
 import type { CatalogFilterOption } from '../types'
 import {
   CATALOG_CATEGORY_DEFINITIONS,

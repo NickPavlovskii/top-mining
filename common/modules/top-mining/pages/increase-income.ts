@@ -1,3 +1,7 @@
+/**
+ * Папка pages — отдельные лендинги.
+ * Контент «Увеличим ваш доход».
+ */
 import bannerAsic from '~/assets/images/increase-income/banner-asic.png'
 import bannerHotel from '~/assets/images/increase-income/banner-hotel.png'
 

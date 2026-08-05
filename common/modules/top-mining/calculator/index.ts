@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор (данные, навигация, формулы).
+ * Barrel подпакета.
+ */
 export * from './path'
 export * from './page'
 export * from './nav'

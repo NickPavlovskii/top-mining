@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Карточки управления / сопровождения.
+ */
 export type ConsultingManagementListItem = {
   text?: string
   html?: string

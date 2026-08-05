@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Контент блока лучшего спикера.
+ */
 import bestImgGirl from '~/assets/images/consulting/best-img-girl.jpg'
 
 export const CONSULTING_BEST_SPEAKER = {

@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Нормализация ссылок из рейтинга в статьи.
+ */
 
 function articleSlugFromPathname(pathname: string): string | null {
   const cleaned = pathname.replace(/\/$/, '')

@@ -1,3 +1,7 @@
+/**
+ * Папка ui — дизайн-система.
+ * Бренд-палитра hex (TM_ORANGE, TM_PAGE_BG и др.).
+ */
 export const TM_PAGE_BG = '#141414' as const
 export const TM_OFF_WHITE = '#f6f6f6' as const
 export const TM_ORANGE = '#ff6418' as const

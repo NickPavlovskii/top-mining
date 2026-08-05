@@ -1,3 +1,7 @@
+/**
+ * Пакет format — форматтеры.
+ * Длительность и стили CSS-marquee трека.
+ */
 const MARQUEE_MIN_DURATION_SECONDS = 10
 const MARQUEE_SECONDS_PER_CHARACTER = 0.22
 

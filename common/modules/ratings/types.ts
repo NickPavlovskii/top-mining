@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Типы карточек и пунктов рейтинга.
+ */
 export interface TopMiningRatingItem {
   number: string
   label: string

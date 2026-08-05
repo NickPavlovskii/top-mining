@@ -1,3 +1,7 @@
+/**
+ * Папка layout — оболочка сайта.
+ * Телефон и соцкнопки мобильного меню.
+ */
 export const TOP_MINING_MOBILE_MENU_PHONE = {
   label: '+7 495 492-78-99',
   href: 'tel:+74954927899',

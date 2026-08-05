@@ -1,3 +1,7 @@
+/**
+ * Папка layout — секции главной.
+ * Заголовки, темы и href блока статей.
+ */
 export const TOP_MINING_ARTICLES_SECTION = {
   titleLine1: 'Интересные',
   titleLine2: 'статьи',

@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Путь страницы и hero.
+ */
 import heroBanner from '~/assets/images/consulting/hero-banner.png'
 
 export const CONSULTING_PAGE_PATH = '/consulting/'

@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Преобразование DB-блоков в секции и TOC.
+ */
 import type { ArticleBlock, ArticleSection, ArticleTocItem } from './section-types'
 import type { ArticleDbBlock } from './types'
 

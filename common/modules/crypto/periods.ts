@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * Периоды цены 24h / 7d.
+ */
 export const CRYPTO_PRICE_PERIODS = [
   { label: '24 ч', value: '24h' },
   { label: '7 д', value: '7d' },

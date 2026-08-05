@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Поля форм строительства / заявок.
+ */
 export type ConsultingConstructionFormField = {
   name: string
   placeholder: string

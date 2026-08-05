@@ -1,3 +1,7 @@
+/**
+ * Папка layout — оболочка сайта.
+ * Колонки мегаменю и группировка пунктов мобильной навигации.
+ */
 import { CATALOG_CATEGORY_DEFINITIONS } from '../../catalog/nav/categories'
 
 export interface TopMiningNavColumn {

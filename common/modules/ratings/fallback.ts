@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Статические карточки рейтингов (офлайн / SSR).
+ */
 import type { TopMiningRatingCard } from './types'
 
 function pickHomeItems(

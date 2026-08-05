@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Статический fallback ленты статей.
+ */
 import type {
   Article,
   ArticlePreview,

@@ -1,3 +1,7 @@
+/**
+ * Папка content — контент каталога.
+ * Промо-баннеры в сетке карточек.
+ */
 export const MINING_HOTELS_CATEGORY_ID = 'mining-hotels'
 export const ASIC_SALES_CATEGORY_ID = 'asic-sales'
 

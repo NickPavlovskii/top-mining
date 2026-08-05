@@ -1,3 +1,7 @@
+/**
+ * Пакет catalog — каталог.
+ * Контракты API: организации, категории, фильтры, мета.
+ */
 export interface CatalogOrganizationVerification {
   contracts: boolean
   legalEntity: boolean

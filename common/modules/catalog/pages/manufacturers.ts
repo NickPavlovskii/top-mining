@@ -1,3 +1,7 @@
+/**
+ * Папка pages — данные списков каталога.
+ * Производители, fallback и сборка ответа страницы.
+ */
 import type {
   CatalogCategory,
   CatalogFilterOption,

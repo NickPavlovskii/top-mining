@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Контент секции black-ring.
+ */
 import blackRingBg from '~/assets/images/consulting/black-ring-bg.png'
 import blackRingImg from '~/assets/images/consulting/black-ring.png'
 

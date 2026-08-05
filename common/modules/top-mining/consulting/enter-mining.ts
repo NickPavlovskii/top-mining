@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Контент секции «Вход в майнинг».
+ */
 export type ConsultingEnterMiningAccordion = {
   id: string
   title: string

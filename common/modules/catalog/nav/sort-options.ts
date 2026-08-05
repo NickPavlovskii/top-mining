@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация каталога.
+ * Опции сортировки списка производителей.
+ */
 import type { CatalogManufacturersSort } from '../types'
 
 export type CatalogSortOption = {

@@ -1,3 +1,7 @@
+/**
+ * Папка layout — секции главной.
+ * Логотипы партнёров / компаний.
+ */
 import antpoolLogo from '~/assets/images/top-mining/companies/antpool.png'
 import binanceLogo from '~/assets/images/top-mining/companies/binance.png'
 import bixclusterLogo from '~/assets/images/top-mining/companies/bixcluster.png'

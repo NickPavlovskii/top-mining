@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * Чистые формулы прибыли (WhatToMine-style).
+ */
 export type CalculatorProfitDevice = {
   price: number
   priceCurrency: '₽' | '$'

@@ -1,3 +1,7 @@
+/**
+ * Папка buy-asic — лендинг покупки ASIC.
+ * Как работаем / безопасность / экономия времени.
+ */
 import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
 
 export type BuyAsicTextPart = {

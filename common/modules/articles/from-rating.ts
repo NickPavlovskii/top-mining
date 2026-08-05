@@ -1,8 +1,11 @@
+/**
+ * Пакет articles — статьи.
+ * Сборка статей из карточек рейтингов.
+ */
 import { RATINGS_FALLBACK_CARDS } from '~/common/modules/ratings/fallback'
 import { toRatingArticleHref } from '~/common/modules/ratings/article-href'
 import type { Article } from './types'
 
-/** Текст-заглушка, пока полный контент статьи ещё не добавлен в БД. */
 export const ARTICLE_CONTENT_NOT_READY =
   'Информация о статье ещё не добавлена'
 

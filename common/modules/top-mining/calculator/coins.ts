@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * Каталог монет для ASIC-режима.
+ */
 export type CalculatorHashrateUnit = 'Th/s' | 'Gh/s' | 'Mh/s' | 'Kh/s' | 'H/s'
 export type CalculatorFiat = '₽' | '$'
 

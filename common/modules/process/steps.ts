@@ -1,3 +1,7 @@
+/**
+ * Пакет process — процесс работы.
+ * PROCESS_SECTION_STEPS: иконки и тексты шагов.
+ */
 export interface ProcessSectionStep {
   id: number
   icon: string

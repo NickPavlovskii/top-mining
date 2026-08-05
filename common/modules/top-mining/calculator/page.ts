@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * SEO, hero, бренды и тексты about.
+ */
 import brandWhatsminer from '~/assets/images/calculator/brands/microbt-whatsminer.svg'
 import brandAntminer from '~/assets/images/calculator/brands/bitmain-antminer.svg'
 import brandJasminer from '~/assets/images/calculator/brands/jasminer.svg'

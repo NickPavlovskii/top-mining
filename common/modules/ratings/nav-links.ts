@@ -1,3 +1,7 @@
+/**
+ * Пакет ratings — рейтинги.
+ * Путь /rating/ и query по категории.
+ */
 export const RATINGS_PAGE_HREF = '/rating/'
 
 const RATINGS_CATEGORY_SLUGS: Record<string, string> = {

@@ -1,3 +1,7 @@
+/**
+ * Папка ui — дизайн-система.
+ * Нормализация строк сравнительной таблицы.
+ */
 export type TopMiningCompareTableRow = {
   label: string
   labelDetail?: string

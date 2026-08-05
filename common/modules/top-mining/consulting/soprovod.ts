@@ -1,3 +1,7 @@
+/**
+ * Папка consulting — лендинг консалтинга.
+ * Контент секции сопровождения (soprovod).
+ */
 import buyAsicBottom from '~/assets/images/consulting/soprovod-asic-bottom.png'
 import buyAsicMobile from '~/assets/images/consulting/soprovod-asic-mobile.png'
 import hotelBottom from '~/assets/images/consulting/soprovod-hotel-bottom.png'

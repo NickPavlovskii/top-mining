@@ -1,3 +1,7 @@
+/**
+ * Папка layout — секции главной.
+ * Статистика промо-блока калькулятора.
+ */
 export const MINING_CALCULATOR_PROMO_STATS = [
   { value: '600', label: 'Асиков, GPU, CPU' },
   { value: '13', label: 'Параметров' },

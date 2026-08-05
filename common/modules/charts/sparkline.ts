@@ -1,3 +1,7 @@
+/**
+ * Пакет charts — графика.
+ * Построение точек SVG-sparkline для графиков монет.
+ */
 export const SPARKLINE_VIEWBOX = {
   width: 500,
   height: 180,

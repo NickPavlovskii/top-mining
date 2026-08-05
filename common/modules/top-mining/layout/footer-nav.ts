@@ -1,3 +1,7 @@
+/**
+ * Папка layout — оболочка сайта.
+ * Ссылки колонок футера.
+ */
 import { CATALOG_PAGE_HREF } from '../../catalog/nav/links'
 import { getCalculatorNavItemHref } from '../calculator/nav'
 

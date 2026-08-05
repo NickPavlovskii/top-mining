@@ -1,3 +1,7 @@
+/**
+ * Папка calculator — майнинг-калькулятор.
+ * Ссылки меню ASIC/GPU/CPU и разбор hash устройства.
+ */
 import type { CalculatorDeviceKind } from './hardware'
 import { CALCULATOR_PAGE_PATH } from './path'
 import { TOP_MINING_HASHRATE_CONVERTER_URL } from '../layout/epic-blocks'

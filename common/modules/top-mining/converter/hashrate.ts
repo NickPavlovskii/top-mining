@@ -1,3 +1,7 @@
+/**
+ * Папка converter — конвертер хешрейта.
+ * Пересчёт единиц H/s … ZH/s и парсинг ввода.
+ */
 export type HashrateConverterUnitId =
   | 'hash'
   | 'kilohash'

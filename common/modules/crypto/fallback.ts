@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * Офлайн-данные монет при недоступности API.
+ */
 import type { BitcoinUsd, CryptoCoin } from './types'
 
 export const CRYPTO_COIN_IDS = [

@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Типы preview / full article и ответа ленты.
+ */
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining'
 
 export type ArticleDisplayType = 'hero' | 'featured' | 'list'

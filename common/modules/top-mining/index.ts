@@ -1,3 +1,7 @@
+/**
+ * Пакет top-mining — контент и логика бренд-страниц Top Mining.
+ * Barrel: ui, layout, calculator, converter, buy-asic, consulting, podbor, pages.
+ */
 export * from './ui'
 export * from './layout'
 export * from './calculator'

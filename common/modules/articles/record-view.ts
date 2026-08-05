@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Учёт просмотра один раз на браузер (localStorage).
+ */
 const STORAGE_PREFIX = 'tm-article-viewed:'
 
 function storageKey(slug: string): string {

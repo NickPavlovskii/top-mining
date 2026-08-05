@@ -73,18 +73,34 @@
         <section class="site-footer__subscribe">
           <h3>Подписаться на новости</h3>
 
-          <form class="site-footer__form" @submit.prevent>
+          <form class="site-footer__form" @submit.prevent="onFooterSubscribe">
             <label class="site-footer__input-wrap">
               <span class="site-footer__visually-hidden">E-mail</span>
-              <input type="email" placeholder="E-mail" />
+              <input
+                v-model="footerSubscribeEmail"
+                type="email"
+                placeholder="E-mail"
+                autocomplete="email"
+                :disabled="footerSubscribeStatus === 'loading'"
+              />
             </label>
 
             <top-mining-round-icon-button
               type="submit"
               size="small"
               aria-label="Подписаться"
+              :disabled="footerSubscribeStatus === 'loading'"
             />
           </form>
+
+          <p
+            v-if="footerSubscribeMessage"
+            class="site-footer__subscribe-status"
+            :data-status="footerSubscribeStatus"
+            role="status"
+          >
+            {{ footerSubscribeMessage }}
+          </p>
 
           <nuxt-link to="/privacy" class="site-footer__privacy">
             Политика конфиденциальности
@@ -175,6 +191,12 @@
 
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
+  const {
+    email: footerSubscribeEmail,
+    status: footerSubscribeStatus,
+    message: footerSubscribeMessage,
+    submit: submitFooterSubscribe,
+  } = useSubscribeEmail('footer')
 
   const isPrivacyPage = computed(() => route.path === '/privacy')
   const isPodborMiningHotelPage = computed(() =>
@@ -210,6 +232,10 @@
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  async function onFooterSubscribe() {
+    await submitFooterSubscribe()
   }
 </script>
 
@@ -505,7 +531,23 @@
     align-items: center;
     gap: 10px;
     max-width: 360px;
-    margin-bottom: 34px;
+    margin-bottom: 12px;
+  }
+
+  .site-footer__subscribe-status {
+    margin: 0 0 18px;
+    max-width: 360px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--tm-black);
+  }
+
+  .site-footer__subscribe-status[data-status='success'] {
+    color: #2f7d32;
+  }
+
+  .site-footer__subscribe-status[data-status='error'] {
+    color: #b42318;
   }
 
   .site-footer__input-wrap {

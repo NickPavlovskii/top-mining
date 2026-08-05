@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Сборка TOC и секций из plain-текста.
+ */
 import type { ArticleTocItem } from './section-types'
 
 export function buildTocFromPlainContent(content: string): ArticleTocItem[] {

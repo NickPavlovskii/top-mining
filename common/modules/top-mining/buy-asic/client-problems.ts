@@ -1,3 +1,7 @@
+/**
+ * Папка buy-asic — лендинг покупки ASIC.
+ * Тексты блока «проблемы клиентов».
+ */
 export type BuyAsicClientProblemTextPart = {
   text: string
   highlight?: boolean

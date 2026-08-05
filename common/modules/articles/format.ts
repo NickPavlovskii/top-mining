@@ -1,3 +1,7 @@
+/**
+ * Пакет articles — статьи.
+ * Формат даты, времени чтения, split заголовка.
+ */
 export function formatArticleDate(isoDate: string): string {
   const datePart = isoDate.split('T')[0] ?? isoDate
   const [year, month, day] = datePart.split('-')

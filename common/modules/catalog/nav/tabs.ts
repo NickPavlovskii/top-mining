@@ -1,3 +1,7 @@
+/**
+ * Папка nav — навигация каталога.
+ * Табы категорий для UI.
+ */
 import type { CatalogCategoryTab } from '../types'
 import {
   getCatalogCategoryTabLabel,

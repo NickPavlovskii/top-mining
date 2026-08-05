@@ -1,3 +1,7 @@
+/**
+ * Папка buy-asic — лендинг покупки ASIC.
+ * Кросс-промо баннеры на другие лендинги.
+ */
 import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
 import {
   PODBOR_MINING_HOTEL_PATH,

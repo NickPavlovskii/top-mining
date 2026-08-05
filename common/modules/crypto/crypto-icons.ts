@@ -1,3 +1,7 @@
+/**
+ * Пакет crypto — крипторинок.
+ * Локальные иконки монет.
+ */
 import bnbIcon from '~/assets/images/crypto/bnb.png'
 import btcIcon from '~/assets/images/crypto/btc.png'
 import ethIcon from '~/assets/images/crypto/eth.png'

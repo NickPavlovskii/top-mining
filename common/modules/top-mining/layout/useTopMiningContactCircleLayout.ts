@@ -1,3 +1,7 @@
+/**
+ * Папка layout — оболочка сайта.
+ * Composable: ResizeObserver и стили контактного круга.
+ */
 import {
   getTopMiningContactBlockStyle,
   getTopMiningContactBlockStyleForCircleWidth,

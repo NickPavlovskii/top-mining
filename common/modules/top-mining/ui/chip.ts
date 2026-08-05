@@ -1,3 +1,7 @@
+/**
+ * Папка ui — дизайн-система.
+ * Пресеты чипов и verification-бейджей.
+ */
 export type TopMiningChipPreset =
   | 'blue'
   | 'green'

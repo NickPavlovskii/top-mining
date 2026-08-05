@@ -1,3 +1,7 @@
+/**
+ * Папка content — контент каталога.
+ * Сортировка и формат счётчика отзывов организации.
+ */
 import type { OrganizationReviewSort } from '~/types/organization-reviews'
 
 export type OrganizationReviewSortOption = {
