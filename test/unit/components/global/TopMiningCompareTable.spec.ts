@@ -5,7 +5,7 @@ import {
   toCompareTableRows,
   type TopMiningCompareTableProps,
   type TopMiningCompareTableRow,
-} from '~/common/modules/top-mining/compare-table'
+} from '~/common/modules/top-mining/ui/compare-table'
 import TopMiningCompareTable from '~/components/global/tables/TopMiningCompareTable.vue'
 
 const headers3 = ['A', 'B', 'C'] as const

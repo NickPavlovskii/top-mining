@@ -177,8 +177,8 @@
   import {
     TOP_MINING_CONTACT_PHONE,
     TOP_MINING_CONTACT_TELEGRAM,
-  } from '~/common/modules/top-mining/contact-section'
-  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
+  } from '~/common/modules/top-mining/layout/contact-section'
+  import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/pages/increase-income'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
   import TopMiningHeaderDesktopNav from '~/components/top-mining/header/TopMiningHeaderDesktopNav.vue'

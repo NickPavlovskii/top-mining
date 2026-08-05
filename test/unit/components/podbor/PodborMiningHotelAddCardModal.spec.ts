@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor-mining-hotel'
-import { PODBOR_MINING_HOTEL_SALE } from '~/common/modules/top-mining/podbor-mining-hotel'
+import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
+import { PODBOR_MINING_HOTEL_SALE } from '~/common/modules/top-mining/podbor/mining-hotel'
 import PodborMiningHotelAddCardModal from '~/components/podbor/modal/PodborMiningHotelAddCardModal.vue'
 
 function mountModal(props: Record<string, unknown> = {}) {

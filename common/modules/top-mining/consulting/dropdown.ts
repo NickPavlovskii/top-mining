@@ -1,7 +1,7 @@
-import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic-page'
-import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
-import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor-mining-hotel'
-import { DATA_CENTER_CONSTRUCTION_PAGE_PATH } from '~/common/modules/top-mining/data-center-construction-page'
+import { BUY_ASIC_PAGE_PATH } from '../buy-asic/page'
+import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
+import { PODBOR_MINING_HOTEL_PATH } from '../podbor/mining-hotel'
+import { DATA_CENTER_CONSTRUCTION_PAGE_PATH } from '../pages/data-center-construction'
 
 export type TopMiningConsultingDropdownItem = {
   label: string

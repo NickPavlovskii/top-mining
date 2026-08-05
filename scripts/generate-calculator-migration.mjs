@@ -3,15 +3,15 @@ import path from 'node:path'
 
 const root = path.resolve(import.meta.dirname, '..')
 const hw = fs.readFileSync(
-  path.join(root, 'common/modules/top-mining/calculator-hardware.ts'),
+  path.join(root, 'common/modules/top-mining/calculator/hardware.ts'),
   'utf8',
 )
 const coinsTs = fs.readFileSync(
-  path.join(root, 'common/modules/top-mining/calculator-coins.ts'),
+  path.join(root, 'common/modules/top-mining/calculator/coins.ts'),
   'utf8',
 )
 const gpuTs = fs.readFileSync(
-  path.join(root, 'common/modules/top-mining/calculator-gpu.ts'),
+  path.join(root, 'common/modules/top-mining/calculator/gpu.ts'),
   'utf8',
 )
 

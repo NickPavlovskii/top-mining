@@ -4,7 +4,7 @@ import {
   getCalculatorDeviceHash,
   getCalculatorNavItemHref,
   parseCalculatorDeviceHash,
-} from '~/common/modules/top-mining/calculator-nav'
+} from '~/common/modules/top-mining/calculator/nav'
 
 describe('calculator-nav', () => {
   it('maps menu items to calculator routes', () => {

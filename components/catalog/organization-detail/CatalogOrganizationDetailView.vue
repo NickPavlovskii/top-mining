@@ -689,7 +689,7 @@
 </template>
 
 <script setup lang="ts">
-  import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
+  import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
   import CatalogOrganizationGallery from '~/components/catalog/organization-detail/CatalogOrganizationGallery.vue'
   import CatalogOrganizationDetailSidebar from '~/components/catalog/organization-detail/CatalogOrganizationDetailSidebar.vue'
   import CatalogOrganizationReviews from '~/components/catalog/organization-detail/CatalogOrganizationReviews.vue'

@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import IncreaseIncomeHero from '~/components/increase-income/IncreaseIncomeHero.vue'
-import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/increase-income-page'
+import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/pages/increase-income'
 
 describe('IncreaseIncomeHero', () => {
   function mountSection() {

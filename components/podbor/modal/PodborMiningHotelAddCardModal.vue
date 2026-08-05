@@ -137,8 +137,8 @@
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
-  import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor-mining-hotel'
-  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
 
   const open = defineModel<boolean>('open', { default: false })
 

@@ -3,7 +3,6 @@ export type TopMiningCompareTableRow = {
   labelDetail?: string
   values: readonly string[]
   mobileValues?: readonly string[]
-  /** Оранжевая подсветка значений в этой строке */
   accent?: boolean
 }
 
@@ -20,7 +19,6 @@ export type TopMiningCompareTableProps = {
   id?: string
 }
 
-/** Преобразует колоночный формат (labels + columns) в rows для TopMiningCompareTable */
 export function toCompareTableRows(
   rowLabels: readonly string[],
   columns: readonly (readonly string[])[],

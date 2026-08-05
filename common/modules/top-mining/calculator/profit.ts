@@ -1,5 +1,4 @@
 export type CalculatorProfitDevice = {
-  /** Device price in selected fiat (₽ or $) */
   price: number
   priceCurrency: '₽' | '$'
   quantity: number
@@ -18,14 +17,12 @@ export type CalculatorProfitCoinLeg = {
   networkDifficulty: number
   /** Coin price in USDT */
   coinUsdtRate: number
-  /** WhatToMine-style difficulty divisor: `2v32` | `2v13` | `0` */
   stepen: string
 }
 
 export type CalculatorProfitInput = CalculatorProfitDevice & CalculatorProfitCoinLeg
 
 export type CalculatorProfitResult = {
-  /** Gross mined coins for the primary (or summed dual) period yields */
   coinsHour: number
   coinsDay: number
   coinsMonth: number
@@ -52,7 +49,6 @@ const DEFAULT_DEVICE_PRICE_RUB = 120_000
 
 export { DEFAULT_DEVICE_PRICE_RUB, HOURS_PER_MONTH }
 
-/** Parse production `stepen` (`2v32` → 2^32, `2v13` → 2^13, else 1). */
 export function parseStepen(stepen: string): number {
   if (stepen === '2v32') {
     return 2 ** 32
@@ -65,7 +61,6 @@ export function parseStepen(stepen: string): number {
   return 1
 }
 
-/** Normalize hashrate to TH/s, matching production `Calc()`. */
 export function hashrateToThs(
   hashrate: number,
   unit: CalculatorProfitDevice['hashrateUnit'],
@@ -84,14 +79,6 @@ export function hashrateToThs(
   }
 }
 
-/**
- * Expected coins mined over `days` (WhatToMine / top-mining `totalIncome` without FX).
- *
- * ```
- * coins = reward × hashrateTh × 1e12 × 86400 × (1 − poolFee)
- *         × days × uptime / (difficulty × stepen) × quantity
- * ```
- */
 export function totalCoins(
   device: CalculatorProfitDevice,
   coin: CalculatorProfitCoinLeg,
@@ -135,10 +122,6 @@ export function totalCoinsForLegs(
   return legs.reduce((sum, leg) => sum + totalCoins(device, leg, days), 0)
 }
 
-/**
- * Gross mining income for `days` in USDT.
- * `incomeUsdt = coins × coinUsdtRate` (summed per leg for dual mining).
- */
 export function totalIncomeUsdt(
   device: CalculatorProfitDevice,
   coin: CalculatorProfitCoinLeg,
@@ -162,7 +145,6 @@ export function totalIncomeUsdtForLegs(
   )
 }
 
-/** Monthly electricity / hosting cost in RUB (732 h × kW × tariff × qty × uptime). */
 export function placingMonthRub(device: CalculatorProfitDevice): number {
   const efficiency = device.uptimePercent / 100
   const pricePerKwhRub =

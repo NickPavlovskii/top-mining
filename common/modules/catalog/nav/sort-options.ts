@@ -1,4 +1,4 @@
-import type { CatalogManufacturersSort } from './types'
+import type { CatalogManufacturersSort } from '../types'
 
 export type CatalogSortOption = {
   value: CatalogManufacturersSort

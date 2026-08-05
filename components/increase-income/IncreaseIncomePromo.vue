@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-  import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/increase-income-page'
+  import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/pages/increase-income'
   import TopMiningPromoBanner from '~/components/global/banners/TopMiningPromoBanner.vue'
 
   const copy = INCREASE_INCOME_PAGE

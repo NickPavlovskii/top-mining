@@ -1,4 +1,4 @@
-import { CATALOG_PAGE_HREF } from '../catalog/nav-links'
+import { CATALOG_PAGE_HREF } from '../../catalog/nav/links'
 
 export interface TopMiningUsefulAction {
   label: string

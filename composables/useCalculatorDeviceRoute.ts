@@ -1,7 +1,7 @@
 import {
   getCalculatorDeviceHash,
   parseCalculatorDeviceHash,
-} from '~/common/modules/top-mining/calculator-nav'
+} from '~/common/modules/top-mining/calculator/nav'
 import type { CalculatorDeviceKind } from '~/common/modules/top-mining'
 
 type UseCalculatorDeviceRouteOptions = {

@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator-page'
+  import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
 
   const about = CALCULATOR_PAGE.about
 </script>

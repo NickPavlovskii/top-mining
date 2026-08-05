@@ -105,7 +105,7 @@
     formatArticleDate,
     formatReadingTime,
   } from '~/common/modules/articles'
-  import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
+  import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
   import type { ArticlesFeedResponse } from '~/common/modules/articles'
   import clockIcon from '~/assets/images/articles/clock.png'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'

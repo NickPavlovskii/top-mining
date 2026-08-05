@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting-construction-forms'
+  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting/construction-forms'
   import ConsultingManagementConstructionForm from '~/components/consulting/ConsultingManagementConstructionForm.vue'
 
   const props = defineProps<{

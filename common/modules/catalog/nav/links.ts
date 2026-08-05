@@ -1,4 +1,4 @@
-import { CALCULATOR_PAGE_PATH } from '../top-mining/calculator-path'
+import { CALCULATOR_PAGE_PATH } from '../../top-mining/calculator/path'
 
 export const MANUFACTURERS_CATEGORY_ID = 'equipment-manufacturers'
 export const ALL_ORGANIZATIONS_CATEGORY_ID = 'all'

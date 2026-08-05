@@ -178,7 +178,7 @@
     TOP_MINING_ARTICLES_SECTION,
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
-  } from '~/common/modules/top-mining/articles-section'
+  } from '~/common/modules/top-mining/layout/articles-section'
   import type { BreadcrumbItem } from '@nuxt/ui'
   import type { ArticlePreview, ArticlesFeedResponse } from '~/common/modules/articles'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'

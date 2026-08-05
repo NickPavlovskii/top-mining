@@ -1,8 +1,8 @@
-import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
+import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
 import {
   PODBOR_MINING_HOTEL_PATH,
   type PodborPromoBanner,
-} from '~/common/modules/top-mining/podbor-mining-hotel'
+} from '../podbor/mining-hotel'
 import hotelDecorDesktop from '~/assets/images/buy-asic/mining-hotel-bg-1.png'
 import hotelDecorMobile from '~/assets/images/buy-asic/mining-hotel-bg-1-m.png'
 import youMinerVisual from '~/assets/images/buy-asic/you-miner-bg.jpg'

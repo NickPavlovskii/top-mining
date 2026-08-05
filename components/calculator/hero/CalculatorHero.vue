@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator-page'
+  import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
 
   const page = CALCULATOR_PAGE
 </script>

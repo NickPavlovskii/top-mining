@@ -10,7 +10,6 @@ export const TOP_MINING_CONTACT_TELEGRAM = {
   buttonColor: 'var(--jet-color)',
 } as const
 
-/** Linear gradient из Figma: #EC5100 → #FF741F */
 export const TOP_MINING_CONTACT_BUTTON_GRADIENT =
   'var(--tm-orange-accent-gradient-horizontal)' as const
 
@@ -53,7 +52,6 @@ export type TopMiningContactBlockLayout = {
   telegramButtonLineHeight: number
 }
 
-/** Figma desktop — круг шире 720px */
 export const TOP_MINING_CONTACT_LAYOUT = {
   question: {
     contentMaxWidth: 667,

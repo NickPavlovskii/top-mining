@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
-import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic-page'
+import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic/page'
 
 import { canvasDark, canvasDarkMaxWidth, CANVAS_WIDTH } from '../helpers/decorators'
 

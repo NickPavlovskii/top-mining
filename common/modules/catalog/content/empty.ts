@@ -1,4 +1,4 @@
-import type { CatalogMeta, CatalogResponse } from './types'
+import type { CatalogMeta, CatalogResponse } from '../types'
 
 export const EMPTY_CATALOG_META: CatalogMeta = {
   totalReviews: 0,

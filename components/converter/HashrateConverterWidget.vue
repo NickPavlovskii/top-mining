@@ -66,7 +66,7 @@
     convertHashrateValues,
     createDefaultHashrateValues,
     type HashrateConverterUnitId,
-  } from '~/common/modules/top-mining/hashrate-converter'
+  } from '~/common/modules/top-mining/converter/hashrate'
 
   const units = HASHRATE_CONVERTER_UNITS
   const values = ref(createDefaultHashrateValues())

@@ -201,17 +201,17 @@
 </template>
 
 <script setup lang="ts">
-  import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining/button'
+  import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining/ui/button'
   import {
     TOP_MINING_CONTACT_BUTTON_GRADIENT,
     TOP_MINING_CONTACT_QUESTION,
     TOP_MINING_CONTACT_SUBSCRIBE,
     TOP_MINING_CONTACT_TELEGRAM,
-  } from '~/common/modules/top-mining/contact-section'
+  } from '~/common/modules/top-mining/layout/contact-section'
   import buttonArrow from '~/assets/images/top-mining/button-arrow.png'
   import contactCircleLeft from '~/assets/images/top-mining/contact-circle-left.png'
   import contactCircleRight from '~/assets/images/top-mining/contact-circle-right.png'
-  import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/articles-section'
+  import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
   import TopMiningArticlesFeed from '~/components/top-mining/TopMiningArticlesFeed.vue'
   import TopMiningArticlesSection from '~/components/top-mining/TopMiningArticlesSection.vue'
 

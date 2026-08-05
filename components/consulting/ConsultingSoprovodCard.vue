@@ -130,7 +130,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { ConsultingSoprovodCard } from '~/common/modules/top-mining/consulting-soprovod'
+  import type { ConsultingSoprovodCard } from '~/common/modules/top-mining/consulting/soprovod'
   import okOrBig from '~/assets/images/consulting/ok-or-big.png'
 
   const props = defineProps<{

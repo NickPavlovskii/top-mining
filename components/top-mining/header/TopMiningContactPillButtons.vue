@@ -41,7 +41,7 @@
   import {
     TOP_MINING_CONTACT_PHONE,
     TOP_MINING_CONTACT_TELEGRAM,
-  } from '~/common/modules/top-mining/contact-section'
+  } from '~/common/modules/top-mining/layout/contact-section'
 </script>
 
 <style scoped>

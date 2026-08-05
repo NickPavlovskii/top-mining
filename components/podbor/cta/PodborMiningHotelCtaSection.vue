@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor-mining-hotel'
-  import { PODBOR_MINING_HOTEL_CTA } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { PODBOR_MINING_HOTEL_CTA } from '~/common/modules/top-mining/podbor/mining-hotel'
   import PodborMiningHotelAddCardModal from '~/components/podbor/modal/PodborMiningHotelAddCardModal.vue'
   import PodborMiningHotelCtaCard from '~/components/podbor/cta/PodborMiningHotelCtaCard.vue'
 

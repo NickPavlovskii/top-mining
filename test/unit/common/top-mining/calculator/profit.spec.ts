@@ -8,7 +8,7 @@ import {
   parseStepen,
   placingMonthRub,
   totalIncomeUsdt,
-} from '~/common/modules/top-mining/calculator-profit'
+} from '~/common/modules/top-mining/calculator/profit'
 
 const btcDevice = {
   price: 120_000,

@@ -1,6 +1,5 @@
-import type { CalculatorCoin } from './calculator-coins'
+import type { CalculatorCoin } from './coins'
 
-/** Algorithms available in the GPU/CPU calculator algorithm picker. */
 export const CALCULATOR_GPU_ALGORITHMS: string[] = [
   'Ethash',
   'Ethash4G',

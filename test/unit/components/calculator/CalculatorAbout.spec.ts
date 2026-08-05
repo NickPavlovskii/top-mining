@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import CalculatorAbout from '~/components/calculator/about/CalculatorAbout.vue'
-import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator-page'
+import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
 
 describe('CalculatorAbout', () => {
   it('renders feature bullet points', () => {

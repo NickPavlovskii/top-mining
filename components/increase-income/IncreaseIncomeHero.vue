@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-  import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/increase-income-page'
+  import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/pages/increase-income'
   import ConsultingDiagonalArrowIcon from '~/components/consulting/icons/ConsultingDiagonalArrowIcon.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'

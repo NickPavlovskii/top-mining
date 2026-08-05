@@ -10,7 +10,7 @@ import brandBitfury from '~/assets/images/calculator/brands/bitfury.svg'
 import brandIbelink from '~/assets/images/calculator/brands/ibelink.svg'
 import brandFusionsilicon from '~/assets/images/calculator/brands/fusionsilicon.svg'
 import heroImage from '~/assets/images/calculator/hero-rig.png'
-import { CALCULATOR_PAGE_PATH } from './calculator-path'
+import { CALCULATOR_PAGE_PATH } from './path'
 
 export { CALCULATOR_PAGE_PATH }
 

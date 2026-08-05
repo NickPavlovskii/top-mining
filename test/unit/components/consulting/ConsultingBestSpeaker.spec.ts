@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import ConsultingBestSpeaker from '~/components/consulting/ConsultingBestSpeaker.vue'
-import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting-best-speaker'
+import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting/best-speaker'
 
 describe('ConsultingBestSpeaker', () => {
   function mountSection() {

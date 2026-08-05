@@ -34,7 +34,6 @@ export type PodborPartnerLogo = {
   alt: string
 }
 
-/** Порядок и файлы как на top-mining.ru (logo-comp-g) */
 const LOGO_DIR = '/images/podbor-majning-otelya/logo-comp-g'
 
 export const PODBOR_MINING_HOTEL_PARTNERS: readonly PodborPartnerLogo[] = [
@@ -365,10 +364,6 @@ export const PODBOR_MINING_HOTEL_CTA = {
 export const PODBOR_MINING_HOTEL_USEFUL = {
   titleLead: 'Чем полезен',
   titleAccent: 'ТОП МАЙНИНГ',
-  /**
-   * Фразы для пословной анимации blur → clear.
-   * `br` — перенос строки, `spacer` — вертикальный отступ между абзацами.
-   */
   segments: [
     { text: 'Мы являемся экспертами' },
     { text: 'в области' },
@@ -761,9 +756,7 @@ export type PodborPromoBanner = {
   buttonLabel: string
   href: string
   imageAlt: string
-  /** Optional override; defaults to asic/miner visuals by variant */
   image?: string
-  /** Mobile decor for hotel variant (WordPress mining-hotel-bg-1-m) */
   imageMobile?: string
   external?: boolean
 }

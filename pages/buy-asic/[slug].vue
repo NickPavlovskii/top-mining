@@ -16,7 +16,7 @@
   import {
     getBuyAsicModelBySlug,
     getBuyAsicModelShortName,
-  } from '~/common/modules/top-mining/buy-asic-page'
+  } from '~/common/modules/top-mining/buy-asic/page'
   import BuyAsicModelOffer from '~/components/buy-asic/models/BuyAsicModelOffer.vue'
   import BuyAsicModels from '~/components/buy-asic/models/BuyAsicModels.vue'
   import BuyAsicModelsMarquee from '~/components/buy-asic/models/BuyAsicModelsMarquee.vue'

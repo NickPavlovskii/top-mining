@@ -132,14 +132,14 @@
   import {
     getCatalogCategoryHref,
     getTopMiningNavHeadingHref,
-  } from '~/common/modules/catalog/nav-links'
+  } from '~/common/modules/catalog/nav/links'
   import {
     getRatingsCategoryIdByLabel,
     getRatingsPageHref,
   } from '~/common/modules/ratings'
   import {
     getArticlesNavHref,
-  } from '~/common/modules/top-mining/articles-section'
+  } from '~/common/modules/top-mining/layout/articles-section'
   import {
     TOP_MINING_NAV_COLUMNS,
     getCalculatorNavItemHref,
@@ -147,7 +147,7 @@
     isCalculatorExternalNavItem,
     isNavHeadingLink,
   } from '~/common/modules/top-mining'
-  import type { TopMiningNavColumn } from '~/common/modules/top-mining/nav-columns'
+  import type { TopMiningNavColumn } from '~/common/modules/top-mining/layout/nav-columns'
   import telegramMenuIcon from '~/assets/images/top-mining/telegram-menu-icon.png'
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
 

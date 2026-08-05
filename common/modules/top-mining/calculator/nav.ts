@@ -1,7 +1,7 @@
-import type { CalculatorDeviceKind } from './calculator-hardware'
-import { CALCULATOR_PAGE_PATH } from './calculator-path'
-import { TOP_MINING_HASHRATE_CONVERTER_URL } from './epic-blocks'
-import { RATINGS_PAGE_HREF } from '../ratings/nav-links'
+import type { CalculatorDeviceKind } from './hardware'
+import { CALCULATOR_PAGE_PATH } from './path'
+import { TOP_MINING_HASHRATE_CONVERTER_URL } from '../layout/epic-blocks'
+import { RATINGS_PAGE_HREF } from '../../ratings/nav-links'
 
 export const CALCULATOR_TELEGRAM_BOT_URL = 'https://t.me/miningcalculator_bot'
 

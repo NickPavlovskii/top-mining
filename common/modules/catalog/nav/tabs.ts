@@ -1,9 +1,9 @@
-import type { CatalogCategoryTab } from './types'
+import type { CatalogCategoryTab } from '../types'
 import {
   getCatalogCategoryTabLabel,
   type CatalogCategoryDefinition,
-} from './catalog-categories'
-import { getCatalogCategoryHref } from './nav-links'
+} from './categories'
+import { getCatalogCategoryHref } from './links'
 
 export function getCatalogCategoryTabs(
   activeId: string,

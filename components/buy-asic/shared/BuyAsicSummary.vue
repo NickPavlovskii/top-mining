@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { BUY_ASIC_SUMMARY } from '~/common/modules/top-mining/buy-asic-summary'
+  import { BUY_ASIC_SUMMARY } from '~/common/modules/top-mining/buy-asic/summary'
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'

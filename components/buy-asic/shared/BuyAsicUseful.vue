@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_USEFUL } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_USEFUL } from '~/common/modules/top-mining/podbor/mining-hotel'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
 
   const useful = PODBOR_MINING_HOTEL_USEFUL

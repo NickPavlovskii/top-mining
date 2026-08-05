@@ -1,4 +1,4 @@
-import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/increase-income-page'
+import { INCREASE_INCOME_PAGE_PATH } from '../pages/increase-income'
 
 export type BuyAsicTextPart = {
   text: string
@@ -7,7 +7,6 @@ export type BuyAsicTextPart = {
 
 export type BuyAsicHowWeWorkStep = {
   id: string
-  /** Step number badge; omit / null for the highlighted result card */
   number: number | null
   parts: BuyAsicTextPart[]
   highlighted?: boolean

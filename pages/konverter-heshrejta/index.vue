@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/hashrate-converter-page'
+import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
 import ConverterHero from '~/components/converter/ConverterHero.vue'
 import HashrateConverterWidget from '~/components/converter/HashrateConverterWidget.vue'
 import ConverterAbout from '~/components/converter/ConverterAbout.vue'

@@ -1,10 +1,10 @@
-import type { CatalogFilterOption } from './types'
+import type { CatalogFilterOption } from '../types'
 import {
   CATALOG_CATEGORY_DEFINITIONS,
   getCatalogCategoryTabLabel,
-} from './catalog-categories'
-import { MANUFACTURERS_CATEGORY_ID } from './nav-links'
-import { getManufacturerMarketAge } from './manufacturers-page'
+} from '../nav/categories'
+import { MANUFACTURERS_CATEGORY_ID } from '../nav/links'
+import { getManufacturerMarketAge } from '../pages/manufacturers'
 
 export const CATALOG_ORGANIZATION_MARKET_AGE_FILTERS: CatalogFilterOption[] = [
   { id: 'over-3y', label: 'Больше 3 лет' },

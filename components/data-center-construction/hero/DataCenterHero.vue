@@ -143,7 +143,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/data-center-construction-page'
+  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const page = DATA_CENTER_CONSTRUCTION_PAGE

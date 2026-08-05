@@ -140,8 +140,8 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 |-------|------|
 | Страница | `pages/calculator/index.vue` |
 | Форма | `components/calculator/form/CalculatorForm.vue` |
-| Формулы | `common/modules/top-mining/calculator-profit.ts` |
-| Каталоги | `calculator-hardware.ts`, `calculator-coins.ts`, `calculator-gpu.ts` |
+| Формулы | `common/modules/top-mining/calculator/profit.ts` |
+| Каталоги | `calculator/hardware.ts`, `coins.ts`, `gpu.ts` |
 | Спека | [`docs/calculator.md`](./docs/calculator.md) |
 
 > Формула в духе WhatToMine: доля хешрейта в сети × награда × up-time − стоимость электричества. Подробности и псевдокод — в `docs/calculator.md`.
@@ -156,8 +156,8 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 |-------|------|
 | Страница | `pages/konverter-heshrejta/index.vue` |
 | Виджет | `components/converter/HashrateConverterWidget.vue` |
-| Логика | `common/modules/top-mining/hashrate-converter.ts` |
-| Тексты / FAQ | `hashrate-converter-page.ts` |
+| Логика | `common/modules/top-mining/converter/hashrate.ts` |
+| Тексты / FAQ | `converter/page.ts` |
 
 Ввод в любом поле пересчитывает остальные; есть копирование значения.
 
@@ -173,12 +173,12 @@ npm run test:run      # CI / один прогон
 
 # Точечно
 npm test -- --run test/unit/components/converter
-npm test -- --run test/unit/common/top-mining/hashrate-converter.spec.ts
+npm test -- --run test/unit/common/top-mining/converter
 ```
 
 | Тип | Что проверяет | Примеры |
 |-----|---------------|---------|
-| **Unit (логика)** | Формулы прибыли, конвертация единиц, навигация | `calculator-profit.spec.ts`, `hashrate-converter.spec.ts`, `calculator-nav.spec.ts` |
+| **Unit (логика)** | Формулы прибыли, конвертация единиц, навигация | `calculator/profit.spec.ts`, `converter/hashrate.spec.ts`, `calculator/nav.spec.ts` |
 | **Component** | Рендер, события select, модалки, секции | `CalculatorForm.spec.ts`, `TopMiningSelect.spec.ts`, `ConverterHero.spec.ts` |
 | **Page smoke** | Состав секций + SEO | `calculator.spec.ts`, `konverter-heshrejta.spec.ts` |
 | **Snapshot** | HTML-снимок разметки (регрессия UI) | `__snapshots__/*.snap` у converter / hero |
@@ -232,6 +232,9 @@ npm run build-storybook
 top-mining/
 ├── assets/                 # Стили, шрифты, изображения
 ├── common/modules/         # Данные, типы, чистая логика по доменам
+│   ├── top-mining/         # ui · layout · calculator · converter · buy-asic · …
+│   ├── catalog/            # nav · filters · pages · content
+│   ├── articles/ ratings/ crypto/ …
 ├── components/
 │   ├── global/             # Переиспользуемый UI (в т.ч. TopMiningSelect)
 │   ├── calculator/         # Hero, form, about калькулятора
@@ -262,6 +265,147 @@ import type { CalculatorDeviceKind } from '~/common/modules/top-mining'
 ```
 
 Токены: `assets/scss/variables.scss` → `var(--tm-orange)`, `var(--tm-ink)`.
+
+---
+
+## Модули `common/modules`
+
+Слой **чистой логики и данных**: типы, константы, тексты страниц, формулы.  
+UI-компоненты только импортируют отсюда. Файлы `index.ts` — barrel-реэкспорты.
+
+```ts
+import { calculateMiningProfit } from '~/common/modules/top-mining'
+import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
+```
+
+### Обзор пакетов
+
+| Пакет | Зона ответственности |
+|-------|----------------------|
+| `top-mining/` | Лендинг, калькулятор, конвертер, consulting, buy-asic, подбор отеля |
+| `catalog/` | Каталог организаций и производителей |
+| `articles/` | Статьи: типы, fallback, TOC, просмотры |
+| `ratings/` | Рейтинги: карточки, ссылки, merge с API |
+| `crypto/` | Крипторинок: CoinGecko, fallback, формат |
+| `charts/` | Sparkline для графиков монет |
+| `format/` | Дата, marquee-анимация |
+| `http/` | HTTP-коды (`200`, `404`…) |
+| `not-found/` | 3D-сфера на странице 404 |
+| `process/` | Шаги секции «процесс работы» |
+| `constants.ts` | Реэкспорт `top-mining` + `crypto` + `process` |
+
+---
+
+### `top-mining/`
+
+#### `ui/` — токены дизайн-системы
+
+| Файл | Ответственность | Ключевые экспорты |
+|------|-----------------|-------------------|
+| `button.ts` | Кнопки: варианты, размеры, цвета | `TOP_MINING_BUTTON_PROPS`, `TOP_MINING_BUTTON_COLORS` |
+| `chip.ts` | Чипы / verification-бейджи | `TOP_MINING_CHIP_*`, verification colors |
+| `colors.ts` | Бренд-палитра hex | `TM_ORANGE`, `TM_PAGE_BG` |
+| `compare-table.ts` | Сравнительная таблица | `toCompareTableRows()` |
+
+#### `layout/` — шапка, футер, главная
+
+| Файл | Ответственность | Ключевые экспорты |
+|------|-----------------|-------------------|
+| `nav-columns.ts` | Колонки мегаменю | `TOP_MINING_NAV_COLUMNS`, `getMobileNavItemGroups()` |
+| `footer-nav.ts` | Ссылки футера | `TOP_MINING_FOOTER_*_LINKS` |
+| `mobile-menu.ts` | Телефон и соцкнопки | `TOP_MINING_MOBILE_MENU_*` |
+| `contact-section.ts` | Контактный круг: тексты + layout | `getTopMiningContactBlockStyle()` |
+| `useTopMiningContactCircleLayout.ts` | ResizeObserver круга | `useTopMiningContactCircleLayout()` |
+| `articles-section.ts` | Блок статей на главной | `TOP_MINING_ARTICLES_TOPICS`, `getArticlesNavHref()` |
+| `epic-blocks.ts` | URL Telegram и конвертера | `TOP_MINING_TELEGRAM_BOT_URL`, `TOP_MINING_HASHRATE_CONVERTER_URL` |
+| `useful-section.ts` | «Чем полезен ТОП майнинг» | `TOP_MINING_USEFUL_ITEMS` |
+| `companies.ts` | Логотипы партнёров | `TOP_MINING_COMPANIES` |
+| `calculator-promo.ts` | Промо калькулятора | `MINING_CALCULATOR_PROMO_STATS` |
+
+#### `calculator/` — майнинг-калькулятор
+
+| Файл | Ответственность | Ключевые экспорты |
+|------|-----------------|-------------------|
+| `path.ts` | Путь страницы | `CALCULATOR_PAGE_PATH` |
+| `page.ts` | SEO, hero, бренды, about | `CALCULATOR_PAGE` |
+| `nav.ts` | Меню → ASIC/GPU/CPU/конвертер | `getCalculatorNavItemHref()`, `parseCalculatorDeviceHash()` |
+| `hardware.ts` | Каталог устройств | `CALCULATOR_HARDWARE_BY_KIND`, `filterHardwareBrands()` |
+| `coins.ts` | Монеты ASIC | `CALCULATOR_COINS`, `getDefaultCalculatorCoin()` |
+| `gpu.ts` | Алгоритмы и монеты GPU/CPU | `filterGpuCoinsByAlgorithm()` |
+| `profit.ts` | Формулы прибыли | **`calculateMiningProfit()`**, `hashrateToThs()`, `placingMonthRub()` |
+
+#### `converter/` — конвертер хешрейта
+
+| Файл | Ответственность | Ключевые экспорты |
+|------|-----------------|-------------------|
+| `hashrate.ts` | Пересчёт H/s…ZH/s | `convertHashrateValues()`, `parseConverterInput()` |
+| `page.ts` | SEO, about, FAQ | `HASHRATE_CONVERTER_PAGE` |
+
+#### `buy-asic/` · `consulting/` · `podbor/` · `pages/`
+
+| Папка / файл | Ответственность |
+|--------------|-----------------|
+| `buy-asic/page.ts` | Hero, модели, `getBuyAsicModelBySlug()` |
+| `buy-asic/client-problems.ts` | Отзывы «проблемы клиентов» |
+| `buy-asic/value-blocks.ts` | Как работаем / безопасность / время |
+| `buy-asic/summary.ts`, `promo-banners.ts` | Итого-форма и кросс-промо |
+| `consulting/*.ts` | Контент секций consulting + `getConsultingServiceHref()` |
+| `podbor/mining-hotel.ts` | Весь контент страницы подбора отеля |
+| `pages/increase-income.ts` | «Увеличим ваш доход» |
+| `pages/data-center-construction.ts` | Строительство дата-центров |
+
+---
+
+### `catalog/`
+
+| Папка / файл | Ответственность | Ключевые экспорты |
+|--------------|-----------------|-------------------|
+| `types.ts` | Контракты организаций, категорий, фильтров | типы API |
+| `nav/links.ts` | URL каталога | `getCatalogCategoryHref()`, `CATALOG_PAGE_HREF` |
+| `nav/categories.ts` | Определения категорий | `CATALOG_CATEGORY_DEFINITIONS`, `getVisibleCatalogCategories()` |
+| `nav/tabs.ts` | Табы категорий | `getCatalogCategoryTabs()` |
+| `nav/sort-options.ts` | Сортировка списка | `CATALOG_MANUFACTURERS_SORT_OPTIONS` |
+| `nav/use-visible-categories.ts` | Fetch + видимые категории | `useVisibleCatalogCategories()` |
+| `filters/organization.ts` | Возраст рынка, min ASIC | `matchesMinAsicFilter()` |
+| `filters/sidebar.ts` | Сайдбар бирж/кошельков | `matchesCategorySidebarFilters()` |
+| `pages/organizations.ts` | Плоский список орг. | `flattenCatalogOrganizations()` |
+| `pages/manufacturers.ts` | Производители + fallback | `buildCatalogManufacturersResponse()` |
+| `content/empty.ts` | Пустой ответ для loading | `emptyCatalogResponse()` |
+| `content/mid-block-banner.ts` | Промо в сетке карточек | `buildCatalogGridWithBanners()` |
+| `content/reviews.ts` | Вопросы/сортировка отзывов | `formatOrganizationReviewCount()` |
+
+---
+
+### `articles/` · `ratings/` · `crypto/`
+
+| Пакет | Файл | Ответственность |
+|-------|------|-----------------|
+| **articles** | `types.ts`, `section-types.ts` | Preview / full article / UI-блоки |
+| | `sections.ts`, `blocks-to-sections.ts` | TOC и секции из текста / DB-блоков |
+| | `format.ts` | Дата, время чтения, split title |
+| | `fallback.ts`, `from-rating.ts` | Статика и статьи из рейтингов |
+| | `record-view.ts` | Учёт просмотра один раз на браузер |
+| **ratings** | `fallback.ts`, `content.ts` | Карточки рейтингов + video |
+| | `nav-links.ts` | `/rating/` и `?category=` |
+| | `article-href.ts` | Нормализация ссылок в статьи |
+| | `merge-ratings-fallback.ts` | Слияние API + fallback |
+| | `stagger.ts` | Отступы списка |
+| **crypto** | `types.ts`, `coingecko-types.ts` | Нормализованные и сырые типы |
+| | `lists.ts`, `periods.ts` | ID монет и периоды 24h/7d |
+| | `crypto-period.ts` | `%` изменения и формат цены |
+| | `crypto-icons.ts`, `fallback.ts` | Иконки и офлайн-данные |
+
+---
+
+### Мелкие пакеты
+
+| Пакет | Файл | Методы / данные |
+|-------|------|-----------------|
+| `charts/` | `sparkline.ts` | `buildSparklinePoints()` |
+| `format/` | `date.ts`, `marquee.ts` | `formatDateTime()`, `getMarqueeTrackStyle()` |
+| `http/` | `status.ts` | `HTTP_OK`, `HTTP_NOT_FOUND`, … |
+| `not-found/` | `sphere.ts` | `buildSphereTags()`, `projectSphereTags()` |
+| `process/` | `steps.ts` | `PROCESS_SECTION_STEPS` |
 
 ---
 

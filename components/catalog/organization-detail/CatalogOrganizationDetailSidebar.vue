@@ -221,7 +221,7 @@
 
 <script setup lang="ts">
   import type { CatalogOrganizationDetail } from '~/common/modules/catalog'
-  import { TOP_MINING_VERIFICATION_STATUS_COLORS } from '~/common/modules/top-mining/chip'
+  import { TOP_MINING_VERIFICATION_STATUS_COLORS } from '~/common/modules/top-mining/ui/chip'
   import VerificationStatusBadge from '~/components/global/labels/VerificationStatusBadge.vue'
 
   const props = defineProps<{

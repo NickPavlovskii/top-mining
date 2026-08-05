@@ -1,5 +1,5 @@
 import { createError } from 'h3'
-import { getCatalogCategoryHref } from '~/common/modules/catalog/nav-links'
+import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
 import type { CatalogCategory, CatalogResponse } from '~/common/modules/catalog'
 import { CATALOG_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'

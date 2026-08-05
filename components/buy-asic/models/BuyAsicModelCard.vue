@@ -74,8 +74,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic-page'
-  import { getBuyAsicModelHref } from '~/common/modules/top-mining/buy-asic-page'
+  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
+  import { getBuyAsicModelHref } from '~/common/modules/top-mining/buy-asic/page'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
 
   const props = withDefaults(

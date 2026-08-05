@@ -122,8 +122,8 @@ export type DataCenterWhyCompareCell = {
   paragraphs: readonly string[]
 }
 
-export type { TopMiningCompareTableRow as DataCenterCompareTableRow } from './compare-table'
-export { toCompareTableRows } from './compare-table'
+export type { TopMiningCompareTableRow as DataCenterCompareTableRow } from '../ui/compare-table'
+export { toCompareTableRows } from '../ui/compare-table'
 
 export const DATA_CENTER_CONSTRUCTION_PAGE = {
   breadcrumb: 'Строительство дата-центров',

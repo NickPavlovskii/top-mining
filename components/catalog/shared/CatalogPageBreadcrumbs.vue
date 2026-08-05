@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav-links'
+  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
 
   withDefaults(
     defineProps<{

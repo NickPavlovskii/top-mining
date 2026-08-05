@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import {
   toCompareTableRows,
   type TopMiningCompareTableRow,
-} from '~/common/modules/top-mining/compare-table'
+} from '~/common/modules/top-mining/ui/compare-table'
 import TopMiningCompareTable from '~/components/global/tables/TopMiningCompareTable.vue'
 
 import { canvasDarkMaxWidth, CANVAS_WIDTH } from '../helpers/decorators'

@@ -1,4 +1,4 @@
-import { CATALOG_CATEGORY_DEFINITIONS } from '../catalog/catalog-categories'
+import { CATALOG_CATEGORY_DEFINITIONS } from '../../catalog/nav/categories'
 
 export interface TopMiningNavColumn {
   title: string

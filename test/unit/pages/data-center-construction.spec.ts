@@ -9,7 +9,7 @@ const { useSeoMeta, definePageMeta } = vi.hoisted(() => ({
 vi.stubGlobal('definePageMeta', definePageMeta)
 vi.stubGlobal('useSeoMeta', useSeoMeta)
 
-import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/data-center-construction-page'
+import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
 import DataCenterConstructionPage from '~/pages/data-center-construction/index.vue'
 
 describe('pages/data-center-construction', () => {

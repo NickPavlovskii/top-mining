@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_PAGE } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_PAGE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import PodborMiningHotelCtaSection from '~/components/podbor/cta/PodborMiningHotelCtaSection.vue'
   import PodborMiningHotelLeadForm from '~/components/podbor/hero/PodborMiningHotelLeadForm.vue'
   import PodborMiningHotelLogos from '~/components/podbor/hero/PodborMiningHotelLogos.vue'

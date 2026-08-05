@@ -1,5 +1,5 @@
-import { CATALOG_PAGE_HREF } from '../catalog/nav-links'
-import { getCalculatorNavItemHref } from './calculator-nav'
+import { CATALOG_PAGE_HREF } from '../../catalog/nav/links'
+import { getCalculatorNavItemHref } from '../calculator/nav'
 
 export interface TopMiningFooterNavLink {
   label: string

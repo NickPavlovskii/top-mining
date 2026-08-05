@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import {
   HASHRATE_CONVERTER_UNITS,
   createDefaultHashrateValues,
-} from '~/common/modules/top-mining/hashrate-converter'
+} from '~/common/modules/top-mining/converter/hashrate'
 import HashrateConverterWidget from '~/components/converter/HashrateConverterWidget.vue'
 
 describe('HashrateConverterWidget', () => {

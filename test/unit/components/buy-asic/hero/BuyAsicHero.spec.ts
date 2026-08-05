@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import BuyAsicHero from '~/components/buy-asic/hero/BuyAsicHero.vue'
-import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic-page'
+import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic/page'
 
 describe('BuyAsicHero', () => {
   function mountSection() {

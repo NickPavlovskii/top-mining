@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import { BUY_ASIC_PROMO_BANNERS } from '~/common/modules/top-mining/buy-asic-promo-banners'
+import { BUY_ASIC_PROMO_BANNERS } from '~/common/modules/top-mining/buy-asic/promo-banners'
 import BuyAsicPromoBanners from '~/components/buy-asic/banners/BuyAsicPromoBanners.vue'
 import PodborMiningHotelPromoBanner from '~/components/podbor/banners/PodborMiningHotelPromoBanner.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'

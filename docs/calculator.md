@@ -155,7 +155,7 @@ function coinsPerDay(coin, HR_ths, poolFee, uptime, qty):
          * qty
 ```
 
-Код: `common/modules/top-mining/calculator-profit.ts` → `calculateMiningProfit()`.
+Код: `common/modules/top-mining/calculator/profit.ts` → `calculateMiningProfit()`.
 
 ---
 
@@ -249,7 +249,7 @@ function reset():
 | Форма | `components/calculator/form/CalculatorForm.vue` |
 | Select | `components/global/forms/TopMiningSelect.vue` (+ types) |
 | Wrappers | `CalculatorModelDropdown`, `CalculatorCoinDropdown`, `CalculatorAlgorithmDropdown` |
-| Железо | `common/modules/top-mining/calculator-hardware.ts` |
+| Железо | `common/modules/top-mining/calculator/hardware.ts` |
 | Монеты ASIC | `calculator-coins.ts` |
 | GPU/CPU | `calculator-gpu.ts` |
 | Формулы | `calculator-profit.ts` |

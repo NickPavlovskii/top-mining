@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator-page'
+import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
 import CalculatorHero from '~/components/calculator/hero/CalculatorHero.vue'
 
 describe('CalculatorHero', () => {

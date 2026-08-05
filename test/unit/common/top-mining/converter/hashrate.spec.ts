@@ -7,7 +7,7 @@ import {
   hashrateFromBaseHs,
   hashrateToBaseHs,
   parseConverterInput,
-} from '~/common/modules/top-mining/hashrate-converter'
+} from '~/common/modules/top-mining/converter/hashrate'
 
 describe('hashrate-converter', () => {
   it('converts between metric prefixes via base H/s', () => {

@@ -110,7 +110,7 @@
   import {
     CATALOG_MID_BLOCK_BANNER_CONFIG,
     type CatalogMidBlockBannerVariant,
-  } from '~/common/modules/catalog/mid-block-banner'
+  } from '~/common/modules/catalog/content/mid-block-banner'
   import asicVisualImage from '~/assets/images/catalog/catalog-mid-block-asic-visual.png'
   import containerImage from '~/assets/images/catalog/catalog-mid-block-container.png'
   import bannerBackground from '~/assets/images/catalog/catalog-mid-block-wrap-bg.png'

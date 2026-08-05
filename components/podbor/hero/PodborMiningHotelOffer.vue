@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
   import checkIcon from '~/assets/images/podbor-majning-otelya/check-icon.png'
-  import { PODBOR_MINING_HOTEL_OFFER } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_OFFER } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
 
   const offer = PODBOR_MINING_HOTEL_OFFER

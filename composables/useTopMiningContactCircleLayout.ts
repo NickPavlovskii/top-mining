@@ -1,1 +1,1 @@
-export { useTopMiningContactCircleLayout } from '~/common/modules/top-mining/useTopMiningContactCircleLayout'
+export { useTopMiningContactCircleLayout } from '~/common/modules/top-mining/layout/useTopMiningContactCircleLayout'

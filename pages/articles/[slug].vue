@@ -260,7 +260,7 @@
   import {
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
-  } from '~/common/modules/top-mining/articles-section'
+  } from '~/common/modules/top-mining/layout/articles-section'
   import { RATINGS_PAGE_HREF } from '~/common/modules/ratings'
   import ArticleTableOfContents from '~/components/articles/ArticleTableOfContents.vue'
   import ArticleReadAlso from '~/components/articles/ArticleReadAlso.vue'

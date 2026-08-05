@@ -105,7 +105,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { PODBOR_MINING_HOTEL_SUMMARY } from '~/common/modules/top-mining/podbor-mining-hotel'
+  import { PODBOR_MINING_HOTEL_SUMMARY } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const summary = PODBOR_MINING_HOTEL_SUMMARY

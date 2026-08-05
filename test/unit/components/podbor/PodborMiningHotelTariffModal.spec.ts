@@ -1,11 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor-mining-hotel'
+import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor/mining-hotel'
 import {
   PODBOR_MINING_HOTEL_PLACEMENT,
   PODBOR_MINING_HOTEL_SALE,
-} from '~/common/modules/top-mining/podbor-mining-hotel'
+} from '~/common/modules/top-mining/podbor/mining-hotel'
 import PodborMiningHotelTariffModal from '~/components/podbor/modal/PodborMiningHotelTariffModal.vue'
 
 const offer: PodborPlacementOffer = {

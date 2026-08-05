@@ -177,13 +177,13 @@
 </template>
 
 <script setup lang="ts">
-  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic-page'
+  import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
   import {
     BUY_ASIC_MODEL_OFFER,
     BUY_ASIC_PAGE,
     BUY_ASIC_PAGE_PATH,
     getBuyAsicModelShortName,
-  } from '~/common/modules/top-mining/buy-asic-page'
+  } from '~/common/modules/top-mining/buy-asic/page'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
 
   const props = defineProps<{

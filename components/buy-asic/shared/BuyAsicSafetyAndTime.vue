@@ -192,7 +192,7 @@
     BUY_ASIC_SAFETY,
     BUY_ASIC_TIME_SAVE,
     BUY_ASIC_VALUE_BLOCKS,
-  } from '~/common/modules/top-mining/buy-asic-value-blocks'
+  } from '~/common/modules/top-mining/buy-asic/value-blocks'
 
   const safety = BUY_ASIC_SAFETY
   const timeSave = BUY_ASIC_TIME_SAVE

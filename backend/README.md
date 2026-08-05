@@ -59,7 +59,7 @@ backend/
   docker-compose.yml          # PostgreSQL
 ```
 
-Сиды калькулятора в `028` генерируются из фронтовых `common/modules/top-mining/calculator-*.ts`:
+Сиды калькулятора в `028` генерируются из фронтовых `common/modules/top-mining/calculator/*.ts`:
 
 ```powershell
 node scripts/generate-calculator-migration.mjs

@@ -77,8 +77,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { ConsultingConstructionForm } from '~/common/modules/top-mining/consulting-construction-forms'
-  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting-construction-forms'
+  import type { ConsultingConstructionForm } from '~/common/modules/top-mining/consulting/construction-forms'
+  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting/construction-forms'
 
   const props = defineProps<{
     form: ConsultingConstructionForm

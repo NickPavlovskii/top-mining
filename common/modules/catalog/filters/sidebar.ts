@@ -1,7 +1,7 @@
 import type { CatalogOrganization,
   CatalogSidebarFilterGroup,
-  CatalogSidebarFilterOption } from './types'
-import { getOrganizationMarketAge } from './organization-filters'
+  CatalogSidebarFilterOption } from '../types'
+import { getOrganizationMarketAge } from './organization'
 
 const MARKET_AGE_FILTER_MAP: Record<string, string> = {
   'bolshe-3-let': 'over-3y',

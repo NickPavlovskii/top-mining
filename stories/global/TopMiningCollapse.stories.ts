@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 import TopMiningCollapse from '~/components/global/disclosure/TopMiningCollapse.vue'
 import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
-import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining/button'
+import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining/ui/button'
 import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
 
 import { canvasDarkMaxWidth, CANVAS_WIDTH } from '../helpers/decorators'

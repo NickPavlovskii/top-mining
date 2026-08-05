@@ -178,7 +178,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BUY_ASIC_CLIENT_PROBLEMS } from '~/common/modules/top-mining/buy-asic-client-problems'
+  import { BUY_ASIC_CLIENT_PROBLEMS } from '~/common/modules/top-mining/buy-asic/client-problems'
 
   const copy = BUY_ASIC_CLIENT_PROBLEMS
   const activeTabId = ref(copy.tabs[0]?.id ?? '')

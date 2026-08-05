@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_MANAGEMENT } from '~/common/modules/top-mining/consulting-management'
+  import { CONSULTING_MANAGEMENT } from '~/common/modules/top-mining/consulting/management'
   import ConsultingManagementCard from '~/components/consulting/ConsultingManagementCard.vue'
 
   const copy = CONSULTING_MANAGEMENT

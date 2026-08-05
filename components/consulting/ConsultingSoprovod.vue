@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_SOPROVOD } from '~/common/modules/top-mining/consulting-soprovod'
+  import { CONSULTING_SOPROVOD } from '~/common/modules/top-mining/consulting/soprovod'
   import ConsultingSoprovodCard from '~/components/consulting/ConsultingSoprovodCard.vue'
 
   const copy = CONSULTING_SOPROVOD

@@ -4,9 +4,9 @@ import type {
   CatalogManufacturer,
   CatalogManufacturersPageMeta,
   CatalogManufacturersResponse,
-} from './types'
-import { CATALOG_CATEGORY_DEFINITIONS } from './catalog-categories'
-import { getCatalogCategoryTabs } from './category-tabs'
+} from '../types'
+import { CATALOG_CATEGORY_DEFINITIONS } from '../nav/categories'
+import { getCatalogCategoryTabs } from '../nav/tabs'
 
 export const CATALOG_MANUFACTURERS_PAGE_META: CatalogManufacturersPageMeta = {
   title: 'Производители ASIC',

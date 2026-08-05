@@ -1,4 +1,4 @@
-import { TOP_MINING_HASHRATE_CONVERTER_URL } from './epic-blocks'
+import { TOP_MINING_HASHRATE_CONVERTER_URL } from '../layout/epic-blocks'
 
 export const HASHRATE_CONVERTER_PAGE_PATH = TOP_MINING_HASHRATE_CONVERTER_URL
 

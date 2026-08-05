@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/hashrate-converter-page'
+import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
 import ConverterAbout from '~/components/converter/ConverterAbout.vue'
 
 describe('ConverterAbout', () => {

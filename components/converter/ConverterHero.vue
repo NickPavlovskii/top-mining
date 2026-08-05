@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-  import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/hashrate-converter-page'
+  import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
 
   const page = HASHRATE_CONVERTER_PAGE
 </script>

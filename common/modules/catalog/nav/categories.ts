@@ -1,6 +1,6 @@
-import type { CatalogCategory } from './types'
+import type { CatalogCategory } from '../types'
 
-import { MANUFACTURERS_CATEGORY_ID } from './nav-links'
+import { MANUFACTURERS_CATEGORY_ID } from './links'
 
 export interface CatalogCategoryDefinition {
   id: string

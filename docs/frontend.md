@@ -385,4 +385,4 @@ Backend Go (`backend/`) — **не** клиентская зона; фронт �
 2. `server/api/catalog/organizations/[slug].get.ts` — GraphQL к backend.
 3. `CatalogOrganizationDetailView.vue` — раскладка страницы.
 4. Сайдбар / отзывы / галерея — соседние компоненты в `organization-detail/`.
-5. Тексты verification / chip colors — `common/modules/top-mining/chip.ts`.
+5. Тексты verification / chip colors — `common/modules/top-mining/ui/chip.ts`.

@@ -15,7 +15,7 @@
   import {
     TOP_MINING_VERIFICATION_STATUS_COLORS,
     type TopMiningChipPreset,
-  } from '~/common/modules/top-mining/chip'
+  } from '~/common/modules/top-mining/ui/chip'
 
   const props = defineProps<{
     /** Организация прошла проверку */

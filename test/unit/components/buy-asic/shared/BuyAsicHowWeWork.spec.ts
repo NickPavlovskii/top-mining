@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import { BUY_ASIC_HOW_WE_WORK } from '~/common/modules/top-mining/buy-asic-value-blocks'
+import { BUY_ASIC_HOW_WE_WORK } from '~/common/modules/top-mining/buy-asic/value-blocks'
 import BuyAsicHowWeWork from '~/components/buy-asic/shared/BuyAsicHowWeWork.vue'
 
 describe('BuyAsicHowWeWork', () => {
