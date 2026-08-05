@@ -102,33 +102,54 @@
     </template>
 
     <template v-else-if="column.slug === 'calculator'">
-      <a
+      <template
         v-for="(item, itemIndex) in column.items"
         :key="item"
-        href="#"
-        :class="[
-          'top-mining__nav-link',
-          {
-            'top-mining__nav-link--group-start':
-              item === 'Конвертер хешрейта',
-            'top-mining__nav-link--hidden':
-              itemIndex >= column.mobileVisible && !props.isNavColumnExpanded(column.title),
-          },
-        ]"
       >
-        <img
-          v-if="item === 'Калькулятор в Telegram'"
-          alt=""
-          class="top-mining__nav-telegram-icon"
-          :src="telegramMenuIcon"
-        />
-        <Icon
+        <a
+          v-if="isCalculatorExternalNavItem(item)"
+          :href="getCalculatorNavItemHref(item)"
+          target="_blank"
+          rel="noopener noreferrer"
+          :class="[
+            'top-mining__nav-link',
+            {
+              'top-mining__nav-link--group-start':
+                item === 'Конвертер хешрейта',
+              'top-mining__nav-link--hidden':
+                itemIndex >= column.mobileVisible && !props.isNavColumnExpanded(column.title),
+            },
+          ]"
+          @click="emit('nav-link-click')"
+        >
+          <img
+            alt=""
+            class="top-mining__nav-telegram-icon"
+            :src="telegramMenuIcon"
+          />
+          <span class="top-mining__nav-link-text">{{ item }}</span>
+        </a>
+        <nuxt-link
           v-else
-          :name="getCalculatorNavItemIcon(item)"
-          class="top-mining__nav-link-icon"
-        />
-        <span class="top-mining__nav-link-text">{{ item }}</span>
-      </a>
+          :to="getCalculatorNavItemHref(item)"
+          :class="[
+            'top-mining__nav-link',
+            {
+              'top-mining__nav-link--group-start':
+                item === 'Конвертер хешрейта',
+              'top-mining__nav-link--hidden':
+                itemIndex >= column.mobileVisible && !props.isNavColumnExpanded(column.title),
+            },
+          ]"
+          @click="emit('nav-link-click')"
+        >
+          <Icon
+            :name="getCalculatorNavItemIcon(item)"
+            class="top-mining__nav-link-icon"
+          />
+          <span class="top-mining__nav-link-text">{{ item }}</span>
+        </nuxt-link>
+      </template>
     </template>
 
     <template v-else-if="column.slug === 'articles'">
@@ -234,8 +255,10 @@
     TOP_MINING_MOBILE_MENU_PHONE,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
+    getCalculatorNavItemHref,
     getCalculatorNavItemIcon,
     getConsultingServiceHref,
+    isCalculatorExternalNavItem,
     isNavHeadingLink,
   } from '~/common/modules/top-mining'
   import type { TopMiningNavColumn } from '~/common/modules/top-mining/nav-columns'

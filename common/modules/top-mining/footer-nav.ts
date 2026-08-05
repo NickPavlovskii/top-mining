@@ -1,5 +1,5 @@
 import { CATALOG_PAGE_HREF } from '../catalog/nav-links'
-import { CALCULATOR_PAGE_PATH } from './calculator-path'
+import { getCalculatorNavItemHref } from './calculator-nav'
 
 export interface TopMiningFooterNavLink {
   label: string
@@ -8,10 +8,10 @@ export interface TopMiningFooterNavLink {
 }
 
 export const TOP_MINING_FOOTER_CALCULATOR_LINKS: TopMiningFooterNavLink[] = [
-  { label: 'Майнинг-калькулятор', href: CALCULATOR_PAGE_PATH },
-  { label: 'ASIC-майнеры', href: CALCULATOR_PAGE_PATH },
-  { label: 'GPU', href: 'https://top-mining.ru/calculator/gpu/' },
-  { label: 'CPU', href: 'https://top-mining.ru/calculator/cpu/' },
+  { label: 'Майнинг-калькулятор', href: getCalculatorNavItemHref('ASIC-майнеры') },
+  { label: 'ASIC-майнеры', href: getCalculatorNavItemHref('ASIC-майнеры') },
+  { label: 'GPU', href: getCalculatorNavItemHref('GPU') },
+  { label: 'CPU', href: getCalculatorNavItemHref('CPU') },
 ]
 
 export const TOP_MINING_FOOTER_MAIN_LINKS: TopMiningFooterNavLink[] = [

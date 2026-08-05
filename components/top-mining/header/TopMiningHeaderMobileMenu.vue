@@ -118,19 +118,39 @@
                   />
                   <span>{{ item }}</span>
                 </nuxt-link>
+                <nuxt-link
+                  v-else-if="column.slug === 'calculator' && !isCalculatorExternalNavItem(item)"
+                  :to="getCalculatorNavItemHref(item)"
+                  class="top-mining__mobile-menu-link"
+                  @click="emit('nav-link-click')"
+                >
+                  <Icon
+                    :name="getCalculatorNavItemIcon(item)"
+                    class="top-mining__mobile-menu-link-icon"
+                  />
+                  <span>{{ item }}</span>
+                </nuxt-link>
+                <a
+                  v-else-if="column.slug === 'calculator'"
+                  :href="getCalculatorNavItemHref(item)"
+                  class="top-mining__mobile-menu-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  @click="emit('nav-link-click')"
+                >
+                  <img
+                    alt=""
+                    class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
+                    :src="telegramMenuIcon"
+                  />
+                  <span>{{ item }}</span>
+                </a>
                 <a
                   v-else
                   href="#"
                   class="top-mining__mobile-menu-link"
                 >
-                  <img
-                    v-if="item === 'Калькулятор в Telegram'"
-                    alt=""
-                    class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
-                    :src="telegramMenuIcon"
-                  />
                   <Icon
-                    v-else
                     :name="column.icon"
                     class="top-mining__mobile-menu-link-icon"
                   />
@@ -207,11 +227,14 @@
     TOP_MINING_MOBILE_MENU_PHONE,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
+    getCalculatorNavItemHref,
+    getCalculatorNavItemIcon,
     getConsultingServiceHref,
     getMobileNavItemGroups,
     getMobileNavItemColumns,
     getVisiblePhoneMenuItems,
     hasPhoneMenuMoreItems,
+    isCalculatorExternalNavItem,
     isNavHeadingLink,
   } from '~/common/modules/top-mining'
   import type { TopMiningNavColumn } from '~/common/modules/top-mining/nav-columns'

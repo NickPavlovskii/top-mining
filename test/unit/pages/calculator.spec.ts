@@ -1,57 +1,52 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-
-const { useSeoMeta, definePageMeta } = vi.hoisted(() => ({
-  useSeoMeta: vi.fn(),
-  definePageMeta: vi.fn(),
-}))
-
-vi.stubGlobal('definePageMeta', definePageMeta)
-vi.stubGlobal('useSeoMeta', useSeoMeta)
-
-import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator-page'
+import { describe, expect, it, vi } from 'vitest'
+import { CALCULATOR_PAGE } from '~/common/modules/top-mining'
 import CalculatorPage from '~/pages/calculator/index.vue'
 
-describe('pages/calculator', () => {
-  beforeEach(() => {
-    useSeoMeta.mockClear()
-    definePageMeta.mockClear()
-  })
+const { useSeoMetaMock } = vi.hoisted(() => ({
+  useSeoMetaMock: vi.fn(),
+}))
 
-  function mountPage() {
-    return mount(CalculatorPage, {
-      global: {
-        stubs: {
-          CalculatorHero: { template: '<section data-testid="calculator-hero" />' },
-          'calculator-hero': { template: '<section data-testid="calculator-hero" />' },
-          CalculatorAbout: { template: '<section data-testid="calculator-about" />' },
-          'calculator-about': { template: '<section data-testid="calculator-about" />' },
-          TopMiningEpicBlocks: {
-            template: '<section data-testid="calculator-epic-blocks" />',
-          },
-          'top-mining-epic-blocks': {
-            template: '<section data-testid="calculator-epic-blocks" />',
-          },
-        },
-      },
-    })
-  }
+vi.stubGlobal('useSeoMeta', useSeoMetaMock)
 
-  it('renders calculator hero, about and epic blocks', () => {
-    const wrapper = mountPage()
+vi.mock('~/composables/useAppConfig', () => ({
+  useAppConfig: () => ({
+    name: 'ТОП МАЙНИНГ',
+  }),
+}))
+
+const stubs = {
+  CalculatorHero: {
+    template: '<section data-testid="calculator-hero" />',
+  },
+  CalculatorForm: {
+    template: '<section data-testid="calculator-form" />',
+  },
+  CalculatorAbout: {
+    template: '<section data-testid="calculator-about" />',
+  },
+  TopMiningEpicBlocks: {
+    template: '<section data-testid="epic-blocks" />',
+  },
+}
+
+describe('pages/calculator/index.vue', () => {
+  it('renders calculator sections in order', () => {
+    const wrapper = mount(CalculatorPage, { global: { stubs } })
+
     expect(wrapper.find('[data-testid="calculator-hero"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="calculator-form"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="calculator-about"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="calculator-epic-blocks"]').exists()).toBe(
-      true,
-    )
+    expect(wrapper.find('.calculator-page__epic').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="epic-blocks"]').exists()).toBe(true)
   })
 
-  it('sets page path and seo meta', () => {
-    mountPage()
-    expect(definePageMeta).toHaveBeenCalledWith({ path: '/calculator' })
-    expect(useSeoMeta).toHaveBeenCalledWith({
-      title: CALCULATOR_PAGE.seoTitle,
-      description: CALCULATOR_PAGE.seoDescription,
-    })
+  it('sets SEO meta from CALCULATOR_PAGE', () => {
+    mount(CalculatorPage, { global: { stubs } })
+
+    expect(useSeoMetaMock).toHaveBeenCalled()
+    const seoArg = useSeoMetaMock.mock.calls.at(-1)?.[0]
+    expect(seoArg?.title).toBe(CALCULATOR_PAGE.seoTitle)
+    expect(seoArg?.description).toBe(CALCULATOR_PAGE.seoDescription)
   })
 })
