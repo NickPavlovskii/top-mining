@@ -1,7 +1,6 @@
-<template>
-  <top-mining-ratings-view />
-</template>
-
 <script setup lang="ts">
-  import TopMiningRatingsView from '~/components/rating/TopMiningRatingsView.vue'
+throw createError({
+  statusCode: 404,
+  statusMessage: 'Страница не найдена',
+})
 </script>

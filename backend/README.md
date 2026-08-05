@@ -46,11 +46,32 @@ backend/
     018_article_blocks.sql           # блочные статьи
     019_rating_autosync.sql          # триггер рейтинга из отзывов
     021_ratings_home_flags.sql       # флаги главной (если ещё нет в 005)
+    023_sales_ratings_replace.sql    # рейтинги продаж
+    024_rating_articles_seed.sql
+    025_catalog_org_profiles.sql
+    026_mining_pools_profiles.sql
+    027_articles_content.sql
+    028_calculator_catalog_seed.sql  # полный сид калькулятора (алгоритмы/монеты/модели)
     000_inspect.sql                  # только SELECT, не в initdb
     archive/imports-split/           # старые поштучные 011–033
     archive/README.md           # карта старых инкрементальных миграций
   docs/db_schema_target.puml  # целевая ER (PlantUML)
   docker-compose.yml          # PostgreSQL
+```
+
+Сиды калькулятора в `028` генерируются из фронтовых `common/modules/top-mining/calculator-*.ts`:
+
+```powershell
+node scripts/generate-calculator-migration.mjs
+```
+
+Применить `028` на уже существующую БД:
+
+```powershell
+cd backend
+docker cp migrations/028_calculator_catalog_seed.sql niklad-postgres:/tmp/028.sql
+docker exec niklad-postgres psql -U niklad -d niklad -v ON_ERROR_STOP=1 -f /tmp/028.sql
+# или: go run ./cmd/migrate
 ```
 
 Фронтенд ходит в `GET /api/catalog` (Nuxt), Nuxt проксирует запрос в GraphQL.

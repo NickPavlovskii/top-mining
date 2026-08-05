@@ -5,26 +5,26 @@
 <h1 align="center">Top Mining</h1>
 
 <p align="center">
-  <strong>Платформа о майнинге:</strong> каталог компаний, рейтинги, статьи<br/>
-  и лендинги подбора ASIC, майнинг-отелей и консалтинга
-</p>
-
-<p align="center">
-  <a href="https://top-mining.ru">
-    <img src="docs/brand/logo-mark.png" alt="top-mining.ru" width="32" height="32" />
-  </a>
+  <strong>Платформа о майнинге</strong><br/>
+  каталог · рейтинги · статьи · калькулятор доходности · конвертер хешрейта · лендинги
 </p>
 
 <p align="center">
   <a href="https://top-mining.ru"><strong>top-mining.ru</strong></a>
-  &nbsp;·&nbsp; Nuxt 3 · Vue 3 · TypeScript
+  &nbsp;·&nbsp;
+  <a href="./docs/frontend.md">Frontend</a>
+  &nbsp;·&nbsp;
+  <a href="./docs/calculator.md">Калькулятор</a>
+  &nbsp;·&nbsp;
+  <a href="./backend/README.md">Backend</a>
 </p>
 
 <p align="center">
   <img alt="Nuxt" src="https://img.shields.io/badge/Nuxt-3-00DC82?style=flat-square&logo=nuxt&logoColor=white" />
   <img alt="Vue" src="https://img.shields.io/badge/Vue-3-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img alt="Quasar" src="https://img.shields.io/badge/Quasar-2-1976D2?style=flat-square&logo=quasar&logoColor=white" />
+  <img alt="Go" src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat-square&logo=go&logoColor=white" />
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white" />
   <img alt="Storybook" src="https://img.shields.io/badge/Storybook-9-FF4785?style=flat-square&logo=storybook&logoColor=white" />
   <img alt="Vitest" src="https://img.shields.io/badge/Vitest-4-729B1B?style=flat-square&logo=vitest&logoColor=white" />
 </p>
@@ -36,69 +36,216 @@
 ```bash
 npm install
 npm run dev          # http://localhost:3000
-npm run storybook    # UI-kit / визуальные сторис
-npm run test:run     # unit-тесты
+npm run storybook    # http://localhost:6007
+npm run test:run     # unit + snapshot
 ```
 
 | Команда | Что делает |
 |---------|------------|
 | `npm run dev` | Dev-сервер Nuxt |
-| `npm run build` | Production-сборка |
-| `npm run preview` | Предпросмотр сборки |
-| `npm run lint` | ESLint + Stylelint |
-| `npm run storybook` | Storybook на порту `6007` |
-| `npm run test` | Vitest в watch-режиме |
+| `npm run build` / `preview` | Сборка и предпросмотр |
+| `npm run lint` / `lint:fix` | ESLint + Stylelint |
+| `npm run storybook` | UI-kit и визуальные сторис |
+| `npm run test` | Vitest (watch) |
+| `npm run test:run` | Vitest один прогон |
+
+Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 
 ---
 
 ## Стек
 
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  Browser                                                     │
+│  Nuxt 3 · Vue 3 · TypeScript · Quasar · Tailwind 4 · SCSS    │
+└────────────────────────────┬─────────────────────────────────┘
+                             │  /api/*
+┌────────────────────────────▼─────────────────────────────────┐
+│  Nitro (Nuxt server)                                         │
+│  server/api/*  →  GraphQL-прокси к Go                        │
+└────────────────────────────┬─────────────────────────────────┘
+                             │
+┌────────────────────────────▼─────────────────────────────────┐
+│  Go GraphQL (:8080)  ·  PostgreSQL (Docker)                  │
+└──────────────────────────────────────────────────────────────┘
+```
+
 | Слой | Технологии |
 |------|------------|
-| Frontend | **Nuxt 3**, Vue 3, TypeScript |
-| UI | Quasar (`nuxt-quasar-ui`), `@nuxt/ui`, Tailwind CSS 4 |
-| Стили | SCSS-токены, BEM в компонентах, шрифт **Unbounded** |
-| Качество | ESLint, Stylelint, Prettier, Vitest, Storybook |
-| Backend | Go + GraphQL + PostgreSQL → [`backend/README.md`](./backend/README.md) |
+| **Frontend** | Nuxt 3, Vue 3, TypeScript, Vue Router |
+| **UI** | Quasar (`nuxt-quasar-ui`), `@nuxt/ui`, Tailwind CSS 4 |
+| **Стили** | SCSS-токены (`--tm-*`), BEM, шрифт **Unbounded** / Mulish |
+| **Качество** | ESLint, Stylelint, Prettier, Vitest, Storybook 9 |
+| **Backend** | Go, GraphQL, PostgreSQL, Docker Compose |
+| **Тесты** | Vitest + `@vue/test-utils` + happy-dom, HTML-snapshots |
+
+---
+
+## Бизнес-процесс продукта
+
+ТОП МАЙНИНГ помогает майнеру и бизнесу пройти путь от интереса до решения:
+
+```text
+  Узнать рынок          Посчитать экономику         Выбрать партнёра
+ ───────────────       ─────────────────────       ─────────────────
+  Статьи / рейтинги  →  Калькулятор доходности   →  Каталог организаций
+                        Конвертер хешрейта           Майнинг-отели / пулы
+                                                    Покупка ASIC
+                                                    Консалтинг
+```
+
+| Этап | Что делает пользователь | Где в продукте |
+|------|-------------------------|----------------|
+| 1. Ориентация | Читает статьи, смотрит рейтинги | `/articles/`, `/rating/` |
+| 2. Расчёт | Считает доход ASIC / GPU / CPU | `/calculator/` |
+| 3. Конвертация | Переводит H/s ↔ TH/s ↔ EH/s… | `/konverter-heshrejta/` |
+| 4. Выбор | Ищет отели, пулы, продавцов | каталог, лендинги |
+| 5. Контакт | Оставляет заявку / Telegram | формы, бот калькулятора |
+
+Калькулятор и конвертер — **инструменты принятия решения**: пользователь видит чистую прибыль, окупаемость и корректные единицы хешрейта до покупки оборудования или размещения.
+
+---
+
+## Инструменты: калькулятор и конвертер
+
+### Майнинг-калькулятор — `/calculator/`
+
+Считает доходность оборудования с учётом курса, сложности сети, up-time, тарифа и комиссии пула.
+
+**Сценарий пользователя**
+
+1. Выбрать тип: **ASIC / GPU / CPU** (или прийти из меню с `#asic` / `#gpu` / `#cpu`).
+2. Выбрать **модель** из каталога (ASIC можно разблокировать ручным вводом).
+3. Указать **монету** (ASIC) или **алгоритм → монету** (GPU/CPU).
+4. Поправить цену, количество, хешрейт, Вт, тариф; при необходимости — расширенные опции.
+5. Нажать **Рассчитать** → таблица: доход / эл-во / окупаемость / чистая прибыль.
+6. Переключить валюту результата: **₽ | USDT | монета**.
+
+```text
+┌─────────────────────────────────────────────┐
+│ (01) Устройство   ASIC | GPU | CPU          │
+│ (02) Модель       бренд → модель + поиск    │
+├─────────────────────────────────────────────┤
+│ Параметры: монета, цена, HR, Вт, тариф…     │
+│ Расширенные: up-time, курсы, пул, сложность │
+├─────────────────────────────────────────────┤
+│ Результат          ₽  |  USDT  |  монета    │
+└─────────────────────────────────────────────┘
+```
+
+**Ключевые файлы**
+
+| Часть | Путь |
+|-------|------|
+| Страница | `pages/calculator/index.vue` |
+| Форма | `components/calculator/form/CalculatorForm.vue` |
+| Формулы | `common/modules/top-mining/calculator-profit.ts` |
+| Каталоги | `calculator-hardware.ts`, `calculator-coins.ts`, `calculator-gpu.ts` |
+| Спека | [`docs/calculator.md`](./docs/calculator.md) |
+
+> Формула в духе WhatToMine: доля хешрейта в сети × награда × up-time − стоимость электричества. Подробности и псевдокод — в `docs/calculator.md`.
+
+### Конвертер хешрейта — `/konverter-heshrejta/`
+
+Быстрый перевод мощности между единицами:
+
+`H/s → kH/s → MH/s → GH/s → TH/s → PH/s → EH/s → ZH/s`
+
+| Часть | Путь |
+|-------|------|
+| Страница | `pages/konverter-heshrejta/index.vue` |
+| Виджет | `components/converter/HashrateConverterWidget.vue` |
+| Логика | `common/modules/top-mining/hashrate-converter.ts` |
+| Тексты / FAQ | `hashrate-converter-page.ts` |
+
+Ввод в любом поле пересчитывает остальные; есть копирование значения.
+
+---
+
+## Тесты
+
+Стек: **Vitest 4** + **@vue/test-utils** + **happy-dom**.
+
+```bash
+npm run test          # watch
+npm run test:run      # CI / один прогон
+
+# Точечно
+npm test -- --run test/unit/components/converter
+npm test -- --run test/unit/common/top-mining/hashrate-converter.spec.ts
+```
+
+| Тип | Что проверяет | Примеры |
+|-----|---------------|---------|
+| **Unit (логика)** | Формулы прибыли, конвертация единиц, навигация | `calculator-profit.spec.ts`, `hashrate-converter.spec.ts`, `calculator-nav.spec.ts` |
+| **Component** | Рендер, события select, модалки, секции | `CalculatorForm.spec.ts`, `TopMiningSelect.spec.ts`, `ConverterHero.spec.ts` |
+| **Page smoke** | Состав секций + SEO | `calculator.spec.ts`, `konverter-heshrejta.spec.ts` |
+| **Snapshot** | HTML-снимок разметки (регрессия UI) | `__snapshots__/*.snap` у converter / hero |
+
+**Снапшоты** — это «скрин-тесты» на уровне разметки: при изменении шаблона тест упадёт, пока не обновите эталон:
+
+```bash
+npm test -- --run -u test/unit/components/converter
+```
+
+Тесты лежат в `test/unit/` зеркалом к коду: `common/`, `components/`, `pages/`.
+
+---
+
+## Storybook
+
+UI-kit и визуальная проверка секций без полного Nuxt-приложения.
+
+```bash
+npm run storybook     # http://localhost:6007
+npm run build-storybook
+```
+
+| Раздел | Содержание |
+|--------|------------|
+| **Global** | Кнопки, инпуты, select, чипы, collapse, токены |
+| **Calculator** | Hero калькулятора |
+| **Converter** | Hero, виджет, about, FAQ конвертера |
+| **Buy ASIC / Consulting / …** | Секции лендингов |
+
+Сторисы с тегом **`visual`** удобны для ручных скриншотов и ревью дизайна (desktop / tablet / mobile viewport в параметрах).
+
+Структура: `stories/<домен>/…`, хелперы декораторов — `stories/helpers/decorators.ts`.
 
 ---
 
 ## Возможности продукта
 
-<p align="center">
-  <img src="docs/brand/logo-glow.png" alt="Логотип ТОП МАЙНИНГ" width="120" />
-</p>
-
-- **Каталог** организаций: майнинг-отели, пулы, продажи ASIC, фильтры и карточки
-- **Рейтинги** и статьи по майнингу
-- **Лендинги**: покупка ASIC, подбор майнинг-отеля, консалтинг, увеличение дохода
-- **Дизайн-система**: глобальные кнопки, инпуты, чипы, токены в Storybook
+- **Каталог** организаций: отели, пулы, продажи ASIC, фильтры и карточки
+- **Рейтинги** и **статьи** по майнингу
+- **Калькулятор доходности** ASIC / GPU / CPU
+- **Конвертер хешрейта** (H/s … ZH/s)
+- **Лендинги**: покупка ASIC, подбор отеля, консалтинг, увеличение дохода, дата-центры
+- **Дизайн-система** в Storybook
 
 ---
 
-## Структура
+## Структура репозитория
 
 ```text
 top-mining/
 ├── assets/                 # Стили, шрифты, изображения
-├── common/modules/         # Данные, типы и логика по доменам
+├── common/modules/         # Данные, типы, чистая логика по доменам
 ├── components/
-│   ├── global/             # Переиспользуемый UI
+│   ├── global/             # Переиспользуемый UI (в т.ч. TopMiningSelect)
+│   ├── calculator/         # Hero, form, about калькулятора
+│   ├── converter/          # Страница конвертера хешрейта
 │   ├── top-mining/         # Шапка, футер, секции главной
-│   ├── catalog/            # Каталог и карточки организаций
-│   ├── buy-asic/           # hero · models · shared · banners
-│   ├── podbor/             # Подбор майнинг-отеля
-│   ├── consulting/         # Консалтинг
-│   └── ...
+│   ├── catalog/ buy-asic/ consulting/ …
 ├── pages/                  # Маршруты (тонкая композиция)
-├── server/api/             # Nitro API / прокси к GraphQL
+├── composables/            # useCalculatorDeviceRoute и др.
+├── server/api/             # Nitro → GraphQL
 ├── stories/                # Storybook
-├── docs/                   # Документация и бренд-ассеты
+├── test/unit/              # Vitest
+├── docs/                   # frontend.md, calculator.md, brand/
 └── backend/                # Go GraphQL + Postgres
 ```
-
-Подробная карта клиента: [`docs/frontend.md`](./docs/frontend.md)  
-Зоны компонентов: [`components/README.md`](./components/README.md)
 
 ---
 
@@ -110,29 +257,11 @@ top-mining/
 4. **API** (`server/api/`) — HTTP для браузера, часто GraphQL к Go.
 
 ```ts
-import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining'
-import type { CatalogOrganization } from '~/common/modules/catalog'
+import { calculateMiningProfit } from '~/common/modules/top-mining'
+import type { CalculatorDeviceKind } from '~/common/modules/top-mining'
 ```
 
-Токены и цвета — в `assets/scss/variables.scss`:
-
-```css
-color: var(--tm-orange);
-background: var(--tm-ink);
-```
-
----
-
-## Куда класть новый код
-
-| Задача | Куда |
-|--------|------|
-| Новая страница | `pages/<route>.vue` |
-| UI фичи | `components/<домен>/` |
-| Шапка / меню | `components/top-mining/header/` + данные в `common/modules/` |
-| Типы и константы | `common/modules/<домен>/` |
-| API-эндпоинт | `server/api/` |
-| Глобальный стиль | `assets/scss/` |
+Токены: `assets/scss/variables.scss` → `var(--tm-orange)`, `var(--tm-ink)`.
 
 ---
 
@@ -141,14 +270,15 @@ background: var(--tm-ink);
 | Документ | Описание |
 |----------|----------|
 | [`docs/frontend.md`](./docs/frontend.md) | Архитектура фронтенда |
+| [`docs/calculator.md`](./docs/calculator.md) | Полная спека калькулятора (UI + формулы) |
 | [`backend/README.md`](./backend/README.md) | GraphQL, Postgres, миграции |
 | [`components/README.md`](./components/README.md) | Зоны Vue-компонентов |
-| [`docs/brand/`](./docs/brand/) | Логотип и иконки бренда |
+| [`docs/brand/`](./docs/brand/) | Логотип и иконки |
 
 ---
 
 <p align="center">
   <img src="docs/brand/logo-mark.png" width="40" height="40" alt="ТОП МАЙНИНГ" />
   <br/>
-  <sub>© Top Mining · консалтинг и рейтинги в майнинге</sub>
+  <sub>© Top Mining · консалтинг, рейтинги и инструменты для майнеров</sub>
 </p>
