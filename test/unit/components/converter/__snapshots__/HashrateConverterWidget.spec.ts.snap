@@ -1,0 +1,76 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HashrateConverterWidget > matches widget snapshot 1`] = `
+"<section data-v-d66ef01a="" class="hashrate-converter" aria-label="Конвертер хешрейта">
+  <div data-v-d66ef01a="" class="hashrate-converter__inner">
+    <div data-v-d66ef01a="" class="hashrate-converter__panel">
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-hash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в H/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение H/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-hash">H/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Хеш
+          <!--v-if-->
+        </p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-kilohash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в kH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение kH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-kilohash">kH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Килохеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10³) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-megahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в MH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение MH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-megahash">MH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Мегахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10⁶) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-gigahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в GH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение GH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-gigahash">GH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Гигахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10⁹) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-terahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в TH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение TH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-terahash">TH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Терахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10¹²) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-petahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в PH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение PH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-petahash">PH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Петахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10¹⁵) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-exahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в EH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение EH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-exahash">EH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Эксахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10¹⁸) </span></p>
+      </div>
+      <div data-v-d66ef01a="" class="hashrate-converter__row">
+        <div data-v-d66ef01a="" class="hashrate-converter__field-wrap"><input data-v-d66ef01a="" id="hashrate-zetahash" class="hashrate-converter__input" type="text" inputmode="decimal" autocomplete="off" aria-label="Значение в ZH/s">
+          <div data-v-d66ef01a="" class="hashrate-converter__field-meta"><button data-v-d66ef01a="" type="button" class="hashrate-converter__copy" aria-label="Скопировать значение ZH/s">
+              <icon-stub data-v-d66ef01a="" name="mdi:content-copy" class="hashrate-converter__copy-icon"></icon-stub>
+            </button><label data-v-d66ef01a="" class="hashrate-converter__unit-short" for="hashrate-zetahash">ZH/s</label></div>
+        </div>
+        <p data-v-d66ef01a="" class="hashrate-converter__unit-name">Зеттахеш <span data-v-d66ef01a="" class="hashrate-converter__unit-multiplier"> (×10²¹) </span></p>
+      </div>
+    </div>
+  </div>
+</section>"
+`;

@@ -188,10 +188,12 @@
   )
   const hideContactBlock = computed(
     () =>
-      isPrivacyPage.value
+      Boolean(route.meta.hideFooterContact)
+      || isPrivacyPage.value
       || isPodborMiningHotelPage.value
       || isIncreaseIncomePage.value
-      || isBuyAsicPage.value,
+      || isBuyAsicPage.value
+      || route.path.includes('konverter-heshrejta'),
   )
 
   function isExternalFooterLink(link: TopMiningFooterNavLink) {
