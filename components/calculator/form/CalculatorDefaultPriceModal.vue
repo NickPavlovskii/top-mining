@@ -11,7 +11,7 @@
       <button
         type="button"
         class="calculator-def-price-modal__backdrop"
-        aria-label="Закрыть"
+        :aria-label="t('calculator.close')"
         @click="close"
       />
 
@@ -19,7 +19,7 @@
         <button
           type="button"
           class="calculator-def-price-modal__close"
-          aria-label="Закрыть"
+          :aria-label="t('calculator.close')"
           @click="close"
         >
           <img
@@ -34,10 +34,7 @@
           id="calculator-def-price-title"
           class="calculator-def-price-modal__text"
         >
-          По умолчанию стоимость вашего {{ deviceLabel }} —
-          {{ defaultPriceLabel }}.
-          <br />
-          Вы можете изменить цену устройства.
+          {{ defaultPriceText }}
         </p>
 
         <div class="calculator-def-price-modal__actions">
@@ -46,14 +43,14 @@
             class="calculator-def-price-modal__confirm"
             @click="confirm"
           >
-            Рассчитать
+            {{ t('calculator.calculate') }}
           </button>
           <button
             type="button"
             class="calculator-def-price-modal__cancel"
             @click="close"
           >
-            Отмена
+            {{ t('calculator.cancel') }}
           </button>
         </div>
       </div>
@@ -63,15 +60,17 @@
 <script setup lang="ts">
 import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
 
+const { t } = useT()
+
 const open = defineModel<boolean>('open', { default: false })
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     deviceLabel?: string
     defaultPriceLabel?: string
   }>(),
   {
-    deviceLabel: 'ASIC-майнера',
+    deviceLabel: undefined,
     defaultPriceLabel: '120 000 ₽',
   },
 )
@@ -79,6 +78,17 @@ withDefaults(
 const emit = defineEmits<{
   confirm: []
 }>()
+
+const resolvedDeviceLabel = computed(
+  () => props.deviceLabel ?? t('calculator.asicDeviceLabel'),
+)
+
+const defaultPriceText = computed(() =>
+  t('calculator.defaultPriceText', undefined, {
+    device: resolvedDeviceLabel.value,
+    price: props.defaultPriceLabel,
+  }),
+)
 
 function close() {
   open.value = false

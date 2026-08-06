@@ -65,10 +65,9 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-  import { PODBOR_MINING_HOTEL_OFFER } from '~/common/modules/top-mining/podbor/mining-hotel'
 
-  const offer = PODBOR_MINING_HOTEL_OFFER
+  const { offer } = usePodborMiningHotelPage()
+  const { t } = useT()
 
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -81,7 +80,7 @@
   async function onSubmit() {
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

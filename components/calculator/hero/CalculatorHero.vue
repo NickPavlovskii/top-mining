@@ -6,7 +6,7 @@
     <div class="calculator-hero__inner">
       <nav
         class="calculator-hero__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('calculator.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -20,7 +20,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('calculator.breadcrumbHome') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -40,7 +40,7 @@
             class="calculator-hero__breadcrumbs-current"
             itemprop="name"
           >
-            {{ page.breadcrumb }}
+            {{ t('calculator.breadcrumb') }}
           </span>
           <meta
             itemprop="position"
@@ -52,7 +52,7 @@
       <div
         class="calculator-hero__brands"
         role="navigation"
-        aria-label="Производители ASIC"
+        :aria-label="t('calculator.brandsAria')"
       >
         <nuxt-link
           v-for="brand in page.brands"
@@ -77,7 +77,7 @@
           class="calculator-hero__title"
         >
           <span
-            v-for="(line, index) in page.hero.titleLines"
+            v-for="(line, index) in heroTitleLines"
             :key="`${line}-${index}`"
             class="calculator-hero__title-line"
           >
@@ -89,7 +89,7 @@
           <img
             class="calculator-hero__image"
             :src="page.hero.image"
-            :alt="page.hero.imageAlt"
+            :alt="t('calculator.heroImageAlt')"
             loading="eager"
             decoding="async"
           >
@@ -102,7 +102,13 @@
 <script setup lang="ts">
   import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
 
+  const { t } = useT()
   const page = CALCULATOR_PAGE
+  const heroTitleLines = computed(() => [
+    t('calculator.heroLine1'),
+    t('calculator.heroLine2'),
+    t('calculator.heroLine3'),
+  ])
 </script>
 
 <style scoped>

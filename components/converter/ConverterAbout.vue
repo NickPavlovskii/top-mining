@@ -49,9 +49,15 @@
 </template>
 
 <script setup lang="ts">
-  import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
+  const { t } = useT()
 
-  const about = HASHRATE_CONVERTER_PAGE.about
+  const about = computed(() => ({
+    title: t('converter.aboutTitle'),
+    paragraphs: [t('converter.aboutP1'), t('converter.aboutP2')],
+    listIntro: t('converter.aboutListIntro'),
+    features: [t('converter.aboutF1'), t('converter.aboutF2'), t('converter.aboutF3')],
+    closing: [t('converter.aboutC1'), t('converter.aboutC2'), t('converter.aboutC3')],
+  }))
 </script>
 
 <style scoped>

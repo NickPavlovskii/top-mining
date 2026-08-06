@@ -81,13 +81,13 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.offer
+  const { t } = useT()
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.offer)
 
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -105,7 +105,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

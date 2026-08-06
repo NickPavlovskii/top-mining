@@ -2,7 +2,7 @@
   <nav
     v-if="tabs.length"
     class="catalog-category-tabs"
-    aria-label="Категории каталога"
+    :aria-label="t('catalog.categoriesAria')"
   >
     <nuxt-link
       v-for="tab in tabs"
@@ -13,7 +13,7 @@
         { 'catalog-category-tabs__tab--active': tab.active },
       ]"
     >
-      {{ tab.label }}
+      {{ tab.displayLabel }}
     </nuxt-link>
   </nav>
 </template>
@@ -25,10 +25,16 @@
     activeCategoryId: string
   }>()
 
+  const { t, tNavItem } = useT()
   const { visibleCategories } = useVisibleCatalogCategories()
 
   const tabs = computed(() =>
-    getCatalogCategoryTabs(props.activeCategoryId, visibleCategories.value),
+    getCatalogCategoryTabs(props.activeCategoryId, visibleCategories.value).map(
+      (tab) => ({
+        ...tab,
+        displayLabel: t(`catalogTab.${tab.label}`, tNavItem(tab.label)),
+      }),
+    ),
   )
 </script>
 

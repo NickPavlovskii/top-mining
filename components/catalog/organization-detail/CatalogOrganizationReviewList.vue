@@ -9,7 +9,7 @@
           v-if="reviews.length"
           class="org-reviews__sort"
         >
-          <span class="sr-only">Сортировка отзывов</span>
+          <span class="sr-only">{{ t('orgDetail.sortReviewsAria') }}</span>
           <select
             :value="sort"
             class="org-reviews__sort-select"
@@ -20,7 +20,7 @@
               :key="option.value"
               :value="option.value"
             >
-              {{ option.label }}
+              {{ t(`reviewSort.${option.value}`, option.label) }}
             </option>
           </select>
           <Icon
@@ -64,7 +64,7 @@
 
         <div
           class="org-reviews__item-stars"
-          :aria-label="`Оценка ${review.rating}`"
+          :aria-label="t('orgDetail.reviewItemRatingAria', undefined, { n: review.rating })"
         >
           <Icon
             v-for="index in 5"            
@@ -105,7 +105,7 @@
               name="mdi:reply"
               aria-hidden="true"
             />
-            Ответить
+            {{ t('orgDetail.reply') }}
           </button>
         </div>
       </li>
@@ -128,6 +128,8 @@
   }>()
 
   const sort = defineModel<OrganizationReviewSort>('sort', { required: true })
+
+  const { t } = useT()
 
   function onSortChange(event: Event) {
     sort.value = (event.target as HTMLSelectElement).value as OrganizationReviewSort

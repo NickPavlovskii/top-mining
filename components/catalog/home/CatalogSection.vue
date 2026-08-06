@@ -11,7 +11,7 @@
               id="catalog-title-part-1"
               class="catalog-section__heading catalog-section__heading--part1"
             >
-              Каталог
+              {{ t('catalog.title1') }}
             </h2>
             <p class="catalog-section__desc catalog-section__desc--desktop">
               {{ meta.subtitle }}
@@ -19,7 +19,7 @@
           </div>
 
           <h2 class="catalog-section__heading catalog-section__heading--part2">
-            организаций
+            {{ t('catalog.title2') }}
           </h2>
         </div>
 
@@ -35,11 +35,11 @@
             :src="utpStar"
           />
           <span>
-            Более
+            {{ t('catalog.reviewsBefore') }}
             <span class="catalog-section__utp-accent">
-              {{ formattedReviews }} отзывов
+              {{ t('catalog.reviewsAccent', undefined, { count: formattedReviews }) }}
             </span>
-            от клиентов в майнинге
+            {{ t('catalog.reviewsAfter') }}
           </span>
         </p>
 
@@ -54,13 +54,13 @@
               type="search"
               name="search"
               class="catalog-section__search-input"
-              placeholder="Поиск по названию"
+              :placeholder="t('catalog.searchPlaceholder')"
               autocomplete="off"
             />
             <button
               type="submit"
               class="catalog-section__search-icon"
-              aria-label="Искать"
+              :aria-label="t('catalog.searchAria')"
             >
               <img
                 alt=""
@@ -111,7 +111,7 @@
         <div class="catalog-section__more">
           <top-mining-more-link
             :to="CATALOG_PAGE_HREF"
-            label="ещё категории"
+            :label="t('catalog.moreCategories')"
           />
         </div>
       </div>
@@ -132,6 +132,7 @@
   import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
 
+  const { t } = useT()
   const router = useRouter()
   const searchQuery = ref('')
 

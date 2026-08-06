@@ -48,14 +48,14 @@
                 v-model="searchQueries[group.id]"
                 type="search"
                 class="catalog-cat-filters__search-input"
-                placeholder="Поиск..."
+                :placeholder="t('common.search')"
                 autocomplete="off"
               />
             </label>
 
             <top-mining-button
               type="button"
-              title="Все"
+              :title="t('catalog.filterAll')"
               variant="tertiary"
               size="small"
               surface="light"
@@ -91,7 +91,7 @@
         class="catalog-cat-filters__reset-icon"
         aria-hidden="true"
       />
-      <span>Сбросить все фильтры</span>
+      <span>{{ t('catalog.resetAllFilters') }}</span>
     </button>
   </aside>
 </template>
@@ -108,6 +108,8 @@
   const props = defineProps<{
     groups: CatalogSidebarFilterGroup[]
   }>()
+
+  const { t } = useT()
 
   const selectedFilters = defineModel<Record<string, boolean>>('selectedFilters', {
     default: () => ({}),

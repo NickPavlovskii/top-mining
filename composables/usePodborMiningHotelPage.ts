@@ -1,0 +1,54 @@
+import {
+  PODBOR_MINING_HOTEL_BANNERS,
+  PODBOR_MINING_HOTEL_CTA,
+  PODBOR_MINING_HOTEL_HOW_WE_WORK,
+  PODBOR_MINING_HOTEL_KEY_FACTORS,
+  PODBOR_MINING_HOTEL_OFFER,
+  PODBOR_MINING_HOTEL_PAGE,
+  PODBOR_MINING_HOTEL_PARTNERS,
+  PODBOR_MINING_HOTEL_PLACEMENT,
+  PODBOR_MINING_HOTEL_SALE,
+  PODBOR_MINING_HOTEL_SECURITY,
+  PODBOR_MINING_HOTEL_SUMMARY,
+  PODBOR_MINING_HOTEL_TIME_SAVE,
+  PODBOR_MINING_HOTEL_USEFUL,
+} from '~/common/modules/top-mining/podbor/mining-hotel'
+import {
+  PODBOR_MINING_HOTEL_BANNERS_EN,
+  PODBOR_MINING_HOTEL_CTA_EN,
+  PODBOR_MINING_HOTEL_HOW_WE_WORK_EN,
+  PODBOR_MINING_HOTEL_KEY_FACTORS_EN,
+  PODBOR_MINING_HOTEL_OFFER_EN,
+  PODBOR_MINING_HOTEL_PAGE_EN,
+  PODBOR_MINING_HOTEL_PARTNERS_EN,
+  PODBOR_MINING_HOTEL_PLACEMENT_EN,
+  PODBOR_MINING_HOTEL_SALE_EN,
+  PODBOR_MINING_HOTEL_SECURITY_EN,
+  PODBOR_MINING_HOTEL_SUMMARY_EN,
+  PODBOR_MINING_HOTEL_TIME_SAVE_EN,
+  PODBOR_MINING_HOTEL_USEFUL_EN,
+} from '~/common/modules/top-mining/podbor/mining-hotel-en'
+
+/**
+ * Localized copies of all content used by the Mining Hotel Selection landing.
+ */
+export function usePodborMiningHotelPage() {
+  const { locale } = useTopMiningLocale()
+  const en = computed(() => locale.value === 'en')
+
+  return {
+    page: computed(() => en.value ? (PODBOR_MINING_HOTEL_PAGE_EN as unknown as typeof PODBOR_MINING_HOTEL_PAGE) : PODBOR_MINING_HOTEL_PAGE),
+    offer: computed(() => en.value ? (PODBOR_MINING_HOTEL_OFFER_EN as unknown as typeof PODBOR_MINING_HOTEL_OFFER) : PODBOR_MINING_HOTEL_OFFER),
+    partners: computed(() => en.value ? PODBOR_MINING_HOTEL_PARTNERS_EN : PODBOR_MINING_HOTEL_PARTNERS),
+    placement: computed(() => en.value ? (PODBOR_MINING_HOTEL_PLACEMENT_EN as unknown as typeof PODBOR_MINING_HOTEL_PLACEMENT) : PODBOR_MINING_HOTEL_PLACEMENT),
+    sale: computed(() => en.value ? (PODBOR_MINING_HOTEL_SALE_EN as unknown as typeof PODBOR_MINING_HOTEL_SALE) : PODBOR_MINING_HOTEL_SALE),
+    cta: computed(() => en.value ? (PODBOR_MINING_HOTEL_CTA_EN as unknown as typeof PODBOR_MINING_HOTEL_CTA) : PODBOR_MINING_HOTEL_CTA),
+    useful: computed(() => en.value ? (PODBOR_MINING_HOTEL_USEFUL_EN as unknown as typeof PODBOR_MINING_HOTEL_USEFUL) : PODBOR_MINING_HOTEL_USEFUL),
+    howWeWork: computed(() => en.value ? (PODBOR_MINING_HOTEL_HOW_WE_WORK_EN as unknown as typeof PODBOR_MINING_HOTEL_HOW_WE_WORK) : PODBOR_MINING_HOTEL_HOW_WE_WORK),
+    keyFactors: computed(() => en.value ? (PODBOR_MINING_HOTEL_KEY_FACTORS_EN as unknown as typeof PODBOR_MINING_HOTEL_KEY_FACTORS) : PODBOR_MINING_HOTEL_KEY_FACTORS),
+    security: computed(() => en.value ? (PODBOR_MINING_HOTEL_SECURITY_EN as unknown as typeof PODBOR_MINING_HOTEL_SECURITY) : PODBOR_MINING_HOTEL_SECURITY),
+    timeSave: computed(() => en.value ? (PODBOR_MINING_HOTEL_TIME_SAVE_EN as unknown as typeof PODBOR_MINING_HOTEL_TIME_SAVE) : PODBOR_MINING_HOTEL_TIME_SAVE),
+    summary: computed(() => en.value ? (PODBOR_MINING_HOTEL_SUMMARY_EN as unknown as typeof PODBOR_MINING_HOTEL_SUMMARY) : PODBOR_MINING_HOTEL_SUMMARY),
+    banners: computed(() => en.value ? (PODBOR_MINING_HOTEL_BANNERS_EN as unknown as typeof PODBOR_MINING_HOTEL_BANNERS) : PODBOR_MINING_HOTEL_BANNERS),
+  }
+}

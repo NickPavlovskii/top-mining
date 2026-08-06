@@ -12,13 +12,14 @@
     :style="rootStyle"
   >
     <div
-      v-if="status !== 'loaded'"
+      v-if="status === 'loading'"
       class="tm-lazy-image__skeleton"
       aria-hidden="true"
     />
 
     <img
       v-if="resolvedSrc"
+      ref="imgRef"
       v-show="status === 'loaded'"
       class="tm-lazy-image__img"
       :class="imgClass"
@@ -51,6 +52,7 @@
   /**
    * Ленивая картинка со скелетоном.
    * Нет src / ошибка загрузки → скелетон + иконка бренда.
+   * Уже закэшированные img часто не шлют @load — проверяем complete.
    */
   const props = withDefaults(
     defineProps<{
@@ -85,6 +87,7 @@
   }>()
 
   const status = ref<'loading' | 'loaded' | 'error' | 'empty'>('loading')
+  const imgRef = ref<HTMLImageElement | null>(null)
 
   const resolvedSrc = computed(() => String(props.src || '').trim())
 
@@ -104,6 +107,22 @@
     status.value = 'loading'
   }
 
+  function syncFromElement() {
+    const img = imgRef.value
+    if (!img || !resolvedSrc.value || status.value !== 'loading') {
+      return
+    }
+
+    // Cached / already-decoded images may skip the load event.
+    if (img.complete) {
+      if (img.naturalWidth > 0) {
+        onLoad()
+      } else {
+        onError()
+      }
+    }
+  }
+
   watch(
     () => props.src,
     () => {
@@ -112,7 +131,19 @@
     { immediate: true },
   )
 
+  watch(imgRef, () => {
+    nextTick(syncFromElement)
+  })
+
+  onMounted(() => {
+    nextTick(syncFromElement)
+  })
+
   function onLoad() {
+    if (status.value === 'loaded') {
+      return
+    }
+
     status.value = 'loaded'
     emit('load')
   }

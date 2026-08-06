@@ -136,16 +136,14 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting/best-speaker'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-
-  const copy = CONSULTING_BEST_SPEAKER
-  const imageStyle = `url(${copy.bestImgGirl})`
+  const { bestSpeaker: copy } = useConsultingPage()
+  const { t } = useT()
+  const imageStyle = computed(() => `url(${copy.value.bestImgGirl})`)
 
   const values = reactive<Record<string, string>>(
     Object.fromEntries([
-      ...copy.fields.map(field => [field.name, '']),
-      [copy.textarea.name, ''],
+      ...copy.value.fields.map(field => [field.name, '']),
+      [copy.value.textarea.name, ''],
     ]),
   )
   const honeypot = ref('')
@@ -165,7 +163,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -116,13 +116,12 @@
 </template>
 
 <script setup lang="ts">
-  import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/pages/increase-income'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import ConsultingDiagonalArrowIcon from '~/components/consulting/icons/ConsultingDiagonalArrowIcon.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
-  const copy = INCREASE_INCOME_PAGE
+  const copy = useIncreaseIncomePage()
+  const { t } = useT()
 
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -140,7 +139,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

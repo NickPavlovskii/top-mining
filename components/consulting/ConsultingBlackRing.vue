@@ -124,15 +124,13 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_BLACK_RING } from '~/common/modules/top-mining/consulting/black-ring'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-
-  const copy = CONSULTING_BLACK_RING
-  const blackRingBgStyle = `url(${copy.blackRingBg})`
-  const blackRingImgStyle = `url(${copy.blackRingImg})`
+  const { blackRing: copy } = useConsultingPage()
+  const { t } = useT()
+  const blackRingBgStyle = computed(() => `url(${copy.value.blackRingBg})`)
+  const blackRingImgStyle = computed(() => `url(${copy.value.blackRingImg})`)
 
   const values = reactive<Record<string, string>>(
-    Object.fromEntries(copy.fields.map(field => [field.name, ''])),
+    Object.fromEntries(copy.value.fields.map(field => [field.name, ''])),
   )
   const honeypot = ref('')
   const privacyAccepted = ref(true)
@@ -149,7 +147,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

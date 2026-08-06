@@ -1,15 +1,15 @@
 <template>
   <section class="org-reviews">
     <h2 class="org-reviews__title">
-      Отзывы {{ organizationName }}
+      {{ t('orgDetail.reviewsTitle', undefined, { name: organizationName }) }}
     </h2>
 
     <div class="org-reviews__intro">
       <div class="org-reviews__prompt">
         <ul class="org-reviews__prompt-list">
           <li
-            v-for="question in ORGANIZATION_REVIEW_QUESTIONS"
-            :key="question"
+            v-for="(question, index) in reviewQuestions"
+            :key="index"
           >
             {{ question }}
           </li>
@@ -18,20 +18,16 @@
 
       <div class="org-reviews__policy">
         <p>
-          У нас собрано большинство отзывов, которые есть о компании в интернете
-          (Яндекс Карты, Google Карты, 2GIS, Отзовик, блеклист ТГ и другие).
+          {{ t('orgDetail.policyP1') }}
         </p>
         <p>
-          Мы, Команда ТОП-МАЙНИНГА, понимаем, что большинство отзывов могли быть
-          накручены. <strong>Но на нашей площадке такого не будет.</strong>
+          {{ t('orgDetail.policyP2Before') }}<strong>{{ t('orgDetail.policyP2Strong') }}</strong>
         </p>
         <p>
-          <strong>Просим всех майнеров активно оставлять отзывы</strong>, ведь оставляя
-          положительный или отрицательный отзыв, вы помогаете компаниям
-          развиваться и улучшать качество услуг в мире майнинга.
+          <strong>{{ t('orgDetail.policyP3Strong') }}</strong>{{ t('orgDetail.policyP3After') }}
         </p>
         <p class="org-reviews__policy-note">
-          <strong>Все отзывы проверяются перед публикацией!</strong>
+          <strong>{{ t('orgDetail.policyNote') }}</strong>
         </p>
       </div>
     </div>
@@ -43,7 +39,7 @@
         </p>
         <div
           class="org-reviews__summary-stars"
-          :aria-label="`Рейтинг ${summaryRatingValue}`"
+          :aria-label="t('orgDetail.reviewRatingValueAria', undefined, { value: summaryRatingValue })"
         >
           <Icon
             v-for="index in 5"
@@ -59,11 +55,11 @@
       </template>
       <template v-else>
         <p class="org-reviews__summary-empty">
-          Нет рейтинга
+          {{ t('catalog.noRating') }}
         </p>
         <div
           class="org-reviews__summary-stars"
-          aria-label="Нет рейтинга"
+          :aria-label="t('catalog.noRating')"
         >
           <Icon
             v-for="index in 5"
@@ -91,7 +87,7 @@
 
         <div class="org-reviews__form-main">
           <label class="org-reviews__textarea-wrap">
-            <span class="sr-only">Текст отзыва</span>
+            <span class="sr-only">{{ t('orgDetail.reviewContentLabel') }}</span>
             <textarea
               v-model="form.content"
               class="org-reviews__textarea"
@@ -104,14 +100,14 @@
           <div class="org-reviews__actions-row">
             <div
               class="org-reviews__rating-input"
-              aria-label="Оценка отзыва"
+              :aria-label="t('orgDetail.reviewRatingAria')"
             >
               <button
                 v-for="index in 5"
                 :key="`input-${index}`"
                 type="button"
                 class="org-reviews__rating-star-btn"
-                :aria-label="`Оценка ${index}`"
+                :aria-label="t('orgDetail.reviewRatingStarAria', undefined, { n: index })"
                 @click="form.rating = index"
                 @mouseenter="hoverRating = index"
                 @mouseleave="hoverRating = 0"
@@ -132,7 +128,7 @@
               class="org-reviews__submit"
               :disabled="isSubmitting || !form.rating"
             >
-              {{ isSubmitting ? 'Отправка…' : 'Оставить отзыв' }}
+              {{ isSubmitting ? t('orgDetail.submitting') : t('orgDetail.leaveReview') }}
             </button>
           </div>
         </div>
@@ -148,7 +144,7 @@
               v-model="form.authorName"
               type="text"
               class="org-reviews__input"
-              placeholder="Имя*"
+              :placeholder="t('orgDetail.namePlaceholder')"
               required
             />
           </label>
@@ -163,7 +159,7 @@
               v-model="form.authorEmail"
               type="email"
               class="org-reviews__input"
-              placeholder="Email"
+              :placeholder="t('orgDetail.emailPlaceholder')"
             />
           </label>
 
@@ -177,13 +173,13 @@
               v-model="form.authorPhone"
               type="tel"
               class="org-reviews__input"
-              placeholder="Телефон*"
+              :placeholder="t('orgDetail.phonePlaceholder')"
               required
             />
             <button
               type="button"
               class="org-reviews__field-hint"
-              aria-label="Подсказка по телефону"
+              :aria-label="t('orgDetail.phoneHintAria')"
             >
               <Icon
                 name="mdi:help-circle-outline"
@@ -207,7 +203,7 @@
         class="org-reviews__success"
         role="status"
       >
-        Отправлено! Наш менеджер свяжется с вами
+        {{ t('orgDetail.submitSuccess') }}
       </p>
     </form>
 
@@ -221,10 +217,7 @@
 
 <script setup lang="ts">
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
-  import {
-    ORGANIZATION_REVIEW_QUESTIONS,
-    formatOrganizationReviewCount,
-  } from '~/common/modules/catalog'
+  import { ORGANIZATION_REVIEW_QUESTIONS } from '~/common/modules/catalog'
   import CatalogOrganizationReviewList from '~/components/catalog/organization-detail/CatalogOrganizationReviewList.vue'
   import type {
     OrganizationReview,
@@ -244,6 +237,8 @@
   const emit = defineEmits<{
     'stats-updated': [stats: OrganizationReviewStats]
   }>()
+
+  const { t } = useT()
 
   const sort = ref<OrganizationReviewSort>('newest')
   const hoverRating = ref(0)
@@ -286,6 +281,12 @@
     { immediate: true },
   )
 
+  const reviewQuestions = computed(() =>
+    ORGANIZATION_REVIEW_QUESTIONS.map((question, index) =>
+      t(`orgDetail.reviewQ${index + 1}`, question),
+    ),
+  )
+
   const activeInputStars = computed(() => hoverRating.value || form.rating)
 
   const hasSummaryRating = computed(
@@ -310,19 +311,34 @@
     return Math.round(stats.value.rating)
   })
 
+  function formatReviewCount(count: number) {
+    const mod10 = count % 10
+    const mod100 = count % 100
+    let key = 'orgDetail.reviewCountMany'
+
+    if (!(mod100 >= 11 && mod100 <= 14)) {
+      if (mod10 === 1) {
+        key = 'orgDetail.reviewCountOne'
+      } else if (mod10 >= 2 && mod10 <= 4) {
+        key = 'orgDetail.reviewCountFew'
+      }
+    }
+
+    return t(key, undefined, { count })
+  }
+
   const reviewCountLabel = computed(() =>
-    formatOrganizationReviewCount(stats.value.reviewCount),
+    formatReviewCount(stats.value.reviewCount),
   )
 
-  const reviewCountUpperLabel = computed(() => {
-    const count = stats.value.reviewCount
-    const word = formatOrganizationReviewCount(count).split(' ').slice(1).join(' ')
-
-    return `${count} ${word}`.toUpperCase()
-  })
+  const reviewCountUpperLabel = computed(() =>
+    formatReviewCount(stats.value.reviewCount).toUpperCase(),
+  )
 
   const reviewPlaceholder = computed(() =>
-    stats.value.reviewCount > 0 ? 'Оставить отзыв' : 'Оставьте первый отзыв!',
+    stats.value.reviewCount > 0
+      ? t('orgDetail.leaveReview')
+      : t('orgDetail.leaveFirstReview'),
   )
 
   async function onSubmit() {
@@ -360,7 +376,7 @@
 
       await refresh()
     } catch {
-      submitError.value = 'Не удалось отправить отзыв. Попробуйте позже.'
+      submitError.value = t('orgDetail.submitError')
     } finally {
       isSubmitting.value = false
     }
@@ -625,6 +641,18 @@
     font-size: 16px;
     line-height: 1.5;
     text-align: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   @media (max-width: 900px) {

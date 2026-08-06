@@ -82,6 +82,8 @@ docker exec niklad-postgres psql -U niklad -d niklad -v ON_ERROR_STOP=1 -f /tmp/
 Заявки с форм: таблица `leads` (`031`), mutation `createLead`, Nuxt `POST /api/leads`.  
 Подробнее: [`docs/leads.md`](../docs/leads.md) (Zod, Telegram, UI статуса).
 
+Архитектура системы (UML, ER, BPMN-заготовка калькулятора): [`docs/architecture.md`](../docs/architecture.md).
+
 ## Быстрый старт
 
 ### 1. PostgreSQL

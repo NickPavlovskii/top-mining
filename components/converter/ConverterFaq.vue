@@ -30,9 +30,16 @@
 </template>
 
 <script setup lang="ts">
-  import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
+  const { t } = useT()
 
-  const faq = HASHRATE_CONVERTER_PAGE.faq
+  const faq = computed(() => ({
+    title: t('converter.faqTitle'),
+    items: [
+      { question: t('converter.faqQ1'), answer: t('converter.faqA1') },
+      { question: t('converter.faqQ2'), answer: t('converter.faqA2') },
+      { question: t('converter.faqQ3'), answer: t('converter.faqA3') },
+    ],
+  }))
 </script>
 
 <style scoped>

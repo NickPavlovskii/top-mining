@@ -22,8 +22,12 @@
     verified: boolean
   }>()
 
+  const { t } = useT()
+
   const label = computed(() =>
-    props.verified ? 'Проверены' : 'Не проверены',
+    props.verified
+      ? t('orgDetail.verifiedYes')
+      : t('orgDetail.verifiedNo'),
   )
 
   const icon = computed(() =>

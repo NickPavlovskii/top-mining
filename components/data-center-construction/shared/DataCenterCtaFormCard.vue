@@ -31,8 +31,8 @@
           autocomplete="tel"
           inputmode="tel"
           required
-          :placeholder="phonePlaceholder"
-          :accessible-label="phonePlaceholder"
+          :placeholder="resolvedPhonePlaceholder"
+          :accessible-label="resolvedPhonePlaceholder"
         />
 
         <top-mining-button
@@ -48,7 +48,7 @@
       </div>
 
       <label class="data-center-cta-form-card__honeypot">
-        <span>{{ honeypotLabel }}</span>
+        <span>{{ resolvedHoneypotLabel }}</span>
         <input
           v-model="honeypot"
           type="text"
@@ -61,9 +61,9 @@
       <top-mining-privacy-consent
         v-model="privacyAccepted"
         class="data-center-cta-form-card__privacy"
-        :prefix="privacyPrefix"
-        :privacy-link-label="privacyLinkLabel"
-        :privacy-href="privacyHref"
+        :prefix="resolvedPrivacyPrefix"
+        :privacy-link-label="resolvedPrivacyLinkLabel"
+        :privacy-href="resolvedPrivacyHref"
       />
     </form>
   </div>
@@ -80,14 +80,10 @@
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
   const props = withDefaults(defineProps<DataCenterCtaFormCardProps>(), {
-    phonePlaceholder: 'Телефон',
-    honeypotLabel: 'Оставьте это поле пустым.',
-    privacyPrefix: 'Продолжая, вы соглашаетесь с',
-    privacyLinkLabel: 'Политикой конфиденциальности',
-    privacyHref: '/privacy',
     titleId: 'data-center-cta-form-title',
     variant: 'hero',
   })
+  const { t } = useT()
 
   const emit = defineEmits<{
     submit: [payload: DataCenterCtaFormSubmitPayload]
@@ -96,6 +92,19 @@
   const phone = ref('')
   const privacyAccepted = ref(true)
   const honeypot = ref('')
+  const resolvedPhonePlaceholder = computed(
+    () => props.phonePlaceholder || t('dcConstruction.phonePlaceholder'),
+  )
+  const resolvedHoneypotLabel = computed(
+    () => props.honeypotLabel || t('dcConstruction.honeypotLabel'),
+  )
+  const resolvedPrivacyPrefix = computed(
+    () => props.privacyPrefix || t('common.privacyPrefix'),
+  )
+  const resolvedPrivacyLinkLabel = computed(
+    () => props.privacyLinkLabel || t('common.privacyLink'),
+  )
+  const resolvedPrivacyHref = computed(() => props.privacyHref || '/privacy')
 
   const titleLines = computed(() =>
     props.title

@@ -16,13 +16,16 @@ import type {
  *   `tree` — группы с вложенными опциями (`groups`, например бренды → модели).
  * @prop {TopMiningSelectOption[]} [options=[]] — опции для режима `flat`.
  * @prop {TopMiningSelectGroup[]} [groups=[]] — группы для режима `tree`.
- * @prop {string} [placeholder='Выберите'] — текст кнопки, пока ничего не выбрано
+ * @prop {string} [placeholder] — текст кнопки, пока ничего не выбрано
+ *   (по умолчанию `t('common.select')`).
  * @prop {string} [buttonLabel] — фиксированная подпись на кнопке
  * @prop {string} [buttonImage=''] — картинка на кнопке, пока у выбранной опции
  *   нет своего `image` (fallback-иконка).
  * @prop {boolean} [searchable=true] — показывать поле поиска в выпадающем списке.
- * @prop {string} [searchPlaceholder='Поиск...'] — placeholder поля поиска.
- * @prop {string} [emptyText='Ничего не найдено'] — текст, если поиск ничего не нашёл.
+ * @prop {string} [searchPlaceholder] — placeholder поля поиска
+ *   (по умолчанию `t('common.search')`).
+ * @prop {string} [emptyText] — текст, если поиск ничего не нашёл
+ *   (по умолчанию `t('common.nothingFound')`).
  * @prop {boolean} [loading=false] — скелетоны вместо списка (загрузка / нет данных).
  * @prop {TopMiningSelectSize} [size='md'] — размер кнопки/выпадашки: `lg` | `md` | `sm`.
  * @prop {1|2} [columns=1] — число колонок в списке опций (например, 2 для монет).
@@ -51,12 +54,12 @@ const props = withDefaults(
     mode: 'flat',
     options: () => [],
     groups: () => [],
-    placeholder: 'Выберите',
+    placeholder: undefined,
     buttonLabel: undefined,
     buttonImage: '',
     searchable: true,
-    searchPlaceholder: 'Поиск...',
-    emptyText: 'Ничего не найдено',
+    searchPlaceholder: undefined,
+    emptyText: undefined,
     loading: false,
     size: 'md',
     columns: 1,
@@ -65,6 +68,7 @@ const props = withDefaults(
   },
 )
 
+const { t } = useT()
 const model = defineModel<string | null>({ default: null })
 
 const emit = defineEmits<{
@@ -75,6 +79,16 @@ const rootRef = ref<HTMLElement | null>(null)
 const isOpen = ref(false)
 const searchQuery = ref('')
 const expandedGroups = ref<string[]>([])
+
+const resolvedPlaceholder = computed(
+  () => props.placeholder ?? t('common.select'),
+)
+const resolvedSearchPlaceholder = computed(
+  () => props.searchPlaceholder ?? t('common.search'),
+)
+const resolvedEmptyText = computed(
+  () => props.emptyText ?? t('common.nothingFound'),
+)
 
 const allFlatOptions = computed(() => {
   if (props.mode === 'flat') {
@@ -93,7 +107,7 @@ const resolvedButtonLabel = computed(() => {
     return props.buttonLabel
   }
 
-  return selectedOption.value?.label || props.placeholder
+  return selectedOption.value?.label || resolvedPlaceholder.value
 })
 
 const resolvedButtonImage = computed(
@@ -263,9 +277,9 @@ function selectOption(option: TopMiningSelectOption) {
           v-model="searchQuery"
           type="search"
           class="tm-select__search-input"
-          :placeholder="searchPlaceholder"
+          :placeholder="resolvedSearchPlaceholder"
           autocomplete="off"
-          :aria-label="searchPlaceholder"
+          :aria-label="resolvedSearchPlaceholder"
         />
         <span class="tm-select__search-icon" aria-hidden="true">
           <svg
@@ -407,7 +421,7 @@ function selectOption(option: TopMiningSelectOption) {
           </button>
         </template>
 
-        <p v-else class="tm-select__empty">{{ emptyText }}</p>
+        <p v-else class="tm-select__empty">{{ resolvedEmptyText }}</p>
       </div>
     </div>
   </div>

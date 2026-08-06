@@ -13,26 +13,26 @@
             <span
               class="calculator-promo__title-line calculator-promo__title-line--head"
             >
-              <span class="calculator-promo__title-word">Самый</span>
-              <span class="calculator-promo__highlight-text">удобный</span>
+              <span class="calculator-promo__title-word">{{ t('home.promoTitleMost') }}</span>
+              <span class="calculator-promo__highlight-text">{{ t('home.promoTitleConvenient') }}</span>
             </span>
             <span
               class="calculator-promo__title-line calculator-promo__title-line--product"
             >
-              <span class="calculator-promo__title-part">майнинг-</span>
-              <span class="calculator-promo__title-part">калькулятор</span>
+              <span class="calculator-promo__title-part">{{ t('home.promoTitleMining') }}</span>
+              <span class="calculator-promo__title-part">{{ t('home.promoTitleCalc') }}</span>
             </span>
           </h2>
 
           <p class="calculator-promo__lead">
-            Помогаем оценить потенциальную доходность от майнинга
+            {{ t('home.promoLead') }}
           </p>
 
-          <p class="calculator-promo__stats-label">Считаем доходность</p>
+          <p class="calculator-promo__stats-label">{{ t('home.promoStatsLabel') }}</p>
 
           <ul class="calculator-promo__stats">
             <li
-              v-for="item in MINING_CALCULATOR_PROMO_STATS"
+              v-for="item in promoStats"
               :key="item.label"
             >
               <strong
@@ -91,6 +91,21 @@
     MINING_CALCULATOR_PROMO_VIDEO,
   } from '~/common/modules/top-mining'
   import calculatorRigImage from '~/assets/images/top-mining/calculator-rig.png'
+
+  const { t } = useT()
+
+  const promoStatLabelKeys = [
+    'home.promoStatDevices',
+    'home.promoStatParams',
+    'home.promoStatCoins',
+  ] as const
+
+  const promoStats = computed(() =>
+    MINING_CALCULATOR_PROMO_STATS.map((item, index) => ({
+      value: item.value,
+      label: t(promoStatLabelKeys[index]),
+    })),
+  )
 </script>
 
 <style scoped>

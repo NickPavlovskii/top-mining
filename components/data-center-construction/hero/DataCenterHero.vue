@@ -3,7 +3,7 @@
     <div class="data-center-hero__inner">
       <nav
         class="data-center-hero__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -38,7 +38,7 @@
             to="/consulting/"
             itemprop="item"
           >
-            <span itemprop="name">Consulting</span>
+            <span itemprop="name">{{ t('nav.consulting', 'Consulting') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -58,7 +58,7 @@
             class="data-center-hero__breadcrumbs-current"
             itemprop="name"
           >
-            {{ page.breadcrumb }}
+            {{ t('dcConstruction.breadcrumb') }}
           </span>
           <meta
             itemprop="position"
@@ -70,29 +70,33 @@
       <div class="data-center-hero__grid">
         <div class="data-center-hero__content">
           <h1 class="data-center-hero__title">
-            {{ hero.title }}
-            <span>{{ hero.titleAccent }}</span>
+            {{ t('dcConstruction.heroTitle') }}
+            <span>{{ t('dcConstruction.heroTitleAccent') }}</span>
           </h1>
 
           <p class="data-center-hero__subtitle">
-            {{ hero.subtitle }}
+            {{ t('dcConstruction.heroSubtitle') }}
           </p>
           <p class="data-center-hero__text">
-            {{ hero.text }}
+            {{ t('dcConstruction.heroText') }}
           </p>
 
           <div class="data-center-hero__cards">
             <div class="data-center-hero__card data-center-hero__card--accent">
-              <span class="data-center-hero__card-label">{{ hero.investmentLabel }}</span>
+              <span class="data-center-hero__card-label">
+                {{ t('dcConstruction.investmentLabel') }}
+              </span>
               <div class="data-center-hero__card-value">
-                {{ hero.investmentValue }}
+                {{ t('dcConstruction.investmentValue') }}
               </div>
             </div>
 
             <div class="data-center-hero__card">
-              <span class="data-center-hero__card-label">{{ hero.paybackLabel }}</span>
+              <span class="data-center-hero__card-label">
+                {{ t('dcConstruction.paybackLabel') }}
+              </span>
               <div class="data-center-hero__card-value">
-                {{ hero.paybackValue }}
+                {{ t('dcConstruction.paybackValue') }}
               </div>
               <top-mining-button
                 class="data-center-hero__card-cta"
@@ -100,7 +104,7 @@
                 variant="primary"
                 size="big"
                 surface="dark"
-                :title="hero.ctaLabel"
+                :title="t('dcConstruction.ctaLabel')"
                 :href="hero.ctaHref"
                 :append-icon="arrowIcon"
               />
@@ -112,7 +116,7 @@
               variant="primary"
               size="big"
               surface="dark"
-              :title="hero.ctaLabel"
+              :title="t('dcConstruction.ctaLabel')"
               :href="hero.ctaHref"
               :append-icon="arrowIcon"
             />
@@ -125,7 +129,7 @@
             loading="eager"
             decoding="async"
             :src="hero.image"
-            :alt="hero.imageAlt"
+            :alt="t('dcConstruction.heroImageAlt')"
           >
         </div>
       </div>
@@ -135,7 +139,7 @@
           class="data-center-hero__info-icon"
           aria-hidden="true"
         >i</span>
-        {{ hero.info }}
+        {{ t('dcConstruction.heroInfo') }}
       </p>
     </div>
   </section>
@@ -143,11 +147,11 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
-  const page = DATA_CENTER_CONSTRUCTION_PAGE
-  const hero = page.hero
+  const { t } = useT()
+  const page = useDataCenterPage()
+  const hero = computed(() => page.value.hero)
 </script>
 
 <style scoped>

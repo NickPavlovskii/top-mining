@@ -14,8 +14,8 @@
       aria-labelledby="footer-contact-title"
     >
       <h2 id="footer-contact-title" class="site-footer__contact-heading">
-        Есть вопросы?
-        <span>Предложения?</span>
+        {{ t('footer.questions') }}
+        <span>{{ t('footer.suggestions') }}</span>
       </h2>
 
       <form
@@ -23,22 +23,22 @@
         @submit.prevent="onFooterContactSubmit"
       >
         <label>
-          <span>Ваше имя</span>
+          <span>{{ t('footer.name') }}</span>
           <input
             v-model="contactName"
             type="text"
-            placeholder="Ваше имя"
+            :placeholder="t('footer.namePlaceholder')"
             autocomplete="name"
             :disabled="contactStatus === 'loading'"
           />
         </label>
 
         <label>
-          <span>Способ связи</span>
+          <span>{{ t('footer.contact') }}</span>
           <input
             v-model="contactValue"
             type="text"
-            placeholder="Телефон Telegram"
+            :placeholder="t('footer.contactPlaceholder')"
             autocomplete="tel"
             required
             :disabled="contactStatus === 'loading'"
@@ -46,10 +46,10 @@
         </label>
 
         <label>
-          <span>Ваш вопрос / предложение</span>
+          <span>{{ t('footer.message') }}</span>
           <textarea
             v-model="contactMessage"
-            placeholder="Ваш вопрос / предложение"
+            :placeholder="t('footer.messagePlaceholder')"
             :disabled="contactStatus === 'loading'"
           />
         </label>
@@ -61,13 +61,13 @@
             required
           />
           <span>
-            Даю согласие на
-            <nuxt-link to="/privacy">обработку персональных данных</nuxt-link>
+            {{ t('footer.consent') }}
+            <nuxt-link to="/privacy">{{ t('footer.privacyProcessing') }}</nuxt-link>
           </span>
         </label>
 
         <label class="site-footer__contact-honeypot">
-          <span>Оставьте это поле пустым</span>
+          <span>Leave this field empty</span>
           <input
             v-model="contactHoneypot"
             type="text"
@@ -82,7 +82,7 @@
           class="site-footer__contact-submit"
           :disabled="!isPersonalDataAccepted || contactStatus === 'loading'"
         >
-          Отправить
+          {{ t('footer.send') }}
           <icon name="mdi:arrow-top-right" />
         </button>
 
@@ -94,21 +94,21 @@
       </form>
 
       <ul class="site-footer__contact-benefits">
-        <li>Добавим ваши асики/GPU/CPU в майнинг-калькулятор</li>
-        <li>Напишем статью под ваш запрос</li>
-        <li>Разместим вашу компанию в рейтинге</li>
-        <li>Разместим вашу компанию в каталоге организаций</li>
+        <li>{{ t('footer.benefit1') }}</li>
+        <li>{{ t('footer.benefit2') }}</li>
+        <li>{{ t('footer.benefit3') }}</li>
+        <li>{{ t('footer.benefit4') }}</li>
       </ul>
     </section>
 
     <div class="site-footer__inner">
-      <h2 class="site-footer__brand" aria-label="Топ - Майнинг">
+      <h2 class="site-footer__brand" :aria-label="t('header.brandAria')">
         <top-mining-brand-title variant="footer" spaced />
       </h2>
 
       <div class="site-footer__content">
         <section class="site-footer__subscribe">
-          <h3>Подписаться на новости</h3>
+          <h3>{{ t('footer.subscribeTitle') }}</h3>
 
           <form class="site-footer__form" @submit.prevent="onFooterSubscribe">
             <label class="site-footer__input-wrap">
@@ -116,7 +116,7 @@
               <input
                 v-model="footerSubscribeEmail"
                 type="email"
-                placeholder="E-mail"
+                :placeholder="t('footer.emailPlaceholder')"
                 autocomplete="email"
                 :disabled="footerSubscribeStatus === 'loading'"
               />
@@ -125,7 +125,7 @@
             <top-mining-round-icon-button
               type="submit"
               size="small"
-              aria-label="Подписаться"
+              :aria-label="t('footer.subscribeAria')"
               :disabled="footerSubscribeStatus === 'loading'"
             />
           </form>
@@ -136,11 +136,11 @@
           />
 
           <nuxt-link to="/privacy" class="site-footer__privacy">
-            Политика конфиденциальности
+            {{ t('footer.privacyPolicy') }}
           </nuxt-link>
         </section>
 
-        <nav class="site-footer__nav" aria-label="Навигация футера">
+        <nav class="site-footer__nav" :aria-label="t('footer.navAria')">
           <div class="site-footer__nav-column">
             <template
               v-for="link in TOP_MINING_FOOTER_CALCULATOR_LINKS"
@@ -152,14 +152,14 @@
                 :target="isExternalFooterLink(link) ? '_blank' : undefined"
                 :rel="isExternalFooterLink(link) ? 'noopener noreferrer' : undefined"
               >
-                {{ link.label }}
+                {{ tNavItem(link.label) }}
                 <icon name="mdi:arrow-top-right" />
               </a>
               <nuxt-link
                 v-else
                 :to="link.href"
               >
-                {{ link.label }}
+                {{ tNavItem(link.label) }}
                 <icon name="mdi:arrow-top-right" />
               </nuxt-link>
             </template>
@@ -169,7 +169,7 @@
               class="site-footer__telegram"
               :href="TOP_MINING_FOOTER_TELEGRAM_HREF"
             >
-              Telegram
+              {{ t('footer.telegram') }}
             </a>
           </div>
 
@@ -184,18 +184,18 @@
                 :target="isExternalFooterLink(link) ? '_blank' : undefined"
                 :rel="isExternalFooterLink(link) ? 'noopener noreferrer' : undefined"
               >
-                {{ link.label }}
+                {{ tNavItem(link.label) }}
                 <icon name="mdi:arrow-top-right" />
               </a>
               <nuxt-link
                 v-else
                 :to="link.href"
               >
-                {{ link.label }}
+                {{ tNavItem(link.label) }}
                 <icon name="mdi:arrow-top-right" />
               </nuxt-link>
             </template>
-            <small>© 2026 Топ - Майнинг</small>
+            <small>{{ t('header.brandCopyright') }}</small>
           </div>
         </nav>
       </div>
@@ -203,7 +203,7 @@
       <div class="site-footer__scroll-wrap">
         <top-mining-round-icon-button
           class="site-footer__scroll-top"
-          aria-label="Наверх"
+          :aria-label="t('footer.scrollTop')"
           @click="scrollToTop"
         />
       </div>
@@ -224,6 +224,7 @@
 
   import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
+  const { t, tNavItem } = useT()
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
   const contactName = ref('')

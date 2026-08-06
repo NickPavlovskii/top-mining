@@ -105,7 +105,7 @@
         >
           <div>
             <p class="article-sections__label">
-              Плюсы:
+              {{ t('articles.pros') }}
             </p>
             <ul class="article-sections__bullet-list">
               <li
@@ -118,7 +118,7 @@
           </div>
           <div>
             <p class="article-sections__label">
-              Минусы:
+              {{ t('articles.cons') }}
             </p>
             <ul class="article-sections__bullet-list">
               <li
@@ -142,6 +142,8 @@
 
 <script setup lang="ts">
   import type { ArticleSection } from '~/common/modules/articles'
+
+  const { t } = useT()
 
   defineProps<{
     sections: ArticleSection[]

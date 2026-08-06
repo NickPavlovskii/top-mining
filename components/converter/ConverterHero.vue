@@ -6,7 +6,7 @@
     <div class="converter-hero__inner">
       <nav
         class="converter-hero__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('converter.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -20,7 +20,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('converter.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -40,7 +40,7 @@
             class="converter-hero__breadcrumbs-current"
             itemprop="name"
           >
-            {{ page.breadcrumb }}
+            {{ t('converter.breadcrumb') }}
           </span>
           <meta
             itemprop="position"
@@ -53,17 +53,15 @@
         id="converter-hero-title"
         class="converter-hero__title"
       >
-        {{ page.hero.titleLead }}
-        <span>{{ page.hero.titleAccent }}</span>
+        {{ t('converter.heroLead') }}
+        <span>{{ t('converter.heroAccent') }}</span>
       </h1>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-  import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
-
-  const page = HASHRATE_CONVERTER_PAGE
+  const { t } = useT()
 </script>
 
 <style scoped>

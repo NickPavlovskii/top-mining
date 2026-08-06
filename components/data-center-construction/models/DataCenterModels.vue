@@ -210,11 +210,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import {
-    DATA_CENTER_CONSTRUCTION_PAGE,
-    type DataCenterBusinessModelItem,
-  } from '~/common/modules/top-mining/pages/data-center-construction'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
+  import type { DataCenterBusinessModelItem } from '~/common/modules/top-mining/pages/data-center-construction'
   import { toCompareTableRows } from '~/common/modules/top-mining/ui/compare-table'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningCollapse from '~/components/global/disclosure/TopMiningCollapse.vue'
@@ -224,8 +220,10 @@
   import DataCenterBusinessModelModal from '~/components/data-center-construction/models/DataCenterBusinessModelModal.vue'
   import DataCenterCalcLink from '~/components/data-center-construction/shared/DataCenterCalcLink.vue'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.models
-  const openId = ref<string | null>(copy.items[0]?.id ?? null)
+  const { t } = useT()
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.models)
+  const openId = ref<string | null>(copy.value.items[0]?.id ?? null)
   const phone = ref('')
   const honeypot = ref('')
   const privacyAccepted = ref(true)
@@ -253,7 +251,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

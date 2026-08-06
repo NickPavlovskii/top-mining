@@ -4,14 +4,14 @@
       v-if="pending"
       class="article-page__state"
     >
-      Загрузка…
+      {{ t('articles.loading') }}
     </div>
 
     <div
       v-else-if="!article"
       class="article-page__state article-page__state--empty"
     >
-      Информация о статье ещё не добавлена
+      {{ t('articles.empty') }}
     </div>
 
     <template v-else-if="article">
@@ -32,7 +32,7 @@
         <div class="article-page__hero-inner">
           <nav
             class="article-page__breadcrumbs"
-            aria-label="Хлебные крошки"
+            :aria-label="t('common.breadcrumbsAria')"
             itemscope
             itemtype="https://schema.org/BreadcrumbList"
           >
@@ -46,7 +46,7 @@
                 to="/"
                 itemprop="item"
               >
-                <span itemprop="name">Главная</span>
+                <span itemprop="name">{{ t('common.home') }}</span>
               </nuxt-link>
               <meta
                 itemprop="position"
@@ -87,7 +87,7 @@
                 class="article-page__breadcrumbs-current"
                 itemprop="name"
               >
-                {{ article.title }}
+                {{ localizedArticle?.title }}
               </span>
               <meta
                 itemprop="position"
@@ -112,7 +112,7 @@
               v-if="showExcerpt"
               class="article-page__subtitle"
             >
-              {{ article.excerpt }}
+              {{ localizedArticle?.excerpt }}
             </p>
           </div>
 
@@ -130,7 +130,7 @@
               {{ readingTimeLabel }}
             </div>
             <div class="article-page__meta-pill article-page__meta-pill--date">
-              {{ formatArticleDate(article.publishedAt) }}
+              {{ formatArticleDate(localizedArticle?.publishedAt || '') }}
             </div>
             <div
               v-if="viewsLabel"
@@ -142,7 +142,7 @@
                 aria-hidden="true"
               />
               <span class="article-page__meta-views-text">
-                Просмотры:<span>{{ viewsLabel }}</span>
+                {{ t('articles.views') }}<span>{{ viewsLabel }}</span>
               </span>
             </div>
           </div>
@@ -155,7 +155,7 @@
             v-if="tocItems.length"
             :items="tocItems"
             :active-id="activeSectionId"
-            :share-title="article.title"
+            :share-title="localizedArticle?.title || ''"
             @navigate="scrollToSection"
           />
         </aside>
@@ -165,7 +165,7 @@
             class="article-page__watermark"
             aria-hidden="true"
           >
-            ТОП МАЙНИНГ. РЕЙТИНГИ
+            {{ t('articles.ratingsBanner') }}
           </p>
 
           <div
@@ -174,7 +174,7 @@
           >
             <img
               :src="article.imageUrl"
-              :alt="article.imageAlt || article.title"
+              :alt="localizedArticle?.imageAlt || localizedArticle?.title || ''"
             >
           </div>
 
@@ -187,7 +187,7 @@
             v-else-if="isContentPending"
             class="article-page__empty"
           >
-            Информация о статье ещё не добавлена
+            {{ t('articles.empty') }}
           </div>
 
           <div
@@ -205,9 +205,9 @@
           <div class="article-page__share article-page__share--desktop">
             <article-share-button
               v-if="!isContentPending"
-              label="Поделиться статьей"
+              :label="t('articles.share')"
               size="big"
-              :share-title="article.title"
+              :share-title="localizedArticle?.title || ''"
             />
           </div>
         </div>
@@ -235,9 +235,9 @@
         />
         <article-share-button
           class="article-page__mobile-share"
-          label="Поделиться статьей"
+          :label="t('articles.share')"
           size="big"
-          :share-title="article.title"
+          :share-title="localizedArticle?.title || ''"
         />
       </div>
     </template>
@@ -249,7 +249,7 @@
     articleBlocksToSections,
     buildTocFromPlainContent,
     formatArticleDate,
-    formatReadingTime,
+    readingTimeMinutes,
     isArticleContentPending,
     isRatingArticleSlug,
     recordArticleView,
@@ -272,8 +272,18 @@
   import headerLogoMark from '~/assets/images/articles/header-logo-mark.png'
   import headerLogoBlur from '~/assets/images/articles/header-logo-blur.png'
 
+  const { t } = useT()
+  const { localize } = useLocalizedArticle()
   const route = useRoute()
   const slug = computed(() => String(route.params.slug || ''))
+
+  const topicKeys: Record<TopMiningArticlesTopicId, string> = {
+    all: 'home.topicAll',
+    mining: 'home.topicMining',
+    tools: 'home.topicTools',
+    investments: 'home.topicInvestments',
+    beginners: 'home.topicBeginners',
+  }
 
   const { data: article, pending } = await useFetch<ArticleResponse>(
     () => `/api/articles/${slug.value}`,
@@ -284,12 +294,16 @@
     },
   )
 
+  const localizedArticle = computed(() =>
+    article.value ? localize(article.value) : null,
+  )
+
   const titleParts = computed(() =>
-    splitArticleTitle(article.value?.title || ''),
+    splitArticleTitle(localizedArticle.value?.title || ''),
   )
 
   const showExcerpt = computed(() => {
-    const excerpt = article.value?.excerpt?.trim()
+    const excerpt = localizedArticle.value?.excerpt?.trim()
     if (!excerpt) {
       return false
     }
@@ -298,12 +312,13 @@
       return false
     }
 
-    return excerpt !== article.value?.title
+    return excerpt !== localizedArticle.value?.title
   })
 
-  const readingTimeLabel = computed(() =>
-    formatReadingTime(article.value?.readingTimeMin),
-  )
+  const readingTimeLabel = computed(() => {
+    const n = readingTimeMinutes(localizedArticle.value?.readingTimeMin)
+    return n == null ? null : t('articles.minRead', undefined, { n })
+  })
 
   const liveViewCount = ref<number | null>(null)
 
@@ -324,19 +339,19 @@
 
   const sectionBreadcrumb = computed(() => {
     if (isRatingArticleSlug(slug.value)) {
-      return { label: 'Рейтинги', href: RATINGS_PAGE_HREF }
+      return { label: t('articles.ratingsCrumb'), href: RATINGS_PAGE_HREF }
     }
 
     const topicId = (article.value?.topicId || 'all') as TopMiningArticlesTopicId
 
     if (topicId === 'all') {
-      return { label: 'Статьи', href: '/articles/' }
+      return { label: t('articles.title'), href: '/articles/' }
     }
 
     const topic = TOP_MINING_ARTICLES_TOPICS.find((item) => item.id === topicId)
 
     return {
-      label: topic?.label || 'Статьи',
+      label: topic ? t(topicKeys[topic.id]) : t('articles.title'),
       href: topic ? `/articles/?topic=${topic.id}` : '/articles/',
     }
   })
@@ -521,13 +536,21 @@
   })
 
   useSeoMeta({
-    title: () =>
-      article.value ? `${article.value.title} — ТОП МАЙНИНГ` : 'Статья — ТОП МАЙНИНГ',
-    description: () =>
-      article.value?.excerpt
-      || titleParts.value.secondary
-      || article.value?.title
-      || '',
+    title: () => {
+      const localized = article.value ? localize(article.value) : null
+      return localized
+        ? `${localized.title} ${t('articles.seoSuffix')}`
+        : t('articles.seoArticle')
+    },
+    description: () => {
+      const localized = article.value ? localize(article.value) : null
+      return (
+        localized?.excerpt
+        || titleParts.value.secondary
+        || localized?.title
+        || ''
+      )
+    },
   })
 </script>
 

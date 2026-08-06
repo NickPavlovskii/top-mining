@@ -44,9 +44,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_SECURITY } from '~/common/modules/top-mining/podbor/mining-hotel'
-
-  const security = PODBOR_MINING_HOTEL_SECURITY
+  const { security } = usePodborMiningHotelPage()
 </script>
 
 <style scoped>

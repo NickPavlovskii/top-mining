@@ -54,7 +54,7 @@
 
             <template v-if="item.example">
               <div class="data-center-stages__example-badge">
-                Пример:
+                {{ t('dcConstruction.exampleLabel') }}
               </div>
               <p class="data-center-stages__example">
                 {{ item.example }}
@@ -68,12 +68,11 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    DATA_CENTER_CONSTRUCTION_PAGE,
-    type DataCenterStageItem,
-  } from '~/common/modules/top-mining/pages/data-center-construction'
+  import type { DataCenterStageItem } from '~/common/modules/top-mining/pages/data-center-construction'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.stages
+  const { t } = useT()
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.stages)
 
   function isLastPointWithoutExample(
     item: DataCenterStageItem,

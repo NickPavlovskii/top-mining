@@ -2,7 +2,7 @@
   <h1
     v-if="titleTag === 'h1'"
     :class="titleClasses"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <span class="top-mining-brand-title__inner">
       <img
@@ -16,7 +16,7 @@
   <h2
     v-else-if="titleTag === 'h2'"
     :class="titleClasses"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <span class="top-mining-brand-title__inner">
       <img
@@ -30,7 +30,7 @@
   <h3
     v-else-if="titleTag === 'h3'"
     :class="titleClasses"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <span class="top-mining-brand-title__inner">
       <img
@@ -44,7 +44,7 @@
   <span
     v-else
     :class="titleClasses"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <span class="top-mining-brand-title__inner">
       <img
@@ -70,9 +70,11 @@
     }>(),
     {
       spaced: false,
-      ariaLabel: 'топ-майнинг',
+      ariaLabel: undefined,
     },
   )
+
+  const { t } = useT()
 
   const defaultTags: Record<TopMiningBrandTitleVariant, 'h1' | 'h2' | 'span'> = {
     hero: 'h1',
@@ -87,7 +89,12 @@
     `top-mining-brand-title--${props.variant}`,
   ])
 
-  const titleText = computed(() => props.spaced ? 'ТОП - МАЙНИНГ' : 'ТОП-МАЙНИНГ',
+  const resolvedAriaLabel = computed(
+    () => props.ariaLabel ?? t('header.brandAria'),
+  )
+
+  const titleText = computed(() =>
+    props.spaced ? t('header.brandTitleSpaced') : t('header.brandTitle'),
   )
 </script>
 

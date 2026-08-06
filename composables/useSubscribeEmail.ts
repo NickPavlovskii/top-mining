@@ -1,7 +1,6 @@
 import {
   parseSubscribeSubmit,
   SUBSCRIBE_API_PATH,
-  SUBSCRIBE_UI,
   type SubscribeSource,
 } from '~/common/modules/top-mining/layout/subscribe'
 
@@ -9,6 +8,7 @@ export function useSubscribeEmail(source: SubscribeSource) {
   const email = ref('')
   const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
   const message = ref('')
+  const { t } = useT()
 
   async function submit() {
     const parsed = parseSubscribeSubmit({
@@ -19,12 +19,12 @@ export function useSubscribeEmail(source: SubscribeSource) {
 
     if (!parsed.ok) {
       status.value = 'error'
-      message.value = SUBSCRIBE_UI.invalidEmail
+      message.value = t('subscribe.invalidEmail')
       return false
     }
 
     status.value = 'loading'
-    message.value = SUBSCRIBE_UI.sending
+    message.value = t('subscribe.sending')
 
     try {
       await $fetch(SUBSCRIBE_API_PATH, {
@@ -33,12 +33,12 @@ export function useSubscribeEmail(source: SubscribeSource) {
       })
 
       status.value = 'success'
-      message.value = SUBSCRIBE_UI.success
+      message.value = t('subscribe.success')
       email.value = ''
       return true
     } catch {
       status.value = 'error'
-      message.value = SUBSCRIBE_UI.error
+      message.value = t('subscribe.error')
       return false
     }
   }

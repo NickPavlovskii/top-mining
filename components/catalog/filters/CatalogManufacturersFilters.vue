@@ -12,7 +12,7 @@
           :aria-expanded="sections.algorithms"
           @click="sections.algorithms = !sections.algorithms"
         >
-          <span class="catalog-mfr-filters__section-title">Алгоритмы ASIC</span>
+          <span class="catalog-mfr-filters__section-title">{{ t('catalog.filterAlgorithms') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -40,12 +40,12 @@
               v-model="algorithmQuery"
               type="search"
               class="catalog-mfr-filters__search-input"
-              placeholder="Поиск..."
+              :placeholder="t('common.search')"
               autocomplete="off"
             />
           </label>
 
-          <p class="catalog-mfr-filters__all-label">Все</p>
+          <p class="catalog-mfr-filters__all-label">{{ t('catalog.filterAll') }}</p>
 
           <ul class="catalog-mfr-filters__list">
             <li
@@ -73,7 +73,7 @@
           :aria-expanded="sections.models"
           @click="sections.models = !sections.models"
         >
-          <span class="catalog-mfr-filters__section-title">Кол-во моделей</span>
+          <span class="catalog-mfr-filters__section-title">{{ t('catalog.filterModelCount') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -101,12 +101,12 @@
               v-model="modelCountQuery"
               type="search"
               class="catalog-mfr-filters__search-input"
-              placeholder="Поиск..."
+              :placeholder="t('common.search')"
               autocomplete="off"
             />
           </label>
 
-          <p class="catalog-mfr-filters__all-label">Все</p>
+          <p class="catalog-mfr-filters__all-label">{{ t('catalog.filterAll') }}</p>
 
           <ul class="catalog-mfr-filters__list">
             <li
@@ -134,7 +134,7 @@
           :aria-expanded="sections.market"
           @click="sections.market = !sections.market"
         >
-          <span class="catalog-mfr-filters__section-title">Компании на рынке</span>
+          <span class="catalog-mfr-filters__section-title">{{ t('catalog.filterMarketAgeShort') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -159,7 +159,7 @@
               <top-mining-checkbox
                 v-model="selectedMarketAge[option.id]"
                 size="sm"
-                :label="option.label"
+                :label="optLabel(option)"
               />
             </li>
           </ul>
@@ -178,7 +178,7 @@
         class="catalog-mfr-filters__reset-icon"
         aria-hidden="true"
       />
-      <span>Сбросить все фильтры</span>
+      <span>{{ t('catalog.resetAllFilters') }}</span>
     </button>
   </aside>
 </template>
@@ -192,6 +192,8 @@
     modelCountFilters: CatalogFilterOption[]
     marketAgeFilters: CatalogFilterOption[]
   }>()
+
+  const { t } = useT()
 
   const selectedAlgorithms = defineModel<Record<string, boolean>>(
     'selectedAlgorithms',
@@ -214,6 +216,17 @@
     models: true,
     market: true,
   })
+
+  const MARKET_AGE_OPTION_KEYS: Record<string, string> = {
+    'over-3y': 'catalog.optOver3y',
+    'under-1y': 'catalog.optUnder1y',
+    '1-to-3y': 'catalog.opt1to3y',
+  }
+
+  function optLabel(option: CatalogFilterOption) {
+    const key = MARKET_AGE_OPTION_KEYS[option.id]
+    return key ? t(key, option.label) : option.label
+  }
 
   const visibleAlgorithmFilters = computed(() => {
     const query = algorithmQuery.value.trim().toLowerCase()

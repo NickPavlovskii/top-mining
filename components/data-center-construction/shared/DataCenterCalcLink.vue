@@ -4,7 +4,7 @@
     :href="href"
     :target="target"
     :rel="rel"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <img
       class="data-center-calc-link__image data-center-calc-link__image--desktop"
@@ -25,19 +25,22 @@
   import calcLinkDesktop from '~/assets/images/data-center-construction/calc-link-bg.svg'
   import calcLinkMobile from '~/assets/images/data-center-construction/calc-link-bg-m.svg'
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       href: string
       ariaLabel?: string
       target?: string
     }>(),
     {
-      ariaLabel: 'Открыть калькулятор',
       target: '_blank',
     },
   )
 
+  const { t } = useT()
   const rel = 'noopener noreferrer'
+  const resolvedAriaLabel = computed(
+    () => props.ariaLabel || t('dcConstruction.openCalculator'),
+  )
 </script>
 
 <style scoped>

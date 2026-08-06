@@ -123,14 +123,13 @@
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import type { PodborTimeSaveCard } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { PODBOR_MINING_HOTEL_TIME_SAVE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
   const TOGGLE_ICON_EXPANDED = 'mdi:chevron-up'
   const TOGGLE_ICON_COLLAPSED = 'mdi:chevron-down'
 
-  const copy = PODBOR_MINING_HOTEL_TIME_SAVE
-  const incomeTips = copy.incomeTips
+  const { timeSave: copy } = usePodborMiningHotelPage()
+  const incomeTips = computed(() => copy.value.incomeTips)
   const expandedIds = ref<Set<string>>(new Set())
 
   function isExpanded(id: string) {
@@ -142,7 +141,7 @@
   }
 
   function toggleLabel(id: string) {
-    return isExpanded(id) ? copy.hideLabel : copy.showMoreLabel
+    return isExpanded(id) ? copy.value.hideLabel : copy.value.showMoreLabel
   }
 
   function toggle(id: string) {

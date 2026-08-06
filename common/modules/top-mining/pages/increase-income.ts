@@ -9,6 +9,9 @@ export const INCREASE_INCOME_PAGE_PATH = '/uvelichim-vash-dohod/'
 
 export const INCREASE_INCOME_PAGE = {
   breadcrumb: 'Увеличим ваш доход',
+  seoTitle: 'Увеличим ваш доход | ТОП МАЙНИНГ',
+  seoDescription:
+    'Ваши асики зарабатывают от 100.000 ₽ в месяц? Увеличим вашу чистую прибыль на 7%.',
   titleLead: 'ВЫ МАЙНЕР?',
   titleMain: 'УВЕЛИЧИМ ВАШ ДОХОД',
   cardLead:

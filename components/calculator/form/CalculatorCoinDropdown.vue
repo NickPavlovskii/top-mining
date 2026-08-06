@@ -2,11 +2,11 @@
   <top-mining-select
     v-model="selectedId"
     mode="flat"
-    aria-label="Выберите монету"
+    :aria-label="resolvedPlaceholder"
     :size="size"
     :columns="columns"
     :options="options"
-    :placeholder="placeholder"
+    :placeholder="resolvedPlaceholder"
     :button-label="buttonLabel"
     :loading="loading || coins.length === 0"
     :show-option-meta="false"
@@ -24,6 +24,8 @@ import type { CalculatorCoin } from '@/common/modules/top-mining'
 import TopMiningSelect from '@/components/global/forms/TopMiningSelect.vue'
 import type { TopMiningSelectOption } from '@/components/global/forms/TopMiningSelect.types'
 
+const { t } = useT()
+
 const props = withDefaults(
   defineProps<{
     coins: CalculatorCoin[]
@@ -33,7 +35,7 @@ const props = withDefaults(
     loading?: boolean
   }>(),
   {
-    placeholder: 'Выберите монету',
+    placeholder: undefined,
     variant: 'asic',
     loading: false,
   },
@@ -42,6 +44,10 @@ const props = withDefaults(
 const emit = defineEmits<{
   select: [coin: CalculatorCoin]
 }>()
+
+const resolvedPlaceholder = computed(
+  () => props.placeholder ?? t('calculator.selectCoin'),
+)
 
 const selectedId = computed({
   get: () => props.selected?.id ?? null,

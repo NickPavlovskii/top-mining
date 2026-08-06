@@ -13,6 +13,9 @@ export const PODBOR_MINING_HOTEL_PAGE = {
   titleEnd: 'отель?',
   description: `Подберем вам майнинг${NBH}отель, где вы сможете разместить асики`,
   descriptionAccent: 'на 15% дешевле рынка',
+  seoTitle: 'Подбор майнинг-отеля | ТОП МАЙНИНГ',
+  seoDescription:
+    'Подберем майнинг-отель для размещения ASIC-майнеров на 15% дешевле рынка.',
 } as const
 
 export const PODBOR_MINING_HOTEL_OFFER = {

@@ -13,12 +13,15 @@ export function formatArticleDate(isoDate: string): string {
   return `${day}.${month}.${year}`
 }
 
-export function formatReadingTime(minutes: number | null | undefined): string | null {
+
+export function readingTimeMinutes(
+  minutes: number | null | undefined,
+): number | null {
   if (minutes == null || minutes <= 0) {
     return null
   }
 
-  return `${minutes} мин.`
+  return minutes
 }
 
 export function splitArticleTitle(title: string): {

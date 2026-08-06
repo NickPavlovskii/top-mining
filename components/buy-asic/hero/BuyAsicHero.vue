@@ -3,7 +3,7 @@
     <div class="buy-asic-hero__inner">
       <nav
         class="buy-asic-hero__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -53,7 +53,7 @@
 
         <div
           class="buy-asic-hero__ribbon"
-          aria-label="Компании по продаже ASIC"
+          :aria-label="t('buyAsic.companiesRibbonAria')"
         >
           <div class="buy-asic-hero__ribbon-rotator">
             <div class="buy-asic-hero__ribbon-track">
@@ -161,15 +161,15 @@
 </template>
 
 <script setup lang="ts">
-  import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic/page'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
   import BuyAsicCompanyCard from '~/components/buy-asic/hero/BuyAsicCompanyCard.vue'
 
-  const copy = BUY_ASIC_PAGE
+  const { page } = useBuyAsicPage()
+  const { t } = useT()
+  const copy = computed(() => page.value)
 
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -187,7 +187,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

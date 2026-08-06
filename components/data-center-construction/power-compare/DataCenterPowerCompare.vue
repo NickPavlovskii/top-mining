@@ -63,12 +63,10 @@
 <script setup lang="ts">
   import iconEl from '~/assets/images/data-center-construction/compare/sravnen-block-el.svg'
   import iconGaz from '~/assets/images/data-center-construction/compare/sravnen-block-gaz.svg'
-  import {
-    DATA_CENTER_CONSTRUCTION_PAGE,
-    type DataCenterPowerIconId,
-  } from '~/common/modules/top-mining/pages/data-center-construction'
+  import type { DataCenterPowerIconId } from '~/common/modules/top-mining/pages/data-center-construction'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.powerCompare
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.powerCompare)
 
   const icons: Record<DataCenterPowerIconId, string> = {
     gaz: iconGaz,

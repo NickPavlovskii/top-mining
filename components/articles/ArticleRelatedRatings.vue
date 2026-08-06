@@ -7,7 +7,7 @@
       id="article-related-ratings-title"
       class="article-related-ratings__title"
     >
-      Читайте также
+      {{ t('articles.readAlso') }}
     </h2>
 
     <top-mining-rating-cards-grid
@@ -21,7 +21,7 @@
         class="article-related-ratings__cta"
         :to="RATINGS_PAGE_HREF"
       >
-        Еще рейтинги
+        {{ t('articles.moreRatings') }}
         <img
           :src="arrowIcon"
           alt=""
@@ -41,6 +41,8 @@
     RATINGS_PAGE_HREF,
     type RatingsResponse,
   } from '~/common/modules/ratings'
+
+  const { t } = useT()
 
   const { data } = await useFetch<RatingsResponse>('/api/ratings/home')
 

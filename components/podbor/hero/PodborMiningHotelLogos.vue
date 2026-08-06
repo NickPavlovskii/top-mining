@@ -21,9 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_PARTNERS } from '~/common/modules/top-mining/podbor/mining-hotel'
-
-  const partners = PODBOR_MINING_HOTEL_PARTNERS
+  const { partners } = usePodborMiningHotelPage()
 </script>
 
 <style scoped>

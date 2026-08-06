@@ -13,7 +13,7 @@
           >
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                Каталог организаций
+                {{ t('home.heroCatalogTitle') }}
                 <img
                   :src="buttonArrow"
                   alt="" class="top-mining__card-title-arrow"
@@ -21,12 +21,11 @@
               </h2>
 
               <p class="top-mining__card-text">
-                Помогаем вам найти подходящую вам компанию и проанализировать
-                конкурентов.
+                {{ t('home.heroCatalogText') }}
               </p>
 
               <p class="top-mining__card-reviews">
-                Более <strong>5000 отзывов</strong> от клиентов в майнинге
+                {{ t('home.heroCatalogReviews', undefined, { count: '5000' }) }}
               </p>
 
               <div class="top-mining__card-companies">
@@ -47,13 +46,13 @@
                     />
                     {{ company.rate }}
                   </small>
-                  <small>Отзывов: {{ company.reviews }}</small>
+                  <small>{{ t('home.heroReviewsLabel', undefined, { count: company.reviews }) }}</small>
                 </span>
               </div>
 
               <top-mining-button
                 href="#"
-                title="Смотреть все компании"
+                :title="t('home.heroCatalogCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 :append-icon="buttonArrow"
               />
@@ -68,22 +67,22 @@
           >
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                Калькулятор доходности
+                {{ t('home.heroCalcTitle') }}
                 <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
               </h2>
 
               <div class="top-mining__card-stats">
                 <span>
                   <strong>350</strong>
-                  Монет
+                  {{ t('home.heroCalcCoins') }}
                 </span>
                 <span>
                   <strong>500</strong>
-                  Устройств
+                  {{ t('home.heroCalcDevices') }}
                 </span>
                 <span>
                   <strong>15</strong>
-                  Настроек
+                  {{ t('home.heroCalcSettings') }}
                 </span>
               </div>
 
@@ -93,13 +92,13 @@
                   'top-mining__card-text--calculator',
                 ]"
               >
-                Помогаем вам оценивать потенциальную доходность от майнинга
+                {{ t('home.heroCalcText') }}
               </p>
 
               <top-mining-button
                 class="top-mining-button--right"
                 href="#"
-                title="Рассчитать"
+                :title="t('home.heroCalcCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
               />
             </div>
@@ -138,17 +137,17 @@
             />
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                Рейтинги в майнинге
+                {{ t('home.heroRatingTitle') }}
                 <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
               </h2>
 
-              <p class="top-mining__card-text">Помогаем вам определиться с выбором лучшей для вас компании.</p>
+              <p class="top-mining__card-text">{{ t('home.heroRatingText') }}</p>
 
               <top-mining-button
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 class="top-mining-button--right"
                 href="/rating/"
-                :title="TOP_MINING_BUTTON_LABELS.viewRatings"
+                :title="t('home.heroRatingCta')"
                 :append-icon="buttonArrow"
               />
             </div>
@@ -186,7 +185,7 @@
             />
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                Калькулятор в Telegram
+                {{ t('home.heroTgTitle') }}
                 <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
               </h2>
 
@@ -196,13 +195,13 @@
                   'top-mining__card-text--telegram',
                 ]"
               >
-                Самый удобный калькулятор доходности в Telegram
+                {{ t('home.heroTgText') }}
               </p>
 
               <top-mining-button
                 class="top-mining-button--right"
                 href="#"
-                :title="TOP_MINING_BUTTON_LABELS.inTelegram"
+                :title="t('home.epicTgCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 :prepend-icon="telegramIcon"
                 :append-icon="buttonArrow"
@@ -217,7 +216,6 @@
 
 <script setup lang="ts">
   import {
-    TOP_MINING_BUTTON_LABELS,
     TOP_MINING_BUTTON_PROPS,
     TOP_MINING_COMPANIES,
   } from '~/common/modules/top-mining'
@@ -230,6 +228,8 @@
   import rigLarge from '~/assets/images/top-mining/rig-large.png'
   import rigSmall from '~/assets/images/top-mining/rig-small.png'
   import telegramIcon from '~/assets/images/top-mining/telegram-icon.png'
+
+  const { t } = useT()
 </script>
 
 <style scoped>

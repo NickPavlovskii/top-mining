@@ -26,25 +26,25 @@
 
 <script setup lang="ts">
   import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { PODBOR_MINING_HOTEL_CTA } from '~/common/modules/top-mining/podbor/mining-hotel'
   import PodborMiningHotelAddCardModal from '~/components/podbor/modal/PodborMiningHotelAddCardModal.vue'
   import PodborMiningHotelCtaCard from '~/components/podbor/cta/PodborMiningHotelCtaCard.vue'
 
-  const cards = PODBOR_MINING_HOTEL_CTA.cards
+  const { cta } = usePodborMiningHotelPage()
+  const cards = computed(() => cta.value.cards)
   const isLeadModalOpen = ref(false)
   const leadModalCopy = ref<PodborAddCardModalCopy>(
-    PODBOR_MINING_HOTEL_CTA.getOffersModal,
+    cta.value.getOffersModal,
   )
 
   function onAction(id: string) {
     if (id === 'get-offers') {
-      leadModalCopy.value = PODBOR_MINING_HOTEL_CTA.getOffersModal
+      leadModalCopy.value = cta.value.getOffersModal
       isLeadModalOpen.value = true
       return
     }
 
     if (id === 'add-card') {
-      leadModalCopy.value = PODBOR_MINING_HOTEL_CTA.addCardModal
+      leadModalCopy.value = cta.value.addCardModal
       isLeadModalOpen.value = true
     }
   }

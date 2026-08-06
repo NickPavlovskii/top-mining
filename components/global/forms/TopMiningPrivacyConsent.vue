@@ -8,13 +8,13 @@
       :disabled="disabled"
     >
       <span class="top-mining-privacy-consent__text">
-        {{ prefix }}
+        {{ resolvedPrefix }}
         {{ ' ' }}
         <nuxt-link
           class="top-mining-privacy-consent__link"
           :to="privacyHref"
         >
-          {{ privacyLinkLabel }}
+          {{ resolvedPrivacyLinkLabel }}
         </nuxt-link>
       </span>
     </top-mining-checkbox>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
   import TopMiningCheckbox from '~/components/global/selection-controls/TopMiningCheckbox.vue'
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       prefix?: string
       privacyLinkLabel?: string
@@ -33,15 +33,23 @@
       disabled?: boolean
     }>(),
     {
-      prefix: 'Продолжая, вы соглашаетесь с',
-      privacyLinkLabel: 'Политикой конфиденциальности',
+      prefix: undefined,
+      privacyLinkLabel: undefined,
       privacyHref: '/privacy',
       required: true,
       disabled: false,
     },
   )
 
+  const { t } = useT()
   const model = defineModel<boolean>({ default: true })
+
+  const resolvedPrefix = computed(
+    () => props.prefix ?? t('common.privacyPrefix'),
+  )
+  const resolvedPrivacyLinkLabel = computed(
+    () => props.privacyLinkLabel ?? t('common.privacyLink'),
+  )
 </script>
 
 <style scoped>

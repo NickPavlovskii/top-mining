@@ -44,7 +44,7 @@
           :src="catalogModelsGridIcon"
         />
         <span class="catalog-mfr-card__tag-text">
-          <span class="catalog-mfr-card__tag-label">Количество моделей:</span>
+          <span class="catalog-mfr-card__tag-label">{{ t('catalog.modelsCount') }}</span>
           <span class="catalog-mfr-card__tag-value">{{ modelsCountLabel }}</span>
         </span>
       </p>
@@ -58,7 +58,7 @@
           class="catalog-mfr-card__founded-icon"
           aria-hidden="true"
         />
-        <span>Год основания: {{ manufacturer.foundedYear }}</span>
+        <span>{{ t('catalog.founded') }} {{ manufacturer.foundedYear }}</span>
       </p>
     </div>
   </button>
@@ -69,6 +69,8 @@
   import TopMiningLazyImage from '~/components/global/media/TopMiningLazyImage.vue'
   import catalogQualityIcon from '~/assets/images/catalog/quality.png'
   import catalogModelsGridIcon from '~/assets/images/catalog/models-grid.png'
+
+  const { t } = useT()
 
   const props = defineProps<{
     manufacturer: CatalogManufacturer
@@ -89,14 +91,14 @@
 
   const ratingLabel = computed(() => {
     if (props.manufacturer.rating <= 0) {
-      return 'Нет рейтинга'
+      return t('catalog.noRating')
     }
 
     const value = Number.isInteger(props.manufacturer.rating)
       ? String(props.manufacturer.rating)
       : props.manufacturer.rating.toFixed(1)
 
-    return `Рейтинг: ${value}`
+    return `${t('catalog.ratingLabel')} ${value}`
   })
 
   const modelsCountLabel = computed(() => {

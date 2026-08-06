@@ -2,7 +2,7 @@
   <div
     v-if="props.open"
     class="top-mining__mobile-nav"
-    aria-label="Мобильное меню"
+    :aria-label="t('header.mobileNavAria')"
   >
     <div class="top-mining__mobile-menu-scroll">
       <ul class="top-mining__mobile-menu-list">
@@ -20,7 +20,7 @@
             class="top-mining__mobile-menu-section-title"
             @click="emit('nav-link-click')"
           >
-            <span>{{ column.title }}</span>
+            <span>{{ tNavTitle(column.slug, column.title) }}</span>
             <img
               class="top-mining__mobile-menu-section-arrow"
               :src="pickaxeIcon"
@@ -33,7 +33,7 @@
             href="#"
             class="top-mining__mobile-menu-section-title"
           >
-            <span>{{ column.title }}</span>
+            <span>{{ tNavTitle(column.slug, column.title) }}</span>
             <img
               class="top-mining__mobile-menu-section-arrow"
               :src="pickaxeIcon"
@@ -78,7 +78,7 @@
                     :name="column.icon"
                     class="top-mining__mobile-menu-link-icon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </nuxt-link>
                 <nuxt-link
                   v-else-if="column.slug === 'ratings'"
@@ -91,7 +91,7 @@
                     class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
                     :src="topStarsIcon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </nuxt-link>
                 <nuxt-link
                   v-else-if="column.slug === 'articles'"
@@ -103,7 +103,7 @@
                     :name="column.icon"
                     class="top-mining__mobile-menu-link-icon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </nuxt-link>
                 <nuxt-link
                   v-else-if="column.slug === 'consulting'"
@@ -116,7 +116,7 @@
                     class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image top-mining__mobile-menu-link-icon--consulting"
                     :src="consultingServiceIcon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </nuxt-link>
                 <nuxt-link
                   v-else-if="column.slug === 'calculator' && !isCalculatorExternalNavItem(item)"
@@ -128,7 +128,7 @@
                     :name="getCalculatorNavItemIcon(item)"
                     class="top-mining__mobile-menu-link-icon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </nuxt-link>
                 <a
                   v-else-if="column.slug === 'calculator'"
@@ -143,7 +143,7 @@
                     class="top-mining__mobile-menu-link-icon top-mining__mobile-menu-link-icon--image"
                     :src="telegramMenuIcon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </a>
                 <a
                   v-else
@@ -154,7 +154,7 @@
                     :name="column.icon"
                     class="top-mining__mobile-menu-link-icon"
                   />
-                  <span>{{ item }}</span>
+                  <span>{{ tNavItem(item) }}</span>
                 </a>
               </li>
             </ul>
@@ -207,6 +207,10 @@
           </div>
         </li>
       </ul>
+
+      <div class="top-mining__mobile-menu-locale">
+        <top-mining-locale-switcher size="sm" />
+      </div>
     </div>
   </div>
 </template>
@@ -242,6 +246,7 @@
   import topStarsIcon from '~/assets/images/top-mining/top-stars-icon.png'
   import pickaxeIcon from '~/assets/images/top-mining/pickaxe-icon.png'
   import consultingServiceIcon from '~/assets/images/top-mining/consulting-service-icon.png'
+  import TopMiningLocaleSwitcher from '~/components/top-mining/header/TopMiningLocaleSwitcher.vue'
 
   const props = defineProps<{
     open: boolean
@@ -255,6 +260,7 @@
     'nav-link-click': []
   }>()
 
+  const { t, tNavItem, tNavTitle } = useT()
   const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
 
   const mobileMenuSocialLinks = computed(() =>

@@ -1,11 +1,11 @@
 <template>
   <top-mining-select
-    aria-label="Выберите алгоритм"
+    :aria-label="resolvedPlaceholder"
     mode="flat"
     size="sm"
     :model-value="selected"
     :options="options"
-    :placeholder="placeholder"
+    :placeholder="resolvedPlaceholder"
     :loading="loading || algorithms.length === 0"
     :show-option-meta="false"
     @select="onSelect"
@@ -16,6 +16,8 @@
 import TopMiningSelect from '@/components/global/forms/TopMiningSelect.vue'
 import type { TopMiningSelectOption } from '@/components/global/forms/TopMiningSelect.types'
 
+const { t } = useT()
+
 const props = withDefaults(
   defineProps<{
     algorithms: string[]
@@ -24,7 +26,7 @@ const props = withDefaults(
     loading?: boolean
   }>(),
   {
-    placeholder: 'Выберите алгоритм',
+    placeholder: undefined,
     loading: false,
   },
 )
@@ -32,6 +34,10 @@ const props = withDefaults(
 const emit = defineEmits<{
   select: [algorithm: string]
 }>()
+
+const resolvedPlaceholder = computed(
+  () => props.placeholder ?? t('calculator.selectAlgorithm'),
+)
 
 const options = computed<TopMiningSelectOption[]>(() =>
   props.algorithms.map((algorithm) => ({

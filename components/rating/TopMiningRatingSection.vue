@@ -16,7 +16,7 @@
     />
 
     <h2 id="rating-section-title" class="rating-section__title-sr">
-      Рейтинг в майнинге
+      {{ t('ratings.titleHome') }}
     </h2>
 
     <top-mining-rating-cards-grid
@@ -31,6 +31,8 @@
   import { RATINGS_FALLBACK_HOME_CARDS } from '~/common/modules/ratings/fallback'
   import { TOP_MINING_RATING_VIDEO } from '~/common/modules/ratings/content'
   import type { RatingsResponse } from '~/common/modules/ratings'
+
+  const { t } = useT()
 
   const { data } = await useFetch<RatingsResponse>('/api/ratings/home')
 

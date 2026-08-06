@@ -28,10 +28,12 @@ describe('DataCenterHero', () => {
 
     const hero = DATA_CENTER_CONSTRUCTION_PAGE.hero
 
+    // RU is the default test locale — hero copy comes from i18n catalogs.
     expect(wrapper.text()).toContain(hero.title)
     expect(wrapper.text()).toContain(hero.titleAccent)
     expect(wrapper.text()).toContain(hero.investmentValue)
     expect(wrapper.text()).toContain(hero.paybackValue)
+    expect(wrapper.text()).toContain(hero.ctaLabel)
     expect(wrapper.html()).toContain(hero.ctaHref)
   })
 })

@@ -11,6 +11,8 @@ describe('IncreaseIncomeHero', () => {
         stubs: {
           ConsultingDiagonalArrowIcon: true,
           'consulting-diagonal-arrow-icon': true,
+          TopMiningFormStatus: true,
+          'top-mining-form-status': true,
         },
       },
     })
@@ -36,7 +38,7 @@ describe('IncreaseIncomeHero', () => {
     expect(wrapper.find('.increase-income-hero__submit').text()).toContain(
       INCREASE_INCOME_PAGE.submitLabel,
     )
-    expect(wrapper.find('.increase-income-hero__privacy-link').attributes('href')).toBe(
+    expect(wrapper.find('.top-mining-privacy-consent__link').attributes('href')).toBe(
       INCREASE_INCOME_PAGE.privacyHref,
     )
   })

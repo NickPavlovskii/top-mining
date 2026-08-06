@@ -1,7 +1,7 @@
 <template>
   <section class="org-gallery">
     <h2 class="org-gallery__title">
-      Галерея
+      {{ t('orgDetail.gallery') }}
     </h2>
 
     <div class="org-gallery__viewport">
@@ -35,7 +35,7 @@
         type="button"
         class="org-gallery__nav-btn"
         :disabled="!canScrollPrev"
-        aria-label="Предыдущее фото"
+        :aria-label="t('orgDetail.prevPhoto')"
         @click="scroll(-1)"
       >
         <Icon
@@ -47,7 +47,7 @@
         type="button"
         class="org-gallery__nav-btn"
         :disabled="!canScrollNext"
-        aria-label="Следующее фото"
+        :aria-label="t('orgDetail.nextPhoto')"
         @click="scroll(1)"
       >
         <Icon
@@ -66,6 +66,8 @@
     /** Список изображений галереи */
     images: CatalogOrganizationGalleryImage[]
   }>()
+
+  const { t } = useT()
 
   const trackRef = ref<HTMLElement | null>(null)
   const canScrollPrev = ref(false)

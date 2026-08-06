@@ -32,10 +32,11 @@
     path: '/asic-majnery-po-czenam-nizhe-rynka',
   })
 
+  const { t } = useT()
+
   useSeoMeta({
-    title: 'ASIC-майнеры по ценам ниже рынка | ТОП МАЙНИНГ',
-    description:
-      'Подберем майнинг-компанию, где вы сможете купить асики на 10% дешевле рынка.',
+    title: () => t('buyAsic.seoTitle'),
+    description: () => t('buyAsic.seoDescription'),
   })
 </script>
 

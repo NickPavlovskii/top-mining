@@ -1,10 +1,10 @@
 <template>
   <aside
     class="article-read-also"
-    aria-label="Читайте также"
+    :aria-label="t('articles.readAlso')"
   >
     <p class="article-read-also__title">
-      Читайте также
+      {{ t('articles.readAlso') }}
     </p>
     <ul class="article-read-also__list">
       <li
@@ -31,12 +31,14 @@
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
 
-  const items = [
-    { label: 'Майнинг', href: '/articles/?topic=mining' },
-    { label: 'Инвестиции', href: '/articles/?topic=investments' },
-    { label: 'Инструменты и сервисы', href: '/articles/?topic=tools' },
-    { label: 'Новичкам', href: '/articles/?topic=beginners' },
-  ]
+  const { t } = useT()
+
+  const items = computed(() => [
+    { label: t('home.topicMining'), href: '/articles/?topic=mining' },
+    { label: t('home.topicInvestments'), href: '/articles/?topic=investments' },
+    { label: t('home.topicTools'), href: '/articles/?topic=tools' },
+    { label: t('home.topicBeginners'), href: '/articles/?topic=beginners' },
+  ])
 </script>
 
 <style scoped>

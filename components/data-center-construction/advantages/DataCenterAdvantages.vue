@@ -40,9 +40,8 @@
 </template>
 
 <script setup lang="ts">
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
-
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.advantages
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.advantages)
 
   function itemParagraphs(text: string) {
     return text

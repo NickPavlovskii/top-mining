@@ -8,7 +8,7 @@
         class="top-mining-article-card__image"
         loading="lazy"
         :src="article.imageUrl"
-        :alt="article.imageAlt || article.title"
+        :alt="localizedArticle.imageAlt || localizedArticle.title"
       />
 
       <div
@@ -48,7 +48,7 @@
 <script setup lang="ts">
   import {
     formatArticleDate,
-    formatReadingTime,
+    readingTimeMinutes,
   } from '~/common/modules/articles'
   import type { ArticlePreview } from '~/common/modules/articles'
   import clockIcon from '~/assets/images/articles/clock.png'
@@ -60,6 +60,9 @@
    * @param {String} to - URL страницы статьи
    * @param {Boolean} [showOverlay = false] - показывать оверлей с заголовком на изображении
    */
+  const { t } = useT()
+  const { localize } = useLocalizedArticle()
+
   const props = withDefaults(
     defineProps<{
       article: ArticlePreview
@@ -71,20 +74,23 @@
     },
   )
 
-  const readingTimeLabel = computed(() =>
-    formatReadingTime(props.article.readingTimeMin),
-  )
+  const localizedArticle = computed(() => localize(props.article))
+
+  const readingTimeLabel = computed(() => {
+    const n = readingTimeMinutes(localizedArticle.value.readingTimeMin)
+    return n == null ? null : t('articles.minRead', undefined, { n })
+  })
 
   const publishedLabel = computed(() =>
-    formatArticleDate(props.article.publishedAt),
+    formatArticleDate(localizedArticle.value.publishedAt),
   )
 
   const displayText = computed(
-    () => props.article.excerpt || props.article.title,
+    () => localizedArticle.value.excerpt || localizedArticle.value.title,
   )
 
   const overlayTitle = computed(() => {
-    const title = props.article.title
+    const title = localizedArticle.value.title
 
     return title.length > 72 ? `${title.slice(0, 72)}…` : title
   })

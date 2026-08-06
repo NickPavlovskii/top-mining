@@ -8,6 +8,8 @@ import type { ResultsCurrencyTab } from '~/components/calculator/form/Calculator
 
 export type { ResultsCurrencyTab } from '~/components/calculator/form/CalculatorResults.types'
 
+const { t } = useT()
+
 const props = defineProps<{
   result: CalculatorProfitResult
   coinSymbol: string
@@ -108,28 +110,28 @@ const clean = computed(() => {
 const paybackLabel = computed(() => {
   const months = props.result.paybackMonths
   if (months == null || !Number.isFinite(months) || months <= 0) {
-    return 'Не окупается'
+    return t('calculator.notPayback')
   }
 
   return `${months.toLocaleString('ru-RU', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  })} мес.`
+  })} ${t('calculator.months')}`
 })
 </script>
 
 <template>
   <section
     class="calc-results"
-    aria-label="Результаты расчетов"
+    :aria-label="t('calculator.resultsAria')"
   >
     <div class="calc-results__inner">
-      <h2 class="calc-results__title">Результаты расчетов</h2>
+      <h2 class="calc-results__title">{{ t('calculator.results') }}</h2>
 
       <div
         class="calc-results__tabs"
         role="tablist"
-        aria-label="Валюта результата"
+        :aria-label="t('calculator.currencyAria')"
       >
         <button
           type="button"
@@ -139,7 +141,7 @@ const paybackLabel = computed(() => {
           :aria-selected="currency === 'COIN'"
           @click="currency = 'COIN'"
         >
-          Монета
+          {{ t('calculator.coin') }}
         </button>
         <button
           type="button"
@@ -166,41 +168,41 @@ const paybackLabel = computed(() => {
       <div class="calc-results__table">
         <div class="calc-results__row calc-results__row--income">
           <div class="calc-results__label">
-            <span class="calc-results__label-desktop">Ваш приблиз. доход</span>
-            <span class="calc-results__label-mobile">Доход</span>
+            <span class="calc-results__label-desktop">{{ t('calculator.incomeApprox') }}</span>
+            <span class="calc-results__label-mobile">{{ t('calculator.incomeShort') }}</span>
           </div>
           <div class="calc-results__values calc-results__values--income">
             <div class="calc-results__value">
               <span>{{ incomeHour }}</span>
-              {{ unitSuffix }} / час
+              {{ unitSuffix }} {{ t('calculator.perHourSlash') }}
             </div>
             <div class="calc-results__value">
               <span>{{ incomeDay }}</span>
-              {{ unitSuffix }} / день
+              {{ unitSuffix }} {{ t('calculator.perDaySlash') }}
             </div>
             <div class="calc-results__value">
               <span>{{ incomeMonth }}</span>
-              {{ unitSuffix }} / мес.
+              {{ unitSuffix }} {{ t('calculator.perMonthSlash') }}
             </div>
             <div class="calc-results__value">
               <span>{{ incomeYear }}</span>
-              {{ unitSuffix }} / год
+              {{ unitSuffix }} {{ t('calculator.perYearSlash') }}
             </div>
           </div>
         </div>
 
         <div class="calc-results__row">
           <div class="calc-results__label">
-            Стоимость размещения / мес.
+            {{ t('calculator.placingMonth') }}
           </div>
           <div class="calc-results__value calc-results__value--wide">
             <span>{{ placing }}</span>
-            {{ unitSuffix }} / мес.
+            {{ unitSuffix }} {{ t('calculator.perMonthSlash') }}
           </div>
         </div>
 
         <div class="calc-results__row">
-          <div class="calc-results__label">Срок окупаемости</div>
+          <div class="calc-results__label">{{ t('calculator.paybackPeriod') }}</div>
           <div class="calc-results__value calc-results__value--wide">
             {{ paybackLabel }}
           </div>
@@ -208,12 +210,12 @@ const paybackLabel = computed(() => {
 
         <div class="calc-results__row">
           <div class="calc-results__label">
-            Чистая прибыль
-            <span class="calc-results__label-soft"> / мес.</span>
+            {{ t('calculator.netProfit') }}
+            <span class="calc-results__label-soft"> {{ t('calculator.perMonthSlash') }}</span>
           </div>
           <div class="calc-results__value calc-results__value--wide">
             <span>{{ clean }}</span>
-            {{ unitSuffix }} / мес.
+            {{ unitSuffix }} {{ t('calculator.perMonthSlash') }}
           </div>
         </div>
       </div>

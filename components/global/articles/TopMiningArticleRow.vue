@@ -26,13 +26,13 @@
         v-if="titleTag === 'h2'"
         class="top-mining-article-row__title"
       >
-        {{ article.title }}
+        {{ localizedArticle.title }}
       </h2>
       <h3
         v-else
         class="top-mining-article-row__title"
       >
-        {{ article.title }}
+        {{ localizedArticle.title }}
       </h3>
       <img
         alt=""
@@ -47,7 +47,7 @@
 <script setup lang="ts">
   import {
     formatArticleDate,
-    formatReadingTime,
+    readingTimeMinutes,
   } from '~/common/modules/articles'
   import type { ArticlePreview } from '~/common/modules/articles'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
@@ -60,6 +60,9 @@
    * @param {String} to - URL страницы статьи
    * @param {String} [titleTag = 'h3'] - HTML-тег заголовка: h2 или h3
    */
+  const { t } = useT()
+  const { localize } = useLocalizedArticle()
+
   const props = withDefaults(
     defineProps<{
       article: ArticlePreview
@@ -71,12 +74,15 @@
     },
   )
 
-  const readingTimeLabel = computed(() =>
-    formatReadingTime(props.article.readingTimeMin),
-  )
+  const localizedArticle = computed(() => localize(props.article))
+
+  const readingTimeLabel = computed(() => {
+    const n = readingTimeMinutes(localizedArticle.value.readingTimeMin)
+    return n == null ? null : t('articles.minRead', undefined, { n })
+  })
 
   const publishedLabel = computed(() =>
-    formatArticleDate(props.article.publishedAt),
+    formatArticleDate(localizedArticle.value.publishedAt),
   )
 </script>
 

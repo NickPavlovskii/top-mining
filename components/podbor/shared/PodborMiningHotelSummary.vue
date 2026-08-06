@@ -111,12 +111,11 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-  import { PODBOR_MINING_HOTEL_SUMMARY } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
-  const summary = PODBOR_MINING_HOTEL_SUMMARY
-  const notePhraseIndex = summary.benefits.length
+  const { summary } = usePodborMiningHotelPage()
+  const { t } = useT()
+  const notePhraseIndex = computed(() => summary.value.benefits.length)
   const phone = ref('')
   const privacyAccepted = ref(true)
   const rootRef = ref<HTMLElement | null>(null)
@@ -174,7 +173,7 @@
   async function onSubmit() {
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

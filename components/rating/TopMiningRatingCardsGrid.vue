@@ -17,7 +17,7 @@
         },
       ]"
     >
-      <h3 class="rating-cards-grid__card-title">{{ card.title }}</h3>
+      <h3 class="rating-cards-grid__card-title">{{ tRatingTitle(card.title) }}</h3>
 
       <div
         v-if="getCardColumnCount(card) === 2"
@@ -37,7 +37,7 @@
               :to="toRatingArticleHref(item.href)"
             >
               <span class="rating-cards-grid__num">({{ item.number }})</span>
-              <span class="rating-cards-grid__label">{{ item.label }}</span>
+              <span class="rating-cards-grid__label">{{ tRatingItem(item.label) }}</span>
             </nuxt-link>
           </li>
         </ul>
@@ -56,7 +56,7 @@
             :to="toRatingArticleHref(item.href)"
           >
             <span class="rating-cards-grid__num">({{ item.number }})</span>
-            <span class="rating-cards-grid__label">{{ item.label }}</span>
+            <span class="rating-cards-grid__label">{{ tRatingItem(item.label) }}</span>
           </nuxt-link>
         </li>
       </ul>
@@ -66,7 +66,7 @@
         class="rating-cards-grid__more"
         :to="getRatingsPageHref(card.id)"
       >
-        Показать еще
+        {{ t('ratings.showMore') }}
         <img
           :src="arrowUpRightIcon"
           alt=""
@@ -87,6 +87,8 @@
     type TopMiningRatingItem,
   } from '~/common/modules/ratings'
   import arrowUpRightIcon from '~/assets/images/articles/arrow-up-right.png'
+
+  const { t, tRatingTitle, tRatingItem } = useT()
 
   const props = withDefaults(
     defineProps<{

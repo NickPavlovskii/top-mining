@@ -29,7 +29,8 @@
 </template>
 
 <script setup lang="ts">
-  const label = 'АКТУАЛЬНЫЕ МОДЕЛИ'
+  const { t } = useT()
+  const label = computed(() => t('buyAsic.currentModels'))
   const itemCount = 8
 </script>
 

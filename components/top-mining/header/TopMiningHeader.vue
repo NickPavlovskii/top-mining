@@ -24,14 +24,14 @@
       ]"
     >
       <div class="top-mining__header-inner">
-      <nuxt-link to="/" class="top-mining__logo" aria-label="Топ Майнинг" @click="onLogoClick">
+      <nuxt-link to="/" class="top-mining__logo" :aria-label="t('header.brandAria')" @click="onLogoClick">
         <img
           class="top-mining__logo-mark"
           :src="logoMark" alt=""
         />
         <span class="top-mining__logo-text">
-          <strong class="top-mining__logo-title">топ</strong>
-          <small class="top-mining__logo-subtitle">майнинг</small>
+          <strong class="top-mining__logo-title">{{ t('header.brandTop') }}</strong>
+          <small class="top-mining__logo-subtitle">{{ t('header.brandMining') }}</small>
         </span>
       </nuxt-link>
 
@@ -72,7 +72,7 @@
 
       <nav
         class="top-mining__nav top-mining__nav--desktop"
-        aria-label="Навигация по разделам"
+        :aria-label="t('header.navAria')"
       >
         <top-mining-header-desktop-nav
           :is-nav-column-expanded="isNavColumnExpanded"
@@ -94,6 +94,8 @@
       />
 
       <div class="top-mining__header-actions">
+        <top-mining-locale-switcher class="top-mining__locale-switcher" />
+
         <div class="top-mining__consulting-wrap">
           <top-mining-button
             class="top-mining-button--consulting"
@@ -105,17 +107,17 @@
             color="var(--white-color)"
           >
             <span class="top-mining-button__consulting-label">
-              Consulting- услуги
+              {{ t('header.consulting') }}
             </span>
           </top-mining-button>
 
           <div
             class="top-mining__consulting-panel"
             role="menu"
-            aria-label="Consulting-услуги"
+            :aria-label="t('header.consultingMenu')"
           >
               <nuxt-link
-                v-for="item in TOP_MINING_CONSULTING_DROPDOWN_ITEMS"
+                v-for="item in dropdownItems"
                 :key="item.label"
                 :to="item.href"
                 class="top-mining__consulting-panel-link"
@@ -127,7 +129,7 @@
                   class="top-mining__consulting-panel-link-icon"
                   :src="consultingServiceIcon"
                 />
-                <span>{{ item.label }}</span>
+                <span>{{ tNavItem(item.label) }}</span>
               </nuxt-link>
 
             <div class="top-mining__consulting-panel-contacts">
@@ -170,7 +172,6 @@
 
 <script setup lang="ts">
   import {
-    TOP_MINING_CONSULTING_DROPDOWN_ITEMS,
     TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
   } from '~/common/modules/top-mining'
@@ -184,6 +185,12 @@
   import TopMiningHeaderDesktopNav from '~/components/top-mining/header/TopMiningHeaderDesktopNav.vue'
   import TopMiningHeaderCompactNav from '~/components/top-mining/header/TopMiningHeaderCompactNav.vue'
   import TopMiningHeaderMobileMenu from '~/components/top-mining/header/TopMiningHeaderMobileMenu.vue'
+  import TopMiningLocaleSwitcher from '~/components/top-mining/header/TopMiningLocaleSwitcher.vue'
+
+  // Инициализирует cookie локали и html[lang] на всех страницах с хедером.
+  useTopMiningLocale()
+  const { t, tNavItem } = useT()
+  const { dropdownItems } = useConsultingPage()
 
   const props = withDefaults(
     defineProps<{
@@ -257,14 +264,16 @@
   )
 
   const mobileMenuToggleAriaLabel = computed(() =>
-    isMobileMenuOpen.value ? 'Закрыть меню' : 'Открыть меню',
+    isMobileMenuOpen.value ? t('header.closeMenu') : t('header.openMenu'),
   )
 
   const navColumnToggleLabels = computed(() =>
     Object.fromEntries(
       TOP_MINING_NAV_COLUMNS.map((column) => [
         column.title,
-        expandedNavColumns.value.includes(column.title) ? 'Скрыть' : 'Смотреть еще',
+        expandedNavColumns.value.includes(column.title)
+          ? t('header.hideMore')
+          : t('header.showMore'),
       ]),
     ),
   )
@@ -553,7 +562,7 @@
     position: relative;
     z-index: 101;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: clamp(24px, 3vw, 44px);
     align-items: start;
     width: 100%;
@@ -747,11 +756,16 @@
   }
 
   .top-mining__header-actions {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: flex-end;
     align-self: start;
+    gap: 12px;
     overflow: visible;
+  }
+
+  .top-mining__header:not(.top-mining__header--sticky) .top-mining__consulting-wrap {
+    display: none;
   }
 
   .top-mining__header--sticky .top-mining__header-actions {
@@ -1041,6 +1055,15 @@
 
   .top-mining__mobile-menu-footer {
     display: none;
+  }
+
+  .top-mining__mobile-menu-locale {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
   }
 
   .top-mining__nav {
@@ -1537,6 +1560,15 @@
     .top-mining__nav-compact,
     .top-mining__nav--desktop {
       display: none !important;
+    }
+
+    .top-mining__mobile-menu-locale {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
 
     .top-mining__header--sticky {

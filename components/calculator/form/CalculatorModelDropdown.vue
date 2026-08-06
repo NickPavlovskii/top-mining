@@ -12,6 +12,8 @@ import type {
   TopMiningSelectOption,
 } from '@/components/global/forms/TopMiningSelect.types'
 
+const { t } = useT()
+
 const props = defineProps<{
   kind: CalculatorDeviceKind
   brands: CalculatorHardwareBrand[]
@@ -54,6 +56,10 @@ const deviceLabel = computed(() => {
   return option?.label || 'ASIC'
 })
 
+const selectModelAria = computed(() =>
+  t('calculator.selectModelAria', undefined, { device: deviceLabel.value }),
+)
+
 function onSelect(option: TopMiningSelectOption) {
   const model = option.data as CalculatorHardwareModel
   emit('select', model)
@@ -70,7 +76,7 @@ function onSelect(option: TopMiningSelectOption) {
     :button-image="buttonIcon"
     :loading="showSkeletons"
     :show-option-meta="kind === 'asic'"
-    :aria-label="`Выбрать модель ${deviceLabel}`"
+    :aria-label="selectModelAria"
     @select="onSelect"
   />
 </template>

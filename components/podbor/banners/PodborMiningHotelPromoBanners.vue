@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_BANNERS } from '~/common/modules/top-mining/podbor/mining-hotel'
   import PodborMiningHotelPromoBanner from '~/components/podbor/banners/PodborMiningHotelPromoBanner.vue'
 
-  const banners = PODBOR_MINING_HOTEL_BANNERS.items
+  const { banners: bannersCopy } = usePodborMiningHotelPage()
+  const banners = computed(() => bannersCopy.value.items)
 </script>
 
 <style scoped>

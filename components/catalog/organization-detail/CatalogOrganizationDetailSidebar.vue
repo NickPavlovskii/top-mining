@@ -11,7 +11,7 @@
       <div class="org-detail__top-control-content">
         <div class="org-detail__top-control-head">
           <h2 class="org-detail__top-control-title">
-            ТОП МАЙНИНГ
+            {{ t('orgDetail.brandName') }}
           </h2>
           <Icon
             name="mdi:check-decagram"
@@ -20,17 +20,17 @@
           />
         </div>
         <p class="org-detail__top-control-subtitle">
-          Проверка ТОП МАЙНИНГ:
+          {{ t('orgDetail.topMiningCheck') }}
         </p>
         <div class="org-detail__top-control-rows">
           <div class="org-detail__top-control-row">
-            <span class="org-detail__top-control-label">Договора</span>
+            <span class="org-detail__top-control-label">{{ t('orgDetail.contracts') }}</span>
             <verification-status-badge
               :verified="organization.verification.contracts"
             />
           </div>
           <div class="org-detail__top-control-row">
-            <span class="org-detail__top-control-label">Юридическое лицо</span>
+            <span class="org-detail__top-control-label">{{ t('orgDetail.legalEntity') }}</span>
             <verification-status-badge
               :verified="organization.verification.legalEntity"
             />
@@ -39,7 +39,7 @@
             v-if="organization.verification.dataCenter !== undefined"
             class="org-detail__top-control-row"
           >
-            <span class="org-detail__top-control-label">Дата-центр</span>
+            <span class="org-detail__top-control-label">{{ t('orgDetail.dataCenter') }}</span>
             <verification-status-badge
               :verified="organization.verification.dataCenter"
             />
@@ -54,7 +54,7 @@
     >
       <div class="org-detail__registry-head">
         <h2 class="org-detail__registry-title">
-          Майнинг реестр
+          {{ t('orgDetail.miningRegistry') }}
         </h2>
         <Icon
           name="mdi:check-decagram"
@@ -64,7 +64,7 @@
       </div>
       <div class="org-detail__registry-body">
         <p class="org-detail__registry-text">
-          Внесение компании в реестр операторов майнинговой инфраструктуры РФ
+          {{ t('orgDetail.miningRegistryText') }}
         </p>
         <top-mining-chip          
           text-color="#fff"
@@ -99,10 +99,10 @@
       />
       <span class="org-detail__referral-content">
         <span class="org-detail__referral-text">
-          {{ organization.referralPromoText || 'Реферальная программа' }}
+          {{ organization.referralPromoText || t('orgDetail.referralProgram') }}
         </span>
         <span class="org-detail__referral-link">
-          Реферальная программа
+          {{ t('orgDetail.referralProgram') }}
           <Icon
             name="mdi:open-in-new"
             class="org-detail__referral-link-icon"
@@ -116,7 +116,7 @@
       v-if="domainRegisteredLabel"
       layout="info"
       :label="domainRegisteredLabel"
-      subtitle="регистрация домена"
+      :subtitle="t('orgDetail.domainRegistration')"
       append-image-url="/images/catalog/domain-cloud-lock.png"
       preset="dark"
       bg-color="#1a1a1a"
@@ -139,7 +139,7 @@
             class="org-detail__contact-icon"
             aria-hidden="true"
           />
-          <span>Год основания: {{ organization.foundedYear }}</span>
+          <span>{{ t('catalog.founded') }} {{ organization.foundedYear }}</span>
         </li>
         <li
           v-if="organization.website"
@@ -207,7 +207,11 @@
           />
           <span>
             <template v-if="organization.categorySlug === 'crypto-exchanges'">
-              Юрисдикция: {{ address.city || address.addressLine }}
+              {{
+                t('orgDetail.jurisdiction', undefined, {
+                  value: address.city || address.addressLine,
+                })
+              }}
             </template>
             <template v-else>
               {{ address.addressLine }}
@@ -229,13 +233,17 @@
     ratingLabel: string
   }>()
 
+  const { t } = useT()
+
   const phoneHref = computed(() => {
     const digits = props.organization.phone.replace(/\D/g, '')
     return digits ? `tel:+${digits}` : ''
   })
 
   const miningRegistryLabel = computed(() =>
-    props.organization.verification.miningRegistry ? 'Внесена' : 'Не внесена',
+    props.organization.verification.miningRegistry
+      ? t('orgDetail.registryYes')
+      : t('orgDetail.registryNo'),
   )
 
   const miningRegistryIcon = computed(() =>

@@ -6,20 +6,20 @@
     <div class="crypto-section__inner">
       <header class="crypto-section__hero">
         <h1>
-          <span class="crypto-section__title-fill">Криптовалюта</span>
-          <span class="crypto-section__title-outline">сейчас</span>
+          <span class="crypto-section__title-fill">{{ t('crypto.titleFill') }}</span>
+          <span class="crypto-section__title-outline">{{ t('crypto.titleOutline') }}</span>
         </h1>
       </header>
 
       <div class="crypto-section__grid">
         <crypto-coin-list
-          title="Популярные монеты"
+          :title="t('crypto.popular')"
           :coins="popularCoins"
           :highlight-index="1"
         />
 
         <div class="crypto-section__chart-block">
-          <h2 class="crypto-section__chart-block-title">Курс Bitcoin</h2>
+          <h2 class="crypto-section__chart-block-title">{{ t('crypto.bitcoinRate') }}</h2>
 
           <article class="crypto-section__chart">
             <div v-if="bitcoinUsd" class="crypto-section__chart-meta">
@@ -41,7 +41,7 @@
                   :name="bitcoinChangeIcon"
                   class="crypto-section__chart-arrow"
                 />
-                {{ formatChangeAbs(bitcoinUsd.change7d) }} (7д.)
+                {{ formatChangeAbs(bitcoinUsd.change7d) }} {{ t('crypto.change7d') }}
               </span>
             </div>
 
@@ -50,12 +50,12 @@
         </div>
 
         <crypto-coin-list
-          title="Лидер роста"
+          :title="t('crypto.growthLeaders')"
           :coins="growthCoins" 
         />
 
         <crypto-coin-list
-          title="Монета с максимальным объемом"
+          :title="t('crypto.maxVolume')"
           :coins="volumeCoins"
         />
       </div>
@@ -72,6 +72,8 @@
   } from '~/common/modules/crypto'
   import type { CryptoCoin, CryptoResponse } from '~/common/modules/crypto'
     import SparklineChart from '~/components/charts/SparklineChart.vue'
+
+  const { t } = useT()
 
   const { data } = await useFetch<CryptoResponse>('/api/crypto', {
     default: () => ({

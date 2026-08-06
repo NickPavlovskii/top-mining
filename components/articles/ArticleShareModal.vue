@@ -1,17 +1,17 @@
 <template>
-  <<teleport to="body"> to="body">
+  <Teleport to="body">
     <div
       v-if="open"
       class="article-share-modal"
       role="dialog"
       aria-modal="true"
-      aria-label="Поделиться"
+      :aria-label="t('articles.shareShort')"
       @keydown.esc.prevent="close"
     >
       <button
         type="button"
         class="article-share-modal__backdrop"
-        aria-label="Закрыть"
+        :aria-label="t('articles.close')"
         @click="close"
       />
 
@@ -23,7 +23,7 @@
         <button
           type="button"
           class="article-share-modal__close"
-          aria-label="Закрыть"
+          :aria-label="t('articles.close')"
           @click="close"
         >
           <img
@@ -172,16 +172,18 @@
             class="article-share-modal__copy"
             @click="copyUrl"
           >
-            {{ copied ? 'Скопировано' : 'Скопировать' }}
+            {{ copied ? t('articles.copied') : t('articles.copy') }}
           </button>
         </div>
       </div>
     </div>
-  </teleport>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
+
+  const { t } = useT()
 
   const props = withDefaults(
     defineProps<{

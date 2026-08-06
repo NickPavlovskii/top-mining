@@ -3,12 +3,12 @@
     <div class="org-detail__inner">
       <nav
         class="org-detail__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
       >
-        <nuxt-link to="/">Главная</nuxt-link>
+        <nuxt-link to="/">{{ t('common.home') }}</nuxt-link>
         <span aria-hidden="true">/</span>
         <nuxt-link :to="categoryHref">
-          {{ organization.categoryName }}
+          {{ tNavItem(organization.categoryName) }}
         </nuxt-link>
         <span aria-hidden="true">/</span>
         <span>{{ organization.name }}</span>
@@ -35,8 +35,10 @@
           aspect-ratio="3 / 2"
           object-fit="contain"
           tone="light"
+          loading="eager"
           :src="heroLogoUrl"
           :alt="organization.name"
+          @error="onHeroLogoError"
         />
       </header>
 
@@ -45,7 +47,7 @@
         class="org-detail__card org-detail__about-card"
       >
         <h2 class="org-detail__card-title">
-          О компании {{ organization.name }}
+          {{ t('orgDetail.aboutCompany', undefined, { name: organization.name }) }}
         </h2>
         <div
           :class="[
@@ -60,7 +62,7 @@
           class="org-detail__read-more"
           @click="aboutExpanded = true"
         >
-          Читать дальше
+          {{ t('orgDetail.readMore') }}
         </button>
       </section>
 
@@ -79,29 +81,29 @@
             class="org-detail__card org-detail__card--stretch"
           >
             <h2 class="org-detail__card-title">
-              Продажа оборудования
+              {{ t('orgDetail.equipmentSales') }}
             </h2>
             <div class="org-detail__rows">
               <div class="org-detail__row">
-                <span class="org-detail__row-label">Тип оборудования</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.equipmentType') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.equipmentSales.equipmentType }}
                 </span>
               </div>
               <div class="org-detail__row">
-                <span class="org-detail__row-label">Состояние оборудования</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.equipmentCondition') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.equipmentSales.equipmentCondition }}
                 </span>
               </div>
               <div class="org-detail__row">
-                <span class="org-detail__row-label">Объем продаж</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.salesVolume') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.equipmentSales.salesVolume }}
                 </span>
               </div>
               <div class="org-detail__row">
-                <span class="org-detail__row-label">Наличие</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.availability') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.equipmentSales.availability }}
                 </span>
@@ -112,7 +114,7 @@
               class="org-detail__extras"
             >
               <p class="org-detail__extras-title">
-                Дополнительно при покупке асиков:
+                {{ t('orgDetail.equipmentExtras') }}
               </p>
               <ul class="org-detail__extras-list">
                 <li
@@ -130,11 +132,11 @@
             class="org-detail__card org-detail__card--stretch"
           >
             <h2 class="org-detail__card-title">
-              Майнинг-отель {{ organization.name }}
+              {{ t('orgDetail.miningHotel', undefined, { name: organization.name }) }}
             </h2>
             <div class="org-detail__rows org-detail__rows--wide">
               <div class="org-detail__row">
-                <span class="org-detail__row-label">Цена за кВт/ч</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.pricePerKwh') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningHotel.pricePerKwhLabel }}
                 </span>
@@ -143,7 +145,7 @@
                 v-if="organization.miningHotel.sitesCount"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Количество площадок</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.sitesCount') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningHotel.sitesCount }}
                 </span>
@@ -152,16 +154,16 @@
                 v-if="organization.miningHotel.totalCapacityMw"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Мощности площадок</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.sitesCapacity') }}</span>
                 <span class="org-detail__row-value">
-                  {{ organization.miningHotel.totalCapacityMw }} МВт
+                  {{ t('orgDetail.mw', undefined, { value: organization.miningHotel.totalCapacityMw }) }}
                 </span>
               </div>
               <div
                 v-if="organization.miningHotel.siteCities"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Города площадок</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.siteCities') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningHotel.siteCities }}
                 </span>
@@ -171,7 +173,7 @@
                 class="org-detail__row"
               >
                 <span class="org-detail__row-label">
-                  Количество устройств для размещения
+                  {{ t('orgDetail.minDevices') }}
                 </span>
                 <span class="org-detail__row-value">
                   {{ organization.miningHotel.minDevicesLabel }}
@@ -181,7 +183,7 @@
                 v-if="organization.miningHotel.energyType"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Тип энергии</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.energyType') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningHotel.energyType }}
                 </span>
@@ -192,7 +194,7 @@
               class="org-detail__extras"
             >
               <p class="org-detail__extras-title">
-                Дополнительно для хостинга:
+                {{ t('orgDetail.hotelExtras') }}
               </p>
               <ul class="org-detail__extras-list">
                 <li
@@ -210,14 +212,14 @@
             class="org-detail__card org-detail__card--stretch"
           >
             <h2 class="org-detail__card-title">
-              Майнинг-пул
+              {{ t('orgDetail.miningPool') }}
             </h2>
             <div class="org-detail__rows org-detail__rows--wide">
               <div
                 v-if="organization.miningPool.mobileApp"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Мобильное приложение</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.mobileApp') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.mobileApp }}
                 </span>
@@ -226,7 +228,7 @@
                 v-if="organization.miningPool.referralProgram"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Реферальная программа</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.referralProgram') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.referralProgram }}
                 </span>
@@ -235,7 +237,7 @@
                 v-if="organization.miningPool.totalHashrate"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Общий хешрейт</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.totalHashrate') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.totalHashrate }}
                 </span>
@@ -244,7 +246,7 @@
                 v-if="organization.miningPool.rewardDistribution"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Способ распределения награды</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.rewardDistribution') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.rewardDistribution }}
                 </span>
@@ -253,7 +255,7 @@
                 v-if="organization.miningPool.poolCommission"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Комиссия пула</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.poolCommission') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.poolCommission }}
                 </span>
@@ -262,7 +264,7 @@
                 v-if="organization.miningPool.minPayout"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Минимальный лимит выплат</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.minPayout') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.minPayout }}
                 </span>
@@ -271,7 +273,7 @@
                 v-if="organization.miningPool.payoutFrequency"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Периодичность начисления награды</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.payoutFrequency') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.payoutFrequency }}
                 </span>
@@ -280,7 +282,7 @@
                 v-if="organization.miningPool.minedCoins"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Добываемые монеты</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.minedCoins') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.miningPool.minedCoins }}
                 </span>
@@ -293,18 +295,18 @@
             class="org-detail__card org-detail__card--stretch"
           >
             <h2 class="org-detail__card-title">
-              Криптобиржа
+              {{ t('orgDetail.cryptoExchange') }}
             </h2>
 
             <h3 class="org-detail__card-subtitle">
-              Общие характеристики
+              {{ t('orgDetail.generalSpecs') }}
             </h3>
             <div class="org-detail__rows org-detail__rows--wide">
               <div
                 v-if="organization.cryptoExchange.tradingPairsLabel"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Число торговых пар</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.tradingPairs') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.tradingPairsLabel }}
                 </span>
@@ -313,7 +315,7 @@
                 v-if="organization.cryptoExchange.coinsCountLabel"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Количество монет</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.coinsCount') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.coinsCountLabel }}
                 </span>
@@ -322,7 +324,7 @@
                 v-if="organization.cryptoExchange.verificationType"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Верификация</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.verificationType') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.verificationType }}
                 </span>
@@ -334,7 +336,7 @@
               class="org-detail__extras"
             >
               <p class="org-detail__extras-title">
-                Общие дополнительные функции
+                {{ t('orgDetail.exchangeExtras') }}
               </p>
               <ul class="org-detail__extras-list org-detail__extras-list--checks">
                 <li
@@ -347,14 +349,14 @@
             </div>
 
             <h3 class="org-detail__card-subtitle">
-              Характеристики Spot биржи
+              {{ t('orgDetail.spotSpecs') }}
             </h3>
             <div class="org-detail__rows org-detail__rows--wide">
               <div
                 v-if="organization.cryptoExchange.liquidityCoefficient"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Коэф. ликвидности</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.liquidityCoeff') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.liquidityCoefficient }}
                 </span>
@@ -363,7 +365,7 @@
                 v-if="organization.cryptoExchange.spotMarkets"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">SPOT Рынки</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.spotMarkets') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.spotMarkets }}
                 </span>
@@ -372,7 +374,7 @@
                 v-if="organization.cryptoExchange.supportedCurrencies"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Поддержка валют</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.supportedCurrencies') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.supportedCurrencies }}
                 </span>
@@ -380,14 +382,14 @@
             </div>
 
             <h3 class="org-detail__card-subtitle">
-              Характеристики биржи деривативов
+              {{ t('orgDetail.derivativesSpecs') }}
             </h3>
             <div class="org-detail__rows org-detail__rows--wide">
               <div
                 v-if="organization.cryptoExchange.makerFee"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Комиссии мейкера</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.makerFee') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.makerFee }}
                 </span>
@@ -396,7 +398,7 @@
                 v-if="organization.cryptoExchange.takerFee"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Комиссии тейкера</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.takerFee') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.takerFee }}
                 </span>
@@ -405,7 +407,7 @@
                 v-if="organization.cryptoExchange.derivativeMarkets"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Рынки деривативов</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.derivativeMarkets') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoExchange.derivativeMarkets }}
                 </span>
@@ -418,18 +420,18 @@
             class="org-detail__card org-detail__card--stretch"
           >
             <h2 class="org-detail__card-title">
-              Криптокошелек
+              {{ t('orgDetail.cryptoWallet') }}
             </h2>
 
             <h3 class="org-detail__card-subtitle">
-              Возможности кошелька:
+              {{ t('orgDetail.walletFeatures') }}
             </h3>
             <div class="org-detail__rows org-detail__rows--wide">
               <div
                 v-if="organization.cryptoWallet.supportedCoins"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Поддержка монет</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.supportedCoins') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoWallet.supportedCoins }}
                 </span>
@@ -438,7 +440,7 @@
                 v-if="organization.cryptoWallet.platform"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Платформа</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.platform') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoWallet.platform }}
                 </span>
@@ -447,7 +449,7 @@
                 v-if="organization.cryptoWallet.commission"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Комиссия</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.commission') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoWallet.commission }}
                 </span>
@@ -456,7 +458,7 @@
                 v-if="organization.cryptoWallet.commissionCalculation"
                 class="org-detail__row"
               >
-                <span class="org-detail__row-label">Расчет комиссии</span>
+                <span class="org-detail__row-label">{{ t('orgDetail.commissionCalc') }}</span>
                 <span class="org-detail__row-value">
                   {{ organization.cryptoWallet.commissionCalculation }}
                 </span>
@@ -468,7 +470,7 @@
               class="org-detail__extras"
             >
               <p class="org-detail__extras-title">
-                Дополнительно:
+                {{ t('orgDetail.additionally') }}
               </p>
               <ul class="org-detail__extras-list org-detail__extras-list--checks">
                 <li
@@ -494,11 +496,11 @@
           class="org-detail__card org-detail__card--full"
         >
           <h2 class="org-detail__card-title">
-            Майнинг-отель {{ organization.name }}
+            {{ t('orgDetail.miningHotel', undefined, { name: organization.name }) }}
           </h2>
           <div class="org-detail__rows org-detail__rows--wide">
             <div class="org-detail__row">
-              <span class="org-detail__row-label">Цена за кВт/ч</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.pricePerKwh') }}</span>
               <span class="org-detail__row-value">
                 {{ organization.miningHotel.pricePerKwhLabel }}
               </span>
@@ -507,7 +509,7 @@
               v-if="organization.miningHotel.sitesCount"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Количество площадок</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.sitesCount') }}</span>
               <span class="org-detail__row-value">
                 {{ organization.miningHotel.sitesCount }}
               </span>
@@ -516,16 +518,16 @@
               v-if="organization.miningHotel.totalCapacityMw"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Мощности площадок</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.sitesCapacity') }}</span>
               <span class="org-detail__row-value">
-                {{ organization.miningHotel.totalCapacityMw }} МВт
+                {{ t('orgDetail.mw', undefined, { value: organization.miningHotel.totalCapacityMw }) }}
               </span>
             </div>
             <div
               v-if="organization.miningHotel.siteCities"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Города площадок</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.siteCities') }}</span>
               <span class="org-detail__row-value">
                 {{ organization.miningHotel.siteCities }}
               </span>
@@ -535,7 +537,7 @@
               class="org-detail__row"
             >
               <span class="org-detail__row-label">
-                Количество устройств для размещения
+                {{ t('orgDetail.minDevices') }}
               </span>
               <span class="org-detail__row-value">
                 {{ organization.miningHotel.minDevicesLabel }}
@@ -545,7 +547,7 @@
               v-if="organization.miningHotel.energyType"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Тип энергии</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.energyType') }}</span>
               <span class="org-detail__row-value">
                 {{ organization.miningHotel.energyType }}
               </span>
@@ -558,14 +560,14 @@
           class="org-detail__card org-detail__card--full"
         >
           <h2 class="org-detail__card-title org-detail__card-title--upper">
-            Оплата услуг
+            {{ t('orgDetail.paymentServices') }}
           </h2>
           <div class="org-detail__rows org-detail__rows--wide">
             <div
               v-if="paymentMethodsLabel"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Оплата</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.payment') }}</span>
               <span class="org-detail__row-value">
                 {{ paymentMethodsLabel }}
               </span>
@@ -574,7 +576,7 @@
               v-if="paymentFormatsLabel"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Формат оплаты</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.paymentFormat') }}</span>
               <span class="org-detail__row-value">
                 {{ paymentFormatsLabel }}
               </span>
@@ -583,7 +585,7 @@
               v-if="paymentExtraTermsLabel"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Доп. условия оплаты</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.paymentExtraTerms') }}</span>
               <span class="org-detail__row-value">
                 {{ paymentExtraTermsLabel }}
               </span>
@@ -592,7 +594,7 @@
               v-if="paymentContractFormsLabel"
               class="org-detail__row"
             >
-              <span class="org-detail__row-label">Форма договора</span>
+              <span class="org-detail__row-label">{{ t('orgDetail.contractForm') }}</span>
               <span class="org-detail__row-value">
                 {{ paymentContractFormsLabel }}
               </span>
@@ -607,7 +609,7 @@
           <div class="org-detail__more">
             <div class="org-detail__more-text">
               <h2 class="org-detail__more-title">
-                Подробнее
+                {{ t('orgDetail.moreDetails') }}
               </h2>
               <component
                 :is="organization.articleHref ? 'nuxt-link' : 'span'"
@@ -619,7 +621,7 @@
                   class="org-detail__more-link-icon"
                   aria-hidden="true"
                 />
-                Читать статью
+                {{ t('orgDetail.readArticle') }}
               </component>
             </div>
             <img
@@ -703,7 +705,13 @@
     organization: CatalogOrganizationDetail
   }>()
 
+  const { t, tNavItem } = useT()
+  const { localize } = useLocalizedOrganization()
+
+  const organization = computed(() => localize(props.organization))
+
   const aboutExpanded = ref(false)
+  const heroLogoPreferFallback = ref(false)
 
   const organizationStats = ref({
     rating: props.organization.rating,
@@ -713,12 +721,13 @@
 
   watch(
     () => props.organization,
-    (organization) => {
+    (next) => {
       organizationStats.value = {
-        rating: organization.rating,
-        reviewCount: organization.reviewCount,
-        hasPublicRating: organization.hasPublicRating,
+        rating: next.rating,
+        reviewCount: next.reviewCount,
+        hasPublicRating: next.hasPublicRating,
       }
+      heroLogoPreferFallback.value = false
     },
     { deep: true },
   )
@@ -728,24 +737,40 @@
   }
 
   const categoryHref = computed(() =>
-    getCatalogCategoryHref(props.organization.categorySlug),
+    getCatalogCategoryHref(organization.value.categorySlug),
   )
 
-  const heroLogoUrl = computed(
-    () => props.organization.detailLogoUrl || props.organization.logoUrl,
-  )
+  const heroLogoUrl = computed(() => {
+    const detail = organization.value.detailLogoUrl?.trim() || ''
+    const logo = organization.value.logoUrl?.trim() || ''
+
+    if (heroLogoPreferFallback.value) {
+      return logo || detail
+    }
+
+    return detail || logo
+  })
+
+  function onHeroLogoError() {
+    const detail = organization.value.detailLogoUrl?.trim() || ''
+    const logo = organization.value.logoUrl?.trim() || ''
+
+    if (!heroLogoPreferFallback.value && detail && logo && detail !== logo) {
+      heroLogoPreferFallback.value = true
+    }
+  }
 
   const heroTitleParts = computed(() => {
-    const source = props.organization.pageTitle || props.organization.name
+    const source = organization.value.pageTitle || organization.value.name
     const colonIndex = source.indexOf(':')
 
     if (colonIndex === -1) {
-      return { main: source, sub: props.organization.tagline || '' }
+      return { main: source, sub: organization.value.tagline || '' }
     }
 
     return {
       main: `${source.slice(0, colonIndex + 1)}`,
-      sub: source.slice(colonIndex + 1).trim() || props.organization.tagline || '',
+      sub: source.slice(colonIndex + 1).trim() || organization.value.tagline || '',
     }
   })
 
@@ -754,14 +779,14 @@
 
   const ratingLabel = computed(() => {
     if (!organizationStats.value.hasPublicRating || organizationStats.value.rating <= 0) {
-      return 'Нет рейтинга'
+      return t('catalog.noRating')
     }
 
     const value = Number.isInteger(organizationStats.value.rating)
       ? String(organizationStats.value.rating)
       : organizationStats.value.rating.toFixed(1)
 
-    return `Рейтинг: ${value}`
+    return t('orgDetail.ratingValue', undefined, { value })
   })
 
   function asStringList(values: string[] | null | undefined): string[] {
@@ -774,50 +799,50 @@
   }
 
   const equipmentSalesExtras = computed(() =>
-    asStringList(props.organization.equipmentSales?.extras),
+    asStringList(organization.value.equipmentSales?.extras),
   )
   const miningHotelExtras = computed(() =>
-    asStringList(props.organization.miningHotel?.extras),
+    asStringList(organization.value.miningHotel?.extras),
   )
   const cryptoExchangeExtras = computed(() =>
-    asStringList(props.organization.cryptoExchange?.extras),
+    asStringList(organization.value.cryptoExchange?.extras),
   )
   const cryptoWalletExtras = computed(() =>
-    asStringList(props.organization.cryptoWallet?.extras),
+    asStringList(organization.value.cryptoWallet?.extras),
   )
 
   const paymentMethodsLabel = computed(() =>
-    joinList(props.organization.paymentTerms?.paymentMethods),
+    joinList(organization.value.paymentTerms?.paymentMethods),
   )
   const paymentFormatsLabel = computed(() =>
-    joinList(props.organization.paymentTerms?.paymentFormats),
+    joinList(organization.value.paymentTerms?.paymentFormats),
   )
   const paymentExtraTermsLabel = computed(() =>
-    joinList(props.organization.paymentTerms?.extraTerms),
+    joinList(organization.value.paymentTerms?.extraTerms),
   )
   const paymentContractFormsLabel = computed(() =>
-    joinList(props.organization.paymentTerms?.contractForms),
+    joinList(organization.value.paymentTerms?.contractForms),
   )
 
   const galleryImages = computed(() =>
-    Array.isArray(props.organization.gallery) ? props.organization.gallery : [],
+    Array.isArray(organization.value.gallery) ? organization.value.gallery : [],
   )
 
-  const aboutHtml = computed(() => props.organization.aboutHtml?.trim() || '')
+  const aboutHtml = computed(() => organization.value.aboutHtml?.trim() || '')
 
   const aboutNeedsExpand = computed(() => aboutHtml.value.length > 420)
 
   const hasMainProfile = computed(
     () =>
-      Boolean(props.organization.equipmentSales)
-      || Boolean(props.organization.miningHotel)
-      || Boolean(props.organization.miningPool)
-      || Boolean(props.organization.cryptoExchange)
-      || Boolean(props.organization.cryptoWallet),
+      Boolean(organization.value.equipmentSales)
+      || Boolean(organization.value.miningHotel)
+      || Boolean(organization.value.miningPool)
+      || Boolean(organization.value.cryptoExchange)
+      || Boolean(organization.value.cryptoWallet),
   )
 
   const legalProfileRows = computed(() => {
-    const profile = props.organization.legalProfile
+    const profile = organization.value.legalProfile
 
     if (!profile) {
       return []
@@ -829,61 +854,61 @@
       isReliabilityBadge?: boolean
     }> = [
       {
-        label: 'Основной вид деятельности',
+        label: t('orgDetail.primaryActivity'),
         value: formatLegalProfileValue(profile.primaryActivity),
       },
       {
-        label: 'ОГРН / ИНН',
+        label: t('orgDetail.ogrnInn'),
         value:
           profile.ogrn?.trim() && profile.inn?.trim()
             ? `${profile.ogrn}/${profile.inn}`
-            : 'Не определено',
+            : t('orgDetail.undefined'),
       },
     ]
 
     if (profile.registeredAt) {
       rows.push({
-        label: 'Дата регистрации',
+        label: t('orgDetail.registeredAt'),
         value: formatDate(profile.registeredAt),
       })
     }
 
     rows.push(
       {
-        label: 'Юридический адрес',
+        label: t('orgDetail.legalAddress'),
         value: formatLegalProfileValue(profile.legalAddress),
       },
       {
-        label: 'Уставный капитал',
+        label: t('orgDetail.authorizedCapital'),
         value: formatLegalProfileValue(profile.authorizedCapital),
       },
       {
-        label: 'Надежность',
+        label: t('orgDetail.reliability'),
         value: formatLegalProfileValue(profile.reliability),
         isReliabilityBadge: Boolean(profile.reliability?.trim()),
       },
       {
-        label: 'Судебные дела в роли ответчика',
+        label: t('orgDetail.defendantCases'),
         value: formatLegalProfileValue(profile.defendantCases),
       },
       {
-        label: 'Выручка',
+        label: t('orgDetail.revenue'),
         value: formatLegalProfileValue(profile.revenue),
       },
       {
-        label: 'Прибыль',
+        label: t('orgDetail.profit'),
         value: formatLegalProfileValue(profile.profit),
       },
       {
-        label: 'Налоговая задолженность',
+        label: t('orgDetail.taxDebt'),
         value: formatLegalProfileValue(profile.taxDebt),
       },
       {
-        label: 'Компания в санкционных списках',
+        label: t('orgDetail.inSanctions'),
         value: formatLegalProfileValue(profile.inSanctionsLists),
       },
       {
-        label: 'Санкционные ограничения',
+        label: t('orgDetail.sanctionsRestrictions'),
         value: formatLegalProfileValue(profile.sanctionsRestrictions),
       },
     )
@@ -895,7 +920,7 @@
     const normalized = value?.trim()
 
     if (!normalized) {
-      return 'Не определено'
+      return t('orgDetail.undefined')
     }
 
     return normalized

@@ -143,8 +143,6 @@
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const open = defineModel<boolean>('open', { default: false })
 
@@ -157,7 +155,9 @@
     },
   )
 
-  const modal = computed(() => props.copy ?? PODBOR_MINING_HOTEL_PLACEMENT.modal)
+  const { placement } = usePodborMiningHotelPage()
+  const { t } = useT()
+  const modal = computed(() => props.copy ?? placement.value.modal)
 
   const panelRef = ref<HTMLElement | null>(null)
   const name = ref('')
@@ -181,7 +181,7 @@
   async function onSubmit() {
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

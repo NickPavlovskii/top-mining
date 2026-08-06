@@ -52,15 +52,12 @@
 
 <script setup lang="ts">
   import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
-  import {
-    BUY_ASIC_MODELS,
-    BUY_ASIC_MODEL_VENDORS,
-  } from '~/common/modules/top-mining/buy-asic/page'
+  import { BUY_ASIC_MODEL_VENDORS } from '~/common/modules/top-mining/buy-asic/page'
   import BuyAsicModelCard from '~/components/buy-asic/models/BuyAsicModelCard.vue'
   import BuyAsicModelPriceModal from '~/components/buy-asic/models/BuyAsicModelPriceModal.vue'
   import HorizontalCarousel from '~/components/carousel/HorizontalCarousel.vue'
 
-  const models = BUY_ASIC_MODELS
+  const { models } = useBuyAsicPage()
   const vendors = BUY_ASIC_MODEL_VENDORS
   const isPriceModalOpen = ref(false)
   const selectedModel = ref<BuyAsicModel | null>(null)

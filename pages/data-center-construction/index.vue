@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import DataCenterAdvantages from '~/components/data-center-construction/advantages/DataCenterAdvantages.vue'
   import DataCenterConsult from '~/components/data-center-construction/cta/DataCenterConsult.vue'
   import DataCenterDiscuss from '~/components/data-center-construction/cta/DataCenterDiscuss.vue'
@@ -30,9 +29,11 @@
     path: '/data-center-construction',
   })
 
+  const { t } = useT()
+
   useSeoMeta({
-    title: DATA_CENTER_CONSTRUCTION_PAGE.seoTitle,
-    description: DATA_CENTER_CONSTRUCTION_PAGE.seoDescription,
+    title: () => t('dcConstruction.seoTitle'),
+    description: () => t('dcConstruction.seoDescription'),
   })
 </script>
 

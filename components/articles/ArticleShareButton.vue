@@ -2,7 +2,7 @@
   <top-mining-button
     class="article-share-button"
     :class="{ 'article-share-button--block': block }"
-    :title="label"
+    :title="buttonLabel"
     variant="secondary"
     surface="light"
     :size="size"
@@ -21,7 +21,9 @@
   import shareIcon from '~/assets/images/articles/share-icon.png'
   import ArticleShareModal from '~/components/articles/ArticleShareModal.vue'
 
-  withDefaults(
+  const { t } = useT()
+
+  const props = withDefaults(
     defineProps<{
       label?: string
       size?: 'big' | 'small'
@@ -30,12 +32,13 @@
       block?: boolean
     }>(),
     {
-      label: 'Поделиться статьей',
       size: 'big',
       shareTitle: '',
       block: false,
     },
   )
+
+  const buttonLabel = computed(() => props.label ?? t('articles.share'))
 
   const open = ref(false)
 </script>

@@ -7,17 +7,17 @@
     <div class="catalog-detail-skeleton__inner">
       <nav
         class="catalog-detail-skeleton__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
       >
         <nuxt-link to="/">
-          Главная
+          {{ t('common.home') }}
         </nuxt-link>
         <span aria-hidden="true">/</span>
-        <nuxt-link :to="catalogHref">
-          {{ catalogLabel }}
+        <nuxt-link :to="resolvedCatalogHref">
+          {{ resolvedCatalogLabel }}
         </nuxt-link>
         <span aria-hidden="true">/</span>
-        <span>{{ currentLabel }}</span>
+        <span>{{ resolvedCurrentLabel }}</span>
       </nav>
 
       <header class="catalog-detail-skeleton__hero">
@@ -75,18 +75,21 @@
 <script setup lang="ts">
   import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
 
-  withDefaults(
-    defineProps<{
-      catalogHref?: string
-      catalogLabel?: string
-      currentLabel?: string
-    }>(),
-    {
-      catalogHref: CATALOG_PAGE_HREF,
-      catalogLabel: 'Каталог',
-      currentLabel: '…',
-    },
+  const props = defineProps<{
+    catalogHref?: string
+    catalogLabel?: string
+    currentLabel?: string
+  }>()
+
+  const { t } = useT()
+
+  const resolvedCatalogHref = computed(
+    () => props.catalogHref ?? CATALOG_PAGE_HREF,
   )
+  const resolvedCatalogLabel = computed(
+    () => props.catalogLabel ?? t('catalog.title1'),
+  )
+  const resolvedCurrentLabel = computed(() => props.currentLabel ?? '…')
 </script>
 
 <style scoped>

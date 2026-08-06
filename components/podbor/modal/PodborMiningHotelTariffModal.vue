@@ -139,8 +139,6 @@
     PodborOfferLeadModalCopy,
     PodborPlacementOffer,
   } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const open = defineModel<boolean>('open', { default: false })
 
@@ -154,7 +152,9 @@
     },
   )
 
-  const copy = computed(() => props.copy ?? PODBOR_MINING_HOTEL_PLACEMENT.tariffModal)
+  const { placement } = usePodborMiningHotelPage()
+  const { t } = useT()
+  const copy = computed(() => props.copy ?? placement.value.tariffModal)
 
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')
@@ -175,7 +175,7 @@
   async function onSubmit() {
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

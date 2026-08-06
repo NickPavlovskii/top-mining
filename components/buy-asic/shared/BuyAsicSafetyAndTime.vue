@@ -62,8 +62,8 @@
             >
               {{
                 isExpanded(card.id)
-                  ? BUY_ASIC_VALUE_BLOCKS.seeLessLabel
-                  : BUY_ASIC_VALUE_BLOCKS.seeMoreLabel
+                  ? valueBlocks.seeLessLabel
+                  : valueBlocks.seeMoreLabel
               }}
               <Icon
                 class="buy-asic-value__more-icon"
@@ -155,8 +155,8 @@
             >
               {{
                 isExpanded(card.id)
-                  ? BUY_ASIC_VALUE_BLOCKS.seeLessLabel
-                  : BUY_ASIC_VALUE_BLOCKS.seeMoreLabel
+                  ? valueBlocks.seeLessLabel
+                  : valueBlocks.seeMoreLabel
               }}
               <Icon
                 class="buy-asic-value__more-icon"
@@ -188,14 +188,10 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import {
-    BUY_ASIC_SAFETY,
-    BUY_ASIC_TIME_SAVE,
-    BUY_ASIC_VALUE_BLOCKS,
-  } from '~/common/modules/top-mining/buy-asic/value-blocks'
-
-  const safety = BUY_ASIC_SAFETY
-  const timeSave = BUY_ASIC_TIME_SAVE
+  const localizedPage = useBuyAsicPage()
+  const safety = computed(() => localizedPage.safety.value)
+  const timeSave = computed(() => localizedPage.timeSave.value)
+  const valueBlocks = computed(() => localizedPage.valueBlocks.value)
 
   const expanded = ref<Record<string, boolean>>({})
 

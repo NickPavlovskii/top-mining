@@ -11,20 +11,20 @@
         class="top-mining__nav-compact-link"
         @click="emit('nav-link-click')"
       >
-        {{ column.title }}
+        {{ tNavTitle(column.slug, column.title) }}
       </nuxt-link>
       <a
         v-else
         href="#"
         class="top-mining__nav-compact-link"
       >
-        {{ column.title }}
+        {{ tNavTitle(column.slug, column.title) }}
       </a>
 
       <div
         class="top-mining__nav-compact-panel"
         role="menu"
-        :aria-label="column.title"
+        :aria-label="tNavTitle(column.slug, column.title)"
       >
         <template v-if="column.slug === 'catalog'">
           <nuxt-link
@@ -40,7 +40,7 @@
               aria-hidden="true"
               :name="column.icon"
             />
-            <span>{{ category.label }}</span>
+            <span>{{ tNavItem(category.label) }}</span>
           </nuxt-link>
         </template>
 
@@ -59,7 +59,7 @@
               class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image top-mining__nav-compact-panel-icon--ratings"
               :src="topStarsIcon"
             />
-            <span>{{ item }}</span>
+            <span>{{ tNavItem(item) }}</span>
           </nuxt-link>
         </template>
 
@@ -87,7 +87,7 @@
                 class="top-mining__nav-compact-panel-icon top-mining__nav-compact-panel-icon--image"
                 :src="telegramMenuIcon"
               />
-              <span>{{ item }}</span>
+              <span>{{ tNavItem(item) }}</span>
             </a>
             <nuxt-link
               v-else
@@ -101,7 +101,7 @@
                 aria-hidden="true"
                 :name="getCompactNavItemIcon(column, item)"
               />
-              <span>{{ item }}</span>
+              <span>{{ tNavItem(item) }}</span>
             </nuxt-link>
           </template>
         </template>
@@ -120,7 +120,7 @@
               aria-hidden="true"
               :name="column.icon"
             />
-            <span>{{ item }}</span>
+            <span>{{ tNavItem(item) }}</span>
           </nuxt-link>
         </template>
       </div>
@@ -155,6 +155,7 @@
     'nav-link-click': []
   }>()
 
+  const { tNavItem, tNavTitle } = useT()
   const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
 
   const compactNavColumns = computed(() =>

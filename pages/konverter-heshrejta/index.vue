@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { HASHRATE_CONVERTER_PAGE } from '~/common/modules/top-mining/converter/page'
 import ConverterHero from '~/components/converter/ConverterHero.vue'
 import HashrateConverterWidget from '~/components/converter/HashrateConverterWidget.vue'
 import ConverterAbout from '~/components/converter/ConverterAbout.vue'
@@ -11,9 +10,11 @@ definePageMeta({
   hideFooterContact: true,
 })
 
+const { t } = useT()
+
 useSeoMeta({
-  title: HASHRATE_CONVERTER_PAGE.seoTitle,
-  description: HASHRATE_CONVERTER_PAGE.seoDescription,
+  title: () => t('converter.seoTitle'),
+  description: () => t('converter.seoDescription'),
 })
 </script>
 

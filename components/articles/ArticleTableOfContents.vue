@@ -1,7 +1,7 @@
 <template>
   <nav
     class="article-toc"
-    aria-label="Навигация по статье"
+    :aria-label="t('articles.tocAria')"
   >
     <div class="article-toc__heading">
       <span
@@ -13,10 +13,10 @@
         <span class="article-toc__icon-bar article-toc__icon-bar--lg" />
       </span>
       <p class="article-toc__title article-toc__title--desktop">
-        Навигация по статье
+        {{ t('articles.tocAria') }}
       </p>
       <p class="article-toc__title article-toc__title--mobile">
-        Содержание
+        {{ t('articles.toc') }}
       </p>
     </div>
 
@@ -41,7 +41,7 @@
 
     <div class="article-toc__share">
       <article-share-button
-        label="Поделиться"
+        :label="t('articles.shareShort')"
         size="small"
         block
         :share-title="shareTitle"
@@ -53,6 +53,8 @@
 <script setup lang="ts">
   import type { ArticleTocItem } from '~/common/modules/articles'
   import ArticleShareButton from '~/components/articles/ArticleShareButton.vue'
+
+  const { t } = useT()
 
   const props = defineProps<{
     items: ArticleTocItem[]

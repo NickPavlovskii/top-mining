@@ -15,7 +15,7 @@
         aria-hidden="true"
       />
       <span class="buy-asic-company-card__reviews">
-        Отзывов: {{ company.reviews }}
+        {{ t('buyAsic.reviewsCount', undefined, { count: company.reviews }) }}
       </span>
     </div>
 
@@ -23,7 +23,7 @@
       v-if="company.priceLabel"
       class="buy-asic-company-card__price"
     >
-      Цена за кВт/ч: {{ company.priceLabel }}
+      {{ t('buyAsic.pricePerKwh', undefined, { value: company.priceLabel }) }}
     </p>
   </article>
 </template>
@@ -34,6 +34,8 @@
   defineProps<{
     company: BuyAsicCompany
   }>()
+
+  const { t } = useT()
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <section class="epic-blocks" aria-label="Дополнительные инструменты">
+  <section class="epic-blocks" :aria-label="t('home.epicAria')">
     <article class="epic-block--telegram">
       <div class="epic-block__telegram-scene">
         <div class="epic-block__telegram-surface">
@@ -7,16 +7,15 @@
             <div class="epic-block__content">
               <h2 class="epic-block__title epic-block__title--telegram">
                 <span class="epic-block__title-line epic-block__title-line--head">
-                  <span class="epic-block__title-word">Самый</span>
-                  <span class="epic-block__highlight-text">удобный</span>
+                  <span class="epic-block__title-word">{{ t('home.epicTgMost') }}</span>
+                  <span class="epic-block__highlight-text">{{ t('home.epicTgConvenient') }}</span>
                 </span>
-                <span class="epic-block__title-line">калькулятор</span>
-                <span class="epic-block__title-line">в&nbsp;Telegram</span>
+                <span class="epic-block__title-line">{{ t('home.epicTgCalc') }}</span>
+                <span class="epic-block__title-line">{{ t('home.epicTgInTelegram') }}</span>
               </h2>
 
               <p class="epic-block__text epic-block__text--telegram">
-                Также вы можете рассчитать доходность вашего устройства
-                в&nbsp;нашем Telegram-канале
+                {{ t('home.epicTgText') }}
               </p>
             </div>
           </div>
@@ -48,7 +47,7 @@
                 v-if="!isTelegramVideoPlaying"
                 type="button"
                 class="epic-block__play-button"
-                aria-label="Воспроизвести видео"
+                :aria-label="t('home.epicPlayVideo')"
                 @click.stop="toggleTelegramVideo"
               >
                 <span />
@@ -64,7 +63,7 @@
               :href="TOP_MINING_TELEGRAM_BOT_URL"
             >
               <Icon name="mdi:telegram" class="epic-block__button-icon" />
-              <span>В Telegram</span>
+              <span>{{ t('home.epicTgCta') }}</span>
               <Icon name="mdi:arrow-top-right" class="epic-block__button-arrow" />
             </a>
           </div>
@@ -96,20 +95,18 @@
         :style="{ '--converter-bg': `url(${konverBlockWrapBg})` }"
       >
         <h2 class="epic-block__title epic-block__title--converter">
-          <span class="epic-block__title-line">Конвертер</span>
-          <span class="epic-block__title-line epic-block__highlight-text">хешрейта</span>
+          {{ t('home.epicConverterTitle') }}
         </h2>
 
         <p class="epic-block__text epic-block__text--converter">
-          Теперь вы можете быстро конвертировать мощность майнинга,
-          не&nbsp;уходя с&nbsp;нашего сайта
+          {{ t('home.epicConverterText') }}
         </p>
 
         <a
           :href="TOP_MINING_HASHRATE_CONVERTER_URL"
           class="epic-block__button epic-block__button--orange"
         >
-          <span>Перейти</span>
+          <span>{{ t('home.epicGo') }}</span>
           <Icon name="mdi:arrow-top-right" class="epic-block__button-arrow" />
         </a>
 
@@ -144,6 +141,8 @@
       hideConverter: false,
     },
   )
+
+  const { t } = useT()
 
   const telegramVideoRef = ref<HTMLVideoElement | null>(null)
   const isTelegramVideoPlaying = ref(false)

@@ -134,11 +134,7 @@
 <script setup lang="ts">
   import pdfImage from '~/assets/images/data-center-construction/business-model-pdf.png'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import {
-    DATA_CENTER_CONSTRUCTION_PAGE,
-    type DataCenterBusinessModelItem,
-  } from '~/common/modules/top-mining/pages/data-center-construction'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
+  import type { DataCenterBusinessModelItem } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
@@ -149,7 +145,9 @@
     model: DataCenterBusinessModelItem | null
   }>()
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.models.businessModelModal
+  const { t } = useT()
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.models.businessModelModal)
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')
   const honeypot = ref('')
@@ -174,7 +172,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

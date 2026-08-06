@@ -161,15 +161,13 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    DATA_CENTER_CONSTRUCTION_PAGE,
-    type DataCenterWhyCompareCell,
-  } from '~/common/modules/top-mining/pages/data-center-construction'
+  import type { DataCenterWhyCompareCell } from '~/common/modules/top-mining/pages/data-center-construction'
   import { toCompareTableRows } from '~/common/modules/top-mining/ui/compare-table'
   import DataCenterCalcLink from '~/components/data-center-construction/shared/DataCenterCalcLink.vue'
   import TopMiningCompareTable from '~/components/global/tables/TopMiningCompareTable.vue'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.whyInvest
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.whyInvest)
 
   function maxCompareRows(
     columns: ReadonlyArray<ReadonlyArray<DataCenterWhyCompareCell>>,

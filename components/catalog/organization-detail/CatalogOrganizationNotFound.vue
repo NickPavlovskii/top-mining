@@ -3,32 +3,32 @@
     <div class="org-not-found__inner">
       <nav
         class="org-not-found__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
       >
         <nuxt-link to="/">
-          Главная
+          {{ t('common.home') }}
         </nuxt-link>
         <span aria-hidden="true">/</span>
         <nuxt-link :to="catalogHref">
-          Каталог организаций
+          {{ t('catalog.pageTitle') }}
         </nuxt-link>
         <span aria-hidden="true">/</span>
-        <span>Не найдено</span>
+        <span>{{ t('catalog.notFound') }}</span>
       </nav>
 
       <p class="org-not-found__code">
         404
       </p>
       <h1 class="org-not-found__title">
-        {{ title }}
+        {{ displayTitle }}
       </h1>
       <p class="org-not-found__text">
-        {{ description }}
+        {{ displayDescription }}
       </p>
 
       <div class="org-not-found__actions">
         <top-mining-button
-          title="В каталог организаций"
+          :title="t('catalog.backToCatalog')"
           :href="catalogButtonHref"
           v-bind="TOP_MINING_BUTTON_PROPS"
           @click="onCatalogClick"
@@ -38,7 +38,7 @@
           to="/"
           class="org-not-found__home-link"
         >
-          На главную
+          {{ t('catalog.backHome') }}
         </nuxt-link>
         <button
           v-else
@@ -46,7 +46,7 @@
           class="org-not-found__home-link"
           @click="onHomeClick"
         >
-          На главную
+          {{ t('catalog.backHome') }}
         </button>
       </div>
     </div>
@@ -65,12 +65,20 @@
       recoverError?: boolean
     }>(),
     {
-      title: 'Организация не найдена',
-      description:
-        'Такой страницы в каталоге нет. Проверьте адрес или выберите компанию из каталога.',
+      title: undefined,
+      description: undefined,
       catalogHref: CATALOG_PAGE_HREF,
       recoverError: false,
     },
+  )
+
+  const { t } = useT()
+
+  const displayTitle = computed(
+    () => props.title ?? t('catalog.notFoundTitle'),
+  )
+  const displayDescription = computed(
+    () => props.description ?? t('catalog.notFoundDescription'),
   )
 
   const catalogButtonHref = computed(() =>

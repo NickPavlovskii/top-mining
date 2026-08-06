@@ -82,13 +82,13 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { BUY_ASIC_SUMMARY } from '~/common/modules/top-mining/buy-asic/summary'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
-  const copy = BUY_ASIC_SUMMARY
+  const { summary } = useBuyAsicPage()
+  const { t } = useT()
+  const copy = computed(() => summary.value)
 
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -106,7 +106,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

@@ -58,23 +58,26 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_USEFUL } from '~/common/modules/top-mining/podbor/mining-hotel'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
 
-  const useful = PODBOR_MINING_HOTEL_USEFUL
+  const { useful } = usePodborMiningHotelPage()
   const rootRef = ref<HTMLElement | null>(null)
   const isVisible = ref(false)
   const prefersReducedMotion = ref(false)
 
-  const phraseIndexBySegment: Record<number, number> = {}
-  let phraseCount = 0
+  const phraseIndexBySegment = computed(() => {
+    const phraseIndexes: Record<number, number> = {}
+    let phraseCount = 0
 
-  for (const [index, segment] of useful.segments.entries()) {
-    if ('text' in segment) {
-      phraseIndexBySegment[index] = phraseCount
-      phraseCount += 1
+    for (const [index, segment] of useful.value.segments.entries()) {
+      if ('text' in segment) {
+        phraseIndexes[index] = phraseCount
+        phraseCount += 1
+      }
     }
-  }
+
+    return phraseIndexes
+  })
 
   let observer: IntersectionObserver | null = null
 

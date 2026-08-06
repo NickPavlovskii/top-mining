@@ -9,14 +9,13 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting/construction-forms'
   import ConsultingManagementConstructionForm from '~/components/consulting/ConsultingManagementConstructionForm.vue'
 
   const props = defineProps<{
     variant?: 'inline' | 'mobile'
   }>()
 
-  const copy = CONSULTING_CONSTRUCTION_FORMS
+  const { constructionForms: copy } = useConsultingPage()
 
   const rootClass = computed(() => [
     'consulting-construction-forms',

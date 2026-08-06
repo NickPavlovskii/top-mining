@@ -32,9 +32,20 @@
 </template>
 
 <script setup lang="ts">
-  import { CALCULATOR_PAGE } from '~/common/modules/top-mining/calculator/page'
+  const { t } = useT()
 
-  const about = CALCULATOR_PAGE.about
+  const about = computed(() => ({
+    title: t('calculator.aboutTitle'),
+    intro: t('calculator.aboutIntro'),
+    features: [
+      t('calculator.aboutFeature1'),
+      t('calculator.aboutFeature2'),
+      t('calculator.aboutFeature3'),
+      t('calculator.aboutFeature4'),
+      t('calculator.aboutFeature5'),
+    ],
+    closing: t('calculator.aboutClosing'),
+  }))
 </script>
 
 <style scoped>

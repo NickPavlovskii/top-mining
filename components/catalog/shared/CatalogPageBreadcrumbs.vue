@@ -1,13 +1,13 @@
 <template>
   <nav
     class="catalog-page-breadcrumbs"
-    aria-label="Хлебные крошки"
+    :aria-label="t('common.breadcrumbsAria')"
   >
     <nuxt-link
       to="/"
       class="catalog-page-breadcrumbs__link"
     >
-      Главная
+      {{ t('common.home') }}
     </nuxt-link>
     <span
       class="catalog-page-breadcrumbs__sep"
@@ -20,14 +20,14 @@
       :to="catalogHref"
       class="catalog-page-breadcrumbs__link"
     >
-      Каталог организаций
+      {{ t('catalog.pageTitle') }}
     </nuxt-link>
     <template v-else-if="currentLabel">
       <nuxt-link
         :to="catalogHref"
         class="catalog-page-breadcrumbs__link"
       >
-        Каталог организаций
+        {{ t('catalog.pageTitle') }}
       </nuxt-link>
       <span
         class="catalog-page-breadcrumbs__sep"
@@ -43,7 +43,7 @@
       v-else
       class="catalog-page-breadcrumbs__current"
     >
-      Каталог организаций
+      {{ t('catalog.pageTitle') }}
     </span>
   </nav>
 </template>
@@ -63,6 +63,8 @@
       currentLabel: undefined,
     },
   )
+
+  const { t } = useT()
 </script>
 
 <style scoped>

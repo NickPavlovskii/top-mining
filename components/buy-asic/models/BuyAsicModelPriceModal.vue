@@ -115,8 +115,6 @@
 
 <script setup lang="ts">
   import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
-  import { BUY_ASIC_MODELS } from '~/common/modules/top-mining/buy-asic/page'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
@@ -128,7 +126,9 @@
     model: BuyAsicModel | null
   }>()
 
-  const copy = BUY_ASIC_MODELS.priceModal
+  const { models } = useBuyAsicPage()
+  const { t } = useT()
+  const copy = computed(() => models.value.priceModal)
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')
   const privacyAccepted = ref(true)
@@ -148,7 +148,7 @@
   async function onSubmit() {
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

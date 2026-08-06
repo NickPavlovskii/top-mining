@@ -22,11 +22,11 @@
             :src="utpStar"
           />
           <span>
-            Более
+            {{ t('catalog.reviewsBefore') }}
             <span class="catalog-mfr-page__utp-accent">
-              {{ formattedReviews }} отзывов
+              {{ t('catalog.reviewsAccent', undefined, { count: formattedReviews }) }}
             </span>
-            от клиентов в майнинге
+            {{ t('catalog.reviewsAfter') }}
           </span>
         </p>
       </header>
@@ -67,7 +67,7 @@
                 v-model="searchQuery"
                 type="search"
                 class="catalog-mfr-page__search-input"
-                placeholder="Поиск по названию"
+                :placeholder="t('catalog.searchPlaceholder')"
                 autocomplete="off"
               />
               <img
@@ -88,7 +88,7 @@
             v-if="resultCount > 0"
             class="catalog-mfr-page__count"
           >
-            Найдено организаций: {{ resultCount }}
+            {{ t('catalog.foundOrgs', undefined, { count: resultCount }) }}
           </p>
 
           <div
@@ -149,17 +149,17 @@
             class="catalog-mfr-page__empty"
           >
             <p class="catalog-mfr-page__empty-title">
-              По данному запросу ничего не найдено
+              {{ t('catalog.emptyTitle') }}
             </p>
             <p class="catalog-mfr-page__empty-text">
-              Попробуйте изменить запрос или критерии поиска
+              {{ t('catalog.emptyText') }}
             </p>
             <button
               type="button"
               class="catalog-mfr-page__empty-reset"
               @click="resetSearchAndFilters"
             >
-              Сбросить фильтры
+              {{ t('catalog.resetFilters') }}
             </button>
           </div>
         </div>
@@ -195,7 +195,6 @@
     matchesMinAsicFilter,
   } from '~/common/modules/catalog/filters/organization'
   import {
-    CATALOG_ORGANIZATIONS_PAGE_META,
     compareCatalogOrganizations,
     findCatalogCategoryName,
     flattenCatalogOrganizations,
@@ -217,7 +216,12 @@
   import CatalogSortDropdown from '~/components/catalog/filters/CatalogSortDropdown.vue'
 
   const route = useRoute()
+  const { t, tNavItem } = useT()
   const router = useRouter()
+
+  function translateCategoryLabel(name: string) {
+    return t(`catalogTab.${name}`, tNavItem(name))
+  }
 
   const selectedCategorySlug = computed(() =>
     getCatalogCategoryFromRoute(route.query.category),
@@ -287,22 +291,23 @@
 
   const pageTitle = computed(() => {
     if (isAllOrganizationsMode.value) {
-      return CATALOG_ORGANIZATIONS_PAGE_META.title
+      return t('catalog.pageTitle')
     }
 
     if (isManufacturersMode.value) {
-      return meta.value.title
+      return t('catalog.manufacturersTitle')
     }
 
-    return activeCategoryName.value ?? CATALOG_ORGANIZATIONS_PAGE_META.title
+    const name = activeCategoryName.value
+    return name ? translateCategoryLabel(name) : t('catalog.pageTitle')
   })
 
   const pageSubtitle = computed(() => {
     if (isManufacturersMode.value) {
-      return meta.value.subtitle
+      return t('catalog.manufacturersSubtitle')
     }
 
-    return catalogData.value!.meta.subtitle
+    return t('catalog.pageSubtitle')
   })
 
   const breadcrumbLabel = computed(() => {
@@ -311,10 +316,11 @@
     }
 
     if (isManufacturersMode.value) {
-      return meta.value.title
+      return t('catalog.manufacturersTitle')
     }
 
-    return activeCategoryName.value ?? undefined
+    const name = activeCategoryName.value
+    return name ? translateCategoryLabel(name) : undefined
   })
 
   const searchQuery = ref(

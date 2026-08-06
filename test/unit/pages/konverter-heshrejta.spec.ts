@@ -46,12 +46,18 @@ describe('pages/konverter-heshrejta/index.vue', () => {
     expect(wrapper.find('[data-testid="epic-blocks"]').exists()).toBe(true)
   })
 
-  it('sets SEO meta from HASHRATE_CONVERTER_PAGE', () => {
+  it('sets SEO meta from i18n converter keys', () => {
     mount(HashrateConverterPage, { global: { stubs } })
 
     expect(useSeoMetaMock).toHaveBeenCalled()
     const seoArg = useSeoMetaMock.mock.calls.at(-1)?.[0]
-    expect(seoArg?.title).toBe(HASHRATE_CONVERTER_PAGE.seoTitle)
-    expect(seoArg?.description).toBe(HASHRATE_CONVERTER_PAGE.seoDescription)
+    const title =
+      typeof seoArg?.title === 'function' ? seoArg.title() : seoArg?.title
+    const description =
+      typeof seoArg?.description === 'function'
+        ? seoArg.description()
+        : seoArg?.description
+    expect(title).toBe(HASHRATE_CONVERTER_PAGE.seoTitle)
+    expect(description).toBe(HASHRATE_CONVERTER_PAGE.seoDescription)
   })
 })

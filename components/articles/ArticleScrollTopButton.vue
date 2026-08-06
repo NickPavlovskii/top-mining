@@ -4,7 +4,7 @@
     type="button"
     class="article-scroll-top"
     :class="{ 'article-scroll-top--inline': inline }"
-    aria-label="К началу статьи"
+    :aria-label="t('articles.scrollTop')"
     @click="scrollToFirstSection"
   >
     <Icon
@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+  const { t } = useT()
+
   const props = withDefaults(
     defineProps<{
       targetId?: string | null

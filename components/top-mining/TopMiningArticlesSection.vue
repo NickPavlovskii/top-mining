@@ -9,25 +9,22 @@
         class="articles-section__title"
       >
         <span class="articles-section__title-line">
-          {{ TOP_MINING_ARTICLES_SECTION.titleLine1 }}
-        </span>
-        <span class="articles-section__title-line">
-          {{ TOP_MINING_ARTICLES_SECTION.titleLine2 }}
+          {{ t('home.articlesTitle') }}
         </span>
       </h2>
 
       <p class="articles-section__subtitle">
-        {{ TOP_MINING_ARTICLES_SECTION.subtitle }}
+        {{ t('home.articlesSubtitle') }}
       </p>
     </header>
 
     <div
       class="articles-section__topics"
       role="tablist"
-      aria-label="Темы статей"
+      :aria-label="t('home.articlesTopicsAria')"
     >
       <button
-        v-for="topic in TOP_MINING_ARTICLES_TOPICS"
+        v-for="topic in localizedTopics"
         :id="`articles-topic-${topic.id}`"
         :key="topic.id"
         type="button"
@@ -50,10 +47,26 @@
 
 <script setup lang="ts">
   import {
-    TOP_MINING_ARTICLES_SECTION,
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
   } from '~/common/modules/top-mining/layout/articles-section'
+
+  const { t } = useT()
+
+  const topicKeys: Record<TopMiningArticlesTopicId, string> = {
+    all: 'home.topicAll',
+    mining: 'home.topicMining',
+    tools: 'home.topicTools',
+    investments: 'home.topicInvestments',
+    beginners: 'home.topicBeginners',
+  }
+
+  const localizedTopics = computed(() =>
+    TOP_MINING_ARTICLES_TOPICS.map((topic) => ({
+      ...topic,
+      label: t(topicKeys[topic.id]),
+    })),
+  )
 
   const activeTopic = defineModel<TopMiningArticlesTopicId>('activeTopic', {
     default: 'all',

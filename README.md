@@ -14,6 +14,8 @@
   &nbsp;·&nbsp;
   <a href="./docs/frontend.md">Frontend</a>
   &nbsp;·&nbsp;
+  <a href="./docs/architecture.md">Архитектура</a>
+  &nbsp;·&nbsp;
   <a href="./docs/calculator.md">Калькулятор</a>
   &nbsp;·&nbsp;
   <a href="./docs/leads.md">Заявки и Zod</a>

@@ -49,7 +49,7 @@
                   'catalog-org-card__verified catalog-org-card__verified--badge',
                   { 'catalog-org-card__verified--exchange': isLightLogo },
                 ]"
-                aria-label="Проверенная компания"
+                :aria-label="t('catalog.verified')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -66,16 +66,16 @@
                     fill="#FFDFCF"
                   />
                 </svg>
-                <span class="catalog-org-card__verified-tip">Проверенная компания</span>
+                <span class="catalog-org-card__verified-tip">{{ t('catalog.verified') }}</span>
               </span>
 
               <span
                 v-if="organization.verification?.miningRegistry"
                 class="catalog-org-card__verified catalog-org-card__verified--badge catalog-org-card__verified--registry"
-                aria-label="Компания включена в Майнинг Реестр"
+                :aria-label="t('catalog.inRegistry')"
               >
                 <Icon name="mdi:check-decagram" />
-                <span class="catalog-org-card__verified-tip">Компания включена в Майнинг Реестр</span>
+                <span class="catalog-org-card__verified-tip">{{ t('catalog.inRegistry') }}</span>
               </span>
             </div>
 
@@ -178,7 +178,7 @@
               class="catalog-org-card__meta-icon"
               aria-hidden="true"
             />
-            <span>Офис: {{ organization.officeCity }}</span>
+            <span>{{ t('catalog.office') }} {{ organization.officeCity }}</span>
           </p>
 
           <p
@@ -190,7 +190,7 @@
               class="catalog-org-card__meta-icon"
               aria-hidden="true"
             />
-            <span>Площадка: {{ organization.siteCity }}</span>
+            <span>{{ t('catalog.site') }} {{ organization.siteCity }}</span>
           </p>
 
           <p
@@ -203,7 +203,7 @@
               class="catalog-org-card__meta-icon catalog-org-card__meta-icon--calendar"
               src="/images/catalog/calendar-or.svg"
             />
-            <span>Год основания: {{ organization.foundedYear }}</span>
+            <span>{{ t('catalog.founded') }} {{ organization.foundedYear }}</span>
           </p>
         </div>
       </div>
@@ -222,7 +222,7 @@
           {{ compactRatingLabel }}
         </span>
         <span class="catalog-org-card__reviews">
-          Отзывов: {{ organization.reviewCount }}
+          {{ t('catalog.reviewsCount', undefined, { count: organization.reviewCount }) }}
         </span>
       </div>
     </div>
@@ -251,6 +251,8 @@
   import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
   import TopMiningLazyImage from '~/components/global/media/TopMiningLazyImage.vue'
   import catalogStarIcon from '~/assets/images/catalog/star-24.png'
+
+  const { t } = useT()
 
   const STAR_SIZE = 14
   const STAR_GAP = 2
@@ -362,22 +364,7 @@
   }
 
   function formatReviewCount(count: number) {
-    const mod10 = count % 10
-    const mod100 = count % 100
-
-    if (mod100 >= 11 && mod100 <= 14) {
-      return `${count} отзывов`
-    }
-
-    if (mod10 === 1) {
-      return `${count} отзыв`
-    }
-
-    if (mod10 >= 2 && mod10 <= 4) {
-      return `${count} отзыва`
-    }
-
-    return `${count} отзывов`
+    return `${count} ${t('catalog.reviewsWord')}`
   }
 
   function onLogoLoad() {

@@ -11,7 +11,7 @@
       <button
         type="button"
         class="calculator-alert-modal__backdrop"
-        aria-label="Закрыть"
+        :aria-label="t('calculator.close')"
         @click="close"
       />
 
@@ -19,7 +19,7 @@
         <button
           type="button"
           class="calculator-alert-modal__close"
-          aria-label="Закрыть"
+          :aria-label="t('calculator.close')"
           @click="close"
         >
           <img
@@ -42,7 +42,7 @@
           class="calculator-alert-modal__confirm"
           @click="close"
         >
-          {{ confirmLabel }}
+          {{ resolvedConfirmLabel }}
         </button>
       </div>
     </div>
@@ -52,17 +52,23 @@
 <script setup lang="ts">
 import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
 
+const { t } = useT()
+
 const open = defineModel<boolean>('open', { default: false })
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title?: string
     confirmLabel?: string
   }>(),
   {
     title: '',
-    confirmLabel: 'Хорошо',
+    confirmLabel: undefined,
   },
+)
+
+const resolvedConfirmLabel = computed(
+  () => props.confirmLabel ?? t('calculator.ok'),
 )
 
 function close() {

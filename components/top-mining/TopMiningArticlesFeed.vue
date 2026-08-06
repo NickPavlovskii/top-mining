@@ -5,25 +5,25 @@
       class="articles-feed__state"
       aria-live="polite"
     >
-      Загрузка статей…
+      {{ t('common.loading') }}
     </div>
 
     <template v-else-if="feed">
       <nuxt-link
-        v-if="feed.hero"
+        v-if="localizedHero"
         class="articles-feed__hero"
-        :to="articlePath(feed.hero.slug)"
+        :to="articlePath(localizedHero.slug)"
       >
         <img
           class="articles-feed__hero-image"
           loading="lazy"
-          :src="feed.hero.imageUrl"
-          :alt="feed.hero.imageAlt || feed.hero.title"
+          :src="localizedHero.imageUrl"
+          :alt="localizedHero.imageAlt || localizedHero.title"
         />
 
         <div class="articles-feed__hero-bar">
           <div class="articles-feed__meta">
-            <template v-if="formatReadingTime(feed.hero.readingTimeMin)">
+            <template v-if="heroReadingTime">
               <span class="articles-feed__meta-item">
                 <img
                   alt=""
@@ -31,11 +31,11 @@
                   class="articles-feed__clock"
                   :src="clockIcon"
                 />
-                {{ formatReadingTime(feed.hero.readingTimeMin) }}
+                {{ heroReadingTime }}
               </span>
             </template>
             <span class="articles-feed__meta-item">
-              {{ formatArticleDate(feed.hero.publishedAt) }}
+              {{ formatArticleDate(localizedHero.publishedAt) }}
             </span>
           </div>
 
@@ -44,10 +44,10 @@
               class="articles-feed__hero-watermark"
               aria-hidden="true"
             >
-              {{ heroWatermark(feed.hero.title) }}
+              {{ heroWatermark(localizedHero.title) }}
             </span>
             <h3 class="articles-feed__hero-title">
-              {{ feed.hero.title }}
+              {{ localizedHero.title }}
             </h3>
           </div>
 
@@ -61,11 +61,11 @@
       </nuxt-link>
 
       <div
-        v-if="feed.featured.length"
+        v-if="localizedFeatured.length"
         class="articles-feed__featured"
       >
         <top-mining-article-card
-          v-for="item in feed.featured"
+          v-for="item in localizedFeatured"
           :key="item.id"
           :article="item"
           :to="articlePath(item.slug)"
@@ -73,11 +73,11 @@
       </div>
 
       <div
-        v-if="feed.list.length"
+        v-if="localizedList.length"
         class="articles-feed__list"
       >
         <top-mining-article-row
-          v-for="item in feed.list"
+          v-for="item in localizedList"
           :key="item.id"
           :article="item"
           :to="articlePath(item.slug)"
@@ -89,7 +89,7 @@
         class="articles-feed__more"
         size="lg"
         :to="articlesIndexPath"
-        label="Смотреть ещё"
+        :label="t('home.articlesShowMore')"
       />
     </template>
   </div>
@@ -103,12 +103,15 @@
   import TopMiningMoreLink from '~/components/global/buttons/TopMiningMoreLink.vue'
   import {
     formatArticleDate,
-    formatReadingTime,
+    readingTimeMinutes,
   } from '~/common/modules/articles'
   import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
   import type { ArticlesFeedResponse } from '~/common/modules/articles'
   import clockIcon from '~/assets/images/articles/clock.png'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
+
+  const { t } = useT()
+  const { localize } = useLocalizedArticle()
 
   const props = defineProps<{
     /** Тема статей: all, tools, investments и др. */
@@ -124,6 +127,23 @@
       watch: [topic],
     },
   )
+
+  const localizedHero = computed(() =>
+    feed.value?.hero ? localize(feed.value.hero) : null,
+  )
+
+  const localizedFeatured = computed(() =>
+    (feed.value?.featured ?? []).map((item) => localize(item)),
+  )
+
+  const localizedList = computed(() =>
+    (feed.value?.list ?? []).map((item) => localize(item)),
+  )
+
+  const heroReadingTime = computed(() => {
+    const n = readingTimeMinutes(localizedHero.value?.readingTimeMin)
+    return n == null ? null : t('articles.minRead', undefined, { n })
+  })
 
   const articlesIndexPath = computed(() => ({
     path: '/articles',

@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { CALCULATOR_PAGE } from '~/common/modules/top-mining'
 import CalculatorHero from '~/components/calculator/hero/CalculatorHero.vue'
 import CalculatorForm from '~/components/calculator/form/CalculatorForm.vue'
 import CalculatorAbout from '~/components/calculator/about/CalculatorAbout.vue'
 import TopMiningEpicBlocks from '~/components/top-mining/TopMiningEpicBlocks.vue'
 
+const { t } = useT()
+
 useSeoMeta({
-  title: CALCULATOR_PAGE.seoTitle,
-  description: CALCULATOR_PAGE.seoDescription,
+  title: () => t('calculator.seoTitle'),
+  description: () => t('calculator.seoDescription'),
 })
 </script>
 

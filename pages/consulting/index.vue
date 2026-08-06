@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -97,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_PAGE } from '~/common/modules/top-mining/consulting/page'
   import ConsultingBestSpeaker from '~/components/consulting/ConsultingBestSpeaker.vue'
   import ConsultingBlackRing from '~/components/consulting/ConsultingBlackRing.vue'
   import ConsultingCompaniesBanner from '~/components/consulting/ConsultingCompaniesBanner.vue'
@@ -106,11 +105,12 @@
   import ConsultingSoprovod from '~/components/consulting/ConsultingSoprovod.vue'
   import ConsultingWhyUs from '~/components/consulting/ConsultingWhyUs.vue'
 
-  const page = CONSULTING_PAGE
+  const { page } = useConsultingPage()
+  const { t } = useT()
 
   useSeoMeta({
-    title: page.seoTitle,
-    description: page.seoDescription,
+    title: () => page.value.seoTitle,
+    description: () => page.value.seoDescription,
   })
 </script>
 

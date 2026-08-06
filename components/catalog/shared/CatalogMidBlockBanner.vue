@@ -17,7 +17,7 @@
         bg-color="#141414"
         border-color="#141414"
         color="var(--white-color)"
-        title="ПЕРЕЙТИ"
+        :title="t('catalog.go')"
         :href="config.href"
       >
         <template #append>
@@ -91,7 +91,7 @@
         variant="primary"
         size="small"
         surface="dark"
-        title="ПЕРЕЙТИ"
+        :title="t('catalog.go')"
         :href="config.href"
       >
         <template #append>
@@ -114,6 +114,8 @@
   import asicVisualImage from '~/assets/images/catalog/catalog-mid-block-asic-visual.png'
   import containerImage from '~/assets/images/catalog/catalog-mid-block-container.png'
   import bannerBackground from '~/assets/images/catalog/catalog-mid-block-wrap-bg.png'
+
+  const { t } = useT()
 
   const props = withDefaults(
     defineProps<{

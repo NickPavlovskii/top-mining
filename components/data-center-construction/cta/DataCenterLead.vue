@@ -31,11 +31,11 @@
 </template>
 
 <script setup lang="ts">
-  import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import type { DataCenterCtaFormSubmitPayload } from '~/common/modules/top-mining/pages/data-center-construction'
   import DataCenterCtaFormCard from '~/components/data-center-construction/shared/DataCenterCtaFormCard.vue'
 
-  const copy = DATA_CENTER_CONSTRUCTION_PAGE.lead
+  const page = useDataCenterPage()
+  const copy = computed(() => page.value.lead)
   const {
     status,
     message: feedback,

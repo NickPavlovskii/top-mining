@@ -5,7 +5,7 @@
   >
     <div class="ratings-page__inner">
       <UBreadcrumb
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         class="ratings-page__breadcrumbs"
         :items="breadcrumbItems"
       >
@@ -19,7 +19,7 @@
 
       <header class="ratings-page__hero">
         <h1 class="ratings-page__title-sr">
-          Рейтинги в майнинге
+          {{ t('ratings.title') }}
         </h1>
         <video
           class="ratings-page__hero-video"
@@ -45,7 +45,7 @@
           ]"
         >
           <h2 class="ratings-card__title">
-            {{ card.title }}
+            {{ tRatingTitle(card.title) }}
           </h2>
 
           <ul class="ratings-card__list">
@@ -55,7 +55,7 @@
             >
               <top-mining-rating-marquee-link
                 :number="item.number"
-                :label="item.label"
+                :label="tRatingItem(item.label)"
                 :href="item.href"
               />
             </li>
@@ -76,6 +76,7 @@
   import type { RatingsResponse } from '~/common/modules/ratings'
   import TopMiningRatingMarqueeLink from '~/components/rating/TopMiningRatingMarqueeLink.vue'
 
+  const { t, tRatingTitle, tRatingItem } = useT()
   const route = useRoute()
 
   const { data } = await useFetch<RatingsResponse>('/api/ratings')
@@ -103,13 +104,13 @@
       (card) => card.id === activeCategoryId.value,
     )
   })
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Главная', to: '/' },
-    { label: 'Рейтинги в майнинге' },
-  ]
+  const breadcrumbItems = computed<BreadcrumbItem[]>(() => [
+    { label: t('common.home'), to: '/' },
+    { label: t('ratings.title') },
+  ])
 
   useHead({
-    title: 'Рейтинги в майнинге — ТОП МАЙНИНГ',
+    title: () => t('ratings.seoTitle'),
   })
 
   onMounted(() => {

@@ -343,21 +343,20 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
-  import { PODBOR_MINING_HOTEL_KEY_FACTORS } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
-  const factors = PODBOR_MINING_HOTEL_KEY_FACTORS
+  const { keyFactors: factors } = usePodborMiningHotelPage()
+  const { t } = useT()
 
   const phones = reactive<Record<string, string>>(
     Object.fromEntries(
-      factors.details.filter((d) => d.withForm).map((d) => [d.id, '']),
+      factors.value.details.filter((d) => d.withForm).map((d) => [d.id, '']),
     ),
   )
 
   const privacyAccepted = reactive<Record<string, boolean>>(
     Object.fromEntries(
-      factors.details.filter((d) => d.withForm).map((d) => [d.id, true]),
+      factors.value.details.filter((d) => d.withForm).map((d) => [d.id, true]),
     ),
   )
 
@@ -373,7 +372,7 @@
 
     if (!privacyAccepted[id]) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

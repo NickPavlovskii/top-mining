@@ -52,23 +52,26 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_WHY_US } from '~/common/modules/top-mining/consulting/why-us'
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
 
-  const copy = CONSULTING_WHY_US
+  const { whyUs: copy } = useConsultingPage()
   const rootRef = ref<HTMLElement | null>(null)
   const isVisible = ref(false)
   const prefersReducedMotion = ref(false)
 
-  const phraseIndexBySegment: Record<number, number> = {}
-  let phraseCount = 0
+  const phraseIndexBySegment = computed(() => {
+    const indexes: Record<number, number> = {}
+    let phraseCount = 0
 
-  for (const [index, segment] of copy.segments.entries()) {
-    if ('text' in segment) {
-      phraseIndexBySegment[index] = phraseCount
-      phraseCount += 1
+    for (const [index, segment] of copy.value.segments.entries()) {
+      if ('text' in segment) {
+        indexes[index] = phraseCount
+        phraseCount += 1
+      }
     }
-  }
+
+    return indexes
+  })
 
   let observer: IntersectionObserver | null = null
 

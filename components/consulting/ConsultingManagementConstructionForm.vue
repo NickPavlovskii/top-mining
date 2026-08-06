@@ -84,14 +84,13 @@
 
 <script setup lang="ts">
   import type { ConsultingConstructionForm } from '~/common/modules/top-mining/consulting/construction-forms'
-  import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting/construction-forms'
-  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const props = defineProps<{
     form: ConsultingConstructionForm
   }>()
 
-  const copy = CONSULTING_CONSTRUCTION_FORMS
+  const { constructionForms: copy } = useConsultingPage()
+  const { t } = useT()
 
   const values = reactive<Record<string, string>>(
     Object.fromEntries(props.form.fields.map(field => [field.name, ''])),
@@ -111,7 +110,7 @@
 
     if (!privacyAccepted.value) {
       status.value = 'error'
-      feedback.value = LEADS_UI.privacyRequired
+      feedback.value = t('leads.privacyRequired')
       return
     }
 

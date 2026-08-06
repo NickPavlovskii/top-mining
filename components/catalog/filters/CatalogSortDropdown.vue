@@ -10,7 +10,7 @@
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <span class="catalog-sort__label">Сортировка</span>
+      <span class="catalog-sort__label">{{ t('catalog.sort') }}</span>
       <Icon
         name="mdi:chevron-down"
         :class="[
@@ -59,7 +59,23 @@
     type CatalogManufacturersSort,
   } from '~/common/modules/catalog'
 
-  const options = CATALOG_MANUFACTURERS_SORT_OPTIONS
+  const { t } = useT()
+
+  const SORT_LABEL_KEYS: Record<CatalogManufacturersSort, string> = {
+    'rating-desc': 'catalog.sortRatingHigh',
+    'rating-asc': 'catalog.sortRatingLow',
+    'reviews-desc': 'catalog.sortReviews',
+    'reviews-asc': 'catalog.sortReviews',
+    'name-asc': 'catalog.sortNameAsc',
+    'name-desc': 'catalog.sortNameDesc',
+  }
+
+  const options = computed(() =>
+    CATALOG_MANUFACTURERS_SORT_OPTIONS.map((option) => ({
+      ...option,
+      label: t(SORT_LABEL_KEYS[option.value], option.label),
+    })),
+  )
 
   const props = withDefaults(
     defineProps<{

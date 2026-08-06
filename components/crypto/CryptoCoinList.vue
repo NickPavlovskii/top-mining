@@ -3,8 +3,8 @@
     <h2 class="crypto-list__title">{{ title }}</h2>
     <div class="crypto-list__card">
       <div class="crypto-list__head">
-        <span>Монета</span>
-        <span>Цена (₽)</span>
+        <span>{{ t('crypto.coin') }}</span>
+        <span>{{ t('crypto.priceRub') }}</span>
         <div
           ref="periodDropdownRef"
           class="crypto-list__period"
@@ -32,7 +32,7 @@
             v-if="isPeriodOpen"
             class="crypto-list__period-menu"
             role="listbox"
-            aria-label="Период изменения цены"
+            :aria-label="t('crypto.periodAria')"
           >
             <li
               v-for="period in periods"
@@ -66,9 +66,9 @@
         <div class="crypto-list__coin">
           <img
             :src="getCryptoIcon(coin.id, coin.image)"
-            :alt="coin.name"
+            :alt="tCoinName(coin.id, coin.name)"
           />
-          <strong>{{ coin.name }} ({{ coin.symbol.toUpperCase() }})</strong>
+          <strong>{{ tCoinName(coin.id, coin.name) }} ({{ coin.symbol.toUpperCase() }})</strong>
         </div>
 
         <span class="crypto-list__price">{{ formatPriceRub(coin.price) }}</span>
@@ -94,7 +94,6 @@
     getChangeToneClass,
     getCoinChangeByPeriod,
     getCryptoIcon,
-    getPeriodLabel,
     type CryptoCoin,
     type CryptoPricePeriodValue,
   } from '~/common/modules/crypto'
@@ -108,14 +107,24 @@
     { highlightIndex: null },
   )
 
-  const periods = CRYPTO_PRICE_PERIODS
+  const { t, tCoinName } = useT()
+
+  const periods = computed(() =>
+    CRYPTO_PRICE_PERIODS.map((period) => ({
+      ...period,
+      label:
+        period.value === '24h' ? t('crypto.period24h') : t('crypto.period7d'),
+    })),
+  )
 
   const selectedPeriod = ref<CryptoPricePeriodValue>(DEFAULT_CRYPTO_PRICE_PERIOD)
   const isPeriodOpen = ref(false)
   const periodDropdownRef = ref<HTMLElement | null>(null)
 
-  const selectedPeriodLabel = computed(() =>
-    getPeriodLabel(selectedPeriod.value),
+  const selectedPeriodLabel = computed(
+    () =>
+      periods.value.find((period) => period.value === selectedPeriod.value)
+        ?.label ?? t('crypto.period24h'),
   )
 
   function togglePeriodDropdown() {

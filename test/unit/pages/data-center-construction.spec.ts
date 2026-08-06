@@ -90,15 +90,21 @@ describe('pages/data-center-construction', () => {
     ])
   })
 
-  it('sets page meta and seo from page data', () => {
+  it('sets page meta and seo from localized catalogs', () => {
     mountPage()
 
     expect(definePageMeta).toHaveBeenCalledWith({
       path: '/data-center-construction',
     })
-    expect(useSeoMeta).toHaveBeenCalledWith({
-      title: DATA_CENTER_CONSTRUCTION_PAGE.seoTitle,
-      description: DATA_CENTER_CONSTRUCTION_PAGE.seoDescription,
-    })
+
+    const seoArg = useSeoMeta.mock.calls[0]?.[0] as {
+      title: () => string
+      description: () => string
+    }
+
+    expect(typeof seoArg.title).toBe('function')
+    expect(typeof seoArg.description).toBe('function')
+    expect(seoArg.title()).toBe(DATA_CENTER_CONSTRUCTION_PAGE.seoTitle)
+    expect(seoArg.description()).toBe(DATA_CENTER_CONSTRUCTION_PAGE.seoDescription)
   })
 })

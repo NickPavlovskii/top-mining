@@ -23,17 +23,17 @@
           class="useful-section__title"
         >
           <span class="useful-section__title-line useful-section__title-line--dark">
-            {{ TOP_MINING_USEFUL_SECTION.titleLine1 }}
+            {{ t('useful.titleLine1') }}
           </span>
           <span class="useful-section__title-line useful-section__title-line--accent">
-            {{ TOP_MINING_USEFUL_SECTION.titleLine2 }}
+            {{ t('useful.titleLine2') }}
           </span>
         </h2>
       </header>
 
       <div class="useful-section__list">
         <article
-          v-for="(item, index) in TOP_MINING_USEFUL_ITEMS"
+          v-for="(item, index) in usefulItems"
           v-show="!item.initiallyHidden || isExpanded"
           :key="item.title"
           class="useful-section__item"
@@ -83,7 +83,7 @@
             class="useful-section__more-btn"
             @click="isExpanded = true"
           >
-            <span>{{ TOP_MINING_USEFUL_SECTION.lookMoreLabel }}</span>
+            <span>{{ t('useful.lookMore') }}</span>
             <Icon
               name="mdi:chevron-down"
               class="useful-section__more-icon"
@@ -99,9 +99,75 @@
   import {
     TOP_MINING_USEFUL_ITEMS,
     TOP_MINING_USEFUL_SECTION,
+    type TopMiningUsefulItem,
   } from '~/common/modules/top-mining'
 
+  const { t } = useT()
   const isExpanded = ref(false)
+
+  const usefulItems = computed<TopMiningUsefulItem[]>(() => {
+    const source = TOP_MINING_USEFUL_ITEMS
+
+    return [
+      {
+        ...source[0],
+        title: t('useful.i1Title'),
+        description: t('useful.i1Desc'),
+        actions: [{ ...source[0].actions[0], label: t('useful.i1Action') }],
+      },
+      {
+        ...source[1],
+        title: t('useful.i2Title'),
+        description: t('useful.i2Desc'),
+        actions: [{ ...source[1].actions[0], label: t('useful.i2Action') }],
+      },
+      {
+        ...source[2],
+        title: t('useful.i3Title'),
+        description: t('useful.i3Desc'),
+        actions: [{ ...source[2].actions[0], label: t('useful.i3Action') }],
+      },
+      {
+        ...source[3],
+        title: t('useful.i4Title'),
+        description: t('useful.i4Desc'),
+        actions: [{ ...source[3].actions[0], label: t('useful.i4Action') }],
+      },
+      {
+        ...source[4],
+        title: t('useful.i5Title'),
+        description: t('useful.i5Desc'),
+        actions: [{ ...source[4].actions[0], label: t('useful.i5Action') }],
+      },
+      {
+        ...source[5],
+        title: t('useful.i6Title'),
+        description: t('useful.i6Desc'),
+        actions: [{ ...source[5].actions[0], label: t('useful.i6Action') }],
+      },
+      {
+        ...source[6],
+        title: t('useful.i7Title'),
+        description: t('useful.i7Desc'),
+        actions: [
+          { ...source[6].actions[0], label: t('useful.i7Action1') },
+          { ...source[6].actions[1], label: t('useful.i7Action2') },
+        ],
+      },
+      {
+        ...source[7],
+        title: t('useful.i8Title'),
+        description: t('useful.i8Desc'),
+        actions: [{ ...source[7].actions[0], label: t('useful.i8Action') }],
+      },
+      {
+        ...source[8],
+        title: t('useful.i9Title'),
+        description: t('useful.i9Desc'),
+        actions: [{ ...source[8].actions[0], label: t('useful.i9Action') }],
+      },
+    ]
+  })
 
   function formatIndex(index: number) {
     return String(index + 1).padStart(2, '0')

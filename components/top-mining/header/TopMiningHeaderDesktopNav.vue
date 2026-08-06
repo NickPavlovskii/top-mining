@@ -29,7 +29,7 @@
             :src="logoMark"
           />
         </span>
-        <span class="top-mining__consulting-pill-label">CONSULTING-УСЛУГИ</span>
+        <span class="top-mining__consulting-pill-label">{{ t('nav.consultingPill') }}</span>
       </span>
       <nuxt-link
         v-else-if="isNavHeadingLink(column.slug)"
@@ -37,7 +37,7 @@
         class="top-mining__nav-heading-link"
         @click="emit('nav-link-click')"
       >
-        <span class="top-mining__nav-heading-text">{{ column.title }}</span>
+        <span class="top-mining__nav-heading-text">{{ tNavTitle(column.slug, column.title) }}</span>
         <Icon
           name="mdi:arrow-top-right"
           class="top-mining__nav-heading-arrow"
@@ -48,7 +48,7 @@
         href="#"
         class="top-mining__nav-heading-link"
       >
-        <span class="top-mining__nav-heading-text">{{ column.title }}</span>
+        <span class="top-mining__nav-heading-text">{{ tNavTitle(column.slug, column.title) }}</span>
         <Icon
           name="mdi:arrow-top-right"
           class="top-mining__nav-heading-arrow"
@@ -74,7 +74,7 @@
           :name="column.icon"
           class="top-mining__nav-link-icon"
         />
-        <span class="top-mining__nav-link-text">{{ category.label }}</span>
+        <span class="top-mining__nav-link-text">{{ tNavItem(category.label) }}</span>
       </nuxt-link>
     </template>
 
@@ -97,7 +97,7 @@
           class="top-mining__nav-top-icon"
           :src="topStarsIcon"
         />
-        <span class="top-mining__nav-link-text">{{ item }}</span>
+        <span class="top-mining__nav-link-text">{{ tNavItem(item) }}</span>
       </nuxt-link>
     </template>
 
@@ -127,7 +127,7 @@
             class="top-mining__nav-telegram-icon"
             :src="telegramMenuIcon"
           />
-          <span class="top-mining__nav-link-text">{{ item }}</span>
+          <span class="top-mining__nav-link-text">{{ tNavItem(item) }}</span>
         </a>
         <nuxt-link
           v-else
@@ -147,7 +147,7 @@
             :name="getCalculatorNavItemIcon(item)"
             class="top-mining__nav-link-icon"
           />
-          <span class="top-mining__nav-link-text">{{ item }}</span>
+          <span class="top-mining__nav-link-text">{{ tNavItem(item) }}</span>
         </nuxt-link>
       </template>
     </template>
@@ -170,7 +170,7 @@
           :name="column.icon"
           class="top-mining__nav-link-icon"
         />
-        <span class="top-mining__nav-link-text">{{ item }}</span>
+        <span class="top-mining__nav-link-text">{{ tNavItem(item) }}</span>
       </nuxt-link>
     </template>
 
@@ -193,7 +193,7 @@
           class="top-mining__nav-link-icon top-mining__nav-link-icon--consulting"
           :src="consultingServiceIcon"
         />
-        <span class="top-mining__nav-link-text">{{ item }}</span>
+        <span class="top-mining__nav-link-text">{{ tNavItem(item) }}</span>
       </nuxt-link>
 
       <div class="top-mining__nav-column-contacts">
@@ -277,6 +277,7 @@
     'nav-link-click': []
   }>()
 
+  const { t, tNavItem, tNavTitle } = useT()
   const { visibleCategories: visibleCatalogCategories } = useVisibleCatalogCategories()
 
   function getColumnNavItems(column: TopMiningNavColumn) {

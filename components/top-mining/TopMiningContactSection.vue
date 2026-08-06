@@ -38,12 +38,12 @@
                   id="contact-section-question-title"
                   class="contact-section__title contact-section__title--single"
                 >
-                  {{ TOP_MINING_CONTACT_QUESTION.title }}
+                  {{ t('contact.askTitle') }}
                 </h2>
 
                 <div class="contact-section__lead-form">
                   <p class="contact-section__lead">
-                    {{ TOP_MINING_CONTACT_QUESTION.lead }}
+                    {{ t('contact.askLead') }}
                   </p>
 
                   <form
@@ -53,7 +53,7 @@
                     <div class="contact-section__input-row">
                       <label class="contact-section__input-wrap">
                         <span class="contact-section__visually-hidden">
-                          Телефон
+                          {{ t('contact.phoneLabel') }}
                         </span>
                         <input
                           v-model="phone"
@@ -61,7 +61,7 @@
                           class="contact-section__input"
                           autocomplete="tel"
                           inputmode="tel"
-                          :placeholder="TOP_MINING_CONTACT_QUESTION.placeholder"
+                          :placeholder="t('contact.phonePlaceholder')"
                           :disabled="phoneStatus === 'loading'"
                         />
                       </label>
@@ -70,7 +70,7 @@
                         type="submit"
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
-                        aria-label="Отправить телефон"
+                        :aria-label="t('contact.sendPhoneAria')"
                         :disabled="phoneStatus === 'loading'"
                         :width="questionSubmitMetrics.width"
                         :height="questionSubmitMetrics.height"
@@ -93,7 +93,7 @@
 
                 <div class="contact-section__telegram-group">
                   <p class="contact-section__divider">
-                    {{ TOP_MINING_CONTACT_QUESTION.telegramDivider }}
+                    {{ t('contact.telegramDivider') }}
                   </p>
 
                   <top-mining-button
@@ -108,7 +108,7 @@
                     ]"
                     rel="noopener noreferrer"
                     v-bind="TOP_MINING_BUTTON_PROPS"
-                    :title="TOP_MINING_CONTACT_TELEGRAM.label"
+                    :title="t('contact.telegramWrite')"
                     :bg-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
                     :color="TOP_MINING_CONTACT_TELEGRAM.buttonColor"
                     :append-icon="buttonArrow"
@@ -147,14 +147,14 @@
                 <h2
                   class="contact-section__title contact-section__title--single"
                 >
-                  {{ TOP_MINING_CONTACT_SUBSCRIBE.title }}
+                  {{ t('contact.subscribeTitle') }}
                 </h2>
 
                 <div class="contact-section__lead-form">
                   <p
                     class="contact-section__lead contact-section__lead--subscribe"
                   >
-                    {{ TOP_MINING_CONTACT_SUBSCRIBE.lead }}
+                    {{ t('contact.subscribeLead') }}
                   </p>
 
                   <form
@@ -171,9 +171,7 @@
                           type="email"
                           autocomplete="email"
                           class="contact-section__input"
-                          :placeholder="
-                            TOP_MINING_CONTACT_SUBSCRIBE.placeholder
-                          "
+                          :placeholder="t('footer.emailPlaceholder')"
                           :disabled="subscribeStatus === 'loading'"
                         />
                       </label>
@@ -182,7 +180,7 @@
                         type="submit"
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
-                        aria-label="Подписаться"
+                        :aria-label="t('footer.subscribeAria')"
                         :disabled="subscribeStatus === 'loading'"
                         :background-color="TOP_MINING_CONTACT_BUTTON_GRADIENT"
                         :hover-background-color="
@@ -222,10 +220,10 @@
   import { TOP_MINING_BUTTON_PROPS } from '~/common/modules/top-mining/ui/button'
   import {
     TOP_MINING_CONTACT_BUTTON_GRADIENT,
-    TOP_MINING_CONTACT_QUESTION,
-    TOP_MINING_CONTACT_SUBSCRIBE,
     TOP_MINING_CONTACT_TELEGRAM,
   } from '~/common/modules/top-mining/layout/contact-section'
+
+  const { t } = useT()
   import buttonArrow from '~/assets/images/top-mining/button-arrow.png'
   import contactCircleLeft from '~/assets/images/top-mining/contact-circle-left.png'
   import contactCircleRight from '~/assets/images/top-mining/contact-circle-right.png'

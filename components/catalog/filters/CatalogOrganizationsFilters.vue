@@ -12,7 +12,7 @@
           :aria-expanded="sections.services"
           @click="sections.services = !sections.services"
         >
-          <span class="catalog-org-filters__section-title">Услуга</span>
+          <span class="catalog-org-filters__section-title">{{ t('catalog.filterService') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -37,7 +37,7 @@
               <top-mining-checkbox
                 v-model="selectedServices[option.id]"
                 size="sm"
-                :label="option.label"
+                :label="optLabel(option)"
               />
             </li>
           </ul>
@@ -55,7 +55,7 @@
           :aria-expanded="sections.market"
           @click="sections.market = !sections.market"
         >
-          <span class="catalog-org-filters__section-title">Компания на рынке</span>
+          <span class="catalog-org-filters__section-title">{{ t('catalog.filterMarketAge') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -80,7 +80,7 @@
               <top-mining-checkbox
                 v-model="selectedMarketAge[option.id]"
                 size="sm"
-                :label="option.label"
+                :label="optLabel(option)"
               />
             </li>
           </ul>
@@ -98,7 +98,7 @@
           :aria-expanded="sections.minAsic"
           @click="sections.minAsic = !sections.minAsic"
         >
-          <span class="catalog-org-filters__section-title">Мин. кол-во ASIC для размещения</span>
+          <span class="catalog-org-filters__section-title">{{ t('catalog.filterMinAsic') }}</span>
           <template #append>
             <Icon
               name="mdi:chevron-up"
@@ -123,7 +123,7 @@
               <top-mining-checkbox
                 v-model="selectedMinAsic[option.id]"
                 size="sm"
-                :label="option.label"
+                :label="optLabel(option)"
               />
             </li>
           </ul>
@@ -142,7 +142,7 @@
         class="catalog-org-filters__reset-icon"
         aria-hidden="true"
       />
-      <span>Сбросить все фильтры</span>
+      <span>{{ t('catalog.resetAllFilters') }}</span>
     </button>
   </aside>
 </template>
@@ -158,6 +158,8 @@
     /** Опции фильтра по минимальному количеству ASIC */
     minAsicFilters: CatalogFilterOption[]
   }>()
+
+  const { t, tNavItem } = useT()
 
   const selectedServices = defineModel<Record<string, boolean>>(
     'selectedServices',
@@ -183,6 +185,24 @@
     || Object.values(selectedMarketAge.value).some(Boolean)
     || Object.values(selectedMinAsic.value).some(Boolean),
   )
+
+  const FILTER_OPTION_KEYS: Record<string, string> = {
+    'over-3y': 'catalog.optOver3y',
+    'under-1y': 'catalog.optUnder1y',
+    '1-to-3y': 'catalog.opt1to3y',
+    'from-1': 'catalog.optFrom1',
+    'from-5': 'catalog.optFrom5',
+    'from-10': 'catalog.optFrom10',
+    'asic-sales': 'catalog.optAsicSales',
+  }
+
+  function optLabel(option: CatalogFilterOption) {
+    const key = FILTER_OPTION_KEYS[option.id]
+    if (key) {
+      return t(key, option.label)
+    }
+    return t(`catalogTab.${option.label}`, tNavItem(option.label))
+  }
 
   function resetAll() {
     for (const key of Object.keys(selectedServices.value)) {

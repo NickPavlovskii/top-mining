@@ -1,6 +1,19 @@
 import { config } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 import { createMemoryHistory, createRouter, RouterLink } from 'vue-router'
+import { vi } from 'vitest'
+
+vi.stubGlobal(
+  'useCookie',
+  (_name: string, opts?: { default?: () => unknown }) =>
+    ref(opts?.default?.() ?? null),
+)
+
+vi.stubGlobal('useState', (_key: string, init?: () => unknown) =>
+  ref(typeof init === 'function' ? init() : init),
+)
+
+vi.stubGlobal('useHead', () => undefined)
 
 const router = createRouter({
   history: createMemoryHistory(),

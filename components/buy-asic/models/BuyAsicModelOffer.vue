@@ -3,7 +3,7 @@
     <div class="buy-asic-model-offer__inner">
       <nav
         class="buy-asic-model-offer__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -38,7 +38,7 @@
             :to="BUY_ASIC_PAGE_PATH"
             itemprop="item"
           >
-            <span itemprop="name">{{ BUY_ASIC_PAGE.breadcrumb }}</span>
+            <span itemprop="name">{{ page.breadcrumb }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -179,8 +179,6 @@
 <script setup lang="ts">
   import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
   import {
-    BUY_ASIC_MODEL_OFFER,
-    BUY_ASIC_PAGE,
     BUY_ASIC_PAGE_PATH,
     getBuyAsicModelShortName,
   } from '~/common/modules/top-mining/buy-asic/page'
@@ -190,7 +188,10 @@
     model: BuyAsicModel
   }>()
 
-  const copy = BUY_ASIC_MODEL_OFFER
+  const { modelOffer, page: buyAsicPage } = useBuyAsicPage()
+  const { t } = useT()
+  const copy = computed(() => modelOffer.value)
+  const page = computed(() => buyAsicPage.value)
   const shortName = computed(() => getBuyAsicModelShortName(props.model))
 
   const phone = ref('')

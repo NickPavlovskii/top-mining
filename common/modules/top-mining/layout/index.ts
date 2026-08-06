@@ -1,12 +1,9 @@
-/**
- * Папка layout — шапка, футер, секции главной и общие URL.
- * Barrel подпакета.
- */
 export * from './articles-section'
 export * from './contact-section'
 export * from './subscribe'
 export * from './epic-blocks'
 export * from './footer-nav'
+export * from './locale'
 export * from './mobile-menu'
 export * from './nav-columns'
 export * from './useful-section'

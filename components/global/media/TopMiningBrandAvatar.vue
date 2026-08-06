@@ -18,6 +18,8 @@
 <script setup lang="ts">
   import logoMark from '~/assets/images/top-mining/logo-mark.png'
 
+  const { t } = useT()
+
   const props = withDefaults(
     defineProps<{
       size?: 'sm' | 'md' | 'lg'
@@ -26,15 +28,17 @@
     }>(),
     {
       size: 'md',
-      label: 'ТОП МАЙНИНГ',
+      label: undefined,
       ariaHidden: true,
     },
   )
 
+  const resolvedLabel = computed(() => props.label ?? t('header.brandAria'))
+
   const ariaAttrs = computed(() =>
     props.ariaHidden
       ? { 'aria-hidden': 'true' as const }
-      : { 'aria-label': props.label },
+      : { 'aria-label': resolvedLabel.value },
   )
 </script>
 

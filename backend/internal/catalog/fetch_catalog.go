@@ -19,7 +19,7 @@ SELECT
                 'id', o.id,
                 'name', o.name,
                 'slug', o.slug,
-                'logoUrl', COALESCE(logo_m.path, NULLIF(o.logo_url, ''), ''),
+                'logoUrl', COALESCE(NULLIF(logo_m.path, ''), NULLIF(o.logo_url, ''), ''),
                 'logoTheme', NULLIF(o.logo_theme, ''),
                 'description', o.description,
                 'rating', o.rating,

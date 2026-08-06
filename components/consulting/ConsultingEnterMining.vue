@@ -132,14 +132,13 @@
 </template>
 
 <script setup lang="ts">
-  import { CONSULTING_ENTER_MINING } from '~/common/modules/top-mining/consulting/enter-mining'
   import TopMiningChip from '~/components/global/labels/TopMiningChip.vue'
 
-  const copy = CONSULTING_ENTER_MINING
+  const { enterMining: copy } = useConsultingPage()
 
   const openByPart = reactive<Record<string, string>>(
     Object.fromEntries(
-      copy.parts.map((part) => [
+      copy.value.parts.map((part) => [
         part.id,
         part.accordions.find((item) => item.defaultOpen)?.id ?? part.accordions[0]?.id ?? '',
       ]),

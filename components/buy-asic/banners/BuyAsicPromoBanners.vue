@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-  import { BUY_ASIC_PROMO_BANNERS } from '~/common/modules/top-mining/buy-asic/promo-banners'
   import PodborMiningHotelPromoBanner from '~/components/podbor/banners/PodborMiningHotelPromoBanner.vue'
 
-  const banners = BUY_ASIC_PROMO_BANNERS.items
+  const { promoBanners } = useBuyAsicPage()
+  const banners = computed(() => promoBanners.value.items)
 </script>
 
 <style scoped>

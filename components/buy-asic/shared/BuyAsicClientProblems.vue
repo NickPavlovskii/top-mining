@@ -178,18 +178,17 @@
 </template>
 
 <script setup lang="ts">
-  import { BUY_ASIC_CLIENT_PROBLEMS } from '~/common/modules/top-mining/buy-asic/client-problems'
-
-  const copy = BUY_ASIC_CLIENT_PROBLEMS
-  const activeTabId = ref(copy.tabs[0]?.id ?? '')
+  const { clientProblems } = useBuyAsicPage()
+  const copy = computed(() => clientProblems.value)
+  const activeTabId = ref(copy.value.tabs[0]?.id ?? '')
   const activeReviewIndex = ref(0)
 
   const tabItems = computed(() =>
-    copy.tabs.map(({ id, label }) => ({ id, label })),
+    copy.value.tabs.map(({ id, label }) => ({ id, label })),
   )
 
   const activeTab = computed(
-    () => copy.tabs.find((tab) => tab.id === activeTabId.value) ?? copy.tabs[0],
+    () => copy.value.tabs.find((tab) => tab.id === activeTabId.value) ?? copy.value.tabs[0],
   )
 
   const activeReview = computed(

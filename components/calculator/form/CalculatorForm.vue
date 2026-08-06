@@ -39,6 +39,8 @@ import gpuDefault from '~/assets/images/calculator/tabs/gpu-default.png'
 import cpuDefault from '~/assets/images/calculator/tabs/cpu-default.png'
 import dropdownArrow from '~/assets/images/calculator/tabs/dropdown-arrow.svg'
 
+const { t } = useT()
+
 const activeKind = ref<CalculatorDeviceKind>('asic')
 const selectedModel = ref<CalculatorHardwareModel | null>(null)
 const selectedCoin = ref<CalculatorCoin | null>(null)
@@ -156,14 +158,16 @@ watch(
 
 const coinRateLabel = computed(() => {
   if (!isAsic.value) {
-    return 'Курс BTC-USDT'
+    return t('calculator.coinUsdtBtc')
   }
 
   if (selectedCoin.value?.dualCoin) {
-    return 'Курс LTC-USDT'
+    return t('calculator.coinUsdtLtc')
   }
 
-  return `Курс ${selectedCoin.value?.symbol || 'BTC'}-USDT`
+  return t('calculator.coinUsdt', undefined, {
+    symbol: selectedCoin.value?.symbol || 'BTC',
+  })
 })
 
 const rewardUnit = computed(() => {
@@ -174,51 +178,41 @@ const rewardUnit = computed(() => {
   return selectedCoin.value?.symbol || 'BTC'
 })
 
-const kindUi = {
+const kindUi = computed(() => ({
   asic: {
     buttonIcon: asicDefault,
-    placeholder: 'Модель ASIC-майнера',
-    priceLabel: 'Цена ASIC-майнера',
-    defaultPriceDeviceLabel: 'ASIC-майнера',
-    lockMessage:
-      'Выберите модель ASIC, чтобы рассчитать доходность или введите свои параметры',
+    placeholder: t('calculator.asicPlaceholder'),
+    priceLabel: t('calculator.asicPriceLabel'),
+    defaultPriceDeviceLabel: t('calculator.asicDeviceLabel'),
+    lockMessage: t('calculator.asicLock'),
   },
   gpu: {
     buttonIcon: gpuDefault,
-    placeholder: 'Выберите Модель GPU',
-    priceLabel: 'Цена GPU',
+    placeholder: t('calculator.gpuPlaceholder'),
+    priceLabel: t('calculator.gpuPriceLabel'),
     defaultPriceDeviceLabel: 'GPU',
-    lockMessage: 'Выберите модель GPU, чтобы рассчитать доходность',
+    lockMessage: t('calculator.gpuLock'),
   },
   cpu: {
     buttonIcon: cpuDefault,
-    placeholder: 'Выберите Модель CPU',
-    priceLabel: 'Цена CPU',
+    placeholder: t('calculator.cpuPlaceholder'),
+    priceLabel: t('calculator.cpuPriceLabel'),
     defaultPriceDeviceLabel: 'CPU',
-    lockMessage: 'Выберите модель CPU, чтобы рассчитать доходность',
+    lockMessage: t('calculator.cpuLock'),
   },
-} as const satisfies Record<
-  CalculatorDeviceKind,
-  {
-    buttonIcon: string
-    placeholder: string
-    priceLabel: string
-    defaultPriceDeviceLabel: string
-    lockMessage: string
-  }
->
+}))
 
-const buttonIcon = computed(() => kindUi[activeKind.value].buttonIcon)
+const buttonIcon = computed(() => kindUi.value[activeKind.value].buttonIcon)
 
-const placeholder = computed(() => kindUi[activeKind.value].placeholder)
+const placeholder = computed(() => kindUi.value[activeKind.value].placeholder)
 
-const priceLabel = computed(() => kindUi[activeKind.value].priceLabel)
+const priceLabel = computed(() => kindUi.value[activeKind.value].priceLabel)
 
 const defaultPriceDeviceLabel = computed(
-  () => kindUi[activeKind.value].defaultPriceDeviceLabel,
+  () => kindUi.value[activeKind.value].defaultPriceDeviceLabel,
 )
 
-const lockMessage = computed(() => kindUi[activeKind.value].lockMessage)
+const lockMessage = computed(() => kindUi.value[activeKind.value].lockMessage)
 
 const defaultPriceLabel = computed(
   () => `${DEFAULT_DEVICE_PRICE_RUB.toLocaleString('ru-RU')} ₽`,
@@ -235,11 +229,11 @@ const resultCoinSymbol = computed(() => {
 const quantityLabel = computed(() => {
   switch (activeKind.value) {
     case 'gpu':
-      return 'Кол-во видеокарт'
+      return t('calculator.qtyGpu')
     case 'cpu':
-      return 'Кол-во процессоров'
+      return t('calculator.qtyCpu')
     default:
-      return 'Кол-во асиков'
+      return t('calculator.qtyAsic')
   }
 })
 
@@ -475,22 +469,22 @@ function openAlert(message: string) {
 
 function validateBeforeCalculate(): boolean {
   if (!buildProfitLegs().length) {
-    openAlert('Выберите добываемую монету.')
+    openAlert(t('calculator.alertSelectCoin'))
     return false
   }
 
   if (!hashrate.value || hashrate.value <= 0) {
-    openAlert('Введите хешрейт Вашего оборудования. Например: 300')
+    openAlert(t('calculator.alertHashrate'))
     return false
   }
 
   if (!power.value || power.value <= 0) {
-    openAlert('Введите потребление Вашего оборудования. Например: 4950')
+    openAlert(t('calculator.alertPower'))
     return false
   }
 
   if (!price.value || price.value <= 0) {
-    openAlert('Введите цену устройства.')
+    openAlert(t('calculator.alertPrice'))
     return false
   }
 
@@ -527,12 +521,12 @@ async function runProfitCalculation() {
 
 function calculate() {
   if (!buildProfitLegs().length) {
-    openAlert('Выберите добываемую монету.')
+    openAlert(t('calculator.alertSelectCoin'))
     return
   }
 
   if (!price.value || price.value <= 0) {
-    openAlert('Введите цену устройства.')
+    openAlert(t('calculator.alertPrice'))
     return
   }
 
@@ -553,14 +547,14 @@ function confirmDefaultPriceCalculate() {
   <section
     ref="formRef"
     class="calculator-form"
-    aria-label="Калькулятор доходности"
+    :aria-label="t('calculator.formAria')"
   >
     <div class="calculator-form__inner">
       <div class="calculator-form__row">
         <div class="calculator-form__block calculator-form__block--tabs">
           <div class="calculator-form__step-label">
             <span class="calculator-form__step-num">(01)</span>
-            Выберите устройство
+            {{ t('calculator.selectDevice') }}
           </div>
           <div class="calculator-form__tabs" role="tablist">
             <button
@@ -590,7 +584,7 @@ function confirmDefaultPriceCalculate() {
         <div class="calculator-form__block calculator-form__block--model">
           <div class="calculator-form__step-label">
             <span class="calculator-form__step-num">(02)</span>
-            Выберите модель
+            {{ t('calculator.selectModel') }}
           </div>
           <calculator-model-dropdown
             :kind="activeKind"
@@ -605,7 +599,7 @@ function confirmDefaultPriceCalculate() {
       </div>
 
       <div ref="formParamsRef" class="calculator-form__params">
-        <h2 class="calculator-form__params-title">Введите свои параметры</h2>
+        <h2 class="calculator-form__params-title">{{ t('calculator.enterParams') }}</h2>
 
         <div
           class="calculator-form__params-body"
@@ -623,7 +617,7 @@ function confirmDefaultPriceCalculate() {
               class="calculator-form__lock-btn"
               @click="unlockManualParams"
             >
-              Ввести параметры
+              {{ t('calculator.enterParamsBtn') }}
             </button>
           </div>
 
@@ -631,7 +625,7 @@ function confirmDefaultPriceCalculate() {
           <div v-if="isAsic" class="calculator-form__panels">
             <div class="calculator-form__panel">
               <div class="calculator-form__coin-wrap">
-                <span class="calculator-form__field-label">Добываемая монета</span>
+                <span class="calculator-form__field-label">{{ t('calculator.minedCoin') }}</span>
                 <calculator-coin-dropdown
                   :coins="asicCoins"
                   :selected="selectedCoin"
@@ -694,8 +688,8 @@ function confirmDefaultPriceCalculate() {
 
               <label class="calculator-form__field">
                 <span class="calculator-form__field-label">
-                  Хешрейт
-                  <span class="calculator-form__tip" title="Единица измерения мощности.">i</span>
+                  {{ t('calculator.hashrate') }}
+                  <span class="calculator-form__tip" :title="t('calculator.hashrateTip')">i</span>
                 </span>
                 <span class="calculator-form__field-control">
                   <input
@@ -753,7 +747,7 @@ function confirmDefaultPriceCalculate() {
                   <button
                     type="button"
                     class="calculator-form__qty-btn"
-                    aria-label="Уменьшить"
+                    :aria-label="t('calculator.decrease')"
                     @click="decreaseQuantity"
                   >
                     −
@@ -770,7 +764,7 @@ function confirmDefaultPriceCalculate() {
                   <button
                     type="button"
                     class="calculator-form__qty-btn calculator-form__qty-btn--plus"
-                    aria-label="Увеличить"
+                    :aria-label="t('calculator.increase')"
                     @click="increaseQuantity"
                   >
                     +
@@ -780,8 +774,8 @@ function confirmDefaultPriceCalculate() {
 
               <label class="calculator-form__field">
                 <span class="calculator-form__field-label">
-                  Потребление
-                  <span class="calculator-form__tip" title="Потребляемая мощность устройства.">i</span>
+                  {{ t('calculator.power') }}
+                  <span class="calculator-form__tip" :title="t('calculator.powerTip')">i</span>
                 </span>
                 <span class="calculator-form__field-control">
                   <input
@@ -795,7 +789,7 @@ function confirmDefaultPriceCalculate() {
               </label>
 
               <div class="calculator-form__total">
-                <span class="calculator-form__field-label">Общая стоимость:</span>
+                <span class="calculator-form__field-label">{{ t('calculator.totalCostColon') }}</span>
                 <span class="calculator-form__total-value">
                   {{ formatMoneyAmount(totalCost) }}
                   <i>{{ priceCurrency }}</i>
@@ -804,8 +798,8 @@ function confirmDefaultPriceCalculate() {
 
               <label class="calculator-form__field">
                 <span class="calculator-form__field-label">
-                  Цена электроэнергии
-                  <span class="calculator-form__tip" title="Тариф на электроэнергию.">i</span>
+                  {{ t('calculator.electricityPrice') }}
+                  <span class="calculator-form__tip" :title="t('calculator.electricityTip')">i</span>
                 </span>
                 <span class="calculator-form__field-control">
                   <input
@@ -827,7 +821,7 @@ function confirmDefaultPriceCalculate() {
                       :aria-expanded="openUnitMenu === 'electricity'"
                       @click.stop="toggleUnitMenu('electricity')"
                     >
-                      {{ electricityCurrency }} за кВт/ч
+                      {{ electricityCurrency }} {{ t('calculator.perKwh') }}
                       <img
                         :src="dropdownArrow"
                         alt=""
@@ -867,7 +861,7 @@ function confirmDefaultPriceCalculate() {
                 :aria-expanded="showAdvanced"
                 @click="toggleAdvanced"
               >
-                Расширенные опции
+                {{ t('calculator.advanced') }}
               </button>
 
               <div
@@ -895,7 +889,7 @@ function confirmDefaultPriceCalculate() {
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
                     UP-TIME
-                    <span class="calculator-form__tip" title="Время работы устройства.">i</span>
+                    <span class="calculator-form__tip" :title="t('calculator.uptimeTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -912,7 +906,7 @@ function confirmDefaultPriceCalculate() {
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
                     {{ coinRateLabel }}
-                    <span class="calculator-form__tip" title="Данные с coingecko.com">i</span>
+                    <span class="calculator-form__tip" :title="t('calculator.coinGeckoTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -931,8 +925,8 @@ function confirmDefaultPriceCalculate() {
                   class="calculator-form__field"
                 >
                   <span class="calculator-form__field-label">
-                    Курс DOGE-USDT
-                    <span class="calculator-form__tip" title="Данные с coingecko.com">i</span>
+                    {{ t('calculator.dogeUsdt') }}
+                    <span class="calculator-form__tip" :title="t('calculator.coinGeckoTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -948,8 +942,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Курс USDT-RUB
-                    <span class="calculator-form__tip" title="Данные с coingecko.com">i</span>
+                    {{ t('calculator.usdtRub') }}
+                    <span class="calculator-form__tip" :title="t('calculator.coinGeckoTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -965,8 +959,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Плата за пул
-                    <span class="calculator-form__tip" title="Комиссия пула от 1% до 5%.">i</span>
+                    {{ t('calculator.poolFee') }}
+                    <span class="calculator-form__tip" :title="t('calculator.poolFeeTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -983,8 +977,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Награда за блок
-                    <span class="calculator-form__tip" title="Награда за создание блока.">i</span>
+                    {{ t('calculator.blockReward') }}
+                    <span class="calculator-form__tip" :title="t('calculator.blockRewardTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1000,8 +994,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field calculator-form__field--difficulty">
                   <span class="calculator-form__field-label">
-                    Сложность сети
-                    <span class="calculator-form__tip" title="Сложность майнинга блоков.">i</span>
+                    {{ t('calculator.difficulty') }}
+                    <span class="calculator-form__tip" :title="t('calculator.difficultyTip')">i</span>
                   </span>
                   <span class="calculator-form__difficulty">
                     <button
@@ -1038,24 +1032,22 @@ function confirmDefaultPriceCalculate() {
             <div class="calculator-form__panel">
               <div class="calculator-form__gpu-row calculator-form__gpu-row--2">
                 <label class="calculator-form__field">
-                  <span class="calculator-form__field-label">Алгоритм</span>
+                  <span class="calculator-form__field-label">{{ t('calculator.algorithm') }}</span>
                   <calculator-algorithm-dropdown
                     :algorithms="gpuAlgorithms"
                     :selected="selectedAlgorithm"
                     :loading="coinsLoading"
-                    placeholder="Выберите алгоритм"
                     @select="onAlgorithmSelect"
                   />
                 </label>
 
                 <label class="calculator-form__field">
-                  <span class="calculator-form__field-label">Добываемая монета</span>
+                  <span class="calculator-form__field-label">{{ t('calculator.minedCoin') }}</span>
                   <calculator-coin-dropdown
                     :coins="gpuCoins"
                     :selected="selectedCoin"
                     :loading="coinsLoading"
                     variant="gpu"
-                    placeholder="Выберите монету"
                     @select="onCoinSelect"
                   />
                 </label>
@@ -1119,7 +1111,7 @@ function confirmDefaultPriceCalculate() {
                     <button
                       type="button"
                       class="calculator-form__qty-btn"
-                      aria-label="Уменьшить"
+                      :aria-label="t('calculator.decrease')"
                       @click="decreaseQuantity"
                     >
                       −
@@ -1136,7 +1128,7 @@ function confirmDefaultPriceCalculate() {
                     <button
                       type="button"
                       class="calculator-form__qty-btn calculator-form__qty-btn--plus"
-                      aria-label="Увеличить"
+                      :aria-label="t('calculator.increase')"
                       @click="increaseQuantity"
                     >
                       +
@@ -1145,7 +1137,7 @@ function confirmDefaultPriceCalculate() {
                 </label>
 
                 <div class="calculator-form__total calculator-form__total--inline">
-                  <span class="calculator-form__field-label">Общая стоимость:</span>
+                  <span class="calculator-form__field-label">{{ t('calculator.totalCostColon') }}</span>
                   <span class="calculator-form__total-value">
                     {{ formatMoneyAmount(totalCost) }}
                     <i>{{ priceCurrency }}</i>
@@ -1156,8 +1148,8 @@ function confirmDefaultPriceCalculate() {
               <div class="calculator-form__gpu-row calculator-form__gpu-row--3">
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Хешрейт
-                    <span class="calculator-form__tip" title="Единица измерения мощности.">i</span>
+                    {{ t('calculator.hashrate') }}
+                    <span class="calculator-form__tip" :title="t('calculator.hashrateTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1211,8 +1203,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Потребление
-                    <span class="calculator-form__tip" title="Потребляемая мощность.">i</span>
+                    {{ t('calculator.power') }}
+                    <span class="calculator-form__tip" :title="t('calculator.powerTipShort')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1227,8 +1219,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Цена электроэнергии
-                    <span class="calculator-form__tip" title="Тариф на электроэнергию.">i</span>
+                    {{ t('calculator.electricityPrice') }}
+                    <span class="calculator-form__tip" :title="t('calculator.electricityTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1251,7 +1243,7 @@ function confirmDefaultPriceCalculate() {
                         :aria-expanded="openUnitMenu === 'electricity'"
                         @click.stop="toggleUnitMenu('electricity')"
                       >
-                        {{ electricityCurrency }} за кВт/ч
+                        {{ electricityCurrency }} {{ t('calculator.perKwh') }}
                         <img
                           :src="dropdownArrow"
                           alt=""
@@ -1294,7 +1286,7 @@ function confirmDefaultPriceCalculate() {
                 >
                   <span class="calculator-form__field-label">
                     {{ coinRateLabel }}
-                    <span class="calculator-form__tip" title="Данные с coingecko.com">i</span>
+                    <span class="calculator-form__tip" :title="t('calculator.coinGeckoTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1314,8 +1306,8 @@ function confirmDefaultPriceCalculate() {
                   @focusin="enableAdvanced"
                 >
                   <span class="calculator-form__field-label">
-                    Курс USDT-RUB
-                    <span class="calculator-form__tip" title="Данные с coingecko.com">i</span>
+                    {{ t('calculator.usdtRub') }}
+                    <span class="calculator-form__tip" :title="t('calculator.coinGeckoTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1335,7 +1327,7 @@ function confirmDefaultPriceCalculate() {
                   :aria-expanded="showAdvanced"
                   @click="toggleAdvanced"
                 >
-                  Расширенные опции
+                  {{ t('calculator.advanced') }}
                 </button>
               </div>
 
@@ -1364,7 +1356,7 @@ function confirmDefaultPriceCalculate() {
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
                     UP-TIME
-                    <span class="calculator-form__tip" title="Время работы устройства.">i</span>
+                    <span class="calculator-form__tip" :title="t('calculator.uptimeTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1380,8 +1372,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Плата за пул
-                    <span class="calculator-form__tip" title="Комиссия пула от 1% до 5%.">i</span>
+                    {{ t('calculator.poolFee') }}
+                    <span class="calculator-form__tip" :title="t('calculator.poolFeeTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1398,8 +1390,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
-                    Награда за блок
-                    <span class="calculator-form__tip" title="Награда за создание блока.">i</span>
+                    {{ t('calculator.blockReward') }}
+                    <span class="calculator-form__tip" :title="t('calculator.blockRewardTip')">i</span>
                   </span>
                   <span class="calculator-form__field-control">
                     <input
@@ -1415,8 +1407,8 @@ function confirmDefaultPriceCalculate() {
 
                 <label class="calculator-form__field calculator-form__field--difficulty">
                   <span class="calculator-form__field-label">
-                    Сложность сети
-                    <span class="calculator-form__tip" title="Сложность майнинга блоков.">i</span>
+                    {{ t('calculator.difficulty') }}
+                    <span class="calculator-form__tip" :title="t('calculator.difficultyTip')">i</span>
                   </span>
                   <span class="calculator-form__difficulty">
                     <button
@@ -1455,14 +1447,14 @@ function confirmDefaultPriceCalculate() {
             class="calculator-form__action calculator-form__action--primary"
             @click="calculate"
           >
-            Рассчитать
+            {{ t('calculator.calculate') }}
           </button>
           <button
             type="button"
             class="calculator-form__action calculator-form__action--ghost"
             @click="resetForm"
           >
-            Сбросить данные
+            {{ t('calculator.reset') }}
           </button>
         </div>
       </div>

@@ -1,12 +1,12 @@
 <template>
   <section
     class="hashrate-converter"
-    aria-label="Конвертер хешрейта"
+    :aria-label="t('converter.widgetAria')"
   >
     <div class="hashrate-converter__inner">
       <div class="hashrate-converter__panel">
         <div
-          v-for="unit in units"
+          v-for="unit in localizedUnits"
           :key="unit.id"
           class="hashrate-converter__row"
         >
@@ -18,7 +18,7 @@
               type="text"
               inputmode="decimal"
               autocomplete="off"
-              :aria-label="`Значение в ${unit.shortLabel}`"
+              :aria-label="t('converter.valueIn', undefined, { unit: unit.shortLabel })"
               @input="onInput(unit.id, $event)"
               @focus="activeUnitId = unit.id"
             >
@@ -27,7 +27,7 @@
               <button
                 type="button"
                 class="hashrate-converter__copy"
-                :aria-label="`Скопировать значение ${unit.shortLabel}`"
+                :aria-label="t('converter.copyValue', undefined, { unit: unit.shortLabel })"
                 @click="copyValue(unit.id)"
               >
                 <Icon
@@ -68,7 +68,26 @@
     type HashrateConverterUnitId,
   } from '~/common/modules/top-mining/converter/hashrate'
 
-  const units = HASHRATE_CONVERTER_UNITS
+  const { t } = useT()
+
+  const unitNameKeys: Record<HashrateConverterUnitId, string> = {
+    hash: 'converter.unitHash',
+    kilohash: 'converter.unitKilohash',
+    megahash: 'converter.unitMegahash',
+    gigahash: 'converter.unitGigahash',
+    terahash: 'converter.unitTerahash',
+    petahash: 'converter.unitPetahash',
+    exahash: 'converter.unitExahash',
+    zetahash: 'converter.unitZetahash',
+  }
+
+  const localizedUnits = computed(() =>
+    HASHRATE_CONVERTER_UNITS.map((unit) => ({
+      ...unit,
+      name: t(unitNameKeys[unit.id]),
+    })),
+  )
+
   const values = ref(createDefaultHashrateValues())
   const activeUnitId = ref<HashrateConverterUnitId | null>(null)
   const copiedUnitId = ref<HashrateConverterUnitId | null>(null)

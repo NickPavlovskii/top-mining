@@ -28,6 +28,7 @@
   })
 
   const route = useRoute()
+  const { t } = useT()
   const slug = computed(() => String(route.params.slug || ''))
   const model = computed(() => getBuyAsicModelBySlug(slug.value))
 
@@ -42,9 +43,9 @@
 
   useSeoMeta({
     title: () =>
-      `${model.value!.name} — ASIC по цене ниже рынка | ТОП МАЙНИНГ`,
+      t('buyAsic.modelSeoTitle', undefined, { model: model.value!.name }),
     description: () =>
-      `Подберем майнинг-компанию, где вы сможете купить ASIC ${shortName.value} на 10% дешевле рынка.`,
+      t('buyAsic.modelSeoDescription', undefined, { model: shortName.value }),
   })
 </script>
 

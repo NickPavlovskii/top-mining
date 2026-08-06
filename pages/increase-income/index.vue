@@ -13,10 +13,11 @@
     path: '/uvelichim-vash-dohod',
   })
 
+  const page = useIncreaseIncomePage()
+
   useSeoMeta({
-    title: 'Увеличим ваш доход | ТОП МАЙНИНГ',
-    description:
-      'Ваши асики зарабатывают от 100.000 ₽ в месяц? Увеличим вашу чистую прибыль на 7%.',
+    title: () => page.value.seoTitle,
+    description: () => page.value.seoDescription,
   })
 </script>
 

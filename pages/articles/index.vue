@@ -2,7 +2,7 @@
   <div class="articles-page">
     <div class="articles-page__inner">
       <UBreadcrumb
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         class="articles-page__breadcrumbs"
         :items="breadcrumbItems"
       >
@@ -13,24 +13,24 @@
 
       <header class="articles-page__header">
         <h1 class="articles-page__title">
-          <span class="articles-page__title-line">{{ TOP_MINING_ARTICLES_SECTION.titleLine1 }}</span>
+          <span class="articles-page__title-line">{{ t('articles.heroLine1') }}</span>
           <span class="articles-page__title-line articles-page__title-line--accent">
-            {{ TOP_MINING_ARTICLES_SECTION.titleLine2 }}
+            {{ t('articles.heroLine2') }}
           </span>
         </h1>
 
         <p class="articles-page__subtitle">
-          {{ TOP_MINING_ARTICLES_SECTION.subtitle }}
+          {{ t('articles.heroSubtitle') }}
         </p>
       </header>
 
       <div
         class="articles-page__topics"
         role="tablist"
-        aria-label="Темы статей"
+        :aria-label="t('articles.topicsAria')"
       >
         <nuxt-link
-          v-for="topic in TOP_MINING_ARTICLES_TOPICS"    
+          v-for="topic in localizedTopics"
           :key="topic.id"
           role="tab"
           :to="topicLink(topic.id)"
@@ -45,11 +45,11 @@
         <div
           class="articles-page__view-toggle"
           role="group"
-          aria-label="Вид списка статей"
+          :aria-label="t('articles.viewAria')"
         >
           <button
             type="button"
-            aria-label="Сетка"
+            :aria-label="t('articles.gridAria')"
             :class="['articles-page__view-btn', { 'articles-page__view-btn--active': viewMode === 'grid' }]"
             :aria-pressed="viewMode === 'grid'"
             @click="setViewMode('grid')"
@@ -63,7 +63,7 @@
           </button>
           <button
             type="button"
-            aria-label="Список"           
+            :aria-label="t('articles.listAria')"
             :class="['articles-page__view-btn', { 'articles-page__view-btn--active': viewMode === 'list' }]"
             :aria-pressed="viewMode === 'list'"
             @click="setViewMode('list')"
@@ -79,7 +79,7 @@
       </div>
 
       <div v-if="pending" class="articles-page__state">
-        Загрузка…
+        {{ t('articles.loading') }}
       </div>
 
       <template v-else-if="paginatedArticles.length">
@@ -118,7 +118,7 @@
             class="articles-page__next-page"
             :to="pageLink(currentPage + 1)"
           >
-            <span>Следующая страница</span>
+            <span>{{ t('articles.nextPage') }}</span>
             <img
               alt=""
               aria-hidden="true"
@@ -129,12 +129,12 @@
 
           <div class="articles-page__pagination-controls">
             <span class="articles-page__page-indicator">
-              {{ currentPage }} из {{ totalPages }}
+              {{ t('articles.pageOf', undefined, { current: currentPage, total: totalPages }) }}
             </span>
 
             <div class="articles-page__page-nav">
               <nuxt-link
-                aria-label="Предыдущая страница"
+                :aria-label="t('articles.prevPage')"
                 :to="pageLink(currentPage - 1)"
                 :class="['articles-page__page-btn', { 'articles-page__page-btn--disabled': currentPage <= 1 }]"
                 @click="preventDisabledNav($event, currentPage <= 1)"
@@ -148,7 +148,7 @@
               </nuxt-link>
 
               <nuxt-link
-               aria-label="Следующая страница"
+                :aria-label="t('articles.nextPage')"
                 :to="pageLink(currentPage + 1)"
                 :class="[
                   'articles-page__page-btn',
@@ -175,7 +175,6 @@
 <script setup lang="ts">
   import TopMiningArticleRow from '~/components/global/articles/TopMiningArticleRow.vue'
   import {
-    TOP_MINING_ARTICLES_SECTION,
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
   } from '~/common/modules/top-mining/layout/articles-section'
@@ -188,13 +187,30 @@
   import viewListIcon from '~/assets/images/articles/view-list.png'
 
   type ArticlesViewMode = 'grid' | 'list'
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Главная', to: '/' },
-    { label: 'Статьи' },
-  ]
-  
+
+  const { t } = useT()
   const route = useRoute()
   const router = useRouter()
+
+  const topicKeys: Record<TopMiningArticlesTopicId, string> = {
+    all: 'home.topicAll',
+    mining: 'home.topicMining',
+    tools: 'home.topicTools',
+    investments: 'home.topicInvestments',
+    beginners: 'home.topicBeginners',
+  }
+
+  const localizedTopics = computed(() =>
+    TOP_MINING_ARTICLES_TOPICS.map((topic) => ({
+      ...topic,
+      label: t(topicKeys[topic.id]),
+    })),
+  )
+
+  const breadcrumbItems = computed<BreadcrumbItem[]>(() => [
+    { label: t('common.home'), to: '/' },
+    { label: t('articles.title') },
+  ])
 
   const activeTopic = computed<TopMiningArticlesTopicId>(() => {
     const topic = String(route.query.topic || 'all')
@@ -329,8 +345,8 @@
   }
 
   useSeoMeta({
-    title: 'Статьи — ТОП МАЙНИНГ',
-    description: TOP_MINING_ARTICLES_SECTION.subtitle,
+    title: () => t('articles.seoTitle'),
+    description: () => t('articles.heroSubtitle'),
   })
 </script>
 

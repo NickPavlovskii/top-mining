@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
   import type { PodborPlacementOffer } from '~/common/modules/top-mining/podbor/mining-hotel'
-  import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
   import CarouselAddCard from '~/components/carousel/CarouselAddCard.vue'
   import CarouselOfferCard from '~/components/carousel/CarouselOfferCard.vue'
   import CarouselOfferCardSkeleton from '~/components/carousel/CarouselOfferCardSkeleton.vue'
@@ -53,7 +52,7 @@
     offers: PodborPlacementOffer[]
   }
 
-  const placement = PODBOR_MINING_HOTEL_PLACEMENT
+  const { placement } = usePodborMiningHotelPage()
   const isAddModalOpen = ref(false)
   const isTariffModalOpen = ref(false)
   const selectedOffer = ref<PodborPlacementOffer | null>(null)

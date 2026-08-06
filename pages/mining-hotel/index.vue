@@ -3,7 +3,7 @@
     <div class="podbor-hotel-page__layout">
       <nav
         class="podbor-hotel-page__breadcrumbs"
-        aria-label="Хлебные крошки"
+        :aria-label="t('common.breadcrumbsAria')"
         itemscope
         itemtype="https://schema.org/BreadcrumbList"
       >
@@ -17,7 +17,7 @@
             to="/"
             itemprop="item"
           >
-            <span itemprop="name">Главная</span>
+            <span itemprop="name">{{ t('common.home') }}</span>
           </nuxt-link>
           <meta
             itemprop="position"
@@ -87,7 +87,6 @@
 </template>
 
 <script setup lang="ts">
-  import { PODBOR_MINING_HOTEL_PAGE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import PodborMiningHotelCtaSection from '~/components/podbor/cta/PodborMiningHotelCtaSection.vue'
   import PodborMiningHotelLeadForm from '~/components/podbor/hero/PodborMiningHotelLeadForm.vue'
   import PodborMiningHotelLogos from '~/components/podbor/hero/PodborMiningHotelLogos.vue'
@@ -108,12 +107,12 @@
     path: '/podbor-majning-otelya',
   })
 
-  const page = PODBOR_MINING_HOTEL_PAGE
+  const { page } = usePodborMiningHotelPage()
+  const { t } = useT()
 
   useSeoMeta({
-    title: 'Подбор майнинг-отеля | ТОП МАЙНИНГ',
-    description:
-      'Подберем майнинг-отель для размещения ASIC-майнеров на 15% дешевле рынка.',
+    title: () => page.value.seoTitle,
+    description: () => page.value.seoDescription,
   })
 </script>
 
