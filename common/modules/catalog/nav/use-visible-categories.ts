@@ -4,7 +4,7 @@
  */
 import { emptyCatalogResponse } from '../content/empty'
 import { getVisibleCatalogCategories } from './categories'
-import { buildCatalogManufacturersResponse } from '../pages/manufacturers'
+import { emptyCatalogManufacturersResponse } from '../pages/manufacturers'
 import type { CatalogManufacturersResponse, CatalogResponse } from '../types'
 
 export function useVisibleCatalogCategories() {
@@ -15,7 +15,7 @@ export function useVisibleCatalogCategories() {
   const { data: manufacturersData } = useFetch<CatalogManufacturersResponse>(
     '/api/catalog/manufacturers',
     {
-      default: () => buildCatalogManufacturersResponse(),
+      default: () => emptyCatalogManufacturersResponse(),
     },
   )
 

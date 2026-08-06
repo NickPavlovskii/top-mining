@@ -17,25 +17,18 @@
             },
           ]"
         >
-          <img
-            v-if="showLogoImage"
-            loading="lazy"
+          <top-mining-lazy-image
+            class="catalog-org-card__lazy-logo"
+            tone="light"
+            aspect-ratio="1 / 1"
+            object-fit="contain"
+            :rounded="false"
             :src="organization.logoUrl"
             :alt="organization.name"
-            draggable="false"
+            :show-brand-fallback="true"
             @load="onLogoLoad"
             @error="onLogoError"
           />
-          <span
-            v-else
-            class="catalog-org-card__logo-fallback"
-            aria-hidden="true"
-          >
-            <Icon
-              name="mdi:image-off-outline"
-              class="catalog-org-card__logo-fallback-icon"
-            />
-          </span>
         </div>
 
         <div class="catalog-org-card__header">
@@ -105,10 +98,9 @@
             >
               <span class="catalog-org-card__stars-track">
                 <img
-                  v-for="starIndex in 5"
-                  :key="`empty-${starIndex}`"
-                  class="catalog-org-card__star-icon catalog-org-card__star-icon--empty"
+                  v-for="starIndex in 5"                  class="catalog-org-card__star-icon catalog-org-card__star-icon--empty"
                   alt=""
+                  :key="`empty-${starIndex}`"
                   :src="catalogStarIcon"
                 />
               </span>
@@ -256,6 +248,8 @@
    * Карточка организации в каталоге (карусель или сетка).
    */
   import type { CatalogOrganization } from '~/common/modules/catalog'
+  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
+  import TopMiningLazyImage from '~/components/global/media/TopMiningLazyImage.vue'
   import catalogStarIcon from '~/assets/images/catalog/star-24.png'
 
   const STAR_SIZE = 14
@@ -395,10 +389,11 @@
   }
 
   function openMissingDetail() {
-    showError({
-      statusCode: 404,
-      statusMessage: 'Страница не найдена',
-    })
+    if (props.organization.slug) {
+      return navigateTo(`/sale_asic/${props.organization.slug}/`)
+    }
+
+    return navigateTo(CATALOG_PAGE_HREF)
   }
 </script>
 
@@ -552,6 +547,17 @@
     box-sizing: border-box;
     color: inherit;
     text-decoration: none;
+  }
+
+  .catalog-org-card__lazy-logo {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .catalog-org-card__lazy-logo :deep(.tm-lazy-image) {
+    aspect-ratio: auto;
+    height: 100%;
   }
 
   .catalog-org-card--rich .catalog-org-card__logo {

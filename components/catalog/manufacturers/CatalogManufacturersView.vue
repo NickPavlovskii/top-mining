@@ -92,7 +92,28 @@
           </p>
 
           <div
-            v-if="isManufacturersMode && filteredManufacturers.length"
+            v-if="isCatalogPending"
+            class="catalog-mfr-page__skeletons"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <div
+              v-for="n in 6"
+              :key="n"
+              class="catalog-mfr-page__skeleton-card"
+            >
+              <div class="catalog-mfr-page__skeleton-logo" />
+              <div class="catalog-mfr-page__skeleton-body">
+                <div class="catalog-mfr-page__skeleton-line catalog-mfr-page__skeleton-line--name" />
+                <div class="catalog-mfr-page__skeleton-line catalog-mfr-page__skeleton-line--pill" />
+                <div class="catalog-mfr-page__skeleton-line catalog-mfr-page__skeleton-line--pill" />
+                <div class="catalog-mfr-page__skeleton-line catalog-mfr-page__skeleton-line--meta" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-else-if="isManufacturersMode && filteredManufacturers.length"
             class="catalog-mfr-page__grid"
           >
             <catalog-manufacturer-card
@@ -154,7 +175,7 @@
     getCatalogMidBlockBannerVariant,
   } from '~/common/modules/catalog/content/mid-block-banner'
   import {
-    buildCatalogManufacturersResponse,
+    emptyCatalogManufacturersResponse,
     getManufacturerMarketAge,
   } from '~/common/modules/catalog/pages/manufacturers'
   import {
@@ -233,15 +254,24 @@
   const organizationMarketAgeFilters = CATALOG_ORGANIZATION_MARKET_AGE_FILTERS
   const organizationMinAsicFilters = CATALOG_ORGANIZATION_MIN_ASIC_FILTERS
 
-  const { data: manufacturersData } = await useFetch<CatalogManufacturersResponse>(
-    '/api/catalog/manufacturers',
+  const { data: manufacturersData, pending: manufacturersPending } =
+    await useFetch<CatalogManufacturersResponse>('/api/catalog/manufacturers', {
+      default: () => emptyCatalogManufacturersResponse(),
+    })
+
+  const { data: catalogData, pending: catalogPending } = await useFetch<CatalogResponse>(
+    '/api/catalog',
     {
-      default: () => buildCatalogManufacturersResponse(),
+      default: () => emptyCatalogResponse(),
     },
   )
 
-  const { data: catalogData } = await useFetch<CatalogResponse>('/api/catalog', {
-    default: () => emptyCatalogResponse(),
+  const isCatalogPending = computed(() => {
+    if (isManufacturersMode.value) {
+      return manufacturersPending.value
+    }
+
+    return catalogPending.value
   })
 
   const meta = computed(() => manufacturersData.value!.meta)
@@ -750,6 +780,88 @@
     gap: 16px;
   }
 
+  .catalog-mfr-page__skeletons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .catalog-mfr-page__skeleton-card {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(12px, 2vw, 24px);
+    min-height: 148px;
+    padding: clamp(16px, 2vw, 24px);
+    border-radius: 32px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .catalog-mfr-page__skeleton-logo {
+    flex: 0 0 auto;
+    width: clamp(64px, 10vw, 96px);
+    height: clamp(64px, 10vw, 96px);
+    border-radius: 20px;
+    background: linear-gradient(
+      110deg,
+      #e8e8e8 0%,
+      #e8e8e8 35%,
+      #f5f5f5 50%,
+      #e8e8e8 65%,
+      #e8e8e8 100%
+    );
+    background-size: 200% 100%;
+    animation: catalog-mfr-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .catalog-mfr-page__skeleton-body {
+    display: grid;
+    gap: 10px;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-top: 2px;
+  }
+
+  .catalog-mfr-page__skeleton-line {
+    border-radius: 999px;
+    background: linear-gradient(
+      110deg,
+      #e8e8e8 0%,
+      #e8e8e8 35%,
+      #f5f5f5 50%,
+      #e8e8e8 65%,
+      #e8e8e8 100%
+    );
+    background-size: 200% 100%;
+    animation: catalog-mfr-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .catalog-mfr-page__skeleton-line--name {
+    width: min(220px, 72%);
+    height: 28px;
+    border-radius: 10px;
+  }
+
+  .catalog-mfr-page__skeleton-line--pill {
+    width: min(160px, 58%);
+    height: 28px;
+  }
+
+  .catalog-mfr-page__skeleton-line--meta {
+    width: min(140px, 48%);
+    height: 16px;
+  }
+
+  @keyframes catalog-mfr-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
   .catalog-mfr-page__grid-banner {
     grid-column: 1 / -1;
     container-type: inline-size;
@@ -816,8 +928,20 @@
   }
 
   @media (max-width: 1100px) {
-    .catalog-mfr-page__grid {
+    .catalog-mfr-page__grid,
+    .catalog-mfr-page__skeletons {
       grid-template-columns: 1fr;
+    }
+
+    .catalog-mfr-page__skeleton-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+
+    .catalog-mfr-page__skeleton-logo {
+      width: 72px;
+      height: 72px;
     }
   }
 

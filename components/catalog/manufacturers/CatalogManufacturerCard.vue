@@ -5,23 +5,17 @@
     @click="openManufacturer"
   >
     <div class="catalog-mfr-card__logo">
-      <img
-        v-if="showLogoImage"
-        loading="lazy"
+      <top-mining-lazy-image
+        class="catalog-mfr-card__lazy-logo"
+        tone="light"
+        aspect-ratio="1 / 1"
+        object-fit="contain"
         :src="manufacturer.logoUrl"
+        :rounded="false"
         :alt="manufacturer.name"
+        :show-brand-fallback="true"
         @error="onLogoError"
       />
-      <span
-        v-else
-        class="catalog-mfr-card__logo-fallback"
-        aria-hidden="true"
-      >
-        <Icon
-          name="mdi:image-off-outline"
-          class="catalog-mfr-card__logo-fallback-icon"
-        />
-      </span>
     </div>
 
     <div class="catalog-mfr-card__body">
@@ -39,7 +33,10 @@
         <span>{{ ratingLabel }}</span>
       </div>
 
-      <p class="catalog-mfr-card__tag">
+      <p
+        v-if="manufacturer.modelsCount > 0"
+        class="catalog-mfr-card__tag"
+      >
         <img
           class="catalog-mfr-card__tag-icon"
           alt=""
@@ -69,6 +66,7 @@
 
 <script setup lang="ts">
   import type { CatalogManufacturer } from '~/common/modules/catalog'
+  import TopMiningLazyImage from '~/components/global/media/TopMiningLazyImage.vue'
   import catalogQualityIcon from '~/assets/images/catalog/quality.png'
   import catalogModelsGridIcon from '~/assets/images/catalog/models-grid.png'
 
@@ -115,12 +113,9 @@
     logoFailed.value = true
   }
 
-  /** Детальных страниц производителей на сайте ещё нет — показываем 404, не внешнюю ссылку. */
+  /** Детальной страницы ещё нет — открываем заготовку со скелетонами. */
   function openManufacturer() {
-    showError({
-      statusCode: 404,
-      statusMessage: 'Страница не найдена',
-    })
+    return navigateTo(`/asic-manufacturers/${props.manufacturer.slug}/`)
   }
 </script>
 
@@ -166,34 +161,21 @@
     flex: 0 0 auto;
     width: clamp(64px, 10vw, 96px);
     height: clamp(64px, 10vw, 96px);
-    padding: 10px;
+    padding: 0;
     border-radius: 20px;
     background: #f3f3f3;
     box-sizing: border-box;
     overflow: hidden;
   }
 
-  .catalog-mfr-card__logo img {
-    display: block;
+  .catalog-mfr-card__lazy-logo {
     width: 100%;
     height: 100%;
-    object-fit: contain;
   }
 
-  .catalog-mfr-card__logo-fallback {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+  .catalog-mfr-card__lazy-logo :deep(.tm-lazy-image) {
+    aspect-ratio: auto;
     height: 100%;
-    color: #9a9a9a;
-  }
-
-  .catalog-mfr-card__logo-fallback-icon {
-    width: 40%;
-    height: 40%;
-    min-width: 24px;
-    min-height: 24px;
   }
 
   .catalog-mfr-card__body {

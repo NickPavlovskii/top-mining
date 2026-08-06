@@ -1,6 +1,6 @@
 /**
  * Папка pages — данные списков каталога.
- * Производители, fallback и сборка ответа страницы.
+ * Производители из БД (категория equipment-manufacturers) и сборка ответа.
  */
 import type {
   CatalogCategory,
@@ -8,6 +8,7 @@ import type {
   CatalogManufacturer,
   CatalogManufacturersPageMeta,
   CatalogManufacturersResponse,
+  CatalogOrganization,
 } from '../types'
 import { CATALOG_CATEGORY_DEFINITIONS } from '../nav/categories'
 import { getCatalogCategoryTabs } from '../nav/tabs'
@@ -62,260 +63,71 @@ export const CATALOG_MANUFACTURER_MARKET_AGE_FILTERS: CatalogFilterOption[] = [
   { id: '1-to-3y', label: 'От 1 до 3 лет' },
 ]
 
-export const CATALOG_MANUFACTURERS_FALLBACK: CatalogManufacturer[] = [
-  {
-    id: 1,
-    name: 'INNOSILICON',
-    slug: 'innosilicon',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/innosilicon-90x90-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/corporation-innosilicon/',
-    foundedYear: 2006,
-    modelsCount: 12,
-    algorithms: ['sha-256', 'scrypt', 'equihash', 'blake2s'],
-  },
-  {
-    id: 2,
-    name: 'IBELINK',
-    slug: 'ibelink',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/ibelink-90x90-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/ibelink/',
-    foundedYear: 2018,
-    modelsCount: 10,
-    algorithms: ['blake2b-sha3', 'blake2b-sia', 'sha-256'],
-  },
-  {
-    id: 3,
-    name: 'GOLDSHELL',
-    slug: 'goldshell',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/goldshell-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/corporation-goldshell/',
-    foundedYear: 2017,
-    modelsCount: 14,
-    algorithms: ['sha-256', 'scrypt', 'eaglesong', 'kawpow'],
-  },
-  {
-    id: 4,
-    name: 'CANAAN',
-    slug: 'canaan',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/canaan-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/canaan-corporation/',
-    foundedYear: 2015,
-    modelsCount: 11,
-    algorithms: ['sha-256', 'blake2s'],
-  },
-  {
-    id: 5,
-    name: 'BITMAIN',
-    slug: 'bitmain',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/bitmain-1.png',
-    rating: 4.9,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/bitmain-corporation/',
-    foundedYear: 2013,
-    modelsCount: 20,
-    algorithms: ['sha-256', 'scrypt', 'equihash'],
-  },
-  {
-    id: 6,
-    name: 'MicroBT',
-    slug: 'microbt',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/microbt-1.png',
-    rating: 4.8,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/microbt-corporation/',
-    foundedYear: 2016,
-    modelsCount: 18,
-    algorithms: ['sha-256'],
-  },
-  {
-    id: 7,
-    name: 'IceRiver',
-    slug: 'iceriver',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/iceriver-1-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/iceriver-corporation/',
-    foundedYear: 2021,
-    modelsCount: 10,
-    algorithms: ['blake2b-sha3', 'kawpow'],
-  },
-  {
-    id: 8,
-    name: 'Jasminer',
-    slug: 'jasminer',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/jasminer-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/corporation-jasminer/',
-    foundedYear: 2016,
-    modelsCount: 12,
-    algorithms: ['ethash', 'eaglesong'],
-  },
-  {
-    id: 9,
-    name: 'SealMiner',
-    slug: 'sealminer',
-    logoUrl: 'https://top-mining.ru/wp-content/uploads/2025/11/1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/sealminer/',
-    foundedYear: 2023,
-    modelsCount: 10,
-    algorithms: ['sha-256'],
-  },
-  {
-    id: 10,
-    name: 'ElphaPex',
-    slug: 'elphapex',
-    logoUrl: '/images/catalog/elphapex.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/elphapex/',
-    foundedYear: 2020,
-    modelsCount: 11,
-    algorithms: ['scrypt', 'lbry'],
-  },
-  {
-    id: 11,
-    name: 'VolcMiner',
-    slug: 'volcminer',
-    logoUrl: '/images/catalog/volcminer.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/volcminer/',
-    foundedYear: 2019,
-    modelsCount: 13,
-    algorithms: ['sha-256', 'blake2s'],
-  },
-  {
-    id: 12,
-    name: 'Fluminer',
-    slug: 'fluminer',
-    logoUrl: '/images/catalog/fluminer.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/fluminer/',
-    foundedYear: 2022,
-    modelsCount: 10,
-    algorithms: ['sha-256', 'randomx'],
-  },
-  {
-    id: 13,
-    name: 'Bombax',
-    slug: 'bombax',
-    logoUrl: '/images/catalog/volcminer.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/bombax/',
-    foundedYear: 2021,
-    modelsCount: 10,
-    algorithms: ['sha-256'],
-  },
-  {
-    id: 14,
-    name: 'StrongU',
-    slug: 'strongu',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/strongu-90x90-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/strongu/',
-    foundedYear: 2018,
-    modelsCount: 15,
-    algorithms: ['sha-256', 'x11', 'cryptonight'],
-  },
-  {
-    id: 15,
-    name: 'PandaMiner',
-    slug: 'pandaminer',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/pandaminer-90x90-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/pandaminer/',
-    foundedYear: 2017,
-    modelsCount: 12,
-    algorithms: ['ethash', 'equihash'],
-  },
-  {
-    id: 16,
-    name: 'Ebang',
-    slug: 'ebang',
-    logoUrl:
-      'https://top-mining.ru/wp-content/uploads/2024/08/ebang-90x90-1.png',
-    rating: 0,
-    reviewCount: 0,
-    href: 'https://top-mining.ru/asic-manufacturer/ebang/',
-    foundedYear: 2010,
-    modelsCount: 16,
-    algorithms: ['sha-256', 'cryptonightr'],
-  },
-]
+function slugifyManufacturerName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9а-яё]+/gi, '-')
+    .replace(/^-+|-+$/g, '')
+}
 
-export function applyCatalogReviewStatsToManufacturers(
-  manufacturers: CatalogManufacturer[],
-  categories: CatalogCategory[],
+export function mapCatalogOrganizationsToManufacturers(
+  organizations: CatalogOrganization[],
 ): CatalogManufacturer[] {
-  const equipmentOrganizations =
-    categories.find((category) => category.slug === 'equipment-manufacturers')
-      ?.organizations ?? []
-
-  const bySlug = new Map(
-    equipmentOrganizations
-      .filter((organization) => organization.slug)
-      .map((organization) => [organization.slug!, organization]),
-  )
-
-  const byName = new Map(
-    equipmentOrganizations.map((organization) => [
-      organization.name.trim().toLowerCase(),
-      organization,
-    ]),
-  )
-
-  return manufacturers.map((manufacturer) => {
-    const organization =
-      bySlug.get(manufacturer.slug)
-      || byName.get(manufacturer.name.trim().toLowerCase())
-
-    if (!organization) {
-      return manufacturer
-    }
+  return organizations.map((organization) => {
+    const slug =
+      organization.slug?.trim()
+      || slugifyManufacturerName(organization.name)
+      || String(organization.id)
 
     return {
-      ...manufacturer,
+      id: organization.id,
+      name: organization.name,
+      slug,
+      logoUrl: organization.logoUrl || '',
       rating: organization.rating,
       reviewCount: organization.reviewCount,
+      href: `/asic-manufacturers/${slug}/`,
+      foundedYear: organization.foundedYear ?? null,
+      modelsCount: 0,
+      algorithms: [],
     }
   })
 }
 
-export function buildCatalogManufacturersResponse(): CatalogManufacturersResponse {
+export function manufacturersFromCatalogCategories(
+  categories: CatalogCategory[],
+): CatalogManufacturer[] {
+  const equipment =
+    categories.find(
+      (category) => category.slug === CATALOG_MANUFACTURERS_PAGE_META.categorySlug,
+    )?.organizations ?? []
+
+  return mapCatalogOrganizationsToManufacturers(equipment)
+}
+
+export function emptyCatalogManufacturersResponse(): CatalogManufacturersResponse {
   return {
-    source: 'fallback',
+    source: 'api',
     updatedAt: new Date().toISOString(),
     meta: CATALOG_MANUFACTURERS_PAGE_META,
     categoryTabs: CATALOG_CATEGORY_TABS,
     algorithmFilters: CATALOG_MANUFACTURER_ALGORITHM_FILTERS,
     modelCountFilters: CATALOG_MANUFACTURER_MODEL_COUNT_FILTERS,
     marketAgeFilters: CATALOG_MANUFACTURER_MARKET_AGE_FILTERS,
-    manufacturers: CATALOG_MANUFACTURERS_FALLBACK,
+    manufacturers: [],
+  }
+}
+
+export function buildCatalogManufacturersResponse(
+  manufacturers: CatalogManufacturer[] = [],
+  source: CatalogManufacturersResponse['source'] = 'api',
+): CatalogManufacturersResponse {
+  return {
+    ...emptyCatalogManufacturersResponse(),
+    source,
+    updatedAt: new Date().toISOString(),
+    manufacturers,
   }
 }
 

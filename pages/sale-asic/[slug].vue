@@ -1,15 +1,14 @@
 <template>
   <main class="sale-asic-page">
-    <div
-      v-if="pending"
-      class="sale-asic-page__state"
-    >
-      Загрузка…
-    </div>
-
     <catalog-organization-detail-view
-      v-else-if="organization"
+      v-if="organization"
       :organization="organization"
+    />
+
+    <catalog-detail-page-skeleton
+      v-else
+      catalog-label="Каталог организаций"
+      :current-label="skeletonLabel"
     />
   </main>
 </template>
@@ -22,6 +21,7 @@
     HTTP_OK,
     HTTP_SERVICE_UNAVAILABLE,
   } from '~/common/modules/http/status'
+  import CatalogDetailPageSkeleton from '~/components/catalog/organization-detail/CatalogDetailPageSkeleton.vue'
   import CatalogOrganizationDetailView from '~/components/catalog/organization-detail/CatalogOrganizationDetailView.vue'
 
   definePageMeta({
@@ -42,7 +42,24 @@
 
   const organization = computed(() => data.value?.organization ?? null)
 
+  const skeletonLabel = computed(() => {
+    if (pending.value) {
+      return '…'
+    }
+
+    const raw = slug.value.replace(/[-_]+/g, ' ').trim()
+    if (!raw) {
+      return 'Организация'
+    }
+
+    return raw.replace(/\b\w/g, (char) => char.toUpperCase())
+  })
+
   const responseStatus = computed(() => {
+    if (pending.value) {
+      return HTTP_OK
+    }
+
     if (error.value?.statusCode) {
       return error.value.statusCode
     }
@@ -51,7 +68,7 @@
       return HTTP_SERVICE_UNAVAILABLE
     }
 
-    if (!pending.value && !organization.value) {
+    if (!organization.value) {
       return HTTP_NOT_FOUND
     }
 
@@ -62,33 +79,17 @@
     setResponseStatus(event, responseStatus.value)
   }
 
-  watch(
-    [pending, organization, responseStatus],
-    ([isPending, org, code]) => {
-      if (isPending || org) {
-        return
-      }
-
-      if (code === HTTP_SERVICE_UNAVAILABLE) {
-        showError({
-          statusCode: HTTP_SERVICE_UNAVAILABLE,
-          statusMessage: 'Страница временно недоступна',
-        })
-        return
-      }
-
-      showError({
-        statusCode: HTTP_NOT_FOUND,
-        statusMessage: 'Страница не найдена',
-      })
-    },
-    { immediate: true },
-  )
-
   useSeoMeta({
     title: () =>
       organization.value
         ? `${organization.value.pageTitle || organization.value.name} — ТОП МАЙНИНГ`
-        : 'ТОП МАЙНИНГ',
+        : `${skeletonLabel.value} — ТОП МАЙНИНГ`,
   })
 </script>
+
+<style scoped>
+  .sale-asic-page {
+    padding: 0;
+    min-height: 60vh;
+  }
+</style>

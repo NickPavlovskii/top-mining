@@ -30,9 +30,11 @@
           </p>
         </div>
 
-        <img
-          v-if="heroLogoUrl"
+        <top-mining-lazy-image
           class="org-detail__logo"
+          aspect-ratio="3 / 2"
+          object-fit="contain"
+          tone="light"
           :src="heroLogoUrl"
           :alt="organization.name"
         />
@@ -693,6 +695,7 @@
   import CatalogOrganizationGallery from '~/components/catalog/organization-detail/CatalogOrganizationGallery.vue'
   import CatalogOrganizationDetailSidebar from '~/components/catalog/organization-detail/CatalogOrganizationDetailSidebar.vue'
   import CatalogOrganizationReviews from '~/components/catalog/organization-detail/CatalogOrganizationReviews.vue'
+  import TopMiningLazyImage from '~/components/global/media/TopMiningLazyImage.vue'
   import type { CatalogOrganizationDetail } from '~/common/modules/catalog'
   import type { OrganizationReviewStats } from '~/types/organization-reviews'
 
@@ -990,10 +993,8 @@
     display: block;
     width: 100%;
     max-width: 420px;
-    aspect-ratio: 3 / 2;
     border-radius: 24px;
-    object-fit: contain;
-    object-position: center;
+    overflow: hidden;
     background: #fff;
     justify-self: end;
     align-self: start;

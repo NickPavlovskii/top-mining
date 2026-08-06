@@ -71,7 +71,36 @@
           </label>
         </form>
 
-        <div class="catalog-section__categories">
+        <div
+          v-if="showCatalogSkeletons"
+          class="catalog-section__skeletons"
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <div
+            v-for="row in 2"
+            :key="`row-${row}`"
+            class="catalog-section__skeleton-row"
+          >
+            <div class="catalog-section__skeleton catalog-section__skeleton--title" />
+            <div class="catalog-section__skeleton-cards">
+              <div
+                v-for="card in 5"
+                :key="`card-${row}-${card}`"
+                class="catalog-section__skeleton catalog-section__skeleton--card"
+              >
+                <div class="catalog-section__skeleton-logo" />
+                <div class="catalog-section__skeleton-line" />
+                <div class="catalog-section__skeleton-line catalog-section__skeleton-line--short" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-else
+          class="catalog-section__categories"
+        >
           <catalog-category-row
             v-for="category in categoriesWithOrganizations"
             :key="category.id"
@@ -106,7 +135,7 @@
   const router = useRouter()
   const searchQuery = ref('')
 
-  const { data } = await useFetch<CatalogResponse>('/api/catalog', {
+  const { data, pending } = await useFetch<CatalogResponse>('/api/catalog', {
     default: () => emptyCatalogResponse(),
   })
 
@@ -121,6 +150,11 @@
 
   const categoriesWithOrganizations = computed(() =>
     categories.value.filter((category) => category.organizations.length > 0),
+  )
+
+  /** Пока грузится API или категорий ещё нет — показываем скелетоны, а не пустоту */
+  const showCatalogSkeletons = computed(
+    () => pending.value || categoriesWithOrganizations.value.length === 0,
   )
 
   function goToCatalogSearch() {
@@ -143,7 +177,7 @@
     justify-content: center;
     margin-top: -64px;
     padding-top: 64px;
-    background: var(--tm-rating-surface);
+    background: #000;
   }
 
   .catalog-section__wrapper {
@@ -155,7 +189,7 @@
     box-sizing: border-box;
     padding-bottom: clamp(96px, 11vw, 208px);
     border-radius: 64px 64px 0 0;
-    background: #f2f2f2;
+    background: #fff;
     overflow: hidden;
     text-align: center;
   }
@@ -332,6 +366,103 @@
     overflow: hidden;
   }
 
+  .catalog-section__skeletons {
+    display: grid;
+    gap: clamp(32px, 4vw, 56px);
+    margin: clamp(28px, 4vw, 48px) 0;
+    min-height: 420px;
+  }
+
+  .catalog-section__skeleton-row {
+    display: grid;
+    gap: 16px;
+  }
+
+  .catalog-section__skeleton-cards {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .catalog-section__skeleton {
+    border-radius: 20px;
+    background: linear-gradient(
+      110deg,
+      #dedede 0%,
+      #dedede 35%,
+      #efefef 50%,
+      #dedede 65%,
+      #dedede 100%
+    );
+    background-size: 200% 100%;
+    animation: catalog-section-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .catalog-section__skeleton--title {
+    width: min(280px, 50%);
+    height: 28px;
+  }
+
+  .catalog-section__skeleton--card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 188px;
+    padding: 18px;
+    border: 1px solid #ebebeb;
+    border-radius: 28px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .catalog-section__skeleton-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(
+      110deg,
+      #e0e0e0 0%,
+      #e0e0e0 35%,
+      #f3f3f3 50%,
+      #e0e0e0 65%,
+      #e0e0e0 100%
+    );
+    background-size: 200% 100%;
+    animation: catalog-section-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .catalog-section__skeleton-line {
+    height: 14px;
+    width: 100%;
+    border-radius: 999px;
+    background: linear-gradient(
+      110deg,
+      #e0e0e0 0%,
+      #e0e0e0 35%,
+      #f3f3f3 50%,
+      #e0e0e0 65%,
+      #e0e0e0 100%
+    );
+    background-size: 200% 100%;
+    animation: catalog-section-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .catalog-section__skeleton-line--short {
+    width: 62%;
+  }
+
+  @keyframes catalog-section-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
   .catalog-section__more {
     width: 100%;
     max-width: 100%;
@@ -357,12 +488,13 @@
     .catalog-section {
       margin-top: -48px;
       padding-top: 48px;
-      background: var(--tm-rating-surface);
+      background: #000;
     }
 
     .catalog-section__wrapper {
       border-radius: 32px 32px 0 0;
-      box-shadow: 0 -1px 0 var(--tm-rating-surface);
+      box-shadow: none;
+      background: #fff;
     }
 
     .catalog-section__inner {
