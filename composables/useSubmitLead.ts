@@ -1,6 +1,7 @@
 import {
   LEADS_API_PATH,
   LEADS_UI,
+  parseLeadSubmit,
   type LeadSource,
   type SubmitLeadInput,
 } from '~/common/modules/top-mining/layout/leads'
@@ -10,11 +11,20 @@ export function useSubmitLead(defaultSource?: LeadSource) {
   const message = ref('')
 
   async function submit(input: SubmitLeadInput) {
-    const contact = String(input.contact || '').trim()
+    const route = useRoute()
+    const parsed = parseLeadSubmit({
+      ...input,
+      source: input.source || defaultSource,
+      pagePath: input.pagePath || route.fullPath,
+      website: input.website || '',
+    })
 
-    if (!contact) {
+    if (!parsed.ok) {
       status.value = 'error'
-      message.value = LEADS_UI.contactRequired
+      message.value =
+        parsed.error === 'contact is required'
+          ? LEADS_UI.contactRequired
+          : parsed.error
       return false
     }
 
@@ -22,18 +32,9 @@ export function useSubmitLead(defaultSource?: LeadSource) {
     message.value = LEADS_UI.sending
 
     try {
-      const route = useRoute()
       await $fetch(LEADS_API_PATH, {
         method: 'POST',
-        body: {
-          source: input.source || defaultSource,
-          name: input.name || '',
-          contact,
-          message: input.message || '',
-          fields: input.fields || {},
-          website: input.website || '',
-          pagePath: input.pagePath || route.fullPath,
-        },
+        body: parsed.data,
       })
 
       status.value = 'success'

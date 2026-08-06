@@ -1,6 +1,5 @@
 import {
-  isValidSubscribeEmail,
-  normalizeSubscribeEmail,
+  parseSubscribeSubmit,
   SUBSCRIBE_API_PATH,
   SUBSCRIBE_UI,
   type SubscribeSource,
@@ -12,9 +11,13 @@ export function useSubscribeEmail(source: SubscribeSource) {
   const message = ref('')
 
   async function submit() {
-    const normalized = normalizeSubscribeEmail(email.value)
+    const parsed = parseSubscribeSubmit({
+      email: email.value,
+      source,
+      website: '',
+    })
 
-    if (!isValidSubscribeEmail(normalized)) {
+    if (!parsed.ok) {
       status.value = 'error'
       message.value = SUBSCRIBE_UI.invalidEmail
       return false
@@ -26,11 +29,7 @@ export function useSubscribeEmail(source: SubscribeSource) {
     try {
       await $fetch(SUBSCRIBE_API_PATH, {
         method: 'POST',
-        body: {
-          email: normalized,
-          source,
-          website: '',
-        },
+        body: parsed.data,
       })
 
       status.value = 'success'

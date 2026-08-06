@@ -16,6 +16,8 @@
   &nbsp;·&nbsp;
   <a href="./docs/calculator.md">Калькулятор</a>
   &nbsp;·&nbsp;
+  <a href="./docs/leads.md">Заявки и Zod</a>
+  &nbsp;·&nbsp;
   <a href="./backend/README.md">Backend</a>
 </p>
 

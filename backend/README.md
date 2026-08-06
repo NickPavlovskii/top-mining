@@ -54,6 +54,7 @@ backend/
     028_calculator_catalog_seed.sql  # полный сид калькулятора (алгоритмы/монеты/модели)
     029_podbor_placement_offers.sql  # карточки «Размещение» на странице подбора майнинг-отеля
     030_podbor_sale_offers.sql       # карточки «Продажа» на странице подбора майнинг-отеля
+    031_leads.sql                    # заявки с форм сайта (телефоны / Telegram / payload)
     000_inspect.sql                  # только SELECT, не в initdb
     archive/imports-split/           # старые поштучные 011–033
     archive/README.md           # карта старых инкрементальных миграций
@@ -77,6 +78,9 @@ docker exec niklad-postgres psql -U niklad -d niklad -v ON_ERROR_STOP=1 -f /tmp/
 ```
 
 Фронтенд ходит в `GET /api/catalog` (Nuxt), Nuxt проксирует запрос в GraphQL.
+
+Заявки с форм: таблица `leads` (`031`), mutation `createLead`, Nuxt `POST /api/leads`.  
+Подробнее: [`docs/leads.md`](../docs/leads.md) (Zod, Telegram, UI статуса).
 
 ## Быстрый старт
 

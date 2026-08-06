@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   isValidSubscribeEmail,
   normalizeSubscribeEmail,
+  parseSubscribeSubmit,
 } from '~/common/modules/top-mining/layout/subscribe'
 import { buildSubscribeWelcomeEmail } from '~/server/utils/mail/subscribe-template'
 import { resolveSmtpConfig } from '~/server/utils/mail/send'
@@ -16,6 +17,25 @@ describe('subscribe email', () => {
     expect(isValidSubscribeEmail('user@mail.ru')).toBe(true)
     expect(isValidSubscribeEmail('not-an-email')).toBe(false)
     expect(isValidSubscribeEmail('')).toBe(false)
+  })
+
+  it('parses subscribe payload with zod', () => {
+    const ok = parseSubscribeSubmit({
+      email: '  User@Mail.RU ',
+      source: 'footer',
+      website: '',
+    })
+
+    expect(ok).toEqual({
+      ok: true,
+      data: {
+        email: 'user@mail.ru',
+        source: 'footer',
+        website: '',
+      },
+    })
+
+    expect(parseSubscribeSubmit({ email: 'bad' }).ok).toBe(false)
   })
 
   it('builds branded welcome letter', () => {

@@ -1,8 +1,6 @@
 import { createError, readBody } from 'h3'
 import {
-  isValidSubscribeEmail,
-  normalizeSubscribeEmail,
-  type SubscribeSource,
+  parseSubscribeSubmit,
 } from '~/common/modules/top-mining/layout/subscribe'
 import {
   HTTP_BAD_REQUEST,
@@ -16,30 +14,24 @@ import {
   sendTelegramMessage,
 } from '~/server/utils/telegram/send'
 
-type SubscribeBody = {
-  email?: string
-  source?: SubscribeSource
-  website?: string
-}
-
 export default defineEventHandler(async (event) => {
-  const body = await readBody<SubscribeBody>(event)
+  const body = await readBody(event)
 
   // Honeypot: bots fill hidden fields
   if (String(body?.website || '').trim()) {
     return { ok: true }
   }
 
-  const email = normalizeSubscribeEmail(String(body?.email || ''))
-  const source = body?.source ?? null
+  const parsed = parseSubscribeSubmit(body)
 
-  if (!isValidSubscribeEmail(email)) {
+  if (!parsed.ok) {
     throw createError({
       statusCode: HTTP_BAD_REQUEST,
-      statusMessage: 'Valid email is required',
+      statusMessage: parsed.error,
     })
   }
 
+  const { email, source } = parsed.data
   const config = useRuntimeConfig(event)
   const smtp = resolveSmtpConfig(config)
   const telegram = resolveTelegramConfig(config)
@@ -78,7 +70,10 @@ export default defineEventHandler(async (event) => {
     try {
       await sendTelegramMessage({
         config: telegram,
-        text: buildSubscribeTelegramNotify({ email, source }),
+        text: buildSubscribeTelegramNotify({
+          email,
+          source: source ?? null,
+        }),
       })
       delivered.telegram = true
     } catch (error) {
@@ -98,7 +93,7 @@ export default defineEventHandler(async (event) => {
   return {
     ok: true,
     email,
-    source,
+    source: source ?? null,
     delivered,
     warnings: errors.length ? errors : undefined,
   }

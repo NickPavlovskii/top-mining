@@ -3,6 +3,7 @@ import {
   HTTP_BAD_REQUEST,
   HTTP_SERVICE_UNAVAILABLE,
 } from '~/common/modules/http'
+import { parseLeadSubmit } from '~/common/modules/top-mining/layout/leads'
 import { CREATE_LEAD_MUTATION } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 import {
@@ -10,16 +11,6 @@ import {
   resolveTelegramConfig,
   sendTelegramMessage,
 } from '~/server/utils/telegram/send'
-
-type LeadBody = {
-  source?: string
-  name?: string
-  contact?: string
-  message?: string
-  fields?: Record<string, string>
-  website?: string
-  pagePath?: string
-}
 
 type CreateLeadData = {
   createLead: {
@@ -30,35 +21,28 @@ type CreateLeadData = {
 }
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody<LeadBody>(event)
+  const body = await readBody(event)
 
   // Honeypot
   if (String(body?.website || '').trim()) {
     return { ok: true }
   }
 
-  const source = String(body?.source || '').trim()
-  const contact = String(body?.contact || '').trim()
-  const name = String(body?.name || '').trim()
-  const message = String(body?.message || '').trim()
-  const fields = body?.fields && typeof body.fields === 'object' ? body.fields : {}
-  const pagePath =
-    String(body?.pagePath || '').trim()
-    || getRequestURL(event).pathname
+  const parsed = parseLeadSubmit({
+    ...body,
+    pagePath:
+      String(body?.pagePath || '').trim()
+      || getRequestURL(event).pathname,
+  })
 
-  if (!source) {
+  if (!parsed.ok) {
     throw createError({
       statusCode: HTTP_BAD_REQUEST,
-      statusMessage: 'source is required',
+      statusMessage: parsed.error,
     })
   }
 
-  if (!contact) {
-    throw createError({
-      statusCode: HTTP_BAD_REQUEST,
-      statusMessage: 'contact is required',
-    })
-  }
+  const { source, contact, name, message, fields, pagePath } = parsed.data
 
   let created: CreateLeadData['createLead']
 
