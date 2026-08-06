@@ -4,17 +4,26 @@
       :title="placement.title"
       title-id="podbor-placement-title"
     >
-      <carousel-offer-card
-        v-for="offer in placement.offers"
-        :key="offer.id"
-        :title="offer.title"
-        :meta-label="offer.priceLabel"
-        :meta-value="offer.priceValue"
-        :location="offer.location"
-        :image="offer.image"
-        :cta-label="placement.ctaLabel"
-        @cta="openTariffModal(offer)"
-      />
+      <template v-if="showSkeletons">
+        <carousel-offer-card-skeleton
+          v-for="n in 4"
+          :key="`placement-skeleton-${n}`"
+        />
+      </template>
+
+      <template v-else>
+        <carousel-offer-card
+          v-for="offer in offers"
+          :key="offer.id"
+          :title="offer.title"
+          :meta-label="offer.priceLabel"
+          :meta-value="offer.priceValue"
+          :location="offer.location"
+          :image="offer.image"
+          :cta-label="placement.ctaLabel"
+          @cta="openTariffModal(offer)"
+        />
+      </template>
 
       <carousel-add-card
         :label="placement.addCardLabel"
@@ -35,14 +44,32 @@
   import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
   import CarouselAddCard from '~/components/carousel/CarouselAddCard.vue'
   import CarouselOfferCard from '~/components/carousel/CarouselOfferCard.vue'
+  import CarouselOfferCardSkeleton from '~/components/carousel/CarouselOfferCardSkeleton.vue'
   import HorizontalCarousel from '~/components/carousel/HorizontalCarousel.vue'
   import PodborMiningHotelAddCardModal from '~/components/podbor/modal/PodborMiningHotelAddCardModal.vue'
   import PodborMiningHotelTariffModal from '~/components/podbor/modal/PodborMiningHotelTariffModal.vue'
+
+  type PlacementResponse = {
+    offers: PodborPlacementOffer[]
+  }
 
   const placement = PODBOR_MINING_HOTEL_PLACEMENT
   const isAddModalOpen = ref(false)
   const isTariffModalOpen = ref(false)
   const selectedOffer = ref<PodborPlacementOffer | null>(null)
+
+  const { data, pending } = await useFetch<PlacementResponse>(
+    '/api/podbor/placement',
+    {
+      key: 'podbor-placement-offers',
+      default: () => ({ offers: [] }),
+    },
+  )
+
+  const offers = computed(() => data.value?.offers ?? [])
+  const showSkeletons = computed(
+    () => pending.value || offers.value.length === 0,
+  )
 
   function openTariffModal(offer: PodborPlacementOffer) {
     selectedOffer.value = offer

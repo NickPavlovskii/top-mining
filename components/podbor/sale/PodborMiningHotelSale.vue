@@ -4,17 +4,26 @@
       :title="sale.title"
       title-id="podbor-sale-title"
     >
-      <carousel-offer-card
-        v-for="offer in sale.offers"
-        :key="offer.id"
-        :title="offer.title"
-        :meta-label="offer.priceLabel"
-        :meta-value="offer.priceValue"
-        :location="offer.location"
-        :image="offer.image"
-        :cta-label="sale.ctaLabel"
-        @cta="openPriceModal(offer)"
-      />
+      <template v-if="showSkeletons">
+        <carousel-offer-card-skeleton
+          v-for="n in 4"
+          :key="`sale-skeleton-${n}`"
+        />
+      </template>
+
+      <template v-else>
+        <carousel-offer-card
+          v-for="offer in offers"
+          :key="offer.id"
+          :title="offer.title"
+          :meta-label="offer.priceLabel"
+          :meta-value="offer.priceValue"
+          :location="offer.location"
+          :image="offer.image"
+          :cta-label="sale.ctaLabel"
+          @cta="openPriceModal(offer)"
+        />
+      </template>
 
       <carousel-add-card
         :label="sale.addCardLabel"
@@ -39,14 +48,29 @@
   import { PODBOR_MINING_HOTEL_SALE } from '~/common/modules/top-mining/podbor/mining-hotel'
   import CarouselAddCard from '~/components/carousel/CarouselAddCard.vue'
   import CarouselOfferCard from '~/components/carousel/CarouselOfferCard.vue'
+  import CarouselOfferCardSkeleton from '~/components/carousel/CarouselOfferCardSkeleton.vue'
   import HorizontalCarousel from '~/components/carousel/HorizontalCarousel.vue'
   import PodborMiningHotelAddCardModal from '~/components/podbor/modal/PodborMiningHotelAddCardModal.vue'
   import PodborMiningHotelTariffModal from '~/components/podbor/modal/PodborMiningHotelTariffModal.vue'
+
+  type SaleResponse = {
+    offers: PodborPlacementOffer[]
+  }
 
   const sale = PODBOR_MINING_HOTEL_SALE
   const isAddModalOpen = ref(false)
   const isPriceModalOpen = ref(false)
   const selectedOffer = ref<PodborPlacementOffer | null>(null)
+
+  const { data, pending } = await useFetch<SaleResponse>('/api/podbor/sale', {
+    key: 'podbor-sale-offers',
+    default: () => ({ offers: [] }),
+  })
+
+  const offers = computed(() => data.value?.offers ?? [])
+  const showSkeletons = computed(
+    () => pending.value || offers.value.length === 0,
+  )
 
   function openPriceModal(offer: PodborPlacementOffer) {
     selectedOffer.value = offer
