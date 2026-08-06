@@ -6,6 +6,7 @@
     :model-value="selected"
     :options="options"
     :placeholder="placeholder"
+    :loading="loading || algorithms.length === 0"
     :show-option-meta="false"
     @select="onSelect"
   />
@@ -20,9 +21,11 @@ const props = withDefaults(
     algorithms: string[]
     selected: string | null
     placeholder?: string
+    loading?: boolean
   }>(),
   {
     placeholder: 'Выберите алгоритм',
+    loading: false,
   },
 )
 

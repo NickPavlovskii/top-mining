@@ -2,10 +2,19 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = path.resolve(import.meta.dirname, '..')
-const hw = fs.readFileSync(
-  path.join(root, 'common/modules/top-mining/calculator/hardware.ts'),
-  'utf8',
-)
+// Исторический генератор: раньше парсил CALCULATOR_HARDWARE_BY_KIND из hardware.ts.
+// Каталог моделей теперь живёт в БД (миграции 017/028); этот скрипт больше не
+// перегенерирует hardware seed из TS. Оставлен для coins/gpu при необходимости.
+const hwPath = path.join(root, 'common/modules/top-mining/calculator/hardware.ts')
+const hw = fs.existsSync(hwPath) ? fs.readFileSync(hwPath, 'utf8') : ''
+if (!hw.includes('asic: [')) {
+  console.error(
+    '[generate-calculator-migration] hardware seed удалён из TS.\n' +
+      'Каталог моделей — в БД (backend/migrations/017_*, 028_calculator_catalog_seed.sql).\n' +
+      'Не перезаписывайте 028 из этого скрипта.',
+  )
+  process.exit(1)
+}
 const coinsTs = fs.readFileSync(
   path.join(root, 'common/modules/top-mining/calculator/coins.ts'),
   'utf8',

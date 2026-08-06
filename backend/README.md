@@ -52,6 +52,8 @@ backend/
     026_mining_pools_profiles.sql
     027_articles_content.sql
     028_calculator_catalog_seed.sql  # полный сид калькулятора (алгоритмы/монеты/модели)
+    029_podbor_placement_offers.sql  # карточки «Размещение» на странице подбора майнинг-отеля
+    030_podbor_sale_offers.sql       # карточки «Продажа» на странице подбора майнинг-отеля
     000_inspect.sql                  # только SELECT, не в initdb
     archive/imports-split/           # старые поштучные 011–033
     archive/README.md           # карта старых инкрементальных миграций

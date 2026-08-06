@@ -146,15 +146,15 @@
     z-index: 2;
     width: 100%;
     max-width: 1720px;
-    margin: clamp(-32px, -3vw, -20px) auto 0;
+    margin: clamp(-16px, -1.5vw, -8px) auto 0;
     padding:
-      clamp(56px, 7vw, 96px)
+      clamp(72px, 8vw, 112px)
       clamp(16px, 2vw, 32px)
       clamp(32px, 4vw, 56px);
     overflow: visible;
     box-sizing: border-box;
     border-radius: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0 0;
-    background: linear-gradient(180deg, #f2f2f2 0%, #fff 28%, #fff 100%);
+    background: linear-gradient(180deg, #fff 0%, #fff 100%);
   }
 
   .calculator-promo__ratings {

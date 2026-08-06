@@ -23,6 +23,7 @@ import type {
  * @prop {boolean} [searchable=true] — показывать поле поиска в выпадающем списке.
  * @prop {string} [searchPlaceholder='Поиск...'] — placeholder поля поиска.
  * @prop {string} [emptyText='Ничего не найдено'] — текст, если поиск ничего не нашёл.
+ * @prop {boolean} [loading=false] — скелетоны вместо списка (загрузка / нет данных).
  * @prop {TopMiningSelectSize} [size='md'] — размер кнопки/выпадашки: `lg` | `md` | `sm`.
  * @prop {1|2} [columns=1] — число колонок в списке опций (например, 2 для монет).
  * @prop {boolean} [showOptionMeta=true] — показывать `meta` у опции (алгоритм и т.п.).
@@ -40,6 +41,7 @@ const props = withDefaults(
     searchable?: boolean
     searchPlaceholder?: string
     emptyText?: string
+    loading?: boolean
     size?: TopMiningSelectSize
     columns?: 1 | 2
     showOptionMeta?: boolean
@@ -55,6 +57,7 @@ const props = withDefaults(
     searchable: true,
     searchPlaceholder: 'Поиск...',
     emptyText: 'Ничего не найдено',
+    loading: false,
     size: 'md',
     columns: 1,
     showOptionMeta: true,
@@ -288,7 +291,28 @@ function selectOption(option: TopMiningSelectOption) {
       </div>
 
       <div class="tm-select__scroll">
-        <template v-if="mode === 'tree' && hasResults">
+        <div
+          v-if="loading"
+          class="tm-select__skeletons"
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <div
+            v-for="row in 6"
+            :key="`skeleton-${row}`"
+            class="tm-select__skeleton-row"
+          >
+            <div class="tm-select__skeleton tm-select__skeleton--icon" />
+            <div class="tm-select__skeleton-lines">
+              <div class="tm-select__skeleton tm-select__skeleton--line" />
+              <div
+                class="tm-select__skeleton tm-select__skeleton--line tm-select__skeleton--line-short"
+              />
+            </div>
+          </div>
+        </div>
+
+        <template v-else-if="mode === 'tree' && hasResults">
           <div
             v-for="group in filteredGroups"
             :key="group.id"
@@ -670,6 +694,69 @@ function selectOption(option: TopMiningSelectOption) {
   color: var(--tm-muted);
   font-size: 14px;
   text-align: center;
+}
+
+.tm-select__skeletons {
+  display: grid;
+  gap: 10px;
+  padding: 4px 2px 8px;
+}
+
+.tm-select__skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tm-select__skeleton-lines {
+  flex: 1;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tm-select__skeleton {
+  border-radius: 999px;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 35%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.06) 65%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  background-size: 200% 100%;
+  animation: tm-select-shimmer 1.35s ease-in-out infinite;
+}
+
+.tm-select__skeleton--icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.tm-select__skeleton--line {
+  height: 12px;
+  width: 72%;
+}
+
+.tm-select__skeleton--line-short {
+  width: 44%;
+}
+
+@keyframes tm-select-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 /* Sizes */

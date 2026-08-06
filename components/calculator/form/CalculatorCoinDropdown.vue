@@ -8,6 +8,7 @@
     :options="options"
     :placeholder="placeholder"
     :button-label="buttonLabel"
+    :loading="loading || coins.length === 0"
     :show-option-meta="false"
     @select="onSelect"
   />
@@ -29,10 +30,12 @@ const props = withDefaults(
     selected: CalculatorCoin | null
     placeholder?: string
     variant?: 'asic' | 'gpu'
+    loading?: boolean
   }>(),
   {
     placeholder: 'Выберите монету',
     variant: 'asic',
+    loading: false,
   },
 )
 

@@ -73,4 +73,21 @@ describe('CalculatorModelDropdown', () => {
       name: 'Microbt Whatsminer M70 214 TH/s',
     })
   })
+
+  it('shows skeletons when brands are empty', async () => {
+    const wrapper = mount(CalculatorModelDropdown, {
+      props: {
+        kind: 'gpu',
+        brands: [],
+        selected: null,
+        placeholder: 'Выберите Модель GPU',
+        buttonIcon: '/gpu.png',
+      },
+    })
+
+    await wrapper.find('.tm-select__button').trigger('click')
+
+    expect(wrapper.find('.tm-select__skeletons').exists()).toBe(true)
+    expect(wrapper.text()).not.toContain('Ничего не найдено')
+  })
 })

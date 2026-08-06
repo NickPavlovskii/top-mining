@@ -141,7 +141,7 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 | Страница | `pages/calculator/index.vue` |
 | Форма | `components/calculator/form/CalculatorForm.vue` |
 | Формулы | `common/modules/top-mining/calculator/profit.ts` |
-| Каталоги | `calculator/hardware.ts`, `coins.ts`, `gpu.ts` |
+| Каталоги | железо/монеты из БД (`/api/calculator/hardware`, `/api/calculator/coins`); хелперы — `coins.ts`, `gpu.ts` |
 | Спека | [`docs/calculator.md`](./docs/calculator.md) |
 
 > Формула в духе WhatToMine: доля хешрейта в сети × награда × up-time − стоимость электричества. Подробности и псевдокод — в `docs/calculator.md`.
@@ -329,8 +329,8 @@ import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
 | `path.ts` | Путь страницы | `CALCULATOR_PAGE_PATH` |
 | `page.ts` | SEO, hero, бренды, about | `CALCULATOR_PAGE` |
 | `nav.ts` | Меню → ASIC/GPU/CPU/конвертер | `getCalculatorNavItemHref()`, `parseCalculatorDeviceHash()` |
-| `hardware.ts` | Каталог устройств | `CALCULATOR_HARDWARE_BY_KIND`, `filterHardwareBrands()` |
-| `coins.ts` | Монеты ASIC | `CALCULATOR_COINS`, `getDefaultCalculatorCoin()` |
+| `hardware.ts` | Типы устройств + хелперы | `CALCULATOR_DEVICE_OPTIONS`, `filterHardwareBrands()`; каталог моделей — API/БД |
+| `coins.ts` | Типы монет + хелперы | каталог — API/БД (`GET /api/calculator/coins`) |
 | `gpu.ts` | Алгоритмы и монеты GPU/CPU | `filterGpuCoinsByAlgorithm()` |
 | `profit.ts` | Формулы прибыли | **`calculateMiningProfit()`**, `hashrateToThs()`, `placingMonthRub()` |
 
@@ -369,7 +369,7 @@ import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
 | `filters/organization.ts` | Возраст рынка, min ASIC | `matchesMinAsicFilter()` |
 | `filters/sidebar.ts` | Сайдбар бирж/кошельков | `matchesCategorySidebarFilters()` |
 | `pages/organizations.ts` | Плоский список орг. | `flattenCatalogOrganizations()` |
-| `pages/manufacturers.ts` | Производители + fallback | `buildCatalogManufacturersResponse()` |
+| `pages/manufacturers.ts` | Производители из БД | `manufacturersFromCatalogCategories()`, `emptyCatalogManufacturersResponse()` |
 | `content/empty.ts` | Пустой ответ для loading | `emptyCatalogResponse()` |
 | `content/mid-block-banner.ts` | Промо в сетке карточек | `buildCatalogGridWithBanners()` |
 | `content/reviews.ts` | Вопросы/сортировка отзывов | `formatOrganizationReviewCount()` |

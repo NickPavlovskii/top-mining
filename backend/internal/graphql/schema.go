@@ -10,7 +10,9 @@ import (
 
 	"niklad/backend/internal/articles"
 	"niklad/backend/internal/catalog"
+	"niklad/backend/internal/hardware"
 	"niklad/backend/internal/organizations"
+	"niklad/backend/internal/podbor"
 	"niklad/backend/internal/ratings"
 )
 
@@ -74,6 +76,78 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 		Fields: graphql.Fields{
 			"meta":       &graphql.Field{Type: metaType},
 			"categories": &graphql.Field{Type: graphql.NewList(categoryType)},
+		},
+	})
+
+	calculatorHardwareModelType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CalculatorHardwareModel",
+		Fields: graphql.Fields{
+			"id":           &graphql.Field{Type: graphql.String},
+			"name":         &graphql.Field{Type: graphql.String},
+			"brand":        &graphql.Field{Type: graphql.String},
+			"algorithm":    &graphql.Field{Type: graphql.String},
+			"hashrate":     &graphql.Field{Type: graphql.Float},
+			"hashrateUnit": &graphql.Field{Type: graphql.String},
+			"powerW":       &graphql.Field{Type: graphql.Float},
+			"slug":         &graphql.Field{Type: graphql.String},
+		},
+	})
+
+	calculatorHardwareBrandType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CalculatorHardwareBrand",
+		Fields: graphql.Fields{
+			"name":   &graphql.Field{Type: graphql.String},
+			"models": &graphql.Field{Type: graphql.NewList(calculatorHardwareModelType)},
+		},
+	})
+
+	calculatorHardwareCatalogType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CalculatorHardwareCatalog",
+		Fields: graphql.Fields{
+			"asic": &graphql.Field{Type: graphql.NewList(calculatorHardwareBrandType)},
+			"gpu":  &graphql.Field{Type: graphql.NewList(calculatorHardwareBrandType)},
+			"cpu":  &graphql.Field{Type: graphql.NewList(calculatorHardwareBrandType)},
+		},
+	})
+
+	calculatorCoinType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CalculatorCoin",
+		Fields: graphql.Fields{
+			"id":               &graphql.Field{Type: graphql.String},
+			"symbol":           &graphql.Field{Type: graphql.String},
+			"name":             &graphql.Field{Type: graphql.String},
+			"algorithm":        &graphql.Field{Type: graphql.String},
+			"difficulty":       &graphql.Field{Type: graphql.Float},
+			"blockReward":      &graphql.Field{Type: graphql.Float},
+			"exchangeRateUsdt": &graphql.Field{Type: graphql.Float},
+			"netHash":          &graphql.Field{Type: graphql.Float},
+			"stepen":           &graphql.Field{Type: graphql.String},
+			"dualCoin":         &graphql.Field{Type: graphql.Boolean},
+			"iconUrl":          &graphql.Field{Type: graphql.String},
+			"sort":             &graphql.Field{Type: graphql.Int},
+		},
+	})
+
+	calculatorCoinsCatalogType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CalculatorCoinsCatalog",
+		Fields: graphql.Fields{
+			"asic":           &graphql.Field{Type: graphql.NewList(calculatorCoinType)},
+			"gpu":            &graphql.Field{Type: graphql.NewList(calculatorCoinType)},
+			"gpuAlgorithms":  &graphql.Field{Type: graphql.NewList(graphql.String)},
+			"defaultUsdtRub": &graphql.Field{Type: graphql.Float},
+		},
+	})
+
+	podborPlacementOfferType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "PodborPlacementOffer",
+		Fields: graphql.Fields{
+			"id":            &graphql.Field{Type: graphql.String},
+			"title":         &graphql.Field{Type: graphql.String},
+			"capacityTitle": &graphql.Field{Type: graphql.String},
+			"priceLabel":    &graphql.Field{Type: graphql.String},
+			"priceValue":    &graphql.Field{Type: graphql.String},
+			"location":      &graphql.Field{Type: graphql.String},
+			"image":         &graphql.Field{Type: graphql.String},
 		},
 	})
 
@@ -376,6 +450,50 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 					}, nil
 				},
 			},
+			"calculatorHardware": &graphql.Field{
+				Type: calculatorHardwareCatalogType,
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					data, err := hardware.FetchCalculatorCatalog(params.Context, pool)
+					if err != nil {
+						return nil, err
+					}
+
+					return toGraphQLCalculatorHardware(data), nil
+				},
+			},
+			"calculatorCoins": &graphql.Field{
+				Type: calculatorCoinsCatalogType,
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					data, err := hardware.FetchCalculatorCoins(params.Context, pool)
+					if err != nil {
+						return nil, err
+					}
+
+					return toGraphQLCalculatorCoins(data), nil
+				},
+			},
+			"podborPlacementOffers": &graphql.Field{
+				Type: graphql.NewList(podborPlacementOfferType),
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					offers, err := podbor.FetchPlacementOffers(params.Context, pool)
+					if err != nil {
+						return nil, err
+					}
+
+					return toGraphQLPodborPlacementOffers(offers), nil
+				},
+			},
+			"podborSaleOffers": &graphql.Field{
+				Type: graphql.NewList(podborPlacementOfferType),
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					offers, err := podbor.FetchSaleOffers(params.Context, pool)
+					if err != nil {
+						return nil, err
+					}
+
+					return toGraphQLPodborPlacementOffers(offers), nil
+				},
+			},
 			"articlesFeed": &graphql.Field{
 				Type: articlesFeedType,
 				Args: graphql.FieldConfigArgument{
@@ -551,6 +669,87 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 		Query:    rootQuery,
 		Mutation: rootMutation,
 	})
+}
+
+func toGraphQLCalculatorHardware(data hardware.Catalog) map[string]interface{} {
+	return map[string]interface{}{
+		"asic": toGraphQLCalculatorBrands(data.Asic),
+		"gpu":  toGraphQLCalculatorBrands(data.Gpu),
+		"cpu":  toGraphQLCalculatorBrands(data.Cpu),
+	}
+}
+
+func toGraphQLCalculatorCoins(data hardware.CoinsCatalog) map[string]interface{} {
+	return map[string]interface{}{
+		"asic":           toGraphQLCalculatorCoinList(data.Asic),
+		"gpu":            toGraphQLCalculatorCoinList(data.Gpu),
+		"gpuAlgorithms":  data.GpuAlgorithms,
+		"defaultUsdtRub": data.DefaultUsdtRub,
+	}
+}
+
+func toGraphQLCalculatorCoinList(coins []hardware.Coin) []map[string]interface{} {
+	result := make([]map[string]interface{}, 0, len(coins))
+	for _, coin := range coins {
+		result = append(result, map[string]interface{}{
+			"id":               coin.ID,
+			"symbol":           coin.Symbol,
+			"name":             coin.Name,
+			"algorithm":        coin.Algorithm,
+			"difficulty":       coin.Difficulty,
+			"blockReward":      coin.BlockReward,
+			"exchangeRateUsdt": coin.ExchangeRateUsdt,
+			"netHash":          coin.NetHash,
+			"stepen":           coin.Stepen,
+			"dualCoin":         coin.DualCoin,
+			"iconUrl":          coin.IconURL,
+			"sort":             coin.Sort,
+		})
+	}
+	return result
+}
+
+func toGraphQLPodborPlacementOffers(offers []podbor.PlacementOffer) []map[string]interface{} {
+	result := make([]map[string]interface{}, 0, len(offers))
+	for _, offer := range offers {
+		result = append(result, map[string]interface{}{
+			"id":            offer.ID,
+			"title":         offer.Title,
+			"capacityTitle": offer.CapacityTitle,
+			"priceLabel":    offer.PriceLabel,
+			"priceValue":    offer.PriceValue,
+			"location":      offer.Location,
+			"image":         offer.Image,
+		})
+	}
+	return result
+}
+
+func toGraphQLCalculatorBrands(brands []hardware.Brand) []map[string]interface{} {
+	result := make([]map[string]interface{}, 0, len(brands))
+
+	for _, brand := range brands {
+		models := make([]map[string]interface{}, 0, len(brand.Models))
+		for _, model := range brand.Models {
+			models = append(models, map[string]interface{}{
+				"id":           model.ID,
+				"name":         model.Name,
+				"brand":        model.Brand,
+				"algorithm":    model.Algorithm,
+				"hashrate":     model.Hashrate,
+				"hashrateUnit": model.HashrateUnit,
+				"powerW":       model.PowerW,
+				"slug":         model.Slug,
+			})
+		}
+
+		result = append(result, map[string]interface{}{
+			"name":   brand.Name,
+			"models": models,
+		})
+	}
+
+	return result
 }
 
 func toGraphQLCategories(categories []catalog.Category) []map[string]interface{} {

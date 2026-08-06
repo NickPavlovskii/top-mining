@@ -18,6 +18,7 @@ const props = defineProps<{
   selected: CalculatorHardwareModel | null
   placeholder: string
   buttonIcon: string
+  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -25,6 +26,10 @@ const emit = defineEmits<{
 }>()
 
 const selectedId = computed(() => props.selected?.slug ?? null)
+
+const showSkeletons = computed(
+  () => Boolean(props.loading) || props.brands.length === 0,
+)
 
 const groups = computed<TopMiningSelectGroup[]>(() =>
   props.brands.map((brand) => ({
@@ -34,7 +39,7 @@ const groups = computed<TopMiningSelectGroup[]>(() =>
       (model): TopMiningSelectOption => ({
         id: model.slug,
         label: model.name,
-        image: model.image || props.buttonIcon,
+        image: props.buttonIcon,
         meta: formatHardwareModelMeta(model),
         data: model,
       }),
@@ -63,6 +68,7 @@ function onSelect(option: TopMiningSelectOption) {
     :groups="groups"
     :placeholder="placeholder"
     :button-image="buttonIcon"
+    :loading="showSkeletons"
     :show-option-meta="kind === 'asic'"
     :aria-label="`Выбрать модель ${deviceLabel}`"
     @select="onSelect"

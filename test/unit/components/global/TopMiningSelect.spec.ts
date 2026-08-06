@@ -96,4 +96,21 @@ describe('TopMiningSelect', () => {
     expect(wrapper.text()).toContain('Ethereum')
     expect(wrapper.text()).not.toContain('Bitcoin')
   })
+
+  it('shows skeletons while loading instead of empty text', async () => {
+    const wrapper = mount(TopMiningSelect, {
+      props: {
+        mode: 'tree',
+        groups: [],
+        loading: true,
+        placeholder: 'Модель',
+        modelValue: null,
+      },
+    })
+
+    await wrapper.find('.tm-select__button').trigger('click')
+
+    expect(wrapper.find('.tm-select__skeletons').exists()).toBe(true)
+    expect(wrapper.text()).not.toContain('Ничего не найдено')
+  })
 })

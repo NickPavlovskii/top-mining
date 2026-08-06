@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import {
-  CALCULATOR_COINS,
   CALCULATOR_DEFAULT_USDT_RUB,
   CALCULATOR_DEVICE_OPTIONS,
   CALCULATOR_FIAT_OPTIONS,
-  CALCULATOR_GPU_ALGORITHMS,
-  CALCULATOR_GPU_COINS,
   CALCULATOR_HASHRATE_UNITS,
-  CALCULATOR_HARDWARE_BY_KIND,
   DEFAULT_DEVICE_PRICE_RUB,
   calculateMiningProfit,
+  emptyCalculatorCoinsCatalog,
+  emptyCalculatorHardwareByKind,
   filterGpuCoinsByAlgorithm,
   formatMoneyAmount,
   getDefaultCalculatorCoin,
   isDefaultDevicePrice,
   type CalculatorCoin,
+  type CalculatorCoinsCatalog,
   type CalculatorDeviceKind,
   type CalculatorFiat,
   type CalculatorHashrateUnit,
+  type CalculatorHardwareByKind,
   type CalculatorHardwareModel,
   type CalculatorProfitCoinLeg,
   type CalculatorProfitResult,
@@ -39,11 +39,9 @@ import gpuDefault from '~/assets/images/calculator/tabs/gpu-default.png'
 import cpuDefault from '~/assets/images/calculator/tabs/cpu-default.png'
 import dropdownArrow from '~/assets/images/calculator/tabs/dropdown-arrow.svg'
 
-const defaultBtc = getDefaultCalculatorCoin()
-
 const activeKind = ref<CalculatorDeviceKind>('asic')
 const selectedModel = ref<CalculatorHardwareModel | null>(null)
-const selectedCoin = ref<CalculatorCoin | null>(defaultBtc)
+const selectedCoin = ref<CalculatorCoin | null>(null)
 const selectedAlgorithm = ref<string | null>(null)
 
 const price = ref(120_000)
@@ -56,15 +54,13 @@ const electricityPrice = ref(5.5)
 const electricityCurrency = ref<CalculatorFiat>('₽')
 
 const uptime = ref(99)
-const coinUsdtRate = ref(defaultBtc.exchangeRateUsdt)
-const btcUsdtRate = ref(defaultBtc.exchangeRateUsdt)
-const dogeUsdtRate = ref(
-  CALCULATOR_COINS.find((c) => c.id === 'DOGE')?.exchangeRateUsdt ?? 0,
-)
+const coinUsdtRate = ref(0)
+const btcUsdtRate = ref(0)
+const dogeUsdtRate = ref(0)
 const usdtRubRate = ref(CALCULATOR_DEFAULT_USDT_RUB)
 const poolFee = ref(4)
-const blockReward = ref(defaultBtc.blockReward)
-const networkDifficulty = ref(defaultBtc.difficulty)
+const blockReward = ref(0)
+const networkDifficulty = ref(0)
 
 const showAdvanced = ref(false)
 const manualUnlock = ref(false)
@@ -77,12 +73,41 @@ const profitResult = ref<CalculatorProfitResult | null>(null)
 const resultsCurrency = ref<ResultsCurrencyTab>('RUB')
 const resultsRef = ref<HTMLElement | null>(null)
 
+const { data: hardwareByKind, pending: hardwarePending } = useFetch<CalculatorHardwareByKind>(
+  '/api/calculator/hardware',
+  {
+    key: 'calculator-hardware',
+    default: () => emptyCalculatorHardwareByKind(),
+  },
+)
+
+const { data: coinsCatalog, pending: coinsPending } = useFetch<CalculatorCoinsCatalog>(
+  '/api/calculator/coins',
+  {
+    key: 'calculator-coins',
+    default: () => emptyCalculatorCoinsCatalog(),
+  },
+)
+
+const asicCoins = computed(() => coinsCatalog.value?.asic ?? [])
+const gpuCoinsAll = computed(() => coinsCatalog.value?.gpu ?? [])
+const gpuAlgorithms = computed(() => coinsCatalog.value?.gpuAlgorithms ?? [])
+
 onClickOutside(formParamsRef, () => {
   openUnitMenu.value = null
 })
 
-const brands = computed(() => CALCULATOR_HARDWARE_BY_KIND[activeKind.value])
+const brands = computed(
+  () => hardwareByKind.value?.[activeKind.value] ?? [],
+)
 const isAsic = computed(() => activeKind.value === 'asic')
+const coinsLoading = computed(
+  () =>
+    Boolean(coinsPending.value) ||
+    (isAsic.value
+      ? asicCoins.value.length === 0
+      : gpuAlgorithms.value.length === 0 && gpuCoinsAll.value.length === 0),
+)
 const isLocked = computed(() => {
   if (selectedModel.value !== null) {
     return false
@@ -100,7 +125,33 @@ const showManualUnlock = computed(() => isAsic.value && isLocked.value)
 const totalCost = computed(() => price.value * quantity.value)
 
 const gpuCoins = computed(() =>
-  filterGpuCoinsByAlgorithm(CALCULATOR_GPU_COINS, selectedAlgorithm.value),
+  filterGpuCoinsByAlgorithm(gpuCoinsAll.value, selectedAlgorithm.value),
+)
+
+watch(
+  coinsCatalog,
+  (catalog) => {
+    if (!catalog) {
+      return
+    }
+
+    usdtRubRate.value = catalog.defaultUsdtRub || CALCULATOR_DEFAULT_USDT_RUB
+
+    const doge = catalog.asic.find((c) => c.id === 'DOGE')
+    if (doge) {
+      dogeUsdtRate.value = doge.exchangeRateUsdt
+    }
+
+    if (activeKind.value === 'asic' && !selectedCoin.value) {
+      const defaultCoin = getDefaultCalculatorCoin(catalog.asic)
+      if (defaultCoin) {
+        selectedCoin.value = defaultCoin
+        applyCoinDefaults(defaultCoin)
+        btcUsdtRate.value = defaultCoin.exchangeRateUsdt
+      }
+    }
+  },
+  { immediate: true },
 )
 
 const coinRateLabel = computed(() => {
@@ -201,9 +252,11 @@ watch(activeKind, (kind) => {
   manualUnlock.value = false
 
   if (kind === 'asic') {
-    selectedCoin.value = getDefaultCalculatorCoin()
+    selectedCoin.value = getDefaultCalculatorCoin(asicCoins.value)
     hashrateUnit.value = 'Th/s'
-    applyCoinDefaults(selectedCoin.value)
+    if (selectedCoin.value) {
+      applyCoinDefaults(selectedCoin.value)
+    }
   } else {
     selectedCoin.value = null
     hashrateUnit.value = 'Mh/s'
@@ -320,10 +373,12 @@ function resetForm() {
   electricityCurrency.value = '₽'
   uptime.value = 99
   dogeUsdtRate.value =
-    CALCULATOR_COINS.find((c) => c.id === 'DOGE')?.exchangeRateUsdt ?? 0
-  usdtRubRate.value = CALCULATOR_DEFAULT_USDT_RUB
+    asicCoins.value.find((c) => c.id === 'DOGE')?.exchangeRateUsdt ?? 0
+  usdtRubRate.value =
+    coinsCatalog.value?.defaultUsdtRub ?? CALCULATOR_DEFAULT_USDT_RUB
   poolFee.value = 4
-  btcUsdtRate.value = getDefaultCalculatorCoin().exchangeRateUsdt
+  btcUsdtRate.value =
+    getDefaultCalculatorCoin(asicCoins.value)?.exchangeRateUsdt ?? 0
   showAdvanced.value = false
   openUnitMenu.value = null
   manualUnlock.value = false
@@ -334,11 +389,13 @@ function resetForm() {
   resultsCurrency.value = 'RUB'
 
   if (isAsic.value) {
-    selectedCoin.value = getDefaultCalculatorCoin()
+    selectedCoin.value = getDefaultCalculatorCoin(asicCoins.value)
     selectedAlgorithm.value = null
     hashrate.value = 0
     hashrateUnit.value = 'Th/s'
-    applyCoinDefaults(selectedCoin.value)
+    if (selectedCoin.value) {
+      applyCoinDefaults(selectedCoin.value)
+    }
   } else {
     selectedCoin.value = null
     selectedAlgorithm.value = null
@@ -376,8 +433,8 @@ function buildProfitLegs(): CalculatorProfitCoinLeg[] {
   }
 
   if (coin.dualCoin) {
-    const doge = CALCULATOR_COINS.find((item) => item.id === 'DOGE')
-    const ltc = CALCULATOR_COINS.find((item) => item.id === 'LTC')
+    const doge = asicCoins.value.find((item) => item.id === 'DOGE')
+    const ltc = asicCoins.value.find((item) => item.id === 'LTC')
     const legs: CalculatorProfitCoinLeg[] = []
 
     if (doge) {
@@ -541,6 +598,7 @@ function confirmDefaultPriceCalculate() {
             :selected="selectedModel"
             :placeholder="placeholder"
             :button-icon="buttonIcon"
+            :loading="hardwarePending"
             @select="onModelSelect"
           />
         </div>
@@ -575,8 +633,9 @@ function confirmDefaultPriceCalculate() {
               <div class="calculator-form__coin-wrap">
                 <span class="calculator-form__field-label">Добываемая монета</span>
                 <calculator-coin-dropdown
-                  :coins="CALCULATOR_COINS"
+                  :coins="asicCoins"
                   :selected="selectedCoin"
+                  :loading="coinsLoading"
                   variant="asic"
                   @select="onCoinSelect"
                 />
@@ -816,6 +875,23 @@ function confirmDefaultPriceCalculate() {
                 :class="{ 'calculator-form__advanced--active': showAdvanced }"
                 @focusin="enableAdvanced"
               >
+                <div
+                  v-if="coinsLoading"
+                  class="calculator-form__advanced-skeletons"
+                  aria-busy="true"
+                  aria-live="polite"
+                >
+                  <div
+                    v-for="row in 5"
+                    :key="`adv-sk-${row}`"
+                    class="calculator-form__advanced-skeleton-row"
+                  >
+                    <div class="calculator-form__skeleton calculator-form__skeleton--label" />
+                    <div class="calculator-form__skeleton calculator-form__skeleton--input" />
+                  </div>
+                </div>
+
+                <template v-else>
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
                     UP-TIME
@@ -952,6 +1028,7 @@ function confirmDefaultPriceCalculate() {
                     </button>
                   </span>
                 </label>
+                </template>
               </div>
             </div>
           </div>
@@ -963,8 +1040,9 @@ function confirmDefaultPriceCalculate() {
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">Алгоритм</span>
                   <calculator-algorithm-dropdown
-                    :algorithms="CALCULATOR_GPU_ALGORITHMS"
+                    :algorithms="gpuAlgorithms"
                     :selected="selectedAlgorithm"
+                    :loading="coinsLoading"
                     placeholder="Выберите алгоритм"
                     @select="onAlgorithmSelect"
                   />
@@ -975,6 +1053,7 @@ function confirmDefaultPriceCalculate() {
                   <calculator-coin-dropdown
                     :coins="gpuCoins"
                     :selected="selectedCoin"
+                    :loading="coinsLoading"
                     variant="gpu"
                     placeholder="Выберите монету"
                     @select="onCoinSelect"
@@ -1265,6 +1344,23 @@ function confirmDefaultPriceCalculate() {
                 :class="{ 'calculator-form__advanced--active': showAdvanced }"
                 @focusin="enableAdvanced"
               >
+                <div
+                  v-if="coinsLoading"
+                  class="calculator-form__advanced-skeletons"
+                  aria-busy="true"
+                  aria-live="polite"
+                >
+                  <div
+                    v-for="row in 4"
+                    :key="`gpu-adv-sk-${row}`"
+                    class="calculator-form__advanced-skeleton-row"
+                  >
+                    <div class="calculator-form__skeleton calculator-form__skeleton--label" />
+                    <div class="calculator-form__skeleton calculator-form__skeleton--input" />
+                  </div>
+                </div>
+
+                <template v-else>
                 <label class="calculator-form__field">
                   <span class="calculator-form__field-label">
                     UP-TIME
@@ -1347,6 +1443,7 @@ function confirmDefaultPriceCalculate() {
                     </button>
                   </span>
                 </label>
+                </template>
               </div>
             </div>
           </div>
@@ -1417,7 +1514,7 @@ function confirmDefaultPriceCalculate() {
 .calculator-form__inner {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
-  padding-bottom: clamp(28px, 4vw, 48px);
+  padding-bottom: clamp(40px, 5vw, 64px);
 }
 
 .calculator-form__row {
@@ -1962,8 +2059,8 @@ function confirmDefaultPriceCalculate() {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  margin-top: 28px;
+  gap: 28px;
+  margin-top: 40px;
 }
 
 .calculator-form__action {
@@ -2052,6 +2149,52 @@ function confirmDefaultPriceCalculate() {
 
   .calculator-form__advanced-toggle {
     align-self: flex-start;
+  }
+}
+
+.calculator-form__advanced-skeletons {
+  display: grid;
+  gap: 14px;
+  padding: 4px 0 8px;
+}
+
+.calculator-form__advanced-skeleton-row {
+  display: grid;
+  gap: 8px;
+}
+
+.calculator-form__skeleton {
+  border-radius: 999px;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 35%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.06) 65%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  background-size: 200% 100%;
+  animation: calculator-form-shimmer 1.35s ease-in-out infinite;
+}
+
+.calculator-form__skeleton--label {
+  width: 42%;
+  height: 12px;
+}
+
+.calculator-form__skeleton--input {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+}
+
+@keyframes calculator-form-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
   }
 }
 

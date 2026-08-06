@@ -3,12 +3,68 @@ import { describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 
 import CalculatorForm from '~/components/calculator/form/CalculatorForm.vue'
+import {
+  emptyCalculatorHardwareByKind,
+  type CalculatorCoinsCatalog,
+} from '~/common/modules/top-mining'
 
 vi.mock('~/composables/useCalculatorDeviceRoute', () => ({
   useCalculatorDeviceRoute: () => ({
     formRef: ref(null),
   }),
 }))
+
+const mockCoinsCatalog: CalculatorCoinsCatalog = {
+  asic: [
+    {
+      id: 'BTC',
+      symbol: 'BTC',
+      name: 'Bitcoin',
+      algorithm: 'SHA-256',
+      difficulty: 1e14,
+      blockReward: 3.125,
+      exchangeRateUsdt: 63_076,
+      netHash: 1e21,
+      stepen: '2v32',
+      dualCoin: false,
+      iconUrl: '/btc.png',
+      sort: 1,
+    },
+    {
+      id: 'DOGE',
+      symbol: 'DOGE',
+      name: 'DogeCoin',
+      algorithm: 'Scrypt',
+      difficulty: 1,
+      blockReward: 10_000,
+      exchangeRateUsdt: 0.1,
+      netHash: 1,
+      stepen: '2v32',
+      dualCoin: false,
+      iconUrl: '/doge.png',
+      sort: 2,
+    },
+  ],
+  gpu: [],
+  gpuAlgorithms: ['Ethash', 'KawPow'],
+  defaultUsdtRub: 79.2,
+}
+
+vi.stubGlobal('useFetch', (url: string) => {
+  if (String(url).includes('/api/calculator/coins')) {
+    return {
+      data: ref(mockCoinsCatalog),
+      pending: ref(false),
+      error: ref(null),
+    }
+  }
+
+  return {
+    data: ref(emptyCalculatorHardwareByKind()),
+    pending: ref(false),
+    error: ref(null),
+  }
+})
 
 const stubs = {
   CalculatorModelDropdown: {

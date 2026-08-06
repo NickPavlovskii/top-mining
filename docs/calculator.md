@@ -39,14 +39,16 @@
 ### Модель (tree-select)
 
 `TopMiningSelect` mode=`tree`: бренд → модели, поиск.  
+Данные: GraphQL `calculatorHardware` → `GET /api/calculator/hardware` (таблицы `hardware_*` в PostgreSQL).  
 При выборе: hashrate, hashrateUnit, powerW; для GPU/CPU — algorithm.
 
-Бренды (seed): Whatsminer, Antminer, Avalon, Goldshell, Innosilicon, ipollo, Jasminer, BeeMiner, Hummer, Elphapex; GPU AMD/NVIDIA; CPU INTEL/AMD.
+Типы/хелперы без мок-массива: `common/modules/top-mining/calculator/hardware.ts`
+(`CALCULATOR_DEVICE_OPTIONS`, `filterHardwareBrands`, `emptyCalculatorHardwareByKind`).
 
 ### Монета / алгоритм
 
-- **ASIC:** flat-select по `CALCULATOR_COINS` (ALEO…ZEC, включая **LTC+DOG**).
-- **GPU/CPU:** сначала алгоритм (`CALCULATOR_GPU_ALGORITHMS`), затем монеты, отфильтрованные по алгоритму.
+- **ASIC:** flat-select по монетам из API/БД (ALEO…ZEC, включая **LTC+DOG**).
+- **GPU/CPU:** сначала алгоритм (`gpuAlgorithms` из API), затем монеты GPU, отфильтрованные по алгоритму.
 
 ---
 
@@ -249,10 +251,11 @@ function reset():
 | Форма | `components/calculator/form/CalculatorForm.vue` |
 | Select | `components/global/forms/TopMiningSelect.vue` (+ types) |
 | Wrappers | `CalculatorModelDropdown`, `CalculatorCoinDropdown`, `CalculatorAlgorithmDropdown` |
-| Железо | `common/modules/top-mining/calculator/hardware.ts` |
-| Монеты ASIC | `calculator-coins.ts` |
-| GPU/CPU | `calculator-gpu.ts` |
-| Формулы | `calculator-profit.ts` |
+| Железо (типы/хелперы) | `common/modules/top-mining/calculator/hardware.ts` |
+| Железо (БД) | GraphQL `calculatorHardware` → `GET /api/calculator/hardware` |
+| Монеты / алгоритмы (БД) | GraphQL `calculatorCoins` → `GET /api/calculator/coins` |
+| Монеты (типы/хелперы) | `calculator/coins.ts`, `calculator/gpu.ts` |
+| Формулы | `calculator/profit.ts` |
 | Страница | `pages/calculator/index.vue` |
 | Главная | `MiningCalculatorPromo.vue` → `CalculatorForm` |
 

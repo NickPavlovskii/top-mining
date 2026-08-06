@@ -82,6 +82,118 @@ export const CATALOG_QUERY = `
     }
   }
 `
+
+export const CALCULATOR_HARDWARE_QUERY = `
+  query CalculatorHardware {
+    calculatorHardware {
+      asic {
+        name
+        models {
+          id
+          name
+          brand
+          algorithm
+          hashrate
+          hashrateUnit
+          powerW
+          slug
+        }
+      }
+      gpu {
+        name
+        models {
+          id
+          name
+          brand
+          algorithm
+          hashrate
+          hashrateUnit
+          powerW
+          slug
+        }
+      }
+      cpu {
+        name
+        models {
+          id
+          name
+          brand
+          algorithm
+          hashrate
+          hashrateUnit
+          powerW
+          slug
+        }
+      }
+    }
+  }
+`
+
+export const CALCULATOR_COINS_QUERY = `
+  query CalculatorCoins {
+    calculatorCoins {
+      asic {
+        id
+        symbol
+        name
+        algorithm
+        difficulty
+        blockReward
+        exchangeRateUsdt
+        netHash
+        stepen
+        dualCoin
+        iconUrl
+        sort
+      }
+      gpu {
+        id
+        symbol
+        name
+        algorithm
+        difficulty
+        blockReward
+        exchangeRateUsdt
+        netHash
+        stepen
+        dualCoin
+        iconUrl
+        sort
+      }
+      gpuAlgorithms
+      defaultUsdtRub
+    }
+  }
+`
+
+export const PODBOR_PLACEMENT_OFFERS_QUERY = `
+  query PodborPlacementOffers {
+    podborPlacementOffers {
+      id
+      title
+      capacityTitle
+      priceLabel
+      priceValue
+      location
+      image
+    }
+  }
+`
+
+export const PODBOR_SALE_OFFERS_QUERY = `
+  query PodborSaleOffers {
+    podborSaleOffers {
+      id
+      title
+      capacityTitle
+      priceLabel
+      priceValue
+      location
+      image
+    }
+  }
+`
+
 export const ORGANIZATION_QUERY = `
   query Organization($slug: String!) {
     organization(slug: $slug) {
