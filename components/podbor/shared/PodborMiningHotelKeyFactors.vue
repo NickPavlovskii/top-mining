@@ -328,6 +328,12 @@
                 </nuxt-link>
               </span>
             </label>
+
+            <top-mining-form-status
+              :status="status"
+              :message="lastSubmittedId === detail.id ? feedback : ''"
+              tone="dark"
+            />
           </form>
         </article>
       </div>
@@ -337,6 +343,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import { PODBOR_MINING_HOTEL_KEY_FACTORS } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
@@ -354,12 +361,33 @@
     ),
   )
 
-  function onSubmit(id: string) {
+  const lastSubmittedId = ref<string | null>(null)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('podbor-key-factor')
+
+  async function onSubmit(id: string) {
+    lastSubmittedId.value = id
+
     if (!privacyAccepted[id]) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка заявки по ключевому фактору
+    const ok = await submitLead({
+      source: 'podbor-key-factor',
+      contact: phones[id] || '',
+      fields: {
+        factorId: id,
+      },
+    })
+
+    if (ok) {
+      phones[id] = ''
+    }
   }
 </script>
 

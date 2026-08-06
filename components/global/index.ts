@@ -6,11 +6,14 @@ import TopMiningButton from './buttons/TopMiningButton.vue'
 import TopMiningMoreLink from './buttons/TopMiningMoreLink.vue'
 import TopMiningRoundIconButton from './buttons/TopMiningRoundIconButton.vue'
 import TopMiningFileUpload from './forms/TopMiningFileUpload.vue'
+import TopMiningFormStatus from './forms/TopMiningFormStatus.vue'
 import TopMiningInput from './forms/TopMiningInput.vue'
 import TopMiningPrivacyConsent from './forms/TopMiningPrivacyConsent.vue'
 import TopMiningSelect from './forms/TopMiningSelect.vue'
 import TopMiningChip from './labels/TopMiningChip.vue'
 import TopMiningIconList from './lists/TopMiningIconList.vue'
+import TopMiningBrandAvatar from './media/TopMiningBrandAvatar.vue'
+import TopMiningLazyImage from './media/TopMiningLazyImage.vue'
 import TopMiningBrandTitle from './pageTitle/TopMiningBrandTitle.vue'
 import TopMiningOutlineTitle from './pageTitle/TopMiningOutlineTitle.vue'
 import TopMiningPillTabs from './navigation/TopMiningPillTabs.vue'
@@ -22,6 +25,7 @@ import TopMiningCollapse from './disclosure/TopMiningCollapse.vue'
 const components = [
   { name: 'top-mining-article-card', component: TopMiningArticleCard },
   { name: 'top-mining-article-row', component: TopMiningArticleRow },
+  { name: 'top-mining-brand-avatar', component: TopMiningBrandAvatar },
   { name: 'top-mining-brand-title', component: TopMiningBrandTitle },
   { name: 'top-mining-button', component: TopMiningButton },
   { name: 'top-mining-checkbox', component: TopMiningCheckbox },
@@ -29,8 +33,10 @@ const components = [
   { name: 'top-mining-collapse', component: TopMiningCollapse },
   { name: 'top-mining-compare-table', component: TopMiningCompareTable },
   { name: 'top-mining-file-upload', component: TopMiningFileUpload },
+  { name: 'top-mining-form-status', component: TopMiningFormStatus },
   { name: 'top-mining-icon-list', component: TopMiningIconList },
   { name: 'top-mining-input', component: TopMiningInput },
+  { name: 'top-mining-lazy-image', component: TopMiningLazyImage },
   { name: 'top-mining-more-link', component: TopMiningMoreLink },
   { name: 'top-mining-outline-title', component: TopMiningOutlineTitle },
   { name: 'top-mining-pill-tabs', component: TopMiningPillTabs },

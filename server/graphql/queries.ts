@@ -397,3 +397,27 @@ export const INCREMENT_ARTICLE_VIEW_MUTATION = `
     }
   }
 `
+
+export const CREATE_LEAD_MUTATION = `
+  mutation CreateLead(
+    $source: String!
+    $contact: String!
+    $name: String
+    $message: String
+    $payload: String
+    $pagePath: String
+  ) {
+    createLead(
+      source: $source
+      contact: $contact
+      name: $name
+      message: $message
+      payload: $payload
+      pagePath: $pagePath
+    ) {
+      id
+      source
+      createdAt
+    }
+  }
+`

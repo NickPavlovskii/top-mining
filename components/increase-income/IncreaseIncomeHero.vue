@@ -102,6 +102,12 @@
               :privacy-link-label="copy.privacyLinkLabel"
               :privacy-href="copy.privacyHref"
             />
+
+            <top-mining-form-status
+              tone="dark"
+              :status="status"
+              :message="feedback"
+            />
           </form>
         </div>
       </div>
@@ -111,6 +117,7 @@
 
 <script setup lang="ts">
   import { INCREASE_INCOME_PAGE } from '~/common/modules/top-mining/pages/increase-income'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import ConsultingDiagonalArrowIcon from '~/components/consulting/icons/ConsultingDiagonalArrowIcon.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
@@ -120,13 +127,32 @@
   const phone = ref('')
   const privacyAccepted = ref(true)
   const honeypot = ref('')
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('increase-income-hero')
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки «Увеличим ваш доход»
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitLead({
+      source: 'increase-income-hero',
+      contact: phone.value,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

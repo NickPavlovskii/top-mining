@@ -145,6 +145,12 @@
                   :privacy-link-label="copy.privacyLinkLabel"
                   :privacy-href="copy.privacyHref"
                 />
+
+                <top-mining-form-status
+                  :status="status"
+                  :message="feedback"
+                  tone="dark"
+                />
               </form>
             </div>
           </div>
@@ -156,6 +162,7 @@
 
 <script setup lang="ts">
   import { BUY_ASIC_PAGE } from '~/common/modules/top-mining/buy-asic/page'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import TopMiningIconList from '~/components/global/lists/TopMiningIconList.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
@@ -167,12 +174,32 @@
   const phone = ref('')
   const privacyAccepted = ref(true)
   const honeypot = ref('')
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('buy-asic-hero')
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
-    // TODO: отправка заявки «Помогаем купить ASIC выгодно»
+
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitLead({
+      source: 'buy-asic-hero',
+      contact: phone.value,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

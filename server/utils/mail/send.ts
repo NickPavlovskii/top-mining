@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import nodemailer from 'nodemailer'
 import type { SubscribeEmailContent } from './subscribe-template'
 
@@ -36,6 +38,15 @@ export function resolveSmtpConfig(runtime: {
   return { host, port, user, pass, from, secure }
 }
 
+function resolveBrandLogoPath(): string | null {
+  const candidates = [
+    path.resolve('public/images/brand/logo-mark.png'),
+    path.resolve('assets/images/top-mining/logo-mark.png'),
+  ]
+
+  return candidates.find((filePath) => fs.existsSync(filePath)) || null
+}
+
 export async function sendMail(options: {
   config: SmtpMailConfig
   to: string
@@ -51,11 +62,24 @@ export async function sendMail(options: {
     },
   })
 
+  const logoPath = resolveBrandLogoPath()
+  const attachments = logoPath
+    ? [
+        {
+          filename: 'logo-mark.png',
+          path: logoPath,
+          cid: 'tm-logo-mark',
+          contentDisposition: 'inline' as const,
+        },
+      ]
+    : undefined
+
   await transporter.sendMail({
     from: options.config.from,
     to: options.to,
     subject: options.content.subject,
     text: options.content.text,
     html: options.content.html,
+    attachments,
   })
 }

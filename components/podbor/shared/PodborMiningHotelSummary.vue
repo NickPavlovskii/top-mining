@@ -97,6 +97,12 @@
               </nuxt-link>
             </span>
           </label>
+
+          <top-mining-form-status
+            tone="dark"
+            :status="status"
+            :message="feedback"
+          />
         </form>
       </article>
     </div>
@@ -105,6 +111,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import { PODBOR_MINING_HOTEL_SUMMARY } from '~/common/modules/top-mining/podbor/mining-hotel'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
 
@@ -115,6 +122,11 @@
   const rootRef = ref<HTMLElement | null>(null)
   const isVisible = ref(false)
   const prefersReducedMotion = ref(false)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('podbor-summary')
 
   let observer: IntersectionObserver | null = null
 
@@ -159,12 +171,21 @@
     observer = null
   })
 
-  function onSubmit() {
+  async function onSubmit() {
     if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка итоговой заявки
+    const ok = await submitLead({
+      source: 'podbor-summary',
+      contact: phone.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

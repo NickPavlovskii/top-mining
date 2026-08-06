@@ -128,6 +128,11 @@
               </nuxt-link>
             </span>
           </label>
+
+          <top-mining-form-status
+            :status="status"
+            :message="feedback"
+          />
         </form>
       </div>
     </div>
@@ -139,6 +144,7 @@
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import type { PodborAddCardModalCopy } from '~/common/modules/top-mining/podbor/mining-hotel'
   import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const open = defineModel<boolean>('open', { default: false })
 
@@ -159,18 +165,48 @@
   const power = ref('')
   const region = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+    resetStatus,
+  } = useSubmitLead('podbor-add-card')
+
+  let closeTimer: ReturnType<typeof setTimeout> | null = null
 
   function close() {
     open.value = false
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка заявки на добавление площадки
-    close()
+    const ok = await submitLead({
+      source: 'podbor-add-card',
+      name: name.value,
+      contact: phone.value,
+      fields: {
+        power: power.value,
+        region: region.value,
+      },
+    })
+
+    if (ok) {
+      name.value = ''
+      phone.value = ''
+      power.value = ''
+      region.value = ''
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+      }
+      closeTimer = setTimeout(() => {
+        close()
+      }, 1200)
+    }
   }
 
   watch(open, async (isOpen) => {
@@ -181,12 +217,20 @@
     document.body.style.overflow = isOpen ? 'hidden' : ''
 
     if (isOpen) {
+      resetStatus()
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+        closeTimer = null
+      }
       await nextTick()
       panelRef.value?.focus()
     }
   })
 
   onBeforeUnmount(() => {
+    if (closeTimer) {
+      clearTimeout(closeTimer)
+    }
     if (import.meta.client) {
       document.body.style.overflow = ''
     }

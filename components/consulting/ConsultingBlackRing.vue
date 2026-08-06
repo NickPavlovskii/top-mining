@@ -89,6 +89,12 @@
                 {{ copy.privacyLinkLabel }}
               </nuxt-link>
             </div>
+
+            <top-mining-form-status
+              :status="status"
+              :message="feedback"
+              tone="dark"
+            />
           </form>
 
           <p class="consulting-black-ring__telegram">
@@ -119,6 +125,7 @@
 
 <script setup lang="ts">
   import { CONSULTING_BLACK_RING } from '~/common/modules/top-mining/consulting/black-ring'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const copy = CONSULTING_BLACK_RING
   const blackRingBgStyle = `url(${copy.blackRingBg})`
@@ -129,13 +136,44 @@
   )
   const honeypot = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('consulting-black-ring')
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки на размещение организации
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const name = String(values['your-name'] || '').trim()
+    const contact = String(values['your-telegram'] || '').trim()
+    const fields = Object.fromEntries(
+      Object.entries(values).filter(
+        ([key]) => key !== 'your-name' && key !== 'your-telegram',
+      ),
+    )
+
+    const ok = await submitLead({
+      source: 'consulting-black-ring',
+      name,
+      contact,
+      fields,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      for (const key of Object.keys(values)) {
+        values[key] = ''
+      }
+    }
   }
 </script>
 

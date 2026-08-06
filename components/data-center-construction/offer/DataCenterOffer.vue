@@ -67,6 +67,12 @@
             :privacy-link-label="copy.privacyLinkLabel"
             :privacy-href="copy.privacyHref"
           />
+
+          <top-mining-form-status
+            :status="status"
+            :message="feedback"
+            tone="dark"
+          />
         </form>
       </div>
     </div>
@@ -75,6 +81,7 @@
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import { DATA_CENTER_CONSTRUCTION_PAGE } from '~/common/modules/top-mining/pages/data-center-construction'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
@@ -85,13 +92,32 @@
   const phone = ref('')
   const privacyAccepted = ref(true)
   const honeypot = ref('')
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('data-center-offer')
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки «Наше предложение»
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitLead({
+      source: 'data-center-offer',
+      contact: phone.value,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

@@ -62,6 +62,7 @@
                           autocomplete="tel"
                           inputmode="tel"
                           :placeholder="TOP_MINING_CONTACT_QUESTION.placeholder"
+                          :disabled="phoneStatus === 'loading'"
                         />
                       </label>
 
@@ -70,6 +71,7 @@
                         class="contact-section__submit-btn contact-section__submit-btn--send"
                         color="var(--jet-color)"
                         aria-label="Отправить телефон"
+                        :disabled="phoneStatus === 'loading'"
                         :width="questionSubmitMetrics.width"
                         :height="questionSubmitMetrics.height"
                         :icon-size="questionSubmitMetrics.iconSize"
@@ -79,6 +81,13 @@
                         "
                       />
                     </div>
+
+                    <top-mining-form-status
+                      :status="phoneStatus"
+                      :message="phoneFeedback"
+                      align="center"
+                      tone="dark"
+                    />
                   </form>
                 </div>
 
@@ -185,14 +194,12 @@
                       />
                     </div>
 
-                    <p
-                      v-if="subscribeMessage"
-                      class="contact-section__form-status"
-                      :data-status="subscribeStatus"
-                      role="status"
-                    >
-                      {{ subscribeMessage }}
-                    </p>
+                    <top-mining-form-status
+                      :status="subscribeStatus"
+                      :message="subscribeMessage"
+                      align="center"
+                      tone="dark"
+                    />
                   </form>
                 </div>
               </div>
@@ -254,14 +261,26 @@
 
   const phone = ref('')
   const {
+    status: phoneStatus,
+    message: phoneFeedback,
+    submit: submitPhoneLead,
+  } = useSubmitLead('home-phone')
+  const {
     email: subscribeEmail,
     status: subscribeStatus,
     message: subscribeMessage,
     submit: submitSubscribe,
   } = useSubscribeEmail('contact-section')
 
-  function onQuestionSubmit() {
-    // TODO: отправка телефона
+  async function onQuestionSubmit() {
+    const ok = await submitPhoneLead({
+      source: 'home-phone',
+      contact: phone.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 
   async function onSubscribeSubmit() {
@@ -512,22 +531,6 @@
 
   .contact-section__form {
     width: min(100%, var(--cc-input-row-w));
-  }
-
-  .contact-section__form-status {
-    margin: 10px 0 0;
-    font-size: 13px;
-    line-height: 1.35;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.78);
-  }
-
-  .contact-section__form-status[data-status='success'] {
-    color: #9be67e;
-  }
-
-  .contact-section__form-status[data-status='error'] {
-    color: #ff8f8f;
   }
 
   .contact-section__input-row {

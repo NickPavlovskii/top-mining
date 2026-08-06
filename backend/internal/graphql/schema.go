@@ -11,6 +11,7 @@ import (
 	"niklad/backend/internal/articles"
 	"niklad/backend/internal/catalog"
 	"niklad/backend/internal/hardware"
+	"niklad/backend/internal/leads"
 	"niklad/backend/internal/organizations"
 	"niklad/backend/internal/podbor"
 	"niklad/backend/internal/ratings"
@@ -369,6 +370,15 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 		},
 	})
 
+	createLeadResultType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "CreateLeadResult",
+		Fields: graphql.Fields{
+			"id":        &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
+			"source":    &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			"createdAt": &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+		},
+	})
+
 	organizationDetailType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "OrganizationDetail",
 		Fields: graphql.Fields{
@@ -659,6 +669,43 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 					return map[string]interface{}{
 						"review": toGraphQLOrganizationReview(result.Review),
 						"stats":  toGraphQLOrganizationReviewStats(result.Stats),
+					}, nil
+				},
+			},
+			"createLead": &graphql.Field{
+				Type: createLeadResultType,
+				Args: graphql.FieldConfigArgument{
+					"source":   &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"name":     &graphql.ArgumentConfig{Type: graphql.String},
+					"contact":  &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"message":  &graphql.ArgumentConfig{Type: graphql.String},
+					"payload":  &graphql.ArgumentConfig{Type: graphql.String},
+					"pagePath": &graphql.ArgumentConfig{Type: graphql.String},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					source, _ := params.Args["source"].(string)
+					name, _ := params.Args["name"].(string)
+					contact, _ := params.Args["contact"].(string)
+					message, _ := params.Args["message"].(string)
+					payload, _ := params.Args["payload"].(string)
+					pagePath, _ := params.Args["pagePath"].(string)
+
+					lead, err := leads.Create(params.Context, pool, leads.CreateInput{
+						Source:   source,
+						Name:     name,
+						Contact:  contact,
+						Message:  message,
+						Payload:  []byte(payload),
+						PagePath: pagePath,
+					})
+					if err != nil {
+						return nil, err
+					}
+
+					return map[string]interface{}{
+						"id":        int(lead.ID),
+						"source":    lead.Source,
+						"createdAt": lead.CreatedAt,
 					}, nil
 				},
 			},

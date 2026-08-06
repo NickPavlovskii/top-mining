@@ -53,25 +53,46 @@
           </nuxt-link>
         </span>
       </label>
+
+      <top-mining-form-status
+        tone="dark"
+        :status="status"
+        :message="feedback"
+      />
     </form>
   </article>
 </template>
 
 <script setup lang="ts">
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import { PODBOR_MINING_HOTEL_OFFER } from '~/common/modules/top-mining/podbor/mining-hotel'
 
   const offer = PODBOR_MINING_HOTEL_OFFER
 
   const phone = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('podbor-lead-form')
 
-  function onSubmit() {
+  async function onSubmit() {
     if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка заявки на тарифы майнинг-отелей
+    const ok = await submitLead({
+      source: 'podbor-lead-form',
+      contact: phone.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

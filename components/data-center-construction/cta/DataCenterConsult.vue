@@ -18,6 +18,14 @@
         :privacy-href="copy.privacyHref"
         @submit="onSubmit"
       />
+      <div class="data-center-consult__status-wrap">
+        <top-mining-form-status
+          align="center"
+          tone="dark"
+          :status="status"
+          :message="feedback"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -28,9 +36,17 @@
   import DataCenterCtaFormCard from '~/components/data-center-construction/shared/DataCenterCtaFormCard.vue'
 
   const copy = DATA_CENTER_CONSTRUCTION_PAGE.consult
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('data-center-consult')
 
-  function onSubmit(_payload: DataCenterCtaFormSubmitPayload) {
-    // TODO: отправка заявки «Нужна консультация»
+  async function onSubmit(payload: DataCenterCtaFormSubmitPayload) {
+    await submitLead({
+      source: 'data-center-consult',
+      contact: payload.phone,
+    })
   }
 </script>
 
@@ -41,6 +57,10 @@
     background: var(--tm-ink);
     padding: 0 0 72px;
     color: var(--tm-white);
+  }
+
+  .data-center-consult__status-wrap {
+    margin: -40px 0 0;
   }
 
   .data-center-consult__inner {

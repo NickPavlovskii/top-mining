@@ -189,6 +189,11 @@
                   :privacy-link-label="copy.privacyLinkLabel"
                   :privacy-href="copy.privacyHref"
                 />
+
+                <top-mining-form-status
+                  :status="status"
+                  :message="feedback"
+                />
               </form>
             </template>
           </top-mining-collapse>
@@ -209,6 +214,7 @@
     DATA_CENTER_CONSTRUCTION_PAGE,
     type DataCenterBusinessModelItem,
   } from '~/common/modules/top-mining/pages/data-center-construction'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import { toCompareTableRows } from '~/common/modules/top-mining/ui/compare-table'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningCollapse from '~/components/global/disclosure/TopMiningCollapse.vue'
@@ -225,6 +231,11 @@
   const privacyAccepted = ref(true)
   const isModalOpen = ref(false)
   const activeModel = ref<DataCenterBusinessModelItem | null>(null)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('data-center-models')
 
   function toggle(id: string) {
     openId.value = openId.value === id ? null : id
@@ -235,12 +246,26 @@
     isModalOpen.value = true
   }
 
-  function onFormSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onFormSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки бизнес-модели №2
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitLead({
+      source: 'data-center-models',
+      contact: phone.value,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      phone.value = ''
+    }
   }
 </script>
 

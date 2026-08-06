@@ -118,6 +118,11 @@
                 :privacy-link-label="copy.privacyLinkLabel"
                 :privacy-href="copy.privacyHref"
               />
+
+              <top-mining-form-status
+                :status="status"
+                :message="feedback"
+              />
             </form>
           </div>
         </div>
@@ -133,13 +138,14 @@
     DATA_CENTER_CONSTRUCTION_PAGE,
     type DataCenterBusinessModelItem,
   } from '~/common/modules/top-mining/pages/data-center-construction'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import TopMiningButton from '~/components/global/buttons/TopMiningButton.vue'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
   import TopMiningPrivacyConsent from '~/components/global/forms/TopMiningPrivacyConsent.vue'
 
   const open = defineModel<boolean>('open', { default: false })
 
-  defineProps<{
+  const props = defineProps<{
     model: DataCenterBusinessModelItem | null
   }>()
 
@@ -148,18 +154,50 @@
   const phone = ref('')
   const honeypot = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+    resetStatus,
+  } = useSubmitLead('data-center-business-model')
+
+  let closeTimer: ReturnType<typeof setTimeout> | null = null
 
   function close() {
     open.value = false
   }
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки на скачивание бизнес-модели
-    close()
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitLead({
+      source: 'data-center-business-model',
+      contact: phone.value,
+      website: honeypot.value,
+      fields: {
+        modelId: props.model?.id || '',
+        modelLabel: props.model?.label || '',
+        modelTitle: props.model?.title || '',
+      },
+    })
+
+    if (ok) {
+      phone.value = ''
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+      }
+      closeTimer = setTimeout(() => {
+        close()
+      }, 1200)
+    }
   }
 
   watch(open, async (isOpen) => {
@@ -172,12 +210,20 @@
     if (isOpen) {
       phone.value = ''
       honeypot.value = ''
+      resetStatus()
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+        closeTimer = null
+      }
       await nextTick()
       panelRef.value?.focus()
     }
   })
 
   onBeforeUnmount(() => {
+    if (closeTimer) {
+      clearTimeout(closeTimer)
+    }
     if (import.meta.client) {
       document.body.style.overflow = ''
     }

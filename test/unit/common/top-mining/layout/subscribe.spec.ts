@@ -5,6 +5,10 @@ import {
 } from '~/common/modules/top-mining/layout/subscribe'
 import { buildSubscribeWelcomeEmail } from '~/server/utils/mail/subscribe-template'
 import { resolveSmtpConfig } from '~/server/utils/mail/send'
+import {
+  buildSubscribeTelegramNotify,
+  resolveTelegramConfig,
+} from '~/server/utils/telegram/send'
 
 describe('subscribe email', () => {
   it('normalizes and validates email', () => {
@@ -20,6 +24,10 @@ describe('subscribe email', () => {
     expect(letter.subject).toContain('ТОП МАЙНИНГ')
     expect(letter.html).toContain('user@mail.ru')
     expect(letter.html).toContain('Подписка оформлена')
+    expect(letter.html).toContain('Калькулятор')
+    expect(letter.html).toContain('Конвертер')
+    expect(letter.html).toContain('top-mining.ru')
+    expect(letter.html).toContain('cid:tm-logo-mark')
     expect(letter.text).toContain('user@mail.ru')
   })
 
@@ -45,5 +53,26 @@ describe('subscribe email', () => {
       port: 465,
       secure: true,
     })
+  })
+
+  it('builds telegram notify and resolves bot config', () => {
+    expect(resolveTelegramConfig({})).toBeNull()
+    expect(
+      resolveTelegramConfig({
+        telegramBotToken: '123:ABC',
+        telegramChatId: '-100123',
+      }),
+    ).toEqual({
+      botToken: '123:ABC',
+      chatId: '-100123',
+    })
+
+    const text = buildSubscribeTelegramNotify({
+      email: 'a<b>@x.com',
+      source: 'footer',
+    })
+    expect(text).toContain('Новая подписка')
+    expect(text).toContain('a&lt;b&gt;@x.com')
+    expect(text).toContain('footer')
   })
 })

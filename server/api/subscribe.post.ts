@@ -10,6 +10,11 @@ import {
 } from '~/common/modules/http'
 import { resolveSmtpConfig, sendMail } from '~/server/utils/mail/send'
 import { buildSubscribeWelcomeEmail } from '~/server/utils/mail/subscribe-template'
+import {
+  buildSubscribeTelegramNotify,
+  resolveTelegramConfig,
+  sendTelegramMessage,
+} from '~/server/utils/telegram/send'
 
 type SubscribeBody = {
   email?: string
@@ -26,6 +31,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const email = normalizeSubscribeEmail(String(body?.email || ''))
+  const source = body?.source ?? null
 
   if (!isValidSubscribeEmail(email)) {
     throw createError({
@@ -36,34 +42,64 @@ export default defineEventHandler(async (event) => {
 
   const config = useRuntimeConfig(event)
   const smtp = resolveSmtpConfig(config)
+  const telegram = resolveTelegramConfig(config)
 
-  if (!smtp) {
+  if (!smtp && !telegram) {
     throw createError({
       statusCode: HTTP_SERVICE_UNAVAILABLE,
       statusMessage:
-        'Email delivery is not configured (SMTP_HOST / SMTP_USER / SMTP_PASS)',
+        'Delivery is not configured (SMTP and/or TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)',
     })
   }
 
-  try {
-    await sendMail({
-      config: smtp,
-      to: email,
-      content: buildSubscribeWelcomeEmail(email),
-    })
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : 'Failed to send email'
+  const delivered = {
+    email: false,
+    telegram: false,
+  }
 
+  const errors: string[] = []
+
+  if (smtp) {
+    try {
+      await sendMail({
+        config: smtp,
+        to: email,
+        content: buildSubscribeWelcomeEmail(email),
+      })
+      delivered.email = true
+    } catch (error) {
+      errors.push(
+        error instanceof Error ? error.message : 'Failed to send email',
+      )
+    }
+  }
+
+  if (telegram) {
+    try {
+      await sendTelegramMessage({
+        config: telegram,
+        text: buildSubscribeTelegramNotify({ email, source }),
+      })
+      delivered.telegram = true
+    } catch (error) {
+      errors.push(
+        error instanceof Error ? error.message : 'Failed to send Telegram',
+      )
+    }
+  }
+
+  if (!delivered.email && !delivered.telegram) {
     throw createError({
       statusCode: HTTP_SERVICE_UNAVAILABLE,
-      statusMessage: message,
+      statusMessage: errors.join('; ') || 'Failed to deliver subscription',
     })
   }
 
   return {
     ok: true,
     email,
-    source: body?.source ?? null,
+    source,
+    delivered,
+    warnings: errors.length ? errors : undefined,
   }
 })

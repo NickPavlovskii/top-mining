@@ -124,6 +124,11 @@
               {{ copy.privacyLinkLabel }}
             </nuxt-link>
           </div>
+
+          <top-mining-form-status
+            :status="status"
+            :message="feedback"
+          />
         </form>
       </div>
     </div>
@@ -132,6 +137,7 @@
 
 <script setup lang="ts">
   import { CONSULTING_BEST_SPEAKER } from '~/common/modules/top-mining/consulting/best-speaker'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const copy = CONSULTING_BEST_SPEAKER
   const imageStyle = `url(${copy.bestImgGirl})`
@@ -146,13 +152,47 @@
   const privacyAccepted = ref(true)
   const resumeFile = ref<File | null>(null)
   const fileError = ref('')
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead('consulting-best-speaker')
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value || fileError.value) {
+  async function onSubmit() {
+    if (honeypot.value || fileError.value) {
       return
     }
 
-    // TODO: отправка заявки эксперта
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const name = String(values['your-name'] || '').trim()
+    const contact = String(values['your-telegram'] || '').trim()
+    const message = String(values[copy.textarea.name] || '').trim()
+    const fields: Record<string, string> = {}
+
+    if (resumeFile.value?.name) {
+      fields.resumeFileName = resumeFile.value.name
+    }
+
+    const ok = await submitLead({
+      source: 'consulting-best-speaker',
+      name,
+      contact,
+      message,
+      fields,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      for (const key of Object.keys(values)) {
+        values[key] = ''
+      }
+      resumeFile.value = null
+    }
   }
 </script>
 

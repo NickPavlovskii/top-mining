@@ -119,6 +119,11 @@
                   </nuxt-link>
                 </span>
               </label>
+
+              <top-mining-form-status
+                :status="status"
+                :message="feedback"
+              />
             </form>
           </div>
         </div>
@@ -135,6 +140,7 @@
     PodborPlacementOffer,
   } from '~/common/modules/top-mining/podbor/mining-hotel'
   import { PODBOR_MINING_HOTEL_PLACEMENT } from '~/common/modules/top-mining/podbor/mining-hotel'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const open = defineModel<boolean>('open', { default: false })
 
@@ -153,18 +159,46 @@
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+    resetStatus,
+  } = useSubmitLead('podbor-tariff-modal')
+
+  let closeTimer: ReturnType<typeof setTimeout> | null = null
 
   function close() {
     open.value = false
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка заявки на тариф площадки
-    close()
+    const ok = await submitLead({
+      source: 'podbor-tariff-modal',
+      contact: phone.value,
+      fields: {
+        offerId: props.offer?.id || '',
+        offerTitle: props.offer?.title || '',
+        offerLocation: props.offer?.location || '',
+        capacityTitle: props.offer?.capacityTitle || '',
+      },
+    })
+
+    if (ok) {
+      phone.value = ''
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+      }
+      closeTimer = setTimeout(() => {
+        close()
+      }, 1200)
+    }
   }
 
   watch(open, async (isOpen) => {
@@ -176,6 +210,11 @@
 
     if (isOpen) {
       phone.value = ''
+      resetStatus()
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+        closeTimer = null
+      }
       await nextTick()
       panelRef.value?.focus()
     }
@@ -185,10 +224,14 @@
     () => props.offer?.id,
     () => {
       phone.value = ''
+      resetStatus()
     },
   )
 
   onBeforeUnmount(() => {
+    if (closeTimer) {
+      clearTimeout(closeTimer)
+    }
     if (import.meta.client) {
       document.body.style.overflow = ''
     }

@@ -112,5 +112,7 @@ export default defineNuxtConfig({
     smtpPass: process.env.SMTP_PASS || '',
     smtpFrom: process.env.SMTP_FROM || '',
     smtpSecure: process.env.SMTP_SECURE || '',
+    telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || '',
+    telegramChatId: process.env.TELEGRAM_CHAT_ID || '',
   },
 })

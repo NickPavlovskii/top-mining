@@ -92,6 +92,11 @@
                 :privacy-link-label="copy.privacyLinkLabel"
                 :privacy-href="copy.privacyHref"
               />
+
+              <top-mining-form-status
+                :status="status"
+                :message="feedback"
+              />
             </form>
           </div>
 
@@ -111,6 +116,7 @@
 <script setup lang="ts">
   import type { BuyAsicModel } from '~/common/modules/top-mining/buy-asic/page'
   import { BUY_ASIC_MODELS } from '~/common/modules/top-mining/buy-asic/page'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
   import closeIcon from '~/assets/images/top-mining/icons/close-icon.png'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import TopMiningInput from '~/components/global/forms/TopMiningInput.vue'
@@ -126,18 +132,44 @@
   const panelRef = ref<HTMLElement | null>(null)
   const phone = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+    resetStatus,
+  } = useSubmitLead('buy-asic-model-price')
+
+  let closeTimer: ReturnType<typeof setTimeout> | null = null
 
   function close() {
     open.value = false
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
       return
     }
 
-    // TODO: отправка заявки на цену модели ASIC
-    close()
+    const ok = await submitLead({
+      source: 'buy-asic-model-price',
+      contact: phone.value,
+      fields: {
+        modelId: props.model?.id || '',
+        modelName: props.model?.name || '',
+      },
+    })
+
+    if (ok) {
+      phone.value = ''
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+      }
+      closeTimer = setTimeout(() => {
+        close()
+      }, 1200)
+    }
   }
 
   watch(open, async (isOpen) => {
@@ -149,6 +181,11 @@
 
     if (isOpen) {
       phone.value = ''
+      resetStatus()
+      if (closeTimer) {
+        clearTimeout(closeTimer)
+        closeTimer = null
+      }
       await nextTick()
       panelRef.value?.focus()
     }
@@ -158,10 +195,14 @@
     () => props.model?.id,
     () => {
       phone.value = ''
+      resetStatus()
     },
   )
 
   onBeforeUnmount(() => {
+    if (closeTimer) {
+      clearTimeout(closeTimer)
+    }
     if (import.meta.client) {
       document.body.style.overflow = ''
     }

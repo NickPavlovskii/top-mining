@@ -49,10 +49,16 @@
       <button
         type="submit"
         class="consulting-construction-form-card__submit"
+        :disabled="status === 'loading'"
       >
         <span>{{ copy.submitLabel }}</span>
         <consulting-diagonal-arrow-icon />
       </button>
+
+      <top-mining-form-status
+        :status="status"
+        :message="feedback"
+      />
 
       <div class="consulting-construction-form-card__privacy">
         <label class="consulting-construction-form-card__privacy-label">
@@ -79,6 +85,7 @@
 <script setup lang="ts">
   import type { ConsultingConstructionForm } from '~/common/modules/top-mining/consulting/construction-forms'
   import { CONSULTING_CONSTRUCTION_FORMS } from '~/common/modules/top-mining/consulting/construction-forms'
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
 
   const props = defineProps<{
     form: ConsultingConstructionForm
@@ -91,13 +98,44 @@
   )
   const honeypot = ref('')
   const privacyAccepted = ref(true)
+  const {
+    status,
+    message: feedback,
+    submit: submitLead,
+  } = useSubmitLead(`consulting-construction-${props.form.id}`)
 
-  function onSubmit() {
-    if (honeypot.value || !privacyAccepted.value) {
+  async function onSubmit() {
+    if (honeypot.value) {
       return
     }
 
-    // TODO: отправка заявки по форме строительства дата-центров
+    if (!privacyAccepted.value) {
+      status.value = 'error'
+      feedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const name = String(values['your-name'] || '').trim()
+    const contact = String(values['your-telegram'] || '').trim()
+    const fields = Object.fromEntries(
+      Object.entries(values).filter(
+        ([key]) => key !== 'your-name' && key !== 'your-telegram',
+      ),
+    )
+
+    const ok = await submitLead({
+      source: `consulting-construction-${props.form.id}`,
+      name,
+      contact,
+      fields,
+      website: honeypot.value,
+    })
+
+    if (ok) {
+      for (const key of Object.keys(values)) {
+        values[key] = ''
+      }
+    }
   }
 </script>
 

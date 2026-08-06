@@ -18,20 +18,40 @@
         <span>Предложения?</span>
       </h2>
 
-      <form class="site-footer__contact-form" @submit.prevent>
+      <form
+        class="site-footer__contact-form"
+        @submit.prevent="onFooterContactSubmit"
+      >
         <label>
           <span>Ваше имя</span>
-          <input type="text" placeholder="Ваше имя" />
+          <input
+            v-model="contactName"
+            type="text"
+            placeholder="Ваше имя"
+            autocomplete="name"
+            :disabled="contactStatus === 'loading'"
+          />
         </label>
 
         <label>
           <span>Способ связи</span>
-          <input type="text" placeholder="Телефон Telegram" />
+          <input
+            v-model="contactValue"
+            type="text"
+            placeholder="Телефон Telegram"
+            autocomplete="tel"
+            required
+            :disabled="contactStatus === 'loading'"
+          />
         </label>
 
         <label>
           <span>Ваш вопрос / предложение</span>
-          <textarea placeholder="Ваш вопрос / предложение" />
+          <textarea
+            v-model="contactMessage"
+            placeholder="Ваш вопрос / предложение"
+            :disabled="contactStatus === 'loading'"
+          />
         </label>
 
         <label class="site-footer__contact-consent">
@@ -46,14 +66,31 @@
           </span>
         </label>
 
+        <label class="site-footer__contact-honeypot">
+          <span>Оставьте это поле пустым</span>
+          <input
+            v-model="contactHoneypot"
+            type="text"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </label>
+
         <button
           type="submit"
           class="site-footer__contact-submit"
-          :disabled="!isPersonalDataAccepted"
+          :disabled="!isPersonalDataAccepted || contactStatus === 'loading'"
         >
           Отправить
           <icon name="mdi:arrow-top-right" />
         </button>
+
+        <top-mining-form-status
+          :status="contactStatus"
+          :message="contactFeedback"
+          tone="dark"
+        />
       </form>
 
       <ul class="site-footer__contact-benefits">
@@ -93,14 +130,10 @@
             />
           </form>
 
-          <p
-            v-if="footerSubscribeMessage"
-            class="site-footer__subscribe-status"
-            :data-status="footerSubscribeStatus"
-            role="status"
-          >
-            {{ footerSubscribeMessage }}
-          </p>
+          <top-mining-form-status
+            :status="footerSubscribeStatus"
+            :message="footerSubscribeMessage"
+          />
 
           <nuxt-link to="/privacy" class="site-footer__privacy">
             Политика конфиденциальности
@@ -189,8 +222,19 @@
   import { INCREASE_INCOME_PAGE_PATH } from '~/common/modules/top-mining/pages/increase-income'
   import { PODBOR_MINING_HOTEL_PATH } from '~/common/modules/top-mining/podbor/mining-hotel'
 
+  import { LEADS_UI } from '~/common/modules/top-mining/layout/leads'
+
   const route = useRoute()
   const isPersonalDataAccepted = ref(false)
+  const contactName = ref('')
+  const contactValue = ref('')
+  const contactMessage = ref('')
+  const contactHoneypot = ref('')
+  const {
+    status: contactStatus,
+    message: contactFeedback,
+    submit: submitFooterContact,
+  } = useSubmitLead('footer-contact')
   const {
     email: footerSubscribeEmail,
     status: footerSubscribeStatus,
@@ -236,6 +280,29 @@
 
   async function onFooterSubscribe() {
     await submitFooterSubscribe()
+  }
+
+  async function onFooterContactSubmit() {
+    if (!isPersonalDataAccepted.value) {
+      contactStatus.value = 'error'
+      contactFeedback.value = LEADS_UI.privacyRequired
+      return
+    }
+
+    const ok = await submitFooterContact({
+      source: 'footer-contact',
+      name: contactName.value,
+      contact: contactValue.value,
+      message: contactMessage.value,
+      website: contactHoneypot.value,
+    })
+
+    if (ok) {
+      contactName.value = ''
+      contactValue.value = ''
+      contactMessage.value = ''
+      isPersonalDataAccepted.value = false
+    }
   }
 </script>
 
@@ -296,13 +363,16 @@
   }
 
   .site-footer__contact-form {
+    position: relative;
     display: grid;
     gap: 22px;
     max-width: 520px;
     margin: 0 auto 64px;
   }
 
-  .site-footer__contact-form label:not(.site-footer__contact-consent) {
+  .site-footer__contact-form label:not(.site-footer__contact-consent):not(
+      .site-footer__contact-honeypot
+    ) {
     display: grid;
     gap: 10px;
     text-align: center;
@@ -388,6 +458,18 @@
   .site-footer__contact-form input:not([type='checkbox'])::placeholder,
   .site-footer__contact-form textarea::placeholder {
     color: rgba(255, 255, 255, 0.45);
+  }
+
+  .site-footer__contact-honeypot {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
   }
 
   .site-footer__contact-submit {
@@ -532,22 +614,6 @@
     gap: 10px;
     max-width: 360px;
     margin-bottom: 12px;
-  }
-
-  .site-footer__subscribe-status {
-    margin: 0 0 18px;
-    max-width: 360px;
-    font-size: 13px;
-    line-height: 1.35;
-    color: var(--tm-black);
-  }
-
-  .site-footer__subscribe-status[data-status='success'] {
-    color: #2f7d32;
-  }
-
-  .site-footer__subscribe-status[data-status='error'] {
-    color: #b42318;
   }
 
   .site-footer__input-wrap {
@@ -766,7 +832,9 @@
       margin: 0 auto 26px;
     }
 
-    .site-footer__contact-form label:not(.site-footer__contact-consent) {
+    .site-footer__contact-form label:not(.site-footer__contact-consent):not(
+        .site-footer__contact-honeypot
+      ) {
       display: grid;
       gap: 7px;
       text-align: center;
