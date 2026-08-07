@@ -6,13 +6,12 @@ SET client_encoding = 'UTF8';
 -- из фронтовых модулей calculator-*.ts. Идемпотентно.
 -- =====================================================================
 
-ALTER TABLE hardware_coins
-    ADD COLUMN IF NOT EXISTS slug TEXT,
-    ADD COLUMN IF NOT EXISTS dual_coin BOOLEAN NOT NULL DEFAULT FALSE,
-    ADD COLUMN IF NOT EXISTS stepen TEXT NOT NULL DEFAULT '0',
-    ADD COLUMN IF NOT EXISTS icon_url TEXT NOT NULL DEFAULT '',
-    ADD COLUMN IF NOT EXISTS scope TEXT NOT NULL DEFAULT 'shared';
-    ADD COLUMN IF NOT EXISTS net_hash NUMERIC(40, 4);
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS slug TEXT;
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS dual_coin BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS stepen TEXT NOT NULL DEFAULT '0';
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS icon_url TEXT NOT NULL DEFAULT '';
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS scope TEXT NOT NULL DEFAULT 'shared';
+ALTER TABLE hardware_coins ADD COLUMN IF NOT EXISTS net_hash NUMERIC(40, 4);
 
 UPDATE hardware_coins
 SET slug = lower(ticker)
@@ -32,11 +31,10 @@ ALTER TABLE hardware_coins DROP CONSTRAINT IF EXISTS hardware_coins_ticker_key;
 CREATE UNIQUE INDEX IF NOT EXISTS idx_hardware_coins_scope_ticker
     ON hardware_coins (scope, ticker);
 
-ALTER TABLE market_stats
-    ALTER COLUMN price_usdt TYPE NUMERIC(40, 20),
-    ALTER COLUMN difficulty TYPE NUMERIC(50, 12),
-    ALTER COLUMN block_reward TYPE NUMERIC(40, 20),
-    ALTER COLUMN network_hashrate TYPE NUMERIC(50, 8);
+ALTER TABLE market_stats ALTER COLUMN price_usdt TYPE NUMERIC(40, 20);
+ALTER TABLE market_stats ALTER COLUMN difficulty TYPE NUMERIC(50, 12);
+ALTER TABLE market_stats ALTER COLUMN block_reward TYPE NUMERIC(40, 20);
+ALTER TABLE market_stats ALTER COLUMN network_hashrate TYPE NUMERIC(50, 8);
 
 UPDATE hardware_kinds SET
     empty_hint = CASE slug
