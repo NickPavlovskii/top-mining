@@ -25,7 +25,12 @@
         :key="`${section.id}-${blockIndex}`"
       >
         <p
-          v-if="block.type === 'paragraph'"
+          v-if="block.type === 'paragraph' && block.html"
+          class="article-sections__paragraph"
+          v-html="block.html"
+        />
+        <p
+          v-else-if="block.type === 'paragraph'"
           class="article-sections__paragraph"
         >
           {{ block.text }}
@@ -190,6 +195,17 @@
     color: #1a1a1a;
     font-size: 16px;
     line-height: 1.65;
+  }
+
+  .article-sections__paragraph :deep(a) {
+    color: #1a5cff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .article-sections__paragraph :deep(a:hover),
+  .article-sections__paragraph :deep(a:focus-visible) {
+    color: #0f3fcf;
   }
 
   .article-sections__list {

@@ -3,7 +3,7 @@
  * Типы блоков, секций и TOC.
  */
 export type ArticleBlock =
-  | { type: 'paragraph'; text: string }
+  | { type: 'paragraph'; text: string; html?: string }
   | { type: 'list'; items: string[] }
   | {
       type: 'richList'

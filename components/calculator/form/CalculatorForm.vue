@@ -9,9 +9,11 @@ import {
   emptyCalculatorCoinsCatalog,
   emptyCalculatorHardwareByKind,
   filterGpuCoinsByAlgorithm,
+  findHardwareModelBySlug,
   formatMoneyAmount,
   getDefaultCalculatorCoin,
   isDefaultDevicePrice,
+  parseCalculatorPrefillQuery,
   type CalculatorCoin,
   type CalculatorCoinsCatalog,
   type CalculatorDeviceKind,
@@ -291,6 +293,89 @@ const { formRef } = useCalculatorDeviceRoute(activeKind, {
   scrollToForm: true,
   syncHash: true,
 })
+
+const route = useRoute()
+const appliedPrefillQuery = ref(false)
+
+watch(
+  [hardwareByKind, hardwarePending, () => route.query],
+  () => {
+    if (appliedPrefillQuery.value || hardwarePending.value) {
+      return
+    }
+
+    const prefill = parseCalculatorPrefillQuery(
+      route.query as Record<string, unknown>,
+    )
+    const hasPrefill =
+      Boolean(prefill.model) ||
+      Boolean(prefill.hashrate) ||
+      Boolean(prefill.power)
+
+    if (!hasPrefill) {
+      return
+    }
+
+    if (prefill.model) {
+      const found = findHardwareModelBySlug(hardwareByKind.value, prefill.model)
+      if (found) {
+        const applyModel = () => {
+          onModelSelect(found.model)
+          appliedPrefillQuery.value = true
+          nextTick(() => {
+            formRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          })
+        }
+
+        if (activeKind.value !== found.kind) {
+          activeKind.value = found.kind
+          nextTick(applyModel)
+        } else {
+          applyModel()
+        }
+        return
+      }
+    }
+
+    if (prefill.kind && activeKind.value !== prefill.kind) {
+      activeKind.value = prefill.kind
+      nextTick(() => applyManualPrefill(prefill))
+      return
+    }
+
+    applyManualPrefill(prefill)
+  },
+  { immediate: true },
+)
+
+function applyManualPrefill(
+  prefill: ReturnType<typeof parseCalculatorPrefillQuery>,
+) {
+  if (prefill.hashrate || prefill.power) {
+    if (isAsic.value) {
+      manualUnlock.value = true
+    }
+    if (prefill.hashrate) {
+      hashrate.value = prefill.hashrate
+    }
+    if (prefill.power) {
+      power.value = prefill.power
+    }
+    if (prefill.unit) {
+      hashrateUnit.value = prefill.unit
+    }
+    appliedPrefillQuery.value = true
+    nextTick(() => {
+      formRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+    return
+  }
+
+  // Модель из query не найдена в каталоге после загрузки железа.
+  if (prefill.model) {
+    appliedPrefillQuery.value = true
+  }
+}
 
 function onModelSelect(model: CalculatorHardwareModel) {
   selectedModel.value = model

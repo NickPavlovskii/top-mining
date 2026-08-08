@@ -29,12 +29,18 @@ function mapContentBlock(block: ArticleDbBlock): ArticleBlock | null {
     case 'paragraph': {
       const text =
         (typeof payload.text === 'string' && payload.text) ||
-        (typeof payload.html === 'string' && payload.html) ||
+        (typeof payload.html === 'string' && payload.html.replace(/<[^>]+>/g, '')) ||
         ''
       if (!text) {
         return null
       }
-      return { type: 'paragraph', text }
+      const html =
+        typeof payload.html === 'string' && payload.html.trim()
+          ? payload.html
+          : undefined
+      return html
+        ? { type: 'paragraph', text, html }
+        : { type: 'paragraph', text }
     }
     case 'list': {
       const items = Array.isArray(payload.items)
