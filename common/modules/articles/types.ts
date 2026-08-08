@@ -43,11 +43,11 @@ export interface ArticlesFeed {
 }
 
 export interface ArticlesFeedResponse extends ArticlesFeed {
-  source: 'graphql' | 'fallback'
+  source: 'graphql'
   updatedAt: string
 }
 
 export interface ArticleResponse extends Article {
-  source: 'graphql' | 'fallback'
+  source: 'graphql'
   updatedAt: string
 }

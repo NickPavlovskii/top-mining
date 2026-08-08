@@ -1,10 +1,19 @@
 <template>
   <article class="article-page">
     <div
-      v-if="pending"
-      class="article-page__state"
+      v-if="showArticleSkeleton"
+      class="article-page__skeleton"
+      aria-busy="true"
+      aria-live="polite"
     >
-      {{ t('articles.loading') }}
+      <div class="article-page__skeleton-hero" />
+      <div class="article-page__skeleton-line article-page__skeleton-line--title" />
+      <div class="article-page__skeleton-line" />
+      <div class="article-page__skeleton-line article-page__skeleton-line--short" />
+      <div class="article-page__skeleton-cover" />
+      <div class="article-page__skeleton-line" />
+      <div class="article-page__skeleton-line" />
+      <div class="article-page__skeleton-line article-page__skeleton-line--short" />
     </div>
 
     <div
@@ -251,7 +260,6 @@
     formatArticleDate,
     readingTimeMinutes,
     isArticleContentPending,
-    isRatingArticleSlug,
     recordArticleView,
     sectionsToToc,
     splitArticleTitle,
@@ -261,7 +269,6 @@
     TOP_MINING_ARTICLES_TOPICS,
     type TopMiningArticlesTopicId,
   } from '~/common/modules/top-mining/layout/articles-section'
-  import { RATINGS_PAGE_HREF } from '~/common/modules/ratings'
   import ArticleTableOfContents from '~/components/articles/ArticleTableOfContents.vue'
   import ArticleReadAlso from '~/components/articles/ArticleReadAlso.vue'
   import ArticleRelatedRatings from '~/components/articles/ArticleRelatedRatings.vue'
@@ -285,14 +292,31 @@
     beginners: 'home.topicBeginners',
   }
 
-  const { data: article, pending } = await useFetch<ArticleResponse>(
+  const { data: article, pending, error } = await useFetch<ArticleResponse>(
     () => `/api/articles/${slug.value}`,
     {
       watch: [slug],
-      // Не бросаем фатальную ошибку на 404 — показываем заглушку в шаблоне
       ignoreResponseError: true,
     },
   )
+
+  const showArticleSkeleton = computed(() => {
+    if (pending.value) {
+      return true
+    }
+
+    if (!error.value) {
+      return false
+    }
+
+    const status = Number(
+      (error.value as { statusCode?: number; status?: number }).statusCode
+      ?? (error.value as { status?: number }).status
+      ?? 0,
+    )
+
+    return status === 0 || status >= 500
+  })
 
   const localizedArticle = computed(() =>
     article.value ? localize(article.value) : null,
@@ -338,10 +362,6 @@
   })
 
   const sectionBreadcrumb = computed(() => {
-    if (isRatingArticleSlug(slug.value)) {
-      return { label: t('articles.ratingsCrumb'), href: RATINGS_PAGE_HREF }
-    }
-
     const topicId = (article.value?.topicId || 'all') as TopMiningArticlesTopicId
 
     if (topicId === 'all') {
@@ -567,6 +587,63 @@
     padding: 48px 0;
     color: var(--tm-text-soft);
     text-align: center;
+  }
+
+  .article-page__skeleton {
+    display: grid;
+    gap: 14px;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 0 48px;
+  }
+
+  .article-page__skeleton-hero,
+  .article-page__skeleton-cover,
+  .article-page__skeleton-line {
+    border-radius: 16px;
+    background: linear-gradient(
+      110deg,
+      #ececec 0%,
+      #ececec 35%,
+      #f7f7f7 50%,
+      #ececec 65%,
+      #ececec 100%
+    );
+    background-size: 200% 100%;
+    animation: article-page-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .article-page__skeleton-hero {
+    height: 72px;
+    border-radius: 20px;
+  }
+
+  .article-page__skeleton-cover {
+    aspect-ratio: 16 / 9;
+    border-radius: 24px;
+  }
+
+  .article-page__skeleton-line {
+    height: 16px;
+  }
+
+  .article-page__skeleton-line--title {
+    height: 28px;
+    width: 70%;
+  }
+
+  .article-page__skeleton-line--short {
+    width: 45%;
+  }
+
+  @keyframes article-page-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
   }
 
   .article-page__state--empty,

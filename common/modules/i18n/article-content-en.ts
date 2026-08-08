@@ -1,6 +1,6 @@
 /**
- * English article preview copy keyed by slug (fallback + known CMS slugs).
- * Used when locale is `en`; Russian source remains in articles/fallback or API.
+ * English article preview copy keyed by slug.
+ * Used when locale is `en`; Russian source remains in API/DB.
  */
 export type ArticleContentLocale = {
   title: string

@@ -1,11 +1,35 @@
 <template>
   <div class="articles-feed">
     <div
-      v-if="pending"
-      class="articles-feed__state"
+      v-if="showFeedSkeleton"
+      class="articles-feed__skeletons"
+      aria-busy="true"
       aria-live="polite"
     >
-      {{ t('common.loading') }}
+      <div class="articles-feed__skeleton articles-feed__skeleton--hero" />
+
+      <div class="articles-feed__skeleton-grid">
+        <div
+          v-for="n in 4"
+          :key="`featured-skel-${n}`"
+          class="articles-feed__skeleton-card"
+        >
+          <div class="articles-feed__skeleton articles-feed__skeleton--card" />
+          <div class="articles-feed__skeleton articles-feed__skeleton--meta" />
+          <div class="articles-feed__skeleton articles-feed__skeleton--text" />
+          <div class="articles-feed__skeleton articles-feed__skeleton--text articles-feed__skeleton--text-short" />
+        </div>
+      </div>
+
+      <div class="articles-feed__skeleton-list">
+        <div
+          v-for="n in 4"
+          :key="`list-skel-${n}`"
+          class="articles-feed__skeleton articles-feed__skeleton--row"
+        />
+      </div>
+
+      <div class="articles-feed__skeleton articles-feed__skeleton--more" />
     </div>
 
     <template v-else-if="feed">
@@ -120,13 +144,34 @@
 
   const topic = computed(() => props.topic)
 
-  const { data: feed, pending } = await useFetch<ArticlesFeedResponse>(
+  const { data: feed, pending, error } = await useFetch<ArticlesFeedResponse>(
     () => `/api/articles?topic=${topic.value}`,
     {
       key: computed(() => `articles-feed-${topic.value}`),
       watch: [topic],
+      ignoreResponseError: true,
+      getCachedData: () => undefined,
     },
   )
+
+  const hasFeedContent = computed(() => {
+    if (pending.value || error.value) {
+      return false
+    }
+
+    const value = feed.value
+    if (!value) {
+      return false
+    }
+
+    return Boolean(
+      value.hero
+      || (value.featured?.length ?? 0) > 0
+      || (value.list?.length ?? 0) > 0,
+    )
+  })
+
+  const showFeedSkeleton = computed(() => !hasFeedContent.value)
 
   const localizedHero = computed(() =>
     feed.value?.hero ? localize(feed.value.hero) : null,
@@ -178,6 +223,105 @@
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
     font-size: 14px;
     text-align: center;
+  }
+
+  .articles-feed__skeletons {
+    display: grid;
+    gap: clamp(20px, 2.5vw, 32px);
+    width: 100%;
+  }
+
+  .articles-feed__skeleton {
+    border-radius: 20px;
+    background: linear-gradient(
+      110deg,
+      #2a2a2a 0%,
+      #2a2a2a 35%,
+      #3d3d3d 50%,
+      #2a2a2a 65%,
+      #2a2a2a 100%
+    );
+    background-size: 200% 100%;
+    animation: articles-feed-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .articles-feed__skeleton--hero {
+    width: 100%;
+    min-height: 180px;
+    aspect-ratio: 16 / 6.2;
+  }
+
+  .articles-feed__skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 1.5vw, 20px);
+  }
+
+  .articles-feed__skeleton--card {
+    width: 100%;
+    min-height: 140px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .articles-feed__skeleton-card {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .articles-feed__skeleton--meta {
+    height: 14px;
+    width: 55%;
+    border-radius: 8px;
+  }
+
+  .articles-feed__skeleton--text {
+    height: 12px;
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .articles-feed__skeleton--text-short {
+    width: 72%;
+  }
+
+  .articles-feed__skeleton--more {
+    width: min(220px, 100%);
+    height: 44px;
+    margin-top: 8px;
+    border-radius: 999px;
+  }
+
+  .articles-feed__skeleton-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .articles-feed__skeleton--row {
+    width: 100%;
+    min-height: 96px;
+  }
+
+  @keyframes articles-feed-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .articles-feed__skeleton-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-feed__skeleton-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .articles-feed__hero {

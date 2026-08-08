@@ -1,4 +1,4 @@
-import { buildArticlesFeedFallback } from '~/common/modules/articles'
+import { createError } from 'h3'
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
 import { TOP_MINING_ARTICLES_TOPICS } from '~/common/modules/top-mining/layout/articles-section'
 import type { ArticlesFeed, ArticlesFeedResponse } from '~/common/modules/articles'
@@ -27,7 +27,13 @@ export default defineEventHandler(async (event) => {
       updatedAt: new Date().toISOString(),
       ...data.articlesFeed,
     } satisfies ArticlesFeedResponse
-  } catch {
-    return buildArticlesFeedFallback(topic)
+  } catch (error) {
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'Articles service is unavailable',
+      data: {
+        message: error instanceof Error ? error.message : 'Articles service is unavailable',
+      },
+    })
   }
 })

@@ -78,8 +78,33 @@
         </div>
       </div>
 
-      <div v-if="pending" class="articles-page__state">
-        {{ t('articles.loading') }}
+      <div
+        v-if="showArticlesSkeleton"
+        class="articles-page__skeletons"
+        :class="{ 'articles-page__skeletons--list': viewMode === 'list' }"
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <template v-if="viewMode === 'grid'">
+          <div
+            v-for="n in skeletonGridCount"
+            :key="`articles-skel-grid-${n}`"
+            class="articles-page__skeleton-item"
+          >
+            <div class="articles-page__skeleton-card" />
+            <div class="articles-page__skeleton-line articles-page__skeleton-line--meta" />
+            <div class="articles-page__skeleton-line" />
+            <div class="articles-page__skeleton-line articles-page__skeleton-line--short" />
+          </div>
+        </template>
+
+        <template v-else>
+          <div
+            v-for="n in skeletonListCount"
+            :key="`articles-skel-list-${n}`"
+            class="articles-page__skeleton-row"
+          />
+        </template>
       </div>
 
       <template v-else-if="paginatedArticles.length">
@@ -168,6 +193,13 @@
           </div>
         </footer>
       </template>
+
+      <div
+        v-else
+        class="articles-page__state"
+      >
+        {{ t('articles.empty') }}
+      </div>
     </div>
   </div>
 </template>
@@ -233,17 +265,21 @@
 
   const perPage = computed(() => (viewMode.value === 'grid' ? 12 : 8))
 
+  const skeletonGridCount = 12
+  const skeletonListCount = 8
 
-  const { data: feed, pending } = await useFetch<ArticlesFeedResponse>(
+  const { data: feed, pending, error } = await useFetch<ArticlesFeedResponse>(
     () => `/api/articles?topic=${activeTopic.value}`,
     {
       key: computed(() => `articles-index-${activeTopic.value}`),
       watch: [activeTopic],
+      ignoreResponseError: true,
+      getCachedData: () => undefined,
     },
   )
 
   const allArticles = computed<ArticlePreview[]>(() => {
-    if (!feed.value) {
+    if (!feed.value || pending.value || error.value) {
       return []
     }
 
@@ -253,7 +289,10 @@
       items.push(feed.value.hero)
     }
 
-    items.push(...feed.value.featured, ...feed.value.list)
+    items.push(
+      ...(feed.value.featured ?? []),
+      ...(feed.value.list ?? []),
+    )
 
     const seen = new Set<number>()
 
@@ -266,6 +305,10 @@
       return true
     })
   })
+
+  const showArticlesSkeleton = computed(
+    () => pending.value || !!error.value || allArticles.value.length === 0,
+  )
 
   const totalPages = computed(() => (
     Math.max(1, Math.ceil(allArticles.value.length / perPage.value))
@@ -519,6 +562,70 @@
     text-align: center;
   }
 
+  .articles-page__skeletons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 1.6vw, 20px);
+  }
+
+  .articles-page__skeletons--list {
+    grid-template-columns: 1fr;
+  }
+
+  .articles-page__skeleton-item {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .articles-page__skeleton-card,
+  .articles-page__skeleton-line,
+  .articles-page__skeleton-row {
+    border-radius: clamp(14px, 1.4vw, 20px);
+    background: linear-gradient(
+      110deg,
+      #2a2a2a 0%,
+      #2a2a2a 35%,
+      #3d3d3d 50%,
+      #2a2a2a 65%,
+      #2a2a2a 100%
+    );
+    background-size: 200% 100%;
+    animation: articles-page-shimmer 1.35s ease-in-out infinite;
+  }
+
+  .articles-page__skeleton-card {
+    aspect-ratio: 16 / 10;
+  }
+
+  .articles-page__skeleton-line {
+    height: 12px;
+    border-radius: 8px;
+  }
+
+  .articles-page__skeleton-line--meta {
+    width: 48%;
+    height: 14px;
+  }
+
+  .articles-page__skeleton-line--short {
+    width: 70%;
+  }
+
+  .articles-page__skeleton-row {
+    min-height: 104px;
+  }
+
+  @keyframes articles-page-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
   .articles-page__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -640,7 +747,8 @@
   }
 
   @media (max-width: 1100px) {
-    .articles-page__grid {
+    .articles-page__grid,
+    .articles-page__skeletons {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -668,7 +776,8 @@
   }
 
   @media (max-width: 560px) {
-    .articles-page__grid {
+    .articles-page__grid,
+    .articles-page__skeletons {
       grid-template-columns: 1fr;
     }
 

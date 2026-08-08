@@ -1205,12 +1205,18 @@
     color: var(--tm-text-primary);
     font-size: 15px;
     font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .top-mining__nav-heading-text {
+    line-height: 1.15;
   }
 
   .top-mining__nav-heading-link {
     display: block;
     color: inherit;
     text-decoration: none;
+    line-height: inherit;
   }
 
   .top-mining__nav-heading-arrow {
@@ -1325,6 +1331,7 @@
     .top-mining__nav-heading {
       margin-bottom: 12px;
       font-size: 14px;
+      line-height: 1.15;
     }
 
     .top-mining__nav-link {

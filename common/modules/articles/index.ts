@@ -1,8 +1,7 @@
 /**
- * Пакет articles — статьи: типы, fallback, TOC, просмотры.
+ * Пакет articles — статьи: типы, TOC, просмотры.
  * Barrel пакета.
  */
-export * from './fallback'
 export * from './from-rating'
 export * from './types'
 export * from './format'

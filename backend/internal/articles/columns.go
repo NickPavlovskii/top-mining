@@ -8,7 +8,7 @@ import (
 
 const previewColumns = `
     a.id, a.slug, a.title, a.excerpt,
-    COALESCE(cover.path, NULLIF(a.image_url, ''), ''),
+    COALESCE(NULLIF(cover.path, ''), NULLIF(a.image_url, ''), ''),
     COALESCE(NULLIF(cover.alt, ''), NULLIF(a.image_alt, ''), ''),
     a.topic_id,
     COALESCE(a.reading_minutes, a.reading_time_min),
