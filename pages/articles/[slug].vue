@@ -178,7 +178,7 @@
           </p>
 
           <div
-            v-if="article.imageUrl && !structuredSections && !isContentPending"
+            v-if="article.imageUrl && !isContentPending"
             class="article-page__cover"
           >
             <img
@@ -188,7 +188,7 @@
           </div>
 
           <article-sections
-            v-if="structuredSections"
+            v-if="structuredSections?.length"
             :sections="structuredSections"
           />
 
@@ -260,7 +260,9 @@
     formatArticleDate,
     readingTimeMinutes,
     isArticleContentPending,
+    plainContentToSections,
     recordArticleView,
+    sectionsHaveBody,
     sectionsToToc,
     splitArticleTitle,
   } from '~/common/modules/articles'
@@ -376,9 +378,15 @@
     }
   })
 
-  const structuredSections = computed(() =>
-    articleBlocksToSections(article.value?.blocks),
-  )
+  const structuredSections = computed(() => {
+    const fromBlocks = articleBlocksToSections(article.value?.blocks)
+    // Только заголовки без абзацев (как после 018) — берём текст из content.
+    if (fromBlocks?.length && sectionsHaveBody(fromBlocks)) {
+      return fromBlocks
+    }
+
+    return plainContentToSections(article.value?.content)
+  })
 
   const isContentPending = computed(() => {
     if (structuredSections.value?.length) {

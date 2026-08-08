@@ -10,10 +10,11 @@ export type ArticleContentLocale = {
 
 export const articleContentEn: Record<string, ArticleContentLocale> = {
   'blockchain-forum-2026-moscow': {
-    title: 'Blockchain Forum 2026 in Moscow, April 14–15',
+    title:
+      'Blockchain Forum 2026: The Global Crypto Industry Returns to Moscow, April 14–15',
     excerpt:
-      'The main industry event of the spring: agenda, speakers, and networking formats.',
-    imageAlt: 'Blockchain Forum 2026',
+      'April 14–15, 2026 in Moscow: Blockchain Forum 2026 unites CIS and global crypto markets. Promo code TOPMINING — 10% off.',
+    imageAlt: 'Blockchain Forum 2026 April',
   },
   'whatsminer-m70-line-review': {
     title: 'New Whatsminer M70 generation: full line review',
