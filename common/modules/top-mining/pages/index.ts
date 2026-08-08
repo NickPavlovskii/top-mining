@@ -4,6 +4,7 @@
  */
 export * from './increase-income'
 export { INCREASE_INCOME_PAGE_EN } from './increase-income-en'
+export * from './contacts'
 export * from './data-center-construction'
 export {
   DATA_CENTER_CALC_FOOTNOTE_EN,

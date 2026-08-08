@@ -1,9 +1,7 @@
-/**
- * Папка layout — оболочка сайта.
- * Ссылки колонок футера.
- */
+
 import { CATALOG_PAGE_HREF } from '../../catalog/nav/links'
 import { getCalculatorNavItemHref } from '../calculator/nav'
+import { CONTACTS_PAGE_PATH } from '../pages/contacts'
 
 export interface TopMiningFooterNavLink {
   label: string
@@ -23,7 +21,7 @@ export const TOP_MINING_FOOTER_MAIN_LINKS: TopMiningFooterNavLink[] = [
   { label: 'Рейтинги', href: '/rating/' },
   { label: 'Статьи', href: '/articles/' },
   { label: 'Каталог организаций', href: CATALOG_PAGE_HREF },
-  { label: 'Контакты', href: '#footer-contact-title' },
+  { label: 'Контакты', href: CONTACTS_PAGE_PATH },
 ]
 
 export const TOP_MINING_FOOTER_TELEGRAM_HREF = 'https://t.me/miningcalculator_bot'
