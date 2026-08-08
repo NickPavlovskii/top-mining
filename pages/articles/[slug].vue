@@ -262,6 +262,7 @@
     isArticleContentPending,
     plainContentToSections,
     recordArticleView,
+    sectionsAreHollow,
     sectionsHaveBody,
     sectionsToToc,
     splitArticleTitle,
@@ -380,12 +381,16 @@
 
   const structuredSections = computed(() => {
     const fromBlocks = articleBlocksToSections(article.value?.blocks)
-    // Только заголовки без абзацев (как после 018) — берём текст из content.
-    if (fromBlocks?.length && sectionsHaveBody(fromBlocks)) {
+    if (fromBlocks?.length && sectionsHaveBody(fromBlocks) && !sectionsAreHollow(fromBlocks)) {
       return fromBlocks
     }
 
-    return plainContentToSections(article.value?.content)
+    const fromPlain = plainContentToSections(article.value?.content)
+    if (fromPlain?.length && sectionsHaveBody(fromPlain) && !sectionsAreHollow(fromPlain)) {
+      return fromPlain
+    }
+
+    return null
   })
 
   const isContentPending = computed(() => {

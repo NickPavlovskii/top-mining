@@ -92,6 +92,21 @@ export function sectionsHaveBody(sections: ArticleSection[] | null | undefined):
   return sections.some((section) => section.blocks.length > 0)
 }
 
+/** Секции без текста под заголовками (stub html + headings). */
+export function sectionsAreHollow(sections: ArticleSection[] | null | undefined): boolean {
+  if (!sections?.length) {
+    return true
+  }
+
+  const withTitle = sections.filter((section) => section.title.trim())
+  if (!withTitle.length) {
+    return !sectionsHaveBody(sections)
+  }
+
+  const emptyHeadings = withTitle.filter((section) => section.blocks.length === 0).length
+  return emptyHeadings >= Math.ceil(withTitle.length / 2)
+}
+
 /** Plain/HTML content → секции с заголовками (как ArticleSections). */
 export function plainContentToSections(
   content: string | null | undefined,

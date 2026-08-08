@@ -185,19 +185,19 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 2, 'paragraph',
-       $p${"text":"Премьера серии Whatsminer M70 стала одним из самых ожидаемых событий индустрии оборудования для добычи Bitcoin. MicroBT впервые за два года представила крупное обновление, которое не просто расширяет модельный ряд, а меняет сам подход производителя к позиционированию устройств."}$p$::jsonb,
+       $tmj${"text":"Премьера серии Whatsminer M70 стала одним из самых ожидаемых событий индустрии оборудования для добычи Bitcoin. MicroBT впервые за два года представила крупное обновление, которое не просто расширяет модельный ряд, а меняет сам подход производителя к позиционированию устройств."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 3, 'paragraph',
-       $p${"text":"Линейка M70 демонстрирует стратегический переход компании от универсальных решений к четкому разделению по энергоэффективности и инфраструктурным потребностям."}$p$::jsonb,
+       $tmj${"text":"Линейка M70 демонстрирует стратегический переход компании от универсальных решений к четкому разделению по энергоэффективности и инфраструктурным потребностям."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 4, 'paragraph',
-       $p${"text":"Если предыдущие поколения Whatsminer отличались главным образом увеличением хешрейта, то серия M70 концентрируется на энергоэффективности, снижении эксплуатационных расходов и повышении плотности размещения. Ниже — подробный разбор всей линейки с учетом особенностей охлаждения, технических показателей, целевых сценариев и рыночных последствий."}$p$::jsonb,
+       $tmj${"text":"Если предыдущие поколения Whatsminer отличались главным образом увеличением хешрейта, то серия M70 концентрируется на энергоэффективности, снижении эксплуатационных расходов и повышении плотности размещения. Ниже — подробный разбор всей линейки с учетом особенностей охлаждения, технических показателей, целевых сценариев и рыночных последствий."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -209,25 +209,25 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 6, 'paragraph',
-       $p${"text":"Майнинг в 2026 году находится в точке, где технологическое развитие оборудования напрямую влияет на рентабельность. После халвинга нагрузка на инфраструктуру резко возросла, а доля дохода, зависящая от комиссий, остается переменной. Это значит, что выигрывают не те, кто наращивает мощности, а те, кто снижает стоимость вычислений."}$p$::jsonb,
+       $tmj${"text":"Майнинг в 2026 году находится в точке, где технологическое развитие оборудования напрямую влияет на рентабельность. После халвинга нагрузка на инфраструктуру резко возросла, а доля дохода, зависящая от комиссий, остается переменной. Это значит, что выигрывают не те, кто наращивает мощности, а те, кто снижает стоимость вычислений."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 7, 'paragraph',
-       $p${"text":"Именно в этот момент MicroBT выпускает поколение M70, делая ставку на:"}$p$::jsonb,
+       $tmj${"text":"Именно в этот момент MicroBT выпускает поколение M70, делая ставку на:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 8, 'list',
-       $p${"ordered":false,"items":["энергоэффективность как главный параметр конкурентоспособности","разделение оборудования по классам, чтобы покупатели могли выбирать устройства под стоимость электроэнергии, режимы охлаждения и плотность размещения","снижение расходов на инфраструктуру, благодаря увеличенному хешрейту на одно устройство","универсальность — разные форматы охлаждения без потери стабильности"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["энергоэффективность как главный параметр конкурентоспособности","разделение оборудования по классам, чтобы покупатели могли выбирать устройства под стоимость электроэнергии, режимы охлаждения и плотность размещения","снижение расходов на инфраструктуру, благодаря увеличенному хешрейту на одно устройство","универсальность — разные форматы охлаждения без потери стабильности"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 9, 'paragraph',
-       $p${"text":"Этот подход нацелен на то, чтобы сделать парк оборудования более устойчивым и экономически привлекательным в долгосрочной перспективе."}$p$::jsonb,
+       $tmj${"text":"Этот подход нацелен на то, чтобы сделать парк оборудования более устойчивым и экономически привлекательным в долгосрочной перспективе."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -239,85 +239,85 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 11, 'paragraph',
-       $p${"text":"В отличие от предыдущих поколений, серия M70 делится не просто по номерам моделей, а по классам энергоэффективности. Это ключевое отличие, формирующее удобную логику выбора."}$p$::jsonb,
+       $tmj${"text":"В отличие от предыдущих поколений, серия M70 делится не просто по номерам моделей, а по классам энергоэффективности. Это ключевое отличие, формирующее удобную логику выбора."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 12, 'paragraph',
-       $p${"text":"Класс 14,5 J/T — стабильность, прогнозируемость, низкая цена входа. Эта группа включает: Whatsminer M70, Whatsminer M72, Whatsminer M73, Whatsminer M76, Whatsminer M78, Whatsminer M79."}$p$::jsonb,
+       $tmj${"text":"Класс 14,5 J/T — стабильность, прогнозируемость, низкая цена входа. Эта группа включает: Whatsminer M70, Whatsminer M72, Whatsminer M73, Whatsminer M76, Whatsminer M78, Whatsminer M79."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 13, 'paragraph',
-       $p${"text":"Характер модели:"}'::jsonb,
+       $tmj${"text":"Характер модели:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 14, 'list',
-       $p${"ordered":false,"items":["оптимальный вариант для крупных парков с умеренной стоимостью электроэнергии","высокая надежность при стабильных показателях производительности","отсутствие требований к сложной инфраструктуре","идеальный выбор для тех, кто работает не первый год и ищет баланс в цене и мощности"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["оптимальный вариант для крупных парков с умеренной стоимостью электроэнергии","высокая надежность при стабильных показателях производительности","отсутствие требований к сложной инфраструктуре","идеальный выбор для тех, кто работает не первый год и ищет баланс в цене и мощности"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 15, 'paragraph',
-       $p${"text":"Этот класс можно назвать «рабочей лошадкой» серии — он масштабируется лучше всего и подходит для больших ферм."}$p$::jsonb,
+       $tmj${"text":"Этот класс можно назвать «рабочей лошадкой» серии — он масштабируется лучше всего и подходит для больших ферм."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 16, 'paragraph',
-       $p${"text":"Класс 13,5 J/T — золотая середина и оптимизация под дата-центры. В эту группу входят: Whatsminer M70S, Whatsminer M72S, Whatsminer M73S, Whatsminer M76S, Whatsminer M78S, Whatsminer M79S."}$p$::jsonb,
+       $tmj${"text":"Класс 13,5 J/T — золотая середина и оптимизация под дата-центры. В эту группу входят: Whatsminer M70S, Whatsminer M72S, Whatsminer M73S, Whatsminer M76S, Whatsminer M78S, Whatsminer M79S."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 17, 'paragraph',
-       $p${"text":"Преимущества этого класса:"}'::jsonb,
+       $tmj${"text":"Преимущества этого класса:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 18, 'list',
-       $p${"ordered":false,"items":["энергоэффективность выше","часто используется майнинг-отелями и операторами ЦОД благодаря выгодному соотношению стоимости электроэнергии и производительности","подходит под любые схемы охлаждения"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["энергоэффективность выше","часто используется майнинг-отелями и операторами ЦОД благодаря выгодному соотношению стоимости электроэнергии и производительности","подходит под любые схемы охлаждения"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 19, 'paragraph',
-       $p${"text":"Этот класс станет самым массовым благодаря тому, что сочетает высокую экономичность и умеренную цену."}$p$::jsonb,
+       $tmj${"text":"Этот класс станет самым массовым благодаря тому, что сочетает высокую экономичность и умеренную цену."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 20, 'paragraph',
-       $p${"text":"Класс 12,5 J/T — максимальная эффективность на рынке. Топовые модели серии: Whatsminer M70S+, Whatsminer M73S+, Whatsminer M76S+."}$p$::jsonb,
+       $tmj${"text":"Класс 12,5 J/T — максимальная эффективность на рынке. Топовые модели серии: Whatsminer M70S+, Whatsminer M73S+, Whatsminer M76S+."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 21, 'paragraph',
-       $p${"text":"Задача — обеспечить минимальное потребление на 1 TH при высокой плотности хешрейта. Это прямые конкуренты флагманов Bitmain."}$p$::jsonb,
+       $tmj${"text":"Задача — обеспечить минимальное потребление на 1 TH при высокой плотности хешрейта. Это прямые конкуренты флагманов Bitmain."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 22, 'paragraph',
-       $p${"text":"Кому подходит:"}'::jsonb,
+       $tmj${"text":"Кому подходит:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 23, 'list',
-       $p${"ordered":false,"items":["регионам с высокой стоимостью электроэнергии","дата-центрам, работающим с плотным размещением","инвесторам, где важен длительный жизненный цикл оборудования и низкий OPEX"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["регионам с высокой стоимостью электроэнергии","дата-центрам, работающим с плотным размещением","инвесторам, где важен длительный жизненный цикл оборудования и низкий OPEX"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 24, 'paragraph',
-       $p${"text":"Эти устройства показательно демонстрируют технологический скачок MicroBT — впервые Whatsminer достигает показателей, которые ранее были доступны только в моделях Antminer."}$p$::jsonb,
+       $tmj${"text":"Эти устройства показательно демонстрируют технологический скачок MicroBT — впервые Whatsminer достигает показателей, которые ранее были доступны только в моделях Antminer."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -329,43 +329,43 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 26, 'paragraph',
-       $p${"text":"Одним из ключевых преимуществ серии M70 стало расширение вариантов размещения. Теперь каждый класс энергоэффективности имеет модели в различных форматах охлаждения."}$p$::jsonb,
+       $tmj${"text":"Одним из ключевых преимуществ серии M70 стало расширение вариантов размещения. Теперь каждый класс энергоэффективности имеет модели в различных форматах охлаждения."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 27, 'paragraph',
-       $p${"text":"Воздушное охлаждение, преимущества:"}'::jsonb,
+       $tmj${"text":"Воздушное охлаждение, преимущества:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 28, 'list',
-       $p${"ordered":false,"items":["низкая стоимость внедрения","простота обслуживания","минимальные требования к инфраструктуре","диапазон мощности: 214–300 TH/s"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["низкая стоимость внедрения","простота обслуживания","минимальные требования к инфраструктуре","диапазон мощности: 214–300 TH/s"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 29, 'paragraph',
-       $p${"text":"Иммерсионное охлаждение, преимущества:"}'::jsonb,
+       $tmj${"text":"Иммерсионное охлаждение, преимущества:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 30, 'list',
-       $p${"ordered":false,"items":["возможность разгона","снижение уровня шума","высокая плотность размещения","диапазон мощности: 336–522 TH/s"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["возможность разгона","снижение уровня шума","высокая плотность размещения","диапазон мощности: 336–522 TH/s"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 31, 'paragraph',
-       $p${"text":"Гидроохлаждение, преимущества:"}'::jsonb,
+       $tmj${"text":"Гидроохлаждение, преимущества:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 32, 'list',
-       $p${"ordered":false,"items":["стабильная работа даже под максимальной нагрузкой","рекордная производительность — до 930–1040 TH/s для M79S","удобство установки в стоечных ЦОД","одна из самых мощных моделей в мире"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["стабильная работа даже под максимальной нагрузкой","рекордная производительность — до 930–1040 TH/s для M79S","удобство установки в стоечных ЦОД","одна из самых мощных моделей в мире"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -377,19 +377,19 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 34, 'paragraph',
-       $p${"text":"Помимо энергоэффективности и вариантов охлаждения, устройства получили:"}'::jsonb,
+       $tmj${"text":"Помимо энергоэффективности и вариантов охлаждения, устройства получили:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 35, 'list',
-       $p${"ordered":false,"items":["обновленную архитектуру платы, которая лучше отводит тепло и обеспечивает стабильность работы","улучшенную систему питания с защитой от скачков напряжения","модульную конструкцию, упрощающую ремонт","увеличенную плотность чипов нового поколения"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["обновленную архитектуру платы, которая лучше отводит тепло и обеспечивает стабильность работы","улучшенную систему питания с защитой от скачков напряжения","модульную конструкцию, упрощающую ремонт","увеличенную плотность чипов нового поколения"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 36, 'paragraph',
-       $p${"text":"MicroBT делает ставку на минимизацию потерь и повышение технологической надежности — именно это определяет срок службы асика после халвинга."}$p$::jsonb,
+       $tmj${"text":"MicroBT делает ставку на минимизацию потерь и повышение технологической надежности — именно это определяет срок службы асика после халвинга."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -401,13 +401,13 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 38, 'paragraph',
-       $p${"text":"Новая линейка изменит рынок сразу по нескольким направлениям:"}'::jsonb,
+       $tmj${"text":"Новая линейка изменит рынок сразу по нескольким направлениям:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 39, 'list',
-       $p${"ordered":false,"items":["Усилится конкуренция с Bitmain. Показатели 12,5 J/T позволят MicroBT вернуть позиции на премиальном сегменте, который Bitmain доминировал последние два года.","Растет хешрейт сети Bitcoin. Модели типа M79S фактически заменяют кластеры из 2–3 устройств предыдущих поколений.","Операторы будут ускоренно обновлять парк оборудования. Особенно после роста стоимости электроэнергии в ряде регионов.","Стоимость инфраструктуры снизится. Благодаря высокой мощности на один корпус.","Изменится структура дата-центров. Ставка на плотность заставит площадки переходить на иммерсию или гидру."]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["Усилится конкуренция с Bitmain. Показатели 12,5 J/T позволят MicroBT вернуть позиции на премиальном сегменте, который Bitmain доминировал последние два года.","Растет хешрейт сети Bitcoin. Модели типа M79S фактически заменяют кластеры из 2–3 устройств предыдущих поколений.","Операторы будут ускоренно обновлять парк оборудования. Особенно после роста стоимости электроэнергии в ряде регионов.","Стоимость инфраструктуры снизится. Благодаря высокой мощности на один корпус.","Изменится структура дата-центров. Ставка на плотность заставит площадки переходить на иммерсию или гидру."]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -419,24 +419,24 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 41, 'paragraph',
-       $p${"text":"Новая линейка MicroBT — это не просто очередное обновление, а разворот всей продуктовой стратегии компании."}$p$::jsonb,
+       $tmj${"text":"Новая линейка MicroBT — это не просто очередное обновление, а разворот всей продуктовой стратегии компании."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 42, 'paragraph',
-       $p${"text":"Серия M70:"}'::jsonb,
+       $tmj${"text":"Серия M70:"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 43, 'list',
-       $p${"ordered":false,"items":["впервые делится по энергоэффективности (14,5 / 13,5 / 12,5 J/T)","предлагает полный набор форматов охлаждения (воздух, иммерсия, гидра)","позволяет операторам выбирать устройства под стоимость электроэнергии","делает упор на минимизацию OPEX","выводит MicroBT на уровень конкуренции с флагманами Bitmain","формирует новую планку плотности хешрейта — до 1 PH/s"]}$p$::jsonb,
+       $tmj${"ordered":false,"items":["впервые делится по энергоэффективности (14,5 / 13,5 / 12,5 J/T)","предлагает полный набор форматов охлаждения (воздух, иммерсия, гидра)","позволяет операторам выбирать устройства под стоимость электроэнергии","делает упор на минимизацию OPEX","выводит MicroBT на уровень конкуренции с флагманами Bitmain","формирует новую планку плотности хешрейта — до 1 PH/s"]}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 44, 'paragraph',
-       $p${"text":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка."}$p$::jsonb,
+       $tmj${"text":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';

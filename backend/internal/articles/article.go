@@ -67,8 +67,11 @@ func (r *Repository) BySlug(ctx context.Context, slug string) (*Article, error) 
 	}
 	if article.UsesBlocks {
 		article.Blocks = blocks
-		if assembled := AssembleContentFromBlocks(blocks); assembled != "" {
-			article.Content = assembled
+		// Не затираем text/content одними heading-блоками (как после 018).
+		if BlocksHaveBody(blocks) {
+			if assembled := AssembleContentFromBlocks(blocks); assembled != "" {
+				article.Content = assembled
+			}
 		}
 	}
 
