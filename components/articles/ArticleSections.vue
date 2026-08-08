@@ -208,6 +208,20 @@
     color: #0f3fcf;
   }
 
+  .article-sections__paragraph :deep(strong) {
+    font-weight: 700;
+  }
+
+  .article-sections__paragraph :deep(ul) {
+    margin: 0 0 8px;
+    padding-left: 1.25em;
+    list-style-type: disc;
+  }
+
+  .article-sections__paragraph :deep(li) {
+    margin-bottom: 8px;
+  }
+
   .article-sections__list {
     margin: 0 0 22px;
     padding-left: 1.25em;
