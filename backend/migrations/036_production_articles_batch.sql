@@ -1,6 +1,934 @@
 SET client_encoding = 'UTF8';
 
 -- =====================================================================
+-- 036_production_articles_batch.sql
+-- Пакет production-статей + скрытие stub-ов.
+-- (ранее: 036 + 037 + 038 + 040 + 041)
+-- =====================================================================
+
+-- Типы блоков rich_list / stats / pros_cons (раньше не были в 018).
+INSERT INTO article_block_types (slug, title, payload_doc) VALUES
+    (
+        'rich_list',
+        'Список с заголовками',
+        '{ "ordered": true, "items": [{ "title": "...", "text": "..." }] }'
+    ),
+    (
+        'stats',
+        'Таблица характеристик',
+        '{ "rows": [{ "label": "...", "value": "..." }] }'
+    ),
+    (
+        'pros_cons',
+        'Плюсы и минусы',
+        '{ "pros": ["..."], "cons": ["..."] }'
+    )
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    payload_doc = EXCLUDED.payload_doc;
+
+-- ---------------------------------------------------------------------
+-- Майнинг в России: новые правила 2025 (ex-036)
+-- ---------------------------------------------------------------------
+
+-- =====================================================================
+-- 036_mining_rules_russia_2025_article.sql
+-- Статья «Майнинг в России: новые правила 2025 года»
+-- Источник: https://top-mining.ru/mining/majning-v-rossii-novye-pravila-2025-goda/
+-- =====================================================================
+
+INSERT INTO media_assets (path, alt, source)
+VALUES
+    (
+        '/images/articles/mining-rules-2025/cover.jpg',
+        'Майнинг в России: новые правила 2025 года',
+        'article_cover'
+    ),
+    (
+        '/images/articles/mining-rules-2025/taxes.jpg',
+        'Учет, налоги и отчетность в майнинге',
+        'article'
+    )
+ON CONFLICT (path) DO UPDATE SET alt = EXCLUDED.alt;
+
+INSERT INTO articles (
+    slug, title, title_subtitle, excerpt, content, topic_id,
+    reading_time_min, reading_minutes, published_at, view_count,
+    display_type, sort_order, is_published, uses_blocks,
+    image_url, image_alt
+) VALUES (
+    'majning-v-rossii-novye-pravila-2025-goda',
+    'Майнинг в России',
+    'Новые правила 2025 года',
+    $excerpt$С начала 2025 года в России вступили в силу законодательные изменения, регулирующие майнинг криптовалют. Разбор ключевых положений закона, налогов, ограничений и последствий для рынка.$excerpt$,
+    $content$Введение
+
+С начала 2025 года в России вступили в силу законодательные изменения, регулирующие деятельность в сфере майнинга криптовалют. Обновленные нормы налогообложения и юридические условия теперь официально признают криптодобычу как легальную, но строго контролируемую сферу. Ниже – разбор ключевых положений закона и его влияния на рынок.
+
+Что представляет собой майнинг
+
+Майнинг – это вычислительный процесс, в ходе которого специализированные устройства решают криптографические задачи и вносят новые данные в блокчейн-системы. В качестве вознаграждения участники получают цифровую валюту. Несмотря на многолетнее существование майнинга в России, до последнего времени он находился в правовом «сером поле».
+
+По по мнению многих экспертов, необходимость в правовом урегулировании возникла давно. Юристы подчеркивают, что добросовестные участники рынка сталкивались с отказами ФНС в вычетах по НДС при импорте оборудования, что осложняло ведение бизнеса.
+
+Закон о майнинге в России 2025 года: основные положения
+
+Новый закон детализирует, кто и на каких условиях может заниматься майнингом, а также как должна происходить налогооблагаемая и регистрационная деятельность.
+
+Для физических лиц:
+
+Разрешена работа с криптобиржами и цифровыми кошельками;
+Майнинг допускается без регистрации в специальном реестре, если объемы потребления электроэнергии не превышают 6 000 кВт·ч в месяц;
+Снята ранее обсуждаемая норма о запрете оборота криптовалют в стране.
+
+Для юридических лиц и ИП:
+
+Разрешены покупка и добыча криптовалют при условии включения в государственный реестр майнеров (ФНС);
+Бизнес может выступать в роли оператора майнинговых площадок при официальной регистрации;
+Прямое использование криптовалюты в расчетах за товары и услуги запрещено, кроме случаев вознаграждения самих майнеров или инфраструктурных операторов.
+
+Ограничения и запреты легального майнинга в РФ
+
+Некоторым категориям лиц и организациям майнинг запрещен:
+
+ИП с непогашенной судимостью по ряду экономических или тяжких преступлений;
+Субъекты, находящиеся в санкционных или террористических списках;
+Энергетические компании и организации, управляющие электросетями.
+
+Кроме того, с 2025 года майнинг запрещен в 10 регионах, включая республики Северного Кавказа, Донбасс, Херсонскую и Запорожскую области. В некоторых сибирских регионах майнинг ограничен в периоды пикового потребления электричества, с января по март.
+
+Учет, налоги и отчетность
+
+Для физических лиц:
+
+Все сделки с криптовалютой должны быть задокументированы;
+Необходимо подавать декларацию 3-НДФЛ до 30 апреля следующего года;
+Прибыль от операций облагается НДФЛ по ставке 13% (до 2,4 млн руб. в год) и 15% при превышении этого порога;
+При майнинге ставка налога может достигать 22%.
+
+Важно: убыток от продажи монет освобождает от уплаты налога.
+
+Для юридических лиц:
+
+Необходимо включить криптовалюту в учетную политику;
+Курсовая стоимость криптовалюты фиксируется на дату операции;
+Все транзакции документируются с привязкой к блокчейн-адресам;
+Ставка налога на прибыль составляет 25% с 2025 года (ранее — 20%).
+
+Компании и ИП, использующие УСН, ЕСХН или НПД, не могут применять эти режимы, если занимаются эмиссией и продажей криптовалют. В таких случаях допускается только общая система налогообложения.
+
+Требования к регистрации и прозрачности
+
+Участники рынка обязаны:
+
+Встать на учет в Майнинг-реестре ФНС;
+Отчитываться о добытых активах и адресах-идентификаторах;
+Предоставлять информацию по запросу госорганов, включая ФСБ и Росфинмониторинг;
+Дополнительно, с сентября 2024 года президент разрешил использовать криптовалюту во внешнеэкономической деятельности в рамках правового эксперимента. Центробанк займется разработкой платформы для таких расчетов на базе национальной платежной системы.
+
+Последствия для рынка: плюсы и риски
+
+Возможные положительные эффекты:
+
+Легализация и упорядочивание индустрии;
+Вывод «серого» майнинга из тени, снижение нагрузки на энергосистему;
+Прозрачные условия для крупных инвесторов;
+Возможность международных расчетов.
+
+По мнению экспертов, новые правила упрощают работу крупным майнинг-компаниям, тогда как малому бизнесу, скорее всего, придется объединяться в пулы или делегировать часть функций операторам.
+
+Потенциальные минусы легализации майнинга в России:
+
+Банки могут блокировать счета клиентов, совершающих операции с криптовалютами;
+Повышенная нагрузка на административные ресурсы малого и среднего бизнеса.
+
+Новые правила майнинга в России: выводы
+
+С 2025 года майнинг в России получил официальное признание, но лишь в обмен на обязательную отчетность, налоговую дисциплину и строгий контроль. Эти меры создают благоприятную среду для масштабного бизнеса, при этом повышая барьер входа для начинающих игроков. При грамотной реализации, закон способен преобразовать крипторынок России в стабильный и прозрачный сегмент экономики.
+$content$,
+    'mining',
+    7,
+    7,
+    '2025-06-10',
+    486,
+    'list',
+    20,
+    TRUE,
+    TRUE,
+    '/images/articles/mining-rules-2025/cover.jpg',
+    'Майнинг в России: новые правила 2025 года'
+)
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    title_subtitle = EXCLUDED.title_subtitle,
+    excerpt = EXCLUDED.excerpt,
+    content = EXCLUDED.content,
+    topic_id = EXCLUDED.topic_id,
+    reading_time_min = EXCLUDED.reading_time_min,
+    reading_minutes = EXCLUDED.reading_minutes,
+    published_at = EXCLUDED.published_at,
+    view_count = EXCLUDED.view_count,
+    display_type = EXCLUDED.display_type,
+    sort_order = EXCLUDED.sort_order,
+    uses_blocks = TRUE,
+    image_url = EXCLUDED.image_url,
+    image_alt = EXCLUDED.image_alt,
+    is_published = TRUE;
+
+UPDATE articles a
+SET cover_media_id = m.id
+FROM media_assets m
+WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda'
+  AND m.path = '/images/articles/mining-rules-2025/cover.jpg';
+
+DELETE FROM article_blocks
+WHERE article_id = (
+    SELECT id FROM articles WHERE slug = 'majning-v-rossii-novye-pravila-2025-goda'
+);
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 1, 'heading',
+       '{"level":2,"text":"Введение"}'::jsonb,
+       'intro'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 2, 'paragraph',
+       $tmj${"text":"С начала 2025 года в России вступили в силу законодательные изменения, регулирующие деятельность в сфере майнинга криптовалют. Обновленные нормы налогообложения и юридические условия теперь официально признают криптодобычу как легальную, но строго контролируемую сферу. Ниже – разбор ключевых положений закона и его влияния на рынок."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 3, 'heading',
+       '{"level":2,"text":"Что представляет собой майнинг"}'::jsonb,
+       'what-is-mining'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 4, 'paragraph',
+       $tmj${"text":"Майнинг – это вычислительный процесс, в ходе которого специализированные устройства решают криптографические задачи и вносят новые данные в блокчейн-системы. В качестве вознаграждения участники получают цифровую валюту. Несмотря на многолетнее существование майнинга в России, до последнего времени он находился в правовом «сером поле»."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 5, 'paragraph',
+       $tmj${"text":"По по мнению многих экспертов, необходимость в правовом урегулировании возникла давно. Юристы подчеркивают, что добросовестные участники рынка сталкивались с отказами ФНС в вычетах по НДС при импорте оборудования, что осложняло ведение бизнеса."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 6, 'image',
+       $tmj${"src":"/images/articles/mining-rules-2025/cover.jpg","alt":"Майнинг в России: законодательное регулирование"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 7, 'heading',
+       '{"level":2,"text":"Закон о майнинге в России 2025 года: основные положения"}'::jsonb,
+       'law-basics'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 8, 'paragraph',
+       $tmj${"text":"Новый закон детализирует, кто и на каких условиях может заниматься майнингом, а также как должна происходить налогооблагаемая и регистрационная деятельность."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 9, 'paragraph',
+       $tmj${"text":"Для физических лиц:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 10, 'list',
+       $tmj${"ordered":false,"items":["Разрешена работа с криптобиржами и цифровыми кошельками;","Майнинг допускается без регистрации в специальном реестре, если объемы потребления электроэнергии не превышают 6 000 кВт·ч в месяц;","Снята ранее обсуждаемая норма о запрете оборота криптовалют в стране."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 11, 'paragraph',
+       $tmj${"text":"Для юридических лиц и ИП:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 12, 'list',
+       $tmj${"ordered":false,"items":["Разрешены покупка и добыча криптовалют при условии включения в государственный реестр майнеров (ФНС);","Бизнес может выступать в роли оператора майнинговых площадок при официальной регистрации;","Прямое использование криптовалюты в расчетах за товары и услуги запрещено, кроме случаев вознаграждения самих майнеров или инфраструктурных операторов."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 13, 'heading',
+       '{"level":2,"text":"Ограничения и запреты легального майнинга в РФ"}'::jsonb,
+       'restrictions'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 14, 'paragraph',
+       $tmj${"text":"Некоторым категориям лиц и организациям майнинг запрещен:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 15, 'rich_list',
+       $tmj${"ordered":true,"items":[{"title":"ИП с непогашенной судимостью по ряду экономических или тяжких преступлений","text":""},{"title":"Субъекты, находящиеся в санкционных или террористических списках","text":""},{"title":"Энергетические компании и организации, управляющие электросетями","text":""}]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 16, 'paragraph',
+       $tmj${"text":"Кроме того, с 2025 года майнинг запрещен в 10 регионах, включая республики Северного Кавказа, Донбасс, Херсонскую и Запорожскую области. В некоторых сибирских регионах майнинг ограничен в периоды пикового потребления электричества, с января по март."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 17, 'heading',
+       '{"level":2,"text":"Учет, налоги и отчетность"}'::jsonb,
+       'taxes'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 18, 'paragraph',
+       $tmj${"text":"Для физических лиц:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 19, 'list',
+       $tmj${"ordered":false,"items":["Все сделки с криптовалютой должны быть задокументированы;","Необходимо подавать декларацию 3-НДФЛ до 30 апреля следующего года;","Прибыль от операций облагается НДФЛ по ставке 13% (до 2,4 млн руб. в год) и 15% при превышении этого порога;","При майнинге ставка налога может достигать 22%."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 20, 'paragraph',
+       $tmj${"text":"Важно: убыток от продажи монет освобождает от уплаты налога."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 21, 'paragraph',
+       $tmj${"text":"Для юридических лиц:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 22, 'list',
+       $tmj${"ordered":false,"items":["Необходимо включить криптовалюту в учетную политику;","Курсовая стоимость криптовалюты фиксируется на дату операции;","Все транзакции документируются с привязкой к блокчейн-адресам;","Ставка налога на прибыль составляет 25% с 2025 года (ранее — 20%)."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 23, 'paragraph',
+       $tmj${"text":"Компании и ИП, использующие УСН, ЕСХН или НПД, не могут применять эти режимы, если занимаются эмиссией и продажей криптовалют. В таких случаях допускается только общая система налогообложения."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 24, 'image',
+       $tmj${"src":"/images/articles/mining-rules-2025/taxes.jpg","alt":"Учет, налоги и отчетность в майнинге"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 25, 'heading',
+       '{"level":2,"text":"Требования к регистрации и прозрачности"}'::jsonb,
+       'registration'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 26, 'paragraph',
+       $tmj${"text":"Участники рынка обязаны:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 27, 'rich_list',
+       $tmj${"ordered":true,"items":[{"title":"Встать на учет в Майнинг-реестре ФНС","text":""},{"title":"Отчитываться о добытых активах и адресах-идентификаторах","text":""},{"title":"Предоставлять информацию по запросу госорганов, включая ФСБ и Росфинмониторинг","text":""},{"title":"Дополнительно, с сентября 2024 года президент разрешил использовать криптовалюту во внешнеэкономической деятельности в рамках правового эксперимента","text":"Центробанк займется разработкой платформы для таких расчетов на базе национальной платежной системы."}]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 28, 'heading',
+       '{"level":2,"text":"Последствия для рынка: плюсы и риски"}'::jsonb,
+       'market-impact'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 29, 'paragraph',
+       $tmj${"text":"Возможные положительные эффекты:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 30, 'list',
+       $tmj${"ordered":false,"items":["Легализация и упорядочивание индустрии;","Вывод «серого» майнинга из тени, снижение нагрузки на энергосистему;","Прозрачные условия для крупных инвесторов;","Возможность международных расчетов."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 31, 'paragraph',
+       $tmj${"text":"По мнению экспертов, новые правила упрощают работу крупным майнинг-компаниям, тогда как малому бизнесу, скорее всего, придется объединяться в пулы или делегировать часть функций операторам."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 32, 'paragraph',
+       $tmj${"text":"Потенциальные минусы легализации майнинга в России:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 33, 'list',
+       $tmj${"ordered":false,"items":["Банки могут блокировать счета клиентов, совершающих операции с криптовалютами;","Повышенная нагрузка на административные ресурсы малого и среднего бизнеса."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 34, 'heading',
+       '{"level":2,"text":"Новые правила майнинга в России: выводы"}'::jsonb,
+       'conclusion'
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 35, 'paragraph',
+       $tmj${"text":"С 2025 года майнинг в России получил официальное признание, но лишь в обмен на обязательную отчетность, налоговую дисциплину и строгий контроль. Эти меры создают благоприятную среду для масштабного бизнеса, при этом повышая барьер входа для начинающих игроков. При грамотной реализации, закон способен преобразовать крипторынок России в стабильный и прозрачный сегмент экономики."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-rossii-novye-pravila-2025-goda';
+
+
+-- ---------------------------------------------------------------------
+-- Blockchain Life 2025 Dubai (ex-037)
+-- ---------------------------------------------------------------------
+
+-- =====================================================================
+-- 037_blockchain_life_2025_dubai_article.sql
+-- Форум Blockchain Life 2025 в Дубае (Akon AfterParty) — 1:1 с production.
+-- Источник:
+-- https://top-mining.ru/mining/forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon/
+-- =====================================================================
+
+INSERT INTO media_assets (path, alt, source)
+VALUES
+    (
+        '/images/articles/blockchain-life-2025-dubai/banner.jpg',
+        'Blockchain Life 2025 Dubai',
+        'article_cover'
+    ),
+    (
+        '/images/articles/blockchain-life-2025.jpg',
+        'Blockchain Life 2025 Dubai',
+        'article_cover'
+    )
+ON CONFLICT (path) DO UPDATE SET alt = EXCLUDED.alt;
+
+INSERT INTO articles (
+    slug, title, title_subtitle, excerpt, content, topic_id,
+    reading_time_min, reading_minutes, published_at, view_count,
+    display_type, sort_order, is_published, uses_blocks,
+    image_url, image_alt
+) VALUES (
+    'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon',
+    'Форум Blockchain Life 2025 в Дубае',
+    'С эксклюзивным сетом на официальной AfterParty выступит легендарный Akon',
+    $excerpt$28–29 октября в Дубае состоится Blockchain Life 2025. На официальной AfterParty в Soho Garden DXB выступит Akon. Билеты со скидкой 10% по промокоду TOPMINING.$excerpt$,
+    $content$28–29 октября в Дубае состоится долгожданное мировое криптособытие — Blockchain Life 2025. Прямо накануне буллрана, Форум объединит более 15 000 участников из 130+ стран, включая лидеров рынка, топ-менеджеров крупнейших компаний и главных медийных лиц индустрии.
+
+Кульминацией события станет легендарная Afterparty, которая состоится в одном из лучших клубов мира - Soho Garden DXB. Гостей вечера ждёт премиальный нетворкинг с более чем 1300 VIP-участниками, включая спикеров форума, а также угощения, шоу-программа и бар — всё включено.
+
+Главным событием вечера станет эксклюзивный сет мировой суперзвезды Akon, чьё выступление сделает юбилейный 15-й Blockchain Life по-настоящему незабываемым.
+
+Напомним, что в числе подтвержденных участников форума уже заявлены: OKX, Bybit, KuCoin, HTX, Bitget, BingX, Ledger, Tron, Trust Wallet, MEXC,Bitmain, Canaan, A7A5, Uminers и многие другие.
+
+Узнайте больше и покупайте билеты с 10% скидкой по промокоду TOPMINING.
+$content$,
+    'mining',
+    2,
+    2,
+    '2025-09-30',
+    179,
+    'featured',
+    5,
+    TRUE,
+    TRUE,
+    '/images/articles/blockchain-life-2025-dubai/banner.jpg',
+    'Blockchain Life 2025 Dubai'
+)
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    title_subtitle = EXCLUDED.title_subtitle,
+    excerpt = EXCLUDED.excerpt,
+    content = EXCLUDED.content,
+    topic_id = EXCLUDED.topic_id,
+    reading_time_min = EXCLUDED.reading_time_min,
+    reading_minutes = EXCLUDED.reading_minutes,
+    published_at = EXCLUDED.published_at,
+    view_count = EXCLUDED.view_count,
+    display_type = EXCLUDED.display_type,
+    sort_order = EXCLUDED.sort_order,
+    uses_blocks = TRUE,
+    image_url = EXCLUDED.image_url,
+    image_alt = EXCLUDED.image_alt,
+    is_published = TRUE;
+
+UPDATE articles a
+SET cover_media_id = m.id
+FROM media_assets m
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon'
+  AND m.path = '/images/articles/blockchain-life-2025-dubai/banner.jpg';
+
+-- Старый stub из 002 — скрываем, чтобы не дублировать карточку.
+UPDATE articles
+SET is_published = FALSE
+WHERE slug = 'blockchain-life-2025-afterparty';
+
+DELETE FROM article_blocks
+WHERE article_id = (
+    SELECT id FROM articles
+    WHERE slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon'
+);
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 1, 'paragraph',
+       $tmj${"text":"28–29 октября в Дубае состоится долгожданное мировое криптособытие — Blockchain Life 2025. Прямо накануне буллрана, Форум объединит более 15 000 участников из 130+ стран, включая лидеров рынка, топ-менеджеров крупнейших компаний и главных медийных лиц индустрии.","html":"28–29 октября в Дубае состоится долгожданное мировое криптособытие — <a href=\"https://blockchain-life.com/?utm_medium=referral&amp;utm_source=top-mining.ru&amp;utm_campaign=topmining#tickets-row\"><strong>Blockchain Life 2025</strong></a>. Прямо накануне буллрана, Форум объединит более 15 000 участников из 130+ стран, включая лидеров рынка, топ-менеджеров крупнейших компаний и главных медийных лиц индустрии."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 2, 'paragraph',
+       $tmj${"text":"Кульминацией события станет легендарная Afterparty, которая состоится в одном из лучших клубов мира - Soho Garden DXB. Гостей вечера ждёт премиальный нетворкинг с более чем 1300 VIP-участниками, включая спикеров форума, а также угощения, шоу-программа и бар — всё включено.","html":"Кульминацией события станет <strong>легендарная Afterparty</strong>, которая состоится в одном из лучших клубов мира - <strong>Soho Garden DXB.</strong> Гостей вечера ждёт премиальный нетворкинг с более чем 1300 VIP-участниками, включая спикеров форума, а также угощения, шоу-программа и бар — всё включено."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 3, 'paragraph',
+       $tmj${"text":"Главным событием вечера станет эксклюзивный сет мировой суперзвезды Akon, чьё выступление сделает юбилейный 15-й Blockchain Life по-настоящему незабываемым.","html":"Главным событием вечера станет <strong>эксклюзивный сет мировой суперзвезды Akon</strong>, чьё выступление сделает юбилейный 15-й Blockchain Life по-настоящему незабываемым."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 4, 'paragraph',
+       $tmj${"text":"Напомним, что в числе подтвержденных участников форума уже заявлены: OKX, Bybit, KuCoin, HTX, Bitget, BingX, Ledger, Tron, Trust Wallet, MEXC,Bitmain, Canaan, A7A5, Uminers и многие другие.","html":"Напомним, что в числе подтвержденных участников форума уже заявлены: <strong>OKX, Bybit, KuCoin, HTX, Bitget, BingX, Ledger, Tron, Trust Wallet, MEXC,Bitmain, Canaan, A7A5, Uminers и многие другие</strong>."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 5, 'paragraph',
+       $tmj${"text":"Узнайте больше и покупайте билеты с 10% скидкой по промокоду TOPMINING.","html":"Узнайте больше и <a href=\"https://blockchain-life.com/?utm_medium=referral&amp;utm_source=top-mining.ru&amp;utm_campaign=topmining#tickets-row\">покупайте билеты с 10% скидкой</a> по промокоду TOPMINING."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 6, 'image',
+       $tmj${"src":"/images/articles/blockchain-life-2025-dubai/banner.jpg","alt":"Blockchain Life 2025 Dubai — баннер форума"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'forum-blockchain-life-2025-v-dubae-s-eksklyuzivnym-setom-na-oficzialnoj-afterparty-vystupit-legendarnyj-akon';
+
+
+-- ---------------------------------------------------------------------
+-- Налоги / декларация (ex-038)
+-- ---------------------------------------------------------------------
+
+-- =====================================================================
+-- 038_mining_tax_articles_2025.sql
+-- 1) Майнинг и налоги в России в 2025 году: новости от ФНС
+--    https://top-mining.ru/mining/majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns/
+-- 2) Сдача первой декларации по налогу на прибыль для юр. лиц
+--    https://top-mining.ru/mining/sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu/
+-- Статья «новые правила 2025» уже в 036_mining_rules_russia_2025_article.sql
+-- =====================================================================
+
+INSERT INTO media_assets (path, alt, source)
+VALUES
+    ('/images/articles/mining-taxes-fns-2025/cover.jpg', 'Майнинг и налоги в России в 2025 году', 'article_cover'),
+    ('/images/articles/mining-taxes-fns-2025/quote-rates.jpg', 'Котировки ФНС для расчета налогов по майнингу', 'article'),
+    ('/images/articles/mining-taxes-fns-2025/tax-rates.jpg', 'Ставки налога на майнинг в РФ', 'article'),
+    ('/images/articles/mining-profit-tax-declaration-2025/cover.png', 'Декларация по налогу на прибыль для майнеров', 'article_cover'),
+    ('/images/articles/mining-profit-tax-declaration-2025/fns-screenshot.jpg', 'Раздел ФНС для майнеров', 'article')
+ON CONFLICT (path) DO UPDATE SET alt = EXCLUDED.alt;
+
+-- ---------------------------------------------------------------------
+-- Статья 1: новости от ФНС
+-- ---------------------------------------------------------------------
+INSERT INTO articles (
+    slug, title, title_subtitle, excerpt, content, topic_id,
+    reading_time_min, reading_minutes, published_at, view_count,
+    display_type, sort_order, is_published, uses_blocks,
+    image_url, image_alt
+) VALUES (
+    'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns',
+    'Майнинг в налоги в России в 2025 году',
+    'Новости от ФНС',
+    $excerpt$В 2025 году ФНС публикует котировки для расчета налогов по майнингу. Разбираем ставки НДФЛ и налога на прибыль, а также хронологию легализации майнинга в России.$excerpt$,
+    $content$Введение
+
+Регуляция майнинга в России набирает обороты: в 2025 году уточняются многие детали, которые еще совсем недавно рассматривались лишь гипотетически. В частности, определен порядок фиксации котировок для расчета налогов.
+
+ФНС публикует данные на своем сайте для расчета налогов по майнингу в России
+
+Теперь на сайте ФНС в специальном разделе можно найти актуальную информацию по криптовалютам для расчета налогов. У налогоплательщиков появилась возможность корректно рассчитывать доход от операций с криптовалютой.
+
+Налог на майнинг в РФ: ставки
+
+Размер и ставка налога на майнинг в России зависит от формата работы фермы.
+
+Регуляция майнинга в России: как это было?
+
+Формат, к которому власти страны приходят в 2024-2025 годах, является результатом многочисленных обсуждений, слухов и манипуляций.
+$content$,
+    'mining',
+    5,
+    5,
+    '2025-04-14',
+    819,
+    'list',
+    21,
+    TRUE,
+    TRUE,
+    '/images/articles/mining-taxes-fns-2025/cover.jpg',
+    'Майнинг и налоги в России в 2025 году'
+)
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    title_subtitle = EXCLUDED.title_subtitle,
+    excerpt = EXCLUDED.excerpt,
+    content = EXCLUDED.content,
+    topic_id = EXCLUDED.topic_id,
+    reading_time_min = EXCLUDED.reading_time_min,
+    reading_minutes = EXCLUDED.reading_minutes,
+    published_at = EXCLUDED.published_at,
+    view_count = EXCLUDED.view_count,
+    display_type = EXCLUDED.display_type,
+    sort_order = EXCLUDED.sort_order,
+    uses_blocks = TRUE,
+    image_url = EXCLUDED.image_url,
+    image_alt = EXCLUDED.image_alt,
+    is_published = TRUE;
+
+UPDATE articles a
+SET cover_media_id = m.id
+FROM media_assets m
+WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns'
+  AND m.path = '/images/articles/mining-taxes-fns-2025/cover.jpg';
+
+DELETE FROM article_blocks
+WHERE article_id = (
+    SELECT id FROM articles WHERE slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns'
+);
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 1, 'heading', '{"level":2,"text":"Введение"}'::jsonb, 'intro'
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 2, 'paragraph',
+       $tmj${"text":"Регуляция майнинга в России набирает обороты: в 2025 году уточняются многие детали, которые еще совсем недавно рассматривались лишь гипотетически. В частности, определен порядок фиксации котировок для расчета налогов."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 3, 'heading',
+       '{"level":2,"text":"ФНС публикует данные на своем сайте для расчета налогов по майнингу в России"}'::jsonb,
+       'fns-data'
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 4, 'paragraph',
+       $tmj${"text":"Теперь на сайте ФНС в специальном разделе можно найти актуальную информацию по криптовалютам для расчета налогов. У налогоплательщиков появилась возможность корректно рассчитывать доход от операций с криптовалютой.","html":"Теперь на <a href=\"https://www.nalog.gov.ru/mining/\">сайте ФНС в специальном разделе</a> можно найти актуальную информацию по криптовалютам для расчета налогов. У налогоплательщиков появилась возможность корректно рассчитывать доход от операций с криптовалютой."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 5, 'paragraph',
+       $tmj${"text":"Каким образом выглядят особенности процесса налоговых отчислений:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 6, 'list',
+       $tmj${"ordered":false,"items":["Доход рассчитывается по рыночной цене на дату получения права распоряжения криптовалютой;","Рыночная котировка – это цена закрытия с биржи: можно использовать один из нескольких вариантов площадок на выбор (Binance, ByBit, Gate, HTX, KuCoin, MEXC, OKX);","На этой же странице представлены сопутствующие сервисы для майнеров, например, возможность внести данные в реестр, познакомиться с правилами легальной работы, получить ответы на часто задаваемые вопросы."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 7, 'paragraph',
+       $tmj${"text":"Оплата налогов на майнинг в России является обязательным требованием к осуществлению легальной деятельности."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 8, 'paragraph',
+       $tmj${"text":"То, о чем говорили несколько лет, постепенно становится реальностью и внедряется на практике в рамках системы регуляции."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 9, 'image',
+       $tmj${"src":"/images/articles/mining-taxes-fns-2025/quote-rates.jpg","alt":"Котировки ФНС для расчета налогов по майнингу"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 10, 'heading',
+       '{"level":2,"text":"Налог на майнинг в РФ: ставки"}'::jsonb,
+       'tax-rates'
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 11, 'paragraph',
+       $tmj${"text":"Размер и ставка налога на майнинг в России зависит от формата работы фермы. Существует два варианта:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 12, 'list',
+       $tmj${"ordered":false,"items":["Для физических лиц: НДФЛ в размере 13% (при доходе до 2 400 000 рублей в год) и 15% (при доходе свыше 2 400 000 в год);","Для юридических лиц: налог на прибыль – 25% с 2025 года."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 13, 'paragraph',
+       $tmj${"text":"При этом, майнинговая деятельность в формате самозанятого, а также в рамках упрощенной системы налогообложения запрещается."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 14, 'image',
+       $tmj${"src":"/images/articles/mining-taxes-fns-2025/tax-rates.jpg","alt":"Ставки налога на майнинг в РФ"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 15, 'heading',
+       '{"level":2,"text":"Регуляция майнинга в России: как это было?"}'::jsonb,
+       'regulation-history'
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 16, 'paragraph',
+       $tmj${"text":"Формат, к которому власти страны приходят в 2024-2025 годах, является результатом многочисленных обсуждений, слухов и манипуляций. Однако в конечном итоге было принято решение направить майнинговую деятельность в правовое русло и легализовать процесс вместе с определением порядка налоговых отчислений."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 17, 'paragraph',
+       $tmj${"text":"Тем не менее, произошло это далеко не сразу. Хронология процессов, связанных с легализацией, выглядит следующим образом:"}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 18, 'list',
+       $tmj${"ordered":false,"items":["2017 год: В РФ впервые заговорили о возможных запретах и ограничениях для майнеров;","2018 год: Департамент финансов не готов рассматривать полный запрет майнинга в России;","Июль 2019 года: Власти отказываются от обсуждения внедрения уголовной ответственности за майнинг;","Март 2020 года: ЦБ инициирует рассмотреть полный запрет на криптовалюту в стране;","Сентябрь 2020 года: Минфин выступает с инициативой заблокировать оборот криптовалют;","Январь 2021 года: Вступает в силу закон о ЦФА, где впервые были введены базовые понятия и термины (блокчейн, криптовалюта).","Январь 2021 года: Введен запрет оплаты товаров и услуг на территории страны с помощью криптовалют;","Январь 2022 года: ЦБ вновь предложил запретить майнинг и криптовалюты в России;","2023 год: Стартуют обсуждения форматов возможного законодательства на официальном уровне;","Август 2024 года: Подписан закон о легализации майнинга в РФ, включая создание реестра майнеров;","Ноябрь 2024 года: Введены ограничения (10 регионов) и запреты (3 субъекта) для отдельных частей России.","Ноябрь 2024 года: Принят закон о налогообложении майнинговой деятельности;","Декабрь 2024 года: Установлены лимиты на потребление электричества частными майнерами;","Апрель 2025 года: Принято решение о полном запрете майнинга на юге Иркутской области до 2031 года;","Апрель 2025 года: Криптовалюта активно используется для трансграничных расчетов между Россией и другими странами мира."]}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 19, 'paragraph',
+       $tmj${"text":"Статья будет дополняться по мере появления свежих данных и новых законов о майнинге."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 20, 'paragraph',
+       $tmj${"text":"Чтобы оставаться в курсе актуальных новостей и изменений законодательства, подписывайтесь на Телеграм-канал ТОП-МАЙНИНГ. Только здесь самая свежая и актуальная информация о добыче цифровых валют.","html":"Чтобы оставаться в курсе актуальных новостей и изменений законодательства, подписывайтесь на <a href=\"https://t.me/topminingru\">Телеграм-канал ТОП-МАЙНИНГ</a>. Только здесь самая свежая и актуальная информация о добыче цифровых валют."}$tmj$::jsonb,
+       NULL
+FROM articles a WHERE a.slug = 'majning-v-nalogi-v-rossii-v-2025-godu-novosti-ot-fns';
+
+-- ---------------------------------------------------------------------
+-- Статья 2: декларация по налогу на прибыль
+-- ---------------------------------------------------------------------
+INSERT INTO articles (
+    slug, title, title_subtitle, excerpt, content, topic_id,
+    reading_time_min, reading_minutes, published_at, view_count,
+    display_type, sort_order, is_published, uses_blocks,
+    image_url, image_alt
+) VALUES (
+    'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu',
+    'Сдача первой декларации по налогу на прибыль для юр. лиц',
+    'Легальный майнинг в России в 2025 году',
+    $excerpt$Апрель 2025 года: юридические лица впервые сдают декларацию по налогу на прибыль за I квартал. Ставка 25%, срок — до 25 апреля. Что нужно знать майнерам.$excerpt$,
+    $content$Введение
+
+Апрель 2025 года стал важным месяцем для сегмента добычи криптовалют в России. Причиной является не только полный запрет майнинга на юге Иркутской области до 2031 года, но и необходимость для юридических лиц сдать первую декларацию по налогу на прибыль за I квартал 2025 года.
+
+Первая декларация по налогу на прибыль для майнеров в России
+
+По состоянию на весну 2025 года в реестр майнеров РФ были включены более 700 российских компаний.
+
+Что необходимо знать о налогах на майнинг в РФ
+
+Для физических лиц применяется НДФЛ. Для юридических лиц актуален налог на прибыль — 25%.
+$content$,
+    'mining',
+    5,
+    5,
+    '2025-04-18',
+    848,
+    'list',
+    22,
+    TRUE,
+    TRUE,
+    '/images/articles/mining-profit-tax-declaration-2025/cover.png',
+    'Декларация по налогу на прибыль для майнеров'
+)
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    title_subtitle = EXCLUDED.title_subtitle,
+    excerpt = EXCLUDED.excerpt,
+    content = EXCLUDED.content,
+    topic_id = EXCLUDED.topic_id,
+    reading_time_min = EXCLUDED.reading_time_min,
+    reading_minutes = EXCLUDED.reading_minutes,
+    published_at = EXCLUDED.published_at,
+    view_count = EXCLUDED.view_count,
+    display_type = EXCLUDED.display_type,
+    sort_order = EXCLUDED.sort_order,
+    uses_blocks = TRUE,
+    image_url = EXCLUDED.image_url,
+    image_alt = EXCLUDED.image_alt,
+    is_published = TRUE;
+
+UPDATE articles a
+SET cover_media_id = m.id
+FROM media_assets m
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu'
+  AND m.path = '/images/articles/mining-profit-tax-declaration-2025/cover.png';
+
+DELETE FROM article_blocks
+WHERE article_id = (
+    SELECT id FROM articles
+    WHERE slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu'
+);
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 1, 'heading', '{"level":2,"text":"Введение"}'::jsonb, 'intro'
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 2, 'paragraph',
+       $tmj${"text":"Апрель 2025 года стал важным месяцем для сегмента добычи криптовалют в России. Причиной является не только полный запрет майнинга на юге Иркутской области до 2031 года, но и необходимость для юридических лиц сдать первую декларацию по налогу на прибыль за I квартал 2025 года. Подобный документ формируется впервые, поэтому данное событие можно считать точкой отчета в истории налогообложения ферм в РФ."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 3, 'heading',
+       '{"level":2,"text":"Первая декларация по налогу на прибыль для майнеров в России"}'::jsonb,
+       'first-declaration'
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 4, 'paragraph',
+       $tmj${"text":"По состоянию на весну 2025 года в реестр майнеров РФ были включены более 700 российских компаний, осуществляющих добычу цифровых активов. Именно эти компании первыми подали первые декларации по налогу на прибыль для юридических лиц. Что необходимо знать о данной отчетности:"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 5, 'list',
+       $tmj${"ordered":false,"items":["Отчетный период – I квартал 2025 года;","Налоговая ставка – 25%;","Срок подачи сведений – до 25 апреля 2025 года;"]}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 6, 'paragraph',
+       $tmj${"text":"Именно таким образом формируется принцип налогообложения для майнеров в России: 2025-й год можно официально считать началом действия системы ФНС в рамках процесса легализации."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 7, 'image',
+       $tmj${"src":"/images/articles/mining-profit-tax-declaration-2025/cover.png","alt":"Декларация по налогу на прибыль для майнеров"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 8, 'heading',
+       '{"level":2,"text":"Что необходимо знать о налогах на майнинг в РФ"}'::jsonb,
+       'tax-basics'
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 9, 'paragraph',
+       $tmj${"text":"Налоговое законодательство начало формироваться в 2025-м, а к концу года обрело свой текущий формат:"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 10, 'list',
+       $tmj${"ordered":false,"items":["Для физических лиц применяется НДФЛ. Ставка от 13% до 15% (в зависимости от суммы ежегодного дохода, получаемого от майнинга);","Для юридических лиц актуален налог на прибыль. С 1 января 2025 года расчет ведется по ставке 25%."]}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 11, 'paragraph',
+       $tmj${"text":"Не предусмотрена реализация форматов самозанятости и упрощенной системы налогообложения."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 12, 'paragraph',
+       $tmj${"text":"Для расчета необходимо использовать котировки, которые публикуются на сайте ФНС по ссылке. Здесь же представлена другая информация, которая может быть полезной для физических и юридических лиц, занимающихся майнингом.","html":"Для расчета необходимо использовать котировки, которые публикуются на сайте ФНС по <a href=\"https://www.nalog.gov.ru/rn49/promo/mining/\">ссылке</a>. Здесь же представлена другая информация, которая может быть полезной для физических и юридических лиц, занимающихся майнингом."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 13, 'image',
+       $tmj${"src":"/images/articles/mining-profit-tax-declaration-2025/fns-screenshot.jpg","alt":"Раздел ФНС для майнеров"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 14, 'heading',
+       '{"level":2,"text":"Что еще почитать о законодательстве, легализации и налогах?"}'::jsonb,
+       'read-more'
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 15, 'paragraph',
+       $tmj${"text":"На нашем сайте представлен полноценный цикл материалов, посвященный вопросам легализации и налогообложения майнинга в РФ. Рекомендуем обратить внимание на следующие материалы:"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 16, 'paragraph',
+       $tmj${"text":"Легальны ли майнинг фермы в России в 2025 году: реестр, налоги и региональные особенности. Что необходимо знать о легализации майнинга в РФ; Майнинг-ферма дома: законно ли это?; Почему майнинг фермы запрещены в России: новое законодательство РФ.","html":"<ul><li><a href=\"https://top-mining.ru/novichkam/legalny-li-majning-fermy-v-rossii-v-2025-godu/\">Легальны ли майнинг фермы в России в 2025 году: реестр, налоги и региональные особенности</a>. Что необходимо знать о легализации майнинга в РФ;</li><li><a href=\"https://top-mining.ru/mining/majning-ferma-doma-zakonno-li-eto/\">Майнинг-ферма дома: законно ли это?</a></li><li><a href=\"https://top-mining.ru/mining/pochemu-majning-fermy-zapreshheny-v-rossii-novoe-zakonodatelstvo-rf/\">Почему майнинг фермы запрещены в России: новое законодательство РФ</a>.</li></ul>"}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+INSERT INTO article_blocks (article_id, position, type, payload, anchor)
+SELECT a.id, 17, 'paragraph',
+       $tmj${"text":"Еще больше полезной и актуальной информации можно найти в нашем Телеграм-канале. Подписывайтесь, чтобы оставаться в курсе свежих новостей.","html":"Еще больше полезной и актуальной информации можно найти в нашем <a href=\"https://t.me/topminingru\">Телеграм-канале</a>. Подписывайтесь, чтобы оставаться в курсе свежих новостей."}$tmj$::jsonb,
+       NULL
+FROM articles a
+WHERE a.slug = 'sdacha-pervyj-deklaraczii-po-nalogu-na-pribyl-dlya-yur-licz-legalnyj-majning-v-rossii-v-2025-godu';
+
+
+-- ---------------------------------------------------------------------
+-- GPU / интернет / PoS / ЦОД под ключ + hide stubs (ex-040)
+-- ---------------------------------------------------------------------
+
+-- =====================================================================
 -- 040_four_articles_and_hide_stubs.sql
 -- 1) Четыре статьи 1:1 с production
 -- 2) Скрываем stub-статьи из 002 без полноценного контента
