@@ -144,7 +144,7 @@ $content$,
     1,
     TRUE,
     TRUE,
-    '/images/articles/whatsminer-m70.jpg',
+    '/images/articles/whatsminer-m70.png',
     'Whatsminer M70'
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -165,7 +165,7 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO media_assets (path, alt, source)
 VALUES (
-    '/images/articles/whatsminer-m70.jpg',
+    '/images/articles/whatsminer-m70.png',
     'Whatsminer M70',
     'article_cover'
 )

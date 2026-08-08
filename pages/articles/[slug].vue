@@ -178,7 +178,7 @@
           </p>
 
           <div
-            v-if="article.imageUrl && !isContentPending"
+            v-if="article.imageUrl"
             class="article-page__cover"
           >
             <img

@@ -2,23 +2,24 @@ SET client_encoding = 'UTF8';
 
 -- =====================================================================
 -- 035_whatsminer_m70_article_media.sql
--- Картинки в обзоре Whatsminer M70 + ссылки моделей на калькулятор
--- с подстановкой hashrate/power (query ?model= / ?hashrate=&power=).
+-- Картинки (чистые фото, без скриншотов UI) + ссылки моделей на калькулятор
+-- с подстановкой значений (?model= / ?hashrate=&power=).
 -- =====================================================================
 
 INSERT INTO media_assets (path, alt, source)
 VALUES
-    ('/images/articles/whatsminer-m70.jpg', 'Whatsminer M70', 'article_cover'),
-    ('/images/articles/whatsminer-m70/farm-air.png', 'ASIC Whatsminer на воздухом охлаждении', 'article'),
-    ('/images/articles/whatsminer-m70/whatsminer-classic.png', 'Whatsminer M70', 'article'),
-    ('/images/articles/whatsminer-m70/rack-whatsminer.png', 'Стоечные Whatsminer M70', 'article'),
-    ('/images/articles/whatsminer-m70/rack-series.png', 'Линейка Whatsminer M70 в стоечном формате', 'article'),
-    ('/images/articles/whatsminer-m70/whatsminer-side.png', 'Whatsminer MicroBT', 'article')
+    ('/images/articles/whatsminer-m70.png', 'Whatsminer M70', 'article_cover'),
+    ('/images/articles/whatsminer-m70/farm-air.png', 'ASIC-майнеры на воздушном охлаждении', 'article'),
+    ('/images/articles/whatsminer-m70/whatsminer-classic.png', 'Whatsminer MicroBT', 'article'),
+    ('/images/articles/whatsminer-m70/whatsminer-m66s.png', 'Стоечный Whatsminer', 'article'),
+    ('/images/articles/whatsminer-m70/whatsminer-hydro.png', 'Whatsminer с гидроохлаждением', 'article'),
+    ('/images/articles/whatsminer-m70/whatsminer-side.png', 'Whatsminer MicroBT, вид сбоку', 'article'),
+    ('/images/articles/whatsminer-m70/rack-series.png', 'Стоечные форматы майнеров', 'article')
 ON CONFLICT (path) DO UPDATE SET alt = EXCLUDED.alt;
 
 UPDATE articles
 SET
-    image_url = '/images/articles/whatsminer-m70.jpg',
+    image_url = '/images/articles/whatsminer-m70.png',
     image_alt = 'Whatsminer M70',
     uses_blocks = TRUE,
     is_published = TRUE
@@ -28,7 +29,7 @@ UPDATE articles a
 SET cover_media_id = m.id
 FROM media_assets m
 WHERE a.slug = 'whatsminer-m70-line-review'
-  AND m.path = a.image_url;
+  AND m.path = '/images/articles/whatsminer-m70.png';
 
 DELETE FROM article_blocks
 WHERE article_id = (SELECT id FROM articles WHERE slug = 'whatsminer-m70-line-review');
@@ -57,7 +58,7 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 5, 'image',
-       $tmj${"src":"/images/articles/whatsminer-m70/farm-air.png","alt":"ASIC Whatsminer на воздушном охлаждении"}$tmj$::jsonb,
+       $tmj${"src":"/images/articles/whatsminer-m70/farm-air.png","alt":"ASIC-майнеры на воздушном охлаждении"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -93,7 +94,7 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 11, 'image',
-       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-classic.png","alt":"Whatsminer M70 MicroBT"}$tmj$::jsonb,
+       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-classic.png","alt":"Whatsminer MicroBT"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -189,7 +190,7 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 27, 'image',
-       $tmj${"src":"/images/articles/whatsminer-m70/rack-whatsminer.png","alt":"Стоечные ASIC Whatsminer M70"}$tmj$::jsonb,
+       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-m66s.png","alt":"Стоечный Whatsminer"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -243,7 +244,7 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 36, 'image',
-       $tmj${"src":"/images/articles/whatsminer-m70/rack-series.png","alt":"Форматы охлаждения Whatsminer M70"}$tmj$::jsonb,
+       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-hydro.png","alt":"Whatsminer с гидроохлаждением"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -291,7 +292,7 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 44, 'image',
-       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-side.png","alt":"Whatsminer MicroBT M70"}$tmj$::jsonb,
+       $tmj${"src":"/images/articles/whatsminer-m70/whatsminer-side.png","alt":"Whatsminer MicroBT"}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
@@ -321,6 +322,6 @@ FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
 
 INSERT INTO article_blocks (article_id, position, type, payload, anchor)
 SELECT a.id, 49, 'paragraph',
-       $tmj${"text":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка. Рассчитайте доходность моделей в ","html":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка. Рассчитайте доходность моделей в <a href=\"/calculator/?model=microbt-whatsminer-m70-236-th-s\">майнинг-калькуляторе</a>."}$tmj$::jsonb,
+       $tmj${"text":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка. Рассчитайте доходность в майнинг-калькуляторе.","html":"Это поколение станет фундаментом для майнинговой инфраструктуры на ближайшие 2–3 года и задаст новый вектор развития ASIC-рынка. Рассчитайте доходность в <a href=\"/calculator/?model=microbt-whatsminer-m70-236-th-s\">майнинг-калькуляторе</a>."}$tmj$::jsonb,
        NULL
 FROM articles a WHERE a.slug = 'whatsminer-m70-line-review';
