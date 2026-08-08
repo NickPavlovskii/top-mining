@@ -222,6 +222,26 @@
     margin-bottom: 8px;
   }
 
+  .article-sections__paragraph :deep(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 16px;
+    font-size: 15px;
+  }
+
+  .article-sections__paragraph :deep(th),
+  .article-sections__paragraph :deep(td) {
+    border: 1px solid #d8dde6;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .article-sections__paragraph :deep(th) {
+    background: #f4f6fa;
+    font-weight: 700;
+  }
+
   .article-sections__list {
     margin: 0 0 22px;
     padding-left: 1.25em;
