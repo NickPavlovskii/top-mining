@@ -68,7 +68,6 @@
 
 <script setup lang="ts">
   import type { BreadcrumbItem } from '@nuxt/ui'
-  import { RATINGS_FALLBACK_CARDS } from '~/common/modules/ratings/fallback'
   import {
     TOP_MINING_RATING_SURFACE,
     TOP_MINING_RATING_VIDEO,
@@ -86,11 +85,11 @@
   const { t, tRatingTitle, tRatingItem } = useT()
   const route = useRoute()
 
-  const { data } = await useFetch<RatingsResponse>('/api/ratings')
+  const { data } = await useFetch<RatingsResponse>('/api/ratings', {
+    ignoreResponseError: true,
+  })
 
-  const ratingCards = computed(
-    () => data.value?.cards ?? RATINGS_FALLBACK_CARDS,
-  )
+  const ratingCards = computed(() => data.value?.cards ?? [])
 
   function resolveCategoryId(): string | null {
     const fromQuery = String(route.query.category || '').trim()

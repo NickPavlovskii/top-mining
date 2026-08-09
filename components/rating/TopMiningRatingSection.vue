@@ -28,17 +28,16 @@
 
 <script setup lang="ts">
   import TopMiningRatingCardsGrid from '~/components/rating/TopMiningRatingCardsGrid.vue'
-  import { RATINGS_FALLBACK_HOME_CARDS } from '~/common/modules/ratings/fallback'
   import { TOP_MINING_RATING_VIDEO } from '~/common/modules/ratings/content'
   import type { RatingsResponse } from '~/common/modules/ratings'
 
   const { t } = useT()
 
-  const { data } = await useFetch<RatingsResponse>('/api/ratings/home')
+  const { data } = await useFetch<RatingsResponse>('/api/ratings/home', {
+    ignoreResponseError: true,
+  })
 
-  const homeCards = computed(
-    () => data.value?.cards ?? RATINGS_FALLBACK_HOME_CARDS,
-  )
+  const homeCards = computed(() => data.value?.cards ?? [])
 </script>
 <style scoped>
   .rating-section {

@@ -1,23 +1,12 @@
 /**
  * Пакет ratings — рейтинги.
- * Реэкспорт типов и DEFAULT_RATING_CARD_COLUMNS.
+ * Ассеты и константы UI (данные карточек — в БД /api/ratings).
  */
 export type {
   TopMiningRatingCard,
   TopMiningRatingItem,
 } from './types'
 export { DEFAULT_RATING_CARD_COLUMNS } from './types'
-
-export {
-  RATINGS_FALLBACK_CARDS,
-  RATINGS_FALLBACK_HOME_CARDS,
-} from './fallback'
-
-/** @deprecated используйте RATINGS_FALLBACK_CARDS или /api/ratings */
-export { RATINGS_FALLBACK_CARDS as TOP_MINING_RATING_CARDS } from './fallback'
-
-/** @deprecated используйте RATINGS_FALLBACK_HOME_CARDS или /api/ratings/home */
-export { RATINGS_FALLBACK_HOME_CARDS as TOP_MINING_RATING_HOME_CARDS } from './fallback'
 
 export const TOP_MINING_RATING_SURFACE = 'var(--tm-rating-surface)'
 

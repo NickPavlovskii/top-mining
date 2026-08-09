@@ -18,7 +18,7 @@ export interface TopMiningRatingCard {
 export const DEFAULT_RATING_CARD_COLUMNS = 1 as const
 
 export interface RatingsResponse {
-  source: 'graphql' | 'fallback'
+  source: 'graphql'
   updatedAt: string
   cards: TopMiningRatingCard[]
 }

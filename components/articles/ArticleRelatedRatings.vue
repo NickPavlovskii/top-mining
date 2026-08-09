@@ -37,18 +37,17 @@
   import TopMiningRatingCardsGrid from '~/components/rating/TopMiningRatingCardsGrid.vue'
   import arrowIcon from '~/assets/images/articles/arrow-up-right.png'
   import {
-    RATINGS_FALLBACK_HOME_CARDS,
     RATINGS_PAGE_HREF,
     type RatingsResponse,
   } from '~/common/modules/ratings'
 
   const { t } = useT()
 
-  const { data } = await useFetch<RatingsResponse>('/api/ratings/home')
+  const { data } = await useFetch<RatingsResponse>('/api/ratings/home', {
+    ignoreResponseError: true,
+  })
 
-  const cards = computed(
-    () => data.value?.cards ?? RATINGS_FALLBACK_HOME_CARDS,
-  )
+  const cards = computed(() => data.value?.cards ?? [])
 </script>
 
 <style scoped>
