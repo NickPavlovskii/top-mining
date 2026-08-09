@@ -13,13 +13,14 @@
         'top-mining__header',
         { 'top-mining__header--menu-open': isMobileMenuOpen },
         { 'top-mining__header--tablet-menu': isTabletMenuOpen },
-        { 'top-mining__header--mobile-top': isMobileTopState },
-        { 'top-mining__header--simple-menu': isSimpleMenuPage && !isMobileMenuOpen },
+        {
+          'top-mining__header--simple-menu':
+            (isSimpleMenuPage || isPhoneViewport) && !isMobileMenuOpen,
+        },
         {
           'top-mining__header--sticky':
             isCompactHeader
-            && !isMobileMenuOpen
-            && !isMobileTopState,
+            && !isMobileMenuOpen,
         },
       ]"
     >
@@ -35,24 +36,7 @@
         </span>
       </nuxt-link>
 
-      <div
-        v-if="isMobileTopState"
-        class="top-mining__mobile-header-contacts"
-      >
-        <a
-          v-for="social in mobileHeaderSocials"
-          class="top-mining__mobile-header-contact-btn"
-          :href="social.href"
-          :aria-label="social.label"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Icon :name="social.icon" />
-        </a>
-      </div>
-
       <button
-        v-else
         type="button"
         class="top-mining__menu-toggle"
         :aria-label="mobileMenuToggleAriaLabel"
@@ -85,7 +69,7 @@
       </nav>
 
       <top-mining-header-mobile-menu
-        :open="isMobileMenuOpen || isMobileTopState"
+        :open="isMobileMenuOpen"
         :is-phone-viewport="isPhoneViewport"
         :is-nav-column-expanded="isNavColumnExpanded"
         :nav-column-toggle-labels="navColumnToggleLabels"
@@ -172,7 +156,6 @@
 
 <script setup lang="ts">
   import {
-    TOP_MINING_MOBILE_MENU_SOCIALS,
     TOP_MINING_NAV_COLUMNS,
   } from '~/common/modules/top-mining'
   import {
@@ -212,10 +195,6 @@
   const headerRef = ref<HTMLElement | null>(null)
   const headerShellHeight = ref(0)
 
-  const isCompactHeader = computed(
-    () => props.forceCompact || isHeaderSticky.value || isSimpleMenuPage.value,
-  )
-
   const HEADER_STICKY_OFFSET = 80
   const MOBILE_HEADER_MAX_PLACEHOLDER = 120
   const MOBILE_HEADER_BREAKPOINT = 900
@@ -227,10 +206,17 @@
   })
   let savedScrollY = 0
 
+  const isCompactHeader = computed(
+    () =>
+      props.forceCompact
+      || isHeaderSticky.value
+      || isSimpleMenuPage.value
+      || isPhoneViewport.value,
+  )
+
   const headerShellStyle = computed(() => {
     if (
       !isMobileMenuOpen.value
-      && !isMobileTopState.value
       && isCompactHeader.value
       && headerShellHeight.value > 0
     ) {
@@ -239,14 +225,6 @@
 
     return undefined
   })
-
-  const isMobileTopState = computed(
-    () =>
-      !isSimpleMenuPage.value
-      && isPhoneViewport.value
-      && !isHeaderSticky.value
-      && !isMobileMenuOpen.value,
-  )
 
   const isTabletViewport = computed(
     () => isMobileViewport.value && !isPhoneViewport.value,
@@ -257,10 +235,6 @@
       isMobileMenuOpen.value
       && (isTabletViewport.value
         || (isSimpleMenuPage.value && !isPhoneViewport.value)),
-  )
-
-  const mobileHeaderSocials = TOP_MINING_MOBILE_MENU_SOCIALS.filter(
-    (social) => social.icon !== 'mdi:phone',
   )
 
   const mobileMenuToggleAriaLabel = computed(() =>
@@ -306,10 +280,13 @@
     nextTick(updateHeaderShellHeight)
   })
 
-  watch(isMobileTopState, (isActive) => {
-    if (!isActive) {
-      expandedNavColumns.value = []
+  watch(isPhoneViewport, () => {
+    if (import.meta.server || isMobileMenuOpen.value) {
+      return
     }
+
+    syncHeaderStickyState()
+    nextTick(updateHeaderShellHeight)
   })
 
   function onLogoClick() {
@@ -327,6 +304,7 @@
       isHeaderSticky.value =
         props.forceCompact
         || isSimpleMenuPage.value
+        || isPhoneViewport.value
         || window.scrollY > HEADER_STICKY_OFFSET
     }
 
@@ -875,8 +853,7 @@
 
   .top-mining__menu-toggle,
   .top-mining__mobile-menu-title,
-  .top-mining__mobile-telegram,
-  .top-mining__mobile-header-contacts {
+  .top-mining__mobile-telegram {
     display: none;
   }
 
@@ -1449,106 +1426,6 @@
       transition:
         transform 0.2s ease,
         opacity 0.2s ease;
-    }
-
-    .top-mining__header--mobile-top {
-      position: relative;
-      z-index: 20;
-      display: block;
-      width: 100%;
-      padding: 0;
-      background: var(--tm-white);
-    }
-
-    .top-mining__header--mobile-top .top-mining__header-inner {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-areas:
-        'logo contacts'
-        'nav nav';
-      align-items: center;
-      gap: 0;
-      width: 100%;
-      min-height: 0;
-      padding: 14px 18px 18px;
-      border-radius: 0;
-      background: var(--tm-white);
-      box-shadow: none;
-    }
-
-    .top-mining__header--mobile-top .top-mining__logo {
-      grid-area: logo;
-      align-self: center;
-    }
-
-    .top-mining__mobile-header-contacts {
-      grid-area: contacts;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .top-mining__mobile-header-contact-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--tm-orange-hover);
-      color: var(--tm-white);
-      text-decoration: none;
-    }
-
-    .top-mining__mobile-header-contact-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-nav {
-      display: block !important;
-      grid-area: nav;
-      width: 100%;
-      margin: 16px 0 0;
-      padding: 0;
-      border-top: none;
-      border-radius: 0;
-      overflow: visible;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-menu-scroll {
-      overflow: visible;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-menu-list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      height: auto;
-      justify-content: flex-start;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-menu-contacts {
-      margin-top: 10px;
-    }
-
-    .top-mining__header--mobile-top .top-mining__mobile-menu-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 8px 0 0;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: var(--tm-text-secondary);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1.2;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      cursor: pointer;
     }
 
     .top-mining__mobile-menu-more-icon {
