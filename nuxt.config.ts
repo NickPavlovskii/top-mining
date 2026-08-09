@@ -40,6 +40,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    '@pinia/nuxt',
     'nuxt-quasar-ui',
     '@nuxt/ui',
     '@nuxt/icon',

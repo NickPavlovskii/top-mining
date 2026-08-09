@@ -74,6 +74,7 @@
   } from '~/common/modules/ratings/content'
   import type { RatingsResponse } from '~/common/modules/ratings'
   import TopMiningRatingMarqueeLink from '~/components/rating/TopMiningRatingMarqueeLink.vue'
+  import { useRatingsFiltersStore } from '~/stores/ratings-filters'
 
   const LEGACY_HASH_TO_CATEGORY: Record<string, string> = {
     machinery_and_equipment: 'equipment',
@@ -84,6 +85,8 @@
 
   const { t, tRatingTitle, tRatingItem } = useT()
   const route = useRoute()
+  const router = useRouter()
+  const ratingsFilters = useRatingsFiltersStore()
 
   const { data } = await useFetch<RatingsResponse>('/api/ratings', {
     ignoreResponseError: true,
@@ -91,7 +94,7 @@
 
   const ratingCards = computed(() => data.value?.cards ?? [])
 
-  function resolveCategoryId(): string | null {
+  function resolveCategoryFromRoute(): string | null {
     const fromQuery = String(route.query.category || '').trim()
     const fromHash = route.hash.replace(/^#/, '').trim()
     const raw = fromQuery || fromHash
@@ -108,7 +111,19 @@
     return null
   }
 
-  const activeCategoryId = computed(() => resolveCategoryId())
+  const activeCategoryId = computed(() => {
+    const fromRoute = resolveCategoryFromRoute()
+    if (fromRoute) {
+      return fromRoute
+    }
+
+    const stored = ratingsFilters.category
+    if (stored && ratingCards.value.some((card) => card.id === stored)) {
+      return stored
+    }
+
+    return null
+  })
 
   const visibleCards = computed(() => {
     if (!activeCategoryId.value) {
@@ -147,8 +162,24 @@
   watch(
     () => [route.query.category, route.hash] as const,
     () => {
+      const fromRoute = resolveCategoryFromRoute()
+      if (fromRoute) {
+        ratingsFilters.setCategory(fromRoute)
+      } else if (
+        ratingsFilters.category
+        && !route.query.category
+      ) {
+        void router.replace({
+          query: {
+            ...route.query,
+            category: ratingsFilters.category,
+          },
+        })
+      }
+
       scrollToActiveCategory()
     },
+    { immediate: true },
   )
 </script>
 

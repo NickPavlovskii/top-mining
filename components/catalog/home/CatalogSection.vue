@@ -129,12 +129,15 @@
     getCatalogSearchHref,
   } from '~/common/modules/catalog/nav/links'
   import type { CatalogResponse } from '~/common/modules/catalog'
+  import { useCatalogFiltersStore } from '~/stores/catalog-filters'
+  import { storeToRefs } from 'pinia'
   import utpStar from '~/assets/images/catalog/star-24.png'
   import catalogSearchIcon from '~/assets/images/catalog/search.png'
 
   const { t } = useT()
   const router = useRouter()
-  const searchQuery = ref('')
+  const catalogFilters = useCatalogFiltersStore()
+  const { search: searchQuery } = storeToRefs(catalogFilters)
 
   const { data, pending } = await useFetch<CatalogResponse>('/api/catalog', {
     default: () => emptyCatalogResponse(),

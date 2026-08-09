@@ -32,7 +32,9 @@ import CalculatorModelDropdown from '~/components/calculator/form/CalculatorMode
 import CalculatorResults from '~/components/calculator/form/CalculatorResults.vue'
 import type { ResultsCurrencyTab } from '~/components/calculator/form/CalculatorResults.types'
 import { useCalculatorDeviceRoute } from '~/composables/useCalculatorDeviceRoute'
+import { useCalculatorFormStore } from '~/stores/calculator-form'
 import { onClickOutside } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import asicTab from '~/assets/images/calculator/tabs/ASIC-tab.png'
 import gpuTab from '~/assets/images/calculator/tabs/GPU-tab.png'
 import cpuTab from '~/assets/images/calculator/tabs/CPU-tab.png'
@@ -43,38 +45,39 @@ import dropdownArrow from '~/assets/images/calculator/tabs/dropdown-arrow.svg'
 
 const { t } = useT()
 
-const activeKind = ref<CalculatorDeviceKind>('asic')
-const selectedModel = ref<CalculatorHardwareModel | null>(null)
-const selectedCoin = ref<CalculatorCoin | null>(null)
-const selectedAlgorithm = ref<string | null>(null)
+const calculatorForm = useCalculatorFormStore()
+const {
+  activeKind,
+  selectedModel,
+  selectedCoin,
+  selectedAlgorithm,
+  price,
+  priceCurrency,
+  quantity,
+  hashrate,
+  hashrateUnit,
+  power,
+  electricityPrice,
+  electricityCurrency,
+  uptime,
+  coinUsdtRate,
+  btcUsdtRate,
+  dogeUsdtRate,
+  usdtRubRate,
+  poolFee,
+  blockReward,
+  networkDifficulty,
+  showAdvanced,
+  manualUnlock,
+  profitResult,
+  resultsCurrency,
+} = storeToRefs(calculatorForm)
 
-const price = ref(120_000)
-const priceCurrency = ref<CalculatorFiat>('₽')
-const quantity = ref(1)
-const hashrate = ref(0)
-const hashrateUnit = ref<CalculatorHashrateUnit>('Th/s')
-const power = ref(0)
-const electricityPrice = ref(5.5)
-const electricityCurrency = ref<CalculatorFiat>('₽')
-
-const uptime = ref(99)
-const coinUsdtRate = ref(0)
-const btcUsdtRate = ref(0)
-const dogeUsdtRate = ref(0)
-const usdtRubRate = ref(CALCULATOR_DEFAULT_USDT_RUB)
-const poolFee = ref(4)
-const blockReward = ref(0)
-const networkDifficulty = ref(0)
-
-const showAdvanced = ref(false)
-const manualUnlock = ref(false)
 const openUnitMenu = ref<'price' | 'hashrate' | 'electricity' | null>(null)
 const formParamsRef = ref<HTMLElement | null>(null)
 const showDefaultPriceModal = ref(false)
 const alertMessage = ref('')
 const showAlertModal = ref(false)
-const profitResult = ref<CalculatorProfitResult | null>(null)
-const resultsCurrency = ref<ResultsCurrencyTab>('RUB')
 const resultsRef = ref<HTMLElement | null>(null)
 
 const { data: hardwareByKind, pending: hardwarePending } = useFetch<CalculatorHardwareByKind>(
@@ -313,6 +316,15 @@ watch(
       Boolean(prefill.power)
 
     if (!hasPrefill) {
+      return
+    }
+
+    const sameStoredModel =
+      Boolean(prefill.model) &&
+      selectedModel.value?.slug === prefill.model
+
+    if (sameStoredModel || (selectedModel.value && !prefill.model)) {
+      appliedPrefillQuery.value = true
       return
     }
 

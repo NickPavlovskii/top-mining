@@ -179,7 +179,6 @@
     getManufacturerMarketAge,
   } from '~/common/modules/catalog/pages/manufacturers'
   import {
-    getCatalogCategoryFromRoute,
     isAllOrganizationsCatalogCategory,
     isManufacturersCatalogCategory,
   } from '~/common/modules/catalog/nav/links'
@@ -214,18 +213,23 @@
   import CatalogOrganizationCard from '~/components/catalog/cards/CatalogOrganizationCard.vue'
   import CatalogPageBreadcrumbs from '~/components/catalog/shared/CatalogPageBreadcrumbs.vue'
   import CatalogSortDropdown from '~/components/catalog/filters/CatalogSortDropdown.vue'
+  import { storeToRefs } from 'pinia'
+  import { useCatalogFiltersStore } from '~/stores/catalog-filters'
 
   const route = useRoute()
   const { t, tNavItem } = useT()
   const router = useRouter()
+  const catalogFilters = useCatalogFiltersStore()
+  const {
+    search: searchQuery,
+    sort: sortBy,
+  } = storeToRefs(catalogFilters)
 
   function translateCategoryLabel(name: string) {
     return t(`catalogTab.${name}`, tNavItem(name))
   }
 
-  const selectedCategorySlug = computed(() =>
-    getCatalogCategoryFromRoute(route.query.category),
-  )
+  const selectedCategorySlug = computed(() => catalogFilters.category)
 
   const activeCategoryId = computed(() => selectedCategorySlug.value)
 
@@ -322,11 +326,6 @@
     const name = activeCategoryName.value
     return name ? translateCategoryLabel(name) : undefined
   })
-
-  const searchQuery = ref(
-    typeof route.query.search === 'string' ? route.query.search : '',
-  )
-  const sortBy = ref<CatalogManufacturersSort>('name-asc')
 
   const selectedAlgorithms = reactive<Record<string, boolean>>({})
   const selectedModelCounts = reactive<Record<string, boolean>>({})
@@ -508,13 +507,16 @@
   )
 
   watch(
-    selectedCategorySlug,
-    (categorySlug, previousCategorySlug) => {
-      const isInitial = previousCategorySlug === undefined
+    () => route.query.category,
+    () => {
+      const previousCategory = catalogFilters.category
+      catalogFilters.hydrateFromRoute(
+        route.query as Record<string, unknown>,
+      )
+      const categorySlug = catalogFilters.category
+      const categoryChanged = previousCategory !== categorySlug
 
-      if (!isInitial) {
-        searchQuery.value = ''
-        sortBy.value = 'name-asc'
+      if (categoryChanged) {
         Object.keys(selectedAlgorithms).forEach((key) => {
           selectedAlgorithms[key] = false
         })
@@ -536,10 +538,6 @@
         Object.keys(selectedCategoryFilters).forEach((key) => {
           selectedCategoryFilters[key] = false
         })
-
-        const nextQuery = { ...route.query, category: categorySlug }
-        delete nextQuery.search
-        void router.replace({ query: nextQuery })
       }
 
       if (
@@ -548,6 +546,16 @@
       ) {
         selectedServices[categorySlug] = true
       }
+
+      const trimmed = searchQuery.value.trim()
+      const currentSearch =
+        typeof route.query.search === 'string' ? route.query.search : ''
+
+      if (trimmed && trimmed !== currentSearch) {
+        void router.replace({
+          query: { ...route.query, search: trimmed },
+        })
+      }
     },
     { immediate: true },
   )
@@ -555,9 +563,8 @@
   watch(
     () => route.query.search,
     (search) => {
-      const next = typeof search === 'string' ? search : ''
-      if (next !== searchQuery.value) {
-        searchQuery.value = next
+      if (typeof search === 'string' && search !== searchQuery.value) {
+        searchQuery.value = search
       }
     },
   )
@@ -589,8 +596,7 @@
   }
 
   function resetSearchAndFilters() {
-    searchQuery.value = ''
-    sortBy.value = 'name-asc'
+    catalogFilters.resetFilters()
     clearFilterMap(selectedAlgorithms)
     clearFilterMap(selectedModelCounts)
     clearFilterMap(selectedMarketAge)

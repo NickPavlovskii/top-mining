@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
 import { describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 
@@ -91,15 +92,22 @@ const stubs = {
   Teleport: true,
 }
 
+function mountForm() {
+  return mount(CalculatorForm, {
+    global: {
+      plugins: [createPinia()],
+      stubs,
+    },
+  })
+}
+
 async function unlockAsic(wrapper: ReturnType<typeof mount>) {
   await wrapper.find('.calculator-form__lock-btn').trigger('click')
 }
 
 describe('CalculatorForm', () => {
   it('locks ASIC params until model selected or manual unlock', () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     expect(wrapper.text()).toContain('(01)')
     expect(wrapper.text()).toContain('Выберите устройство')
@@ -124,9 +132,7 @@ describe('CalculatorForm', () => {
   })
 
   it('unlocks ASIC params via manual button', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     await unlockAsic(wrapper)
 
@@ -140,9 +146,7 @@ describe('CalculatorForm', () => {
   })
 
   it('dims advanced fields until the toggle is pressed', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     await unlockAsic(wrapper)
 
@@ -157,9 +161,7 @@ describe('CalculatorForm', () => {
   })
 
   it('locks GPU params until a model is selected', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     const tabs = wrapper.findAll('.calculator-form__tab')
     await tabs[1]!.trigger('click')
@@ -179,9 +181,7 @@ describe('CalculatorForm', () => {
   })
 
   it('shows CPU lock message', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     const tabs = wrapper.findAll('.calculator-form__tab')
     await tabs[2]!.trigger('click')
@@ -193,9 +193,7 @@ describe('CalculatorForm', () => {
   })
 
   it('resets form values', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     await unlockAsic(wrapper)
 
@@ -211,9 +209,7 @@ describe('CalculatorForm', () => {
   })
 
   it('opens default-price modal when ASIC price is 120000', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     await unlockAsic(wrapper)
     await wrapper.find('.calculator-form__action--primary').trigger('click')
@@ -224,9 +220,7 @@ describe('CalculatorForm', () => {
   })
 
   it('calculates profit when price is not default', async () => {
-    const wrapper = mount(CalculatorForm, {
-      global: { stubs },
-    })
+    const wrapper = mountForm()
 
     await unlockAsic(wrapper)
 
