@@ -461,6 +461,19 @@
     margin-top: clamp(16px, 2vw, 24px);
   }
 
+  .articles-feed__featured:has(> :nth-child(1):last-child) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 420px;
+  }
+
+  .articles-feed__featured:has(> :nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .articles-feed__featured:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .articles-feed__list {
     display: flex;
     flex-direction: column;

@@ -26,10 +26,10 @@ func TestBuildFeedExcludesFallbackHeroFromBuckets(t *testing.T) {
 			t.Fatal("fallback hero leaked into list")
 		}
 	}
-	if len(feed.Featured) != 1 || feed.Featured[0].ID != 2 {
+	if len(feed.Featured) != 2 || feed.Featured[0].ID != 2 || feed.Featured[1].ID != 3 {
 		t.Fatalf("featured = %#v", feed.Featured)
 	}
-	if len(feed.List) != 1 || feed.List[0].ID != 3 {
+	if len(feed.List) != 0 {
 		t.Fatalf("list = %#v", feed.List)
 	}
 }
@@ -45,7 +45,36 @@ func TestBuildFeedPrefersExplicitHero(t *testing.T) {
 	if feed.Hero == nil || feed.Hero.ID != 2 {
 		t.Fatalf("hero = %#v, want id=2", feed.Hero)
 	}
-	if len(feed.List) != 1 || feed.List[0].ID != 1 {
+	if len(feed.Featured) != 2 || feed.Featured[0].ID != 3 || feed.Featured[1].ID != 1 {
+		t.Fatalf("featured = %#v", feed.Featured)
+	}
+	if len(feed.List) != 0 {
+		t.Fatalf("list = %#v", feed.List)
+	}
+}
+
+func TestBuildFeedBackfillsFeaturedFromList(t *testing.T) {
+	items := []Preview{
+		{ID: 1, Slug: "hero", DisplayType: "hero"},
+		{ID: 2, Slug: "f1", DisplayType: "featured"},
+		{ID: 3, Slug: "l1", DisplayType: "list"},
+		{ID: 4, Slug: "l2", DisplayType: "list"},
+		{ID: 5, Slug: "l3", DisplayType: "list"},
+		{ID: 6, Slug: "l4", DisplayType: "list"},
+		{ID: 7, Slug: "l5", DisplayType: "list"},
+	}
+
+	feed := buildFeed(items)
+	if feed.Hero == nil || feed.Hero.ID != 1 {
+		t.Fatalf("hero = %#v", feed.Hero)
+	}
+	if len(feed.Featured) != maxFeatured {
+		t.Fatalf("featured len = %d, want %d (%#v)", len(feed.Featured), maxFeatured, feed.Featured)
+	}
+	if feed.Featured[0].ID != 2 {
+		t.Fatalf("first featured = %#v, want id=2", feed.Featured[0])
+	}
+	if len(feed.List) != 2 || feed.List[0].ID != 6 || feed.List[1].ID != 7 {
 		t.Fatalf("list = %#v", feed.List)
 	}
 }

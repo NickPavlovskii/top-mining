@@ -37,7 +37,7 @@ func (r *Repository) Feed(ctx context.Context, topic string) (*Feed, error) {
 func buildFeed(items []Preview) *Feed {
 	feed := &Feed{
 		Featured: make([]Preview, 0, maxFeatured),
-		List:     make([]Preview, 0, maxList),
+		List: make([]Preview, 0, len(items)),
 		HasMore:  len(items) > feedSlotCount,
 	}
 
@@ -61,20 +61,22 @@ func buildFeed(items []Preview) *Feed {
 		}
 
 		item := items[i]
-		switch item.DisplayType {
-		case "featured":
-			if len(feed.Featured) < maxFeatured {
-				feed.Featured = append(feed.Featured, item)
-			}
-		case "hero":
-			if len(feed.List) < maxList {
-				feed.List = append(feed.List, item)
-			}
-		default:
-			if len(feed.List) < maxList {
-				feed.List = append(feed.List, item)
-			}
+		if item.DisplayType == "featured" && len(feed.Featured) < maxFeatured {
+			feed.Featured = append(feed.Featured, item)
+			continue
 		}
+
+		feed.List = append(feed.List, item)
+	}
+
+	// Сетка на главной — 4 колонки: если featured мало, добиваем из list.
+	for len(feed.Featured) < maxFeatured && len(feed.List) > 0 {
+		feed.Featured = append(feed.Featured, feed.List[0])
+		feed.List = feed.List[1:]
+	}
+
+	if len(feed.List) > maxList {
+		feed.List = feed.List[:maxList]
 	}
 
 	return feed

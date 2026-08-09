@@ -2,6 +2,7 @@ import { createError } from 'h3'
 import type { TopMiningArticlesTopicId } from '~/common/modules/top-mining/layout/articles-section'
 import { TOP_MINING_ARTICLES_TOPICS } from '~/common/modules/top-mining/layout/articles-section'
 import type { ArticlesFeed, ArticlesFeedResponse } from '~/common/modules/articles'
+import { fillArticlesFeedFeatured } from '~/common/modules/articles'
 import { ARTICLES_FEED_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
 
@@ -22,17 +23,22 @@ export default defineEventHandler(async (event) => {
       { topic },
     )
 
+    const feed = fillArticlesFeedFeatured(data.articlesFeed)
+
     return {
       source: 'graphql',
       updatedAt: new Date().toISOString(),
-      ...data.articlesFeed,
+      ...feed,
     } satisfies ArticlesFeedResponse
   } catch (error) {
     throw createError({
       statusCode: 503,
       statusMessage: 'Articles service is unavailable',
       data: {
-        message: error instanceof Error ? error.message : 'Articles service is unavailable',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Articles service is unavailable',
       },
     })
   }
