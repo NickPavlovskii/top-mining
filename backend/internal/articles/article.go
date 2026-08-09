@@ -21,7 +21,10 @@ const articleBySlugSQL = `
 
 const articleBySlugLocalizedSQL = `
         SELECT` + previewColumnsLocalized + `,
-               COALESCE(NULLIF(t.content, ''), a.content),
+               CASE
+                 WHEN t.article_id IS NOT NULL THEN COALESCE(t.content, '')
+                 ELSE a.content
+               END,
                COALESCE(a.content_html, ''),
                COALESCE(a.uses_blocks, FALSE),
                COALESCE(a.view_count, 0)

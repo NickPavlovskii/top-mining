@@ -299,8 +299,10 @@
   const { data: article, pending, error } = await useFetch<ArticleResponse>(
     () => `/api/articles/${slug.value}?locale=${locale.value}`,
     {
+      key: computed(() => `article-${slug.value}-${locale.value}`),
       watch: [slug, locale],
       ignoreResponseError: true,
+      getCachedData: () => undefined,
     },
   )
 

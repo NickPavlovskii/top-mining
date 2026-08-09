@@ -1,28 +1,30 @@
 <template>
-  <Transition name="tm-form-status">
-    <div
-      v-if="isVisible"
-      role="status"
-      :class="rootClass"
-      :aria-live="ariaLive"
-    >
-      <span
-        class="top-mining-form-status__icon"
-        aria-hidden="true"
+  <Teleport to="body">
+    <Transition name="tm-form-status">
+      <div
+        v-if="isVisible"
+        role="status"
+        :class="rootClass"
+        :aria-live="ariaLive"
       >
-        <top-mining-form-status-success-icon v-if="status === 'success'" />
-        <top-mining-form-status-error-icon v-else-if="status === 'error'" />
-        <top-mining-form-status-spinner-icon
-          v-else
-          class="top-mining-form-status__spinner"
-        />
-      </span>
+        <span
+          class="top-mining-form-status__icon"
+          aria-hidden="true"
+        >
+          <top-mining-form-status-success-icon v-if="status === 'success'" />
+          <top-mining-form-status-error-icon v-else-if="status === 'error'" />
+          <top-mining-form-status-spinner-icon
+            v-else
+            class="top-mining-form-status__spinner"
+          />
+        </span>
 
-      <p class="top-mining-form-status__text">
-        {{ message }}
-      </p>
-    </div>
-  </Transition>
+        <p class="top-mining-form-status__text">
+          {{ message }}
+        </p>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -71,31 +73,27 @@
 
 <style scoped>
   .top-mining-form-status {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 12000;
     display: flex;
     align-items: flex-start;
     gap: 10px;
     box-sizing: border-box;
-    width: 100%;
-    margin: 12px 0 0;
+    width: min(420px, calc(100vw - 32px));
+    margin: 0;
     padding: 12px 14px;
     border: 1px solid transparent;
     border-radius: 14px;
     font-family: 'Mulish', 'Segoe UI', system-ui, sans-serif;
     backdrop-filter: blur(8px);
-  }
-
-  .top-mining-form-status--center {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 420px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    pointer-events: none;
   }
 
   .top-mining-form-status--compact {
-    margin-top: 10px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    backdrop-filter: none;
+    padding: 10px 12px;
   }
 
   .top-mining-form-status--success {
@@ -199,13 +197,11 @@
   .top-mining-form-status--compact .top-mining-form-status__icon {
     width: 20px;
     height: 20px;
-    background: transparent;
   }
 
   .top-mining-form-status--compact .top-mining-form-status__icon svg {
     width: 100%;
     height: 100%;
-    color: currentColor;
   }
 
   .top-mining-form-status__spinner {
@@ -234,12 +230,20 @@
   .tm-form-status-enter-from,
   .tm-form-status-leave-to {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(10px);
   }
 
   @keyframes tm-form-status-spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .top-mining-form-status {
+      left: max(16px, env(safe-area-inset-left));
+      right: max(16px, env(safe-area-inset-right));
+      width: auto;
     }
   }
 </style>
