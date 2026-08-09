@@ -2,6 +2,8 @@
  * Папка content — контент каталога.
  * Промо-баннеры в сетке карточек.
  */
+import { BUY_ASIC_PAGE_PATH } from '~/common/modules/top-mining/buy-asic/page'
+
 export const MINING_HOTELS_CATEGORY_ID = 'mining-hotels'
 export const ASIC_SALES_CATEGORY_ID = 'asic-sales'
 
@@ -37,7 +39,7 @@ export const CATALOG_MID_BLOCK_BANNER_CONFIG: Record<
     subtitle:
       'Подберем вам майнинг-компанию, где вы сможете купить асики',
     subtitleAccent: 'на 10% дешевле рынка',
-    href: 'https://top-mining.ru/asic-majnery-po-czenam-nizhe-rynka/',
+    href: BUY_ASIC_PAGE_PATH,
     benefits: [
       'Собьем цены поставщиков\nна асики на 7%',
       'Сэкономим вам 100+ часов\nна подборе, договорах, поломках',

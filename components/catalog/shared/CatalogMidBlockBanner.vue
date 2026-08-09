@@ -87,7 +87,6 @@
 
       <top-mining-button
         class="btn-link btn-link--orange"
-        target="_blank"
         variant="primary"
         size="small"
         surface="dark"

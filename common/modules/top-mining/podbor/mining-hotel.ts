@@ -575,7 +575,7 @@ export const PODBOR_MINING_HOTEL_TIME_SAVE = {
         'Как зарегистрировать свои асики в соответствии с новым законом?',
       ],
       buttonLabel: 'Подробнее о покупке ASIC-майнеров',
-      buttonHref: 'https://top-mining.ru/asic-majnery-po-czenam-nizhe-rynka/',
+      buttonHref: '/asic-majnery-po-czenam-nizhe-rynka/',
     },
     {
       id: 'mining-hotel',
@@ -662,9 +662,9 @@ export const PODBOR_MINING_HOTEL_BANNERS = {
       subtitle:
         'Подберем вам майнинг-компанию, где вы сможете купить асики на 10% дешевле рынка',
       buttonLabel: 'Подробнее',
-      href: 'https://top-mining.ru/asic-majnery-po-czenam-nizhe-rynka/',
+      href: '/asic-majnery-po-czenam-nizhe-rynka/',
       imageAlt: 'ASIC-майнеры Whatsminer с брендингом ТОП МАЙНИНГ',
-      external: true,
+      external: false,
     },
     {
       id: 'you-miner',
