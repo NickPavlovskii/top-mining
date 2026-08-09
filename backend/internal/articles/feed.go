@@ -6,21 +6,40 @@ import (
 	"strings"
 )
 
-func (r *Repository) Feed(ctx context.Context, topic string) (*Feed, error) {
+func (r *Repository) Feed(ctx context.Context, topic string, locale string) (*Feed, error) {
 	topic = strings.TrimSpace(topic)
 	if topic == "" {
 		topic = "all"
 	}
+	locale = NormalizeLocale(locale)
 
-	rows, err := r.db.Query(ctx, `
-        SELECT`+previewColumns+`
+	query := `
+        SELECT` + previewColumns + `
         FROM articles a
         LEFT JOIN media_assets cover ON cover.id = a.cover_media_id
         WHERE a.is_published = TRUE
           AND ($1 = 'all' OR a.topic_id = $1)
         ORDER BY a.sort_order ASC, a.published_at DESC, a.id ASC
         LIMIT $2
-    `, topic, feedQueryLimit)
+    `
+	args := []any{topic, feedQueryLimit}
+
+	if useTranslations(locale) {
+		query = `
+        SELECT` + previewColumnsLocalized + `
+        FROM articles a
+        LEFT JOIN media_assets cover ON cover.id = a.cover_media_id
+        LEFT JOIN article_translations t
+          ON t.article_id = a.id AND t.locale = $3
+        WHERE a.is_published = TRUE
+          AND ($1 = 'all' OR a.topic_id = $1)
+        ORDER BY a.sort_order ASC, a.published_at DESC, a.id ASC
+        LIMIT $2
+    `
+		args = []any{topic, feedQueryLimit, locale}
+	}
+
+	rows, err := r.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("query articles feed: %w", err)
 	}
@@ -37,7 +56,7 @@ func (r *Repository) Feed(ctx context.Context, topic string) (*Feed, error) {
 func buildFeed(items []Preview) *Feed {
 	feed := &Feed{
 		Featured: make([]Preview, 0, maxFeatured),
-		List: make([]Preview, 0, len(items)),
+		List:     make([]Preview, 0, len(items)),
 		HasMore:  len(items) > feedSlotCount,
 	}
 
@@ -69,7 +88,6 @@ func buildFeed(items []Preview) *Feed {
 		feed.List = append(feed.List, item)
 	}
 
-	// Сетка на главной — 4 колонки: если featured мало, добиваем из list.
 	for len(feed.Featured) < maxFeatured && len(feed.List) > 0 {
 		feed.Featured = append(feed.Featured, feed.List[0])
 		feed.List = feed.List[1:]

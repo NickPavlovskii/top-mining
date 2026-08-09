@@ -507,11 +507,13 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"articlesFeed": &graphql.Field{
 				Type: articlesFeedType,
 				Args: graphql.FieldConfigArgument{
-					"topic": &graphql.ArgumentConfig{Type: graphql.String},
+					"topic":  &graphql.ArgumentConfig{Type: graphql.String},
+					"locale": &graphql.ArgumentConfig{Type: graphql.String},
 				},
 				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 					topic, _ := params.Args["topic"].(string)
-					feed, err := articlesRepo.Feed(params.Context, topic)
+					locale, _ := params.Args["locale"].(string)
+					feed, err := articlesRepo.Feed(params.Context, topic, locale)
 					if err != nil {
 						return nil, err
 					}
@@ -522,11 +524,13 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"articlesCatalog": &graphql.Field{
 				Type: graphql.NewList(articlePreviewType),
 				Args: graphql.FieldConfigArgument{
-					"topic": &graphql.ArgumentConfig{Type: graphql.String},
+					"topic":  &graphql.ArgumentConfig{Type: graphql.String},
+					"locale": &graphql.ArgumentConfig{Type: graphql.String},
 				},
 				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 					topic, _ := params.Args["topic"].(string)
-					items, err := articlesRepo.Catalog(params.Context, topic)
+					locale, _ := params.Args["locale"].(string)
+					items, err := articlesRepo.Catalog(params.Context, topic, locale)
 					if err != nil {
 						return nil, err
 					}
@@ -541,11 +545,13 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 			"article": &graphql.Field{
 				Type: articleType,
 				Args: graphql.FieldConfigArgument{
-					"slug": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"slug":   &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"locale": &graphql.ArgumentConfig{Type: graphql.String},
 				},
 				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 					slug, _ := params.Args["slug"].(string)
-					article, err := articlesRepo.BySlug(params.Context, slug)
+					locale, _ := params.Args["locale"].(string)
+					article, err := articlesRepo.BySlug(params.Context, slug, locale)
 					if errors.Is(err, pgx.ErrNoRows) {
 						return nil, nil
 					}

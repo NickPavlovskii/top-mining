@@ -16,16 +16,8 @@ describe('localizeArticlePreview', () => {
     displayType: 'featured' as const,
   }
 
-  it('keeps Russian for ru locale', () => {
-    const result = localizeArticlePreview(sample, 'ru')
-    expect(result.title).toBe(sample.title)
-  })
-
-  it('translates known slug to English', () => {
-    const result = localizeArticlePreview(sample, 'en')
-    expect(result.title).toBe(
-      'Best mining ASICs: smart service, mature ecosystem',
-    )
-    expect(result.excerpt).toContain('How to choose an ASIC in 2026')
+  it('returns article as-is (translations come from API/DB)', () => {
+    expect(localizeArticlePreview(sample, 'en').title).toBe(sample.title)
+    expect(localizeArticlePreview(sample, 'ru').title).toBe(sample.title)
   })
 })

@@ -221,6 +221,7 @@
   type ArticlesViewMode = 'grid' | 'list'
 
   const { t } = useT()
+  const { locale } = useTopMiningLocale()
   const route = useRoute()
   const router = useRouter()
 
@@ -269,10 +270,10 @@
   const skeletonListCount = 8
 
   const { data: catalog, pending, error } = await useFetch<ArticlesCatalogResponse>(
-    () => `/api/articles/catalog?topic=${activeTopic.value}`,
+    () => `/api/articles/catalog?topic=${activeTopic.value}&locale=${locale.value}`,
     {
-      key: computed(() => `articles-catalog-${activeTopic.value}`),
-      watch: [activeTopic],
+      key: computed(() => `articles-catalog-${activeTopic.value}-${locale.value}`),
+      watch: [activeTopic, locale],
       ignoreResponseError: true,
       getCachedData: () => undefined,
     },

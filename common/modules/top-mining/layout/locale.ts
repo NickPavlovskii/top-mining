@@ -1,7 +1,6 @@
 /**
  * Локаль интерфейса (RU / EN).
- * Пока переключатель только сохраняет выбор и ставит html[lang];
- * полные переводы контента — отдельная задача.
+ * Cookie tm_locale; контент статей локализуется в БД (article_translations).
  */
 export const TOP_MINING_LOCALES = ['ru', 'en'] as const
 

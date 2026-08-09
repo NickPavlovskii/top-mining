@@ -283,6 +283,7 @@
   import headerLogoBlur from '~/assets/images/articles/header-logo-blur.png'
 
   const { t } = useT()
+  const { locale } = useTopMiningLocale()
   const { localize } = useLocalizedArticle()
   const route = useRoute()
   const slug = computed(() => String(route.params.slug || ''))
@@ -296,9 +297,9 @@
   }
 
   const { data: article, pending, error } = await useFetch<ArticleResponse>(
-    () => `/api/articles/${slug.value}`,
+    () => `/api/articles/${slug.value}?locale=${locale.value}`,
     {
-      watch: [slug],
+      watch: [slug, locale],
       ignoreResponseError: true,
     },
   )
@@ -380,12 +381,12 @@
   })
 
   const structuredSections = computed(() => {
-    const fromBlocks = articleBlocksToSections(article.value?.blocks)
+    const fromBlocks = articleBlocksToSections(localizedArticle.value?.blocks)
     if (fromBlocks?.length && sectionsHaveBody(fromBlocks) && !sectionsAreHollow(fromBlocks)) {
       return fromBlocks
     }
 
-    const fromPlain = plainContentToSections(article.value?.content)
+    const fromPlain = plainContentToSections(localizedArticle.value?.content)
     if (fromPlain?.length && sectionsHaveBody(fromPlain) && !sectionsAreHollow(fromPlain)) {
       return fromPlain
     }
@@ -397,7 +398,7 @@
     if (structuredSections.value?.length) {
       return false
     }
-    return isArticleContentPending(article.value?.content)
+    return isArticleContentPending(localizedArticle.value?.content)
   })
 
   async function trackArticleView(targetSlug: string) {
@@ -438,17 +439,17 @@
       return fromSections
     }
 
-    if (!article.value?.content) {
+    if (!localizedArticle.value?.content) {
       return []
     }
 
-    return buildTocFromPlainContent(article.value.content)
+    return buildTocFromPlainContent(localizedArticle.value.content)
   })
 
   const firstSectionId = computed(() => tocItems.value[0]?.id ?? null)
 
   const contentParagraphs = computed(() => {
-    const content = article.value?.content?.trim()
+    const content = localizedArticle.value?.content?.trim()
 
     if (!content) {
       return []

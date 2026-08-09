@@ -15,6 +15,17 @@ const previewColumns = `
     a.published_at::text, a.display_type
 `
 
+const previewColumnsLocalized = `
+    a.id, a.slug,
+    COALESCE(NULLIF(t.title, ''), a.title),
+    COALESCE(NULLIF(t.excerpt, ''), a.excerpt),
+    COALESCE(NULLIF(cover.path, ''), NULLIF(a.image_url, ''), ''),
+    COALESCE(NULLIF(t.image_alt, ''), NULLIF(cover.alt, ''), NULLIF(a.image_alt, ''), ''),
+    a.topic_id,
+    COALESCE(a.reading_minutes, a.reading_time_min),
+    a.published_at::text, a.display_type
+`
+
 func scanPreviews(rows pgx.Rows) ([]Preview, error) {
 	items := make([]Preview, 0, 16)
 

@@ -2,9 +2,11 @@ import { createError } from 'h3'
 import type { Article, ArticleResponse } from '~/common/modules/articles'
 import { ARTICLE_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
+import { resolveRequestLocale } from '~/server/utils/locale'
 
 export default defineEventHandler(async (event) => {
   const slug = String(getRouterParam(event, 'slug') || '')
+  const locale = resolveRequestLocale(event)
 
   if (!slug) {
     throw createError({ statusCode: 400, statusMessage: 'Article slug is required' })
@@ -13,6 +15,7 @@ export default defineEventHandler(async (event) => {
   try {
     const data = await fetchGraphQL<{ article: Article | null }>(ARTICLE_QUERY, {
       slug,
+      locale,
     })
 
     if (!data.article) {

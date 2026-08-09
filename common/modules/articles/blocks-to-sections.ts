@@ -140,7 +140,7 @@ export function articleBlocksToSections(
       const title =
         (typeof payload.text === 'string' && payload.text) ||
         (typeof payload.title === 'string' && payload.title) ||
-        'Раздел'
+        'Section'
       const id =
         (typeof block.anchor === 'string' && block.anchor.trim()) ||
         `section-${sections.length + 1}`

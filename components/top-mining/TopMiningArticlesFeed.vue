@@ -135,20 +135,20 @@
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
 
   const { t } = useT()
+  const { locale } = useTopMiningLocale()
   const { localize } = useLocalizedArticle()
 
   const props = defineProps<{
-    /** Тема статей: all, tools, investments и др. */
     topic: TopMiningArticlesTopicId
   }>()
 
   const topic = computed(() => props.topic)
 
   const { data: feed, pending, error } = await useFetch<ArticlesFeedResponse>(
-    () => `/api/articles?topic=${topic.value}`,
+    () => `/api/articles?topic=${topic.value}&locale=${locale.value}`,
     {
-      key: computed(() => `articles-feed-${topic.value}`),
-      watch: [topic],
+      key: computed(() => `articles-feed-${topic.value}-${locale.value}`),
+      watch: [topic, locale],
       ignoreResponseError: true,
       getCachedData: () => undefined,
     },

@@ -19,6 +19,19 @@ const articleBySlugSQL = `
         WHERE a.slug = $1 AND a.is_published = TRUE
 `
 
+const articleBySlugLocalizedSQL = `
+        SELECT` + previewColumnsLocalized + `,
+               COALESCE(NULLIF(t.content, ''), a.content),
+               COALESCE(a.content_html, ''),
+               COALESCE(a.uses_blocks, FALSE),
+               COALESCE(a.view_count, 0)
+        FROM articles a
+        LEFT JOIN media_assets cover ON cover.id = a.cover_media_id
+        LEFT JOIN article_translations t
+          ON t.article_id = a.id AND t.locale = $2
+        WHERE a.slug = $1 AND a.is_published = TRUE
+`
+
 const blocksBySlugSQL = `
 		SELECT id, position, type, payload, COALESCE(anchor, '')
 		FROM article_blocks
@@ -26,6 +39,19 @@ const blocksBySlugSQL = `
 			SELECT id FROM articles WHERE slug = $1 AND is_published = TRUE
 		)
 		ORDER BY position, id
+`
+
+const blocksBySlugLocalizedSQL = `
+		SELECT b.id, b.position, b.type,
+		       COALESCE(bt.payload, b.payload),
+		       COALESCE(b.anchor, '')
+		FROM article_blocks b
+		LEFT JOIN article_block_translations bt
+		  ON bt.block_id = b.id AND bt.locale = $2
+		WHERE b.article_id = (
+			SELECT id FROM articles WHERE slug = $1 AND is_published = TRUE
+		)
+		ORDER BY b.position, b.id
 `
 
 const relatedBySlugSQL = `
@@ -41,17 +67,40 @@ const relatedBySlugSQL = `
 		LIMIT $2
 `
 
+const relatedBySlugLocalizedSQL = `
+		SELECT` + previewColumnsLocalized + `
+		FROM entity_links el
+		JOIN articles a ON a.id = el.to_id AND a.is_published = TRUE
+		LEFT JOIN media_assets cover ON cover.id = a.cover_media_id
+		LEFT JOIN article_translations t
+		  ON t.article_id = a.id AND t.locale = $3
+		WHERE el.from_type = 'article'
+		  AND el.from_id = (SELECT id FROM articles WHERE slug = $1 AND is_published = TRUE)
+		  AND el.to_type = 'article'
+		  AND el.relation = 'related'
+		ORDER BY el.sort_order, a.id
+		LIMIT $2
+`
+
 // BySlug загружает статью, блоки и related одним round-trip (pgx.Batch).
-func (r *Repository) BySlug(ctx context.Context, slug string) (*Article, error) {
+func (r *Repository) BySlug(ctx context.Context, slug string, locale string) (*Article, error) {
 	slug = strings.TrimSpace(slug)
 	if slug == "" {
 		return nil, pgx.ErrNoRows
 	}
+	locale = NormalizeLocale(locale)
+	localized := useTranslations(locale)
 
 	batch := &pgx.Batch{}
-	batch.Queue(articleBySlugSQL, slug)
-	batch.Queue(blocksBySlugSQL, slug)
-	batch.Queue(relatedBySlugSQL, slug, maxRelated)
+	if localized {
+		batch.Queue(articleBySlugLocalizedSQL, slug, locale)
+		batch.Queue(blocksBySlugLocalizedSQL, slug, locale)
+		batch.Queue(relatedBySlugLocalizedSQL, slug, maxRelated, locale)
+	} else {
+		batch.Queue(articleBySlugSQL, slug)
+		batch.Queue(blocksBySlugSQL, slug)
+		batch.Queue(relatedBySlugSQL, slug, maxRelated)
+	}
 
 	br := r.db.SendBatch(ctx, batch)
 	defer br.Close()
@@ -67,7 +116,6 @@ func (r *Repository) BySlug(ctx context.Context, slug string) (*Article, error) 
 	}
 	if article.UsesBlocks {
 		article.Blocks = blocks
-		// Не затираем text/content одними heading-блоками (как после 018).
 		if BlocksHaveBody(blocks) {
 			if assembled := AssembleContentFromBlocks(blocks); assembled != "" {
 				article.Content = assembled

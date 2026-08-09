@@ -1,29 +1,15 @@
 import type { ArticlePreview } from '~/common/modules/articles'
-import { articleContentEn } from '~/common/modules/i18n/article-content-en'
 import type { TopMiningLocale } from '~/common/modules/top-mining/layout/locale'
 
 /**
- * Подставляет EN title/excerpt/imageAlt по slug, если есть перевод.
+ * Раньше подставлял EN из статических моков.
+ * Теперь перевод приходит из БД через API (?locale= / cookie tm_locale).
  */
 export function localizeArticlePreview<T extends ArticlePreview>(
   article: T,
-  locale: TopMiningLocale,
+  _locale: TopMiningLocale,
 ): T {
-  if (locale !== 'en') {
-    return article
-  }
-
-  const localized = articleContentEn[article.slug]
-  if (!localized) {
-    return article
-  }
-
-  return {
-    ...article,
-    title: localized.title,
-    excerpt: localized.excerpt || article.excerpt,
-    imageAlt: localized.imageAlt ?? article.imageAlt,
-  }
+  return article
 }
 
 export function useLocalizedArticle() {

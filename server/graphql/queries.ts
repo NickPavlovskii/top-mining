@@ -12,8 +12,8 @@ export const ARTICLE_PREVIEW_FIELDS = `
   displayType
 `
 export const ARTICLES_FEED_QUERY = `
-  query ArticlesFeed($topic: String) {
-    articlesFeed(topic: $topic) {
+  query ArticlesFeed($topic: String, $locale: String) {
+    articlesFeed(topic: $topic, locale: $locale) {
       hasMore
       hero { ${ARTICLE_PREVIEW_FIELDS} }
       featured { ${ARTICLE_PREVIEW_FIELDS} }
@@ -22,19 +22,16 @@ export const ARTICLES_FEED_QUERY = `
   }
 `
 
-/**
- * Полный каталог для /articles (без лимитов главной ленты).
- */
 export const ARTICLES_CATALOG_QUERY = `
-  query ArticlesCatalog($topic: String) {
-    articlesCatalog(topic: $topic) {
+  query ArticlesCatalog($topic: String, $locale: String) {
+    articlesCatalog(topic: $topic, locale: $locale) {
       ${ARTICLE_PREVIEW_FIELDS}
     }
   }
 `
 export const ARTICLE_QUERY = `
-  query Article($slug: String!) {
-    article(slug: $slug) {
+  query Article($slug: String!, $locale: String) {
+    article(slug: $slug, locale: $locale) {
       ${ARTICLE_PREVIEW_FIELDS}
       content
       usesBlocks

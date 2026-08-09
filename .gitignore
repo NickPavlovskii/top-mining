@@ -28,3 +28,7 @@ logs
 .env
 .env.*
 !.env.example
+
+# Temporary article translation workspaces
+scripts/.article-ru-export/
+scripts/.article-en-work/

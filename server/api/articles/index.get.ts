@@ -5,6 +5,7 @@ import type { ArticlesFeed, ArticlesFeedResponse } from '~/common/modules/articl
 import { fillArticlesFeedFeatured } from '~/common/modules/articles'
 import { ARTICLES_FEED_QUERY } from '~/server/graphql/queries'
 import { fetchGraphQL } from '~/server/utils/graphql'
+import { resolveRequestLocale } from '~/server/utils/locale'
 
 function normalizeTopic(raw: string): TopMiningArticlesTopicId {
   if (TOP_MINING_ARTICLES_TOPICS.some((item) => item.id === raw)) {
@@ -16,11 +17,12 @@ function normalizeTopic(raw: string): TopMiningArticlesTopicId {
 
 export default defineEventHandler(async (event) => {
   const topic = normalizeTopic(String(getQuery(event).topic || 'all'))
+  const locale = resolveRequestLocale(event)
 
   try {
     const data = await fetchGraphQL<{ articlesFeed: ArticlesFeed }>(
       ARTICLES_FEED_QUERY,
-      { topic },
+      { topic, locale },
     )
 
     const feed = fillArticlesFeedFeatured(data.articlesFeed)
