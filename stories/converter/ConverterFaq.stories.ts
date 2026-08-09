@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 
 import ConverterFaq from '~/components/converter/ConverterFaq.vue'
 
-import { canvasFullBleed } from '../../helpers/decorators'
+import { canvasFullBleed } from '../helpers/decorators'
 
 const meta = {
   title: 'Converter/Faq',
