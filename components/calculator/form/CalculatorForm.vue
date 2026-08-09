@@ -2218,6 +2218,14 @@ function confirmDefaultPriceCalculate() {
     grid-template-columns: 1fr;
   }
 
+  .calculator-form__advanced:not(.calculator-form__advanced--active) {
+    display: none;
+  }
+
+  .calculator-form__actions {
+    margin-top: 20px;
+  }
+
   .calculator-form__gpu-row--2,
   .calculator-form__gpu-row--3,
   .calculator-form__gpu-row--rates {
@@ -2283,6 +2291,7 @@ function confirmDefaultPriceCalculate() {
 
   .calculator-form__block--model {
     max-width: none;
+    flex: none;
   }
 }
 

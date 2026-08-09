@@ -105,24 +105,29 @@
       }
 
       const scroller = getScrollParent(link)
-      if (scroller) {
-        const scrollerRect = scroller.getBoundingClientRect()
-        const linkRect = link.getBoundingClientRect()
-        const pad = 12
+    
+      if (
+        !scroller
+        || scroller === document.documentElement
+        || scroller === document.body
+      ) {
+        return
+      }
 
-        if (linkRect.top < scrollerRect.top + pad) {
-          scroller.scrollBy({
-            top: linkRect.top - scrollerRect.top - pad,
-            behavior: 'smooth',
-          })
-        } else if (linkRect.bottom > scrollerRect.bottom - pad) {
-          scroller.scrollBy({
-            top: linkRect.bottom - scrollerRect.bottom + pad,
-            behavior: 'smooth',
-          })
-        }
-      } else {
-        link.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      const scrollerRect = scroller.getBoundingClientRect()
+      const linkRect = link.getBoundingClientRect()
+      const pad = 12
+
+      if (linkRect.top < scrollerRect.top + pad) {
+        scroller.scrollBy({
+          top: linkRect.top - scrollerRect.top - pad,
+          behavior: 'smooth',
+        })
+      } else if (linkRect.bottom > scrollerRect.bottom - pad) {
+        scroller.scrollBy({
+          top: linkRect.bottom - scrollerRect.bottom + pad,
+          behavior: 'smooth',
+        })
       }
     },
   )
