@@ -57,17 +57,18 @@
   const isTariffModalOpen = ref(false)
   const selectedOffer = ref<PodborPlacementOffer | null>(null)
 
-  const { data, pending } = await useFetch<PlacementResponse>(
+  const { data, pending, error } = await useFetch<PlacementResponse>(
     '/api/podbor/placement',
     {
       key: 'podbor-placement-offers',
       default: () => ({ offers: [] }),
+      ignoreResponseError: true,
     },
   )
 
   const offers = computed(() => data.value?.offers ?? [])
   const showSkeletons = computed(
-    () => pending.value || offers.value.length === 0,
+    () => pending.value || Boolean(error.value) || offers.value.length === 0,
   )
 
   function openTariffModal(offer: PodborPlacementOffer) {

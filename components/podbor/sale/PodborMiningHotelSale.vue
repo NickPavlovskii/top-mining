@@ -61,14 +61,18 @@
   const isPriceModalOpen = ref(false)
   const selectedOffer = ref<PodborPlacementOffer | null>(null)
 
-  const { data, pending } = await useFetch<SaleResponse>('/api/podbor/sale', {
-    key: 'podbor-sale-offers',
-    default: () => ({ offers: [] }),
-  })
+  const { data, pending, error } = await useFetch<SaleResponse>(
+    '/api/podbor/sale',
+    {
+      key: 'podbor-sale-offers',
+      default: () => ({ offers: [] }),
+      ignoreResponseError: true,
+    },
+  )
 
   const offers = computed(() => data.value?.offers ?? [])
   const showSkeletons = computed(
-    () => pending.value || offers.value.length === 0,
+    () => pending.value || Boolean(error.value) || offers.value.length === 0,
   )
 
   function openPriceModal(offer: PodborPlacementOffer) {
