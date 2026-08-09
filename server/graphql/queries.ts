@@ -11,12 +11,6 @@ export const ARTICLE_PREVIEW_FIELDS = `
   publishedAt
   displayType
 `
-
-/**
- * Лента статей на главной и /articles.
- * Переменная topic: all | news | mining | … — фильтр по вкладке.
- * Ответ: hero (1 шт.), featured (до 4), list (до 8), hasMore.
- */
 export const ARTICLES_FEED_QUERY = `
   query ArticlesFeed($topic: String) {
     articlesFeed(topic: $topic) {
@@ -24,6 +18,17 @@ export const ARTICLES_FEED_QUERY = `
       hero { ${ARTICLE_PREVIEW_FIELDS} }
       featured { ${ARTICLE_PREVIEW_FIELDS} }
       list { ${ARTICLE_PREVIEW_FIELDS} }
+    }
+  }
+`
+
+/**
+ * Полный каталог для /articles (без лимитов главной ленты).
+ */
+export const ARTICLES_CATALOG_QUERY = `
+  query ArticlesCatalog($topic: String) {
+    articlesCatalog(topic: $topic) {
+      ${ARTICLE_PREVIEW_FIELDS}
     }
   }
 `

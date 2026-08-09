@@ -211,7 +211,7 @@
     type TopMiningArticlesTopicId,
   } from '~/common/modules/top-mining/layout/articles-section'
   import type { BreadcrumbItem } from '@nuxt/ui'
-  import type { ArticlePreview, ArticlesFeedResponse } from '~/common/modules/articles'
+  import type { ArticlePreview, ArticlesCatalogResponse } from '~/common/modules/articles'
   import articleArrowRight from '~/assets/images/articles/arrow-right-24.png'
   import chevronLeft from '~/assets/images/articles/chevron-left.png'
   import chevronRight from '~/assets/images/articles/chevron-right.png'
@@ -268,10 +268,10 @@
   const skeletonGridCount = 12
   const skeletonListCount = 8
 
-  const { data: feed, pending, error } = await useFetch<ArticlesFeedResponse>(
-    () => `/api/articles?topic=${activeTopic.value}`,
+  const { data: catalog, pending, error } = await useFetch<ArticlesCatalogResponse>(
+    () => `/api/articles/catalog?topic=${activeTopic.value}`,
     {
-      key: computed(() => `articles-index-${activeTopic.value}`),
+      key: computed(() => `articles-catalog-${activeTopic.value}`),
       watch: [activeTopic],
       ignoreResponseError: true,
       getCachedData: () => undefined,
@@ -279,31 +279,11 @@
   )
 
   const allArticles = computed<ArticlePreview[]>(() => {
-    if (!feed.value || pending.value || error.value) {
+    if (!catalog.value || pending.value || error.value) {
       return []
     }
 
-    const items: ArticlePreview[] = []
-
-    if (feed.value.hero) {
-      items.push(feed.value.hero)
-    }
-
-    items.push(
-      ...(feed.value.featured ?? []),
-      ...(feed.value.list ?? []),
-    )
-
-    const seen = new Set<number>()
-
-    return items.filter((item) => {
-      if (seen.has(item.id)) {
-        return false
-      }
-
-      seen.add(item.id)
-      return true
-    })
+    return catalog.value.items ?? []
   })
 
   const showArticlesSkeleton = computed(

@@ -47,6 +47,13 @@ export interface ArticlesFeedResponse extends ArticlesFeed {
   updatedAt: string
 }
 
+export interface ArticlesCatalogResponse {
+  source: 'graphql'
+  updatedAt: string
+  topic: TopMiningArticlesTopicId
+  items: ArticlePreview[]
+}
+
 export interface ArticleResponse extends Article {
   source: 'graphql'
   updatedAt: string

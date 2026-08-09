@@ -519,6 +519,25 @@ func BuildSchema(pool *pgxpool.Pool) (graphql.Schema, error) {
 					return toGraphQLArticlesFeed(feed), nil
 				},
 			},
+			"articlesCatalog": &graphql.Field{
+				Type: graphql.NewList(articlePreviewType),
+				Args: graphql.FieldConfigArgument{
+					"topic": &graphql.ArgumentConfig{Type: graphql.String},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					topic, _ := params.Args["topic"].(string)
+					items, err := articlesRepo.Catalog(params.Context, topic)
+					if err != nil {
+						return nil, err
+					}
+
+					out := make([]map[string]interface{}, 0, len(items))
+					for _, item := range items {
+						out = append(out, toGraphQLArticlePreview(item))
+					}
+					return out, nil
+				},
+			},
 			"article": &graphql.Field{
 				Type: articleType,
 				Args: graphql.FieldConfigArgument{
