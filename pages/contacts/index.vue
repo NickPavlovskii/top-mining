@@ -32,30 +32,47 @@
             <p class="contacts-page__card-label">
               {{ item.label }}
             </p>
-            <div class="contacts-page__card-row">
+            <div :class="['contacts-page__link', `contacts-page__link--${item.iconClass}`]">
               <a
-                class="contacts-page__card-main"
+                class="contacts-page__link-value"
                 :href="item.href"
                 :target="item.external ? '_blank' : undefined"
                 :rel="item.external ? 'noopener noreferrer' : undefined"
               >
-                <icon
-                  :name="item.icon"
-                  class="contacts-page__card-icon"
-                  aria-hidden="true"
-                />
-                <span>{{ item.value }}</span>
+                {{ item.value }}
               </a>
               <button
                 type="button"
                 class="contacts-page__copy"
-                :aria-label="`Копировать ${item.label.replace(':', '')}`"
+                :aria-label="page.copyLabel"
                 @click="copyValue(item.copyValue, item.key)"
               >
-                <icon
-                  :name="copiedKey === item.key ? 'mdi:check' : 'mdi:content-copy'"
+                <span class="contacts-page__copy-tip">
+                  {{ copyTipLabel(item.key) }}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="26"
+                  viewBox="0 0 21 26"
+                  fill="none"
                   aria-hidden="true"
-                />
+                >
+                  <rect
+                    x="1"
+                    y="1"
+                    width="13.3333"
+                    height="18.6667"
+                    rx="2"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M6.32812 22.6668V23.0002C6.32812 24.1047 7.22355 25.0002 8.32812 25.0002H17.6615C18.766 25.0002 19.6615 24.1047 19.6615 23.0002V9.00016C19.6615 7.5274 18.4676 6.3335 16.9948 6.3335V6.3335"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </button>
             </div>
           </article>
@@ -65,25 +82,40 @@
           <p class="contacts-page__card-label">
             {{ page.address.label }}
           </p>
-          <div class="contacts-page__card-row">
-            <div class="contacts-page__card-main contacts-page__card-main--static">
-              <icon
-                :name="page.address.icon"
-                class="contacts-page__card-icon"
-                aria-hidden="true"
-              />
-              <span>{{ page.address.value }}</span>
-            </div>
+          <div class="contacts-page__link contacts-page__link--address">
+            <span class="contacts-page__link-value">{{ page.address.value }}</span>
             <button
               type="button"
               class="contacts-page__copy"
-              aria-label="Копировать адрес офиса"
+              :aria-label="page.copyLabel"
               @click="copyValue(page.address.copyValue, 'address')"
             >
-              <icon
-                :name="copiedKey === 'address' ? 'mdi:check' : 'mdi:content-copy'"
+              <span class="contacts-page__copy-tip">
+                {{ copyTipLabel('address') }}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="21"
+                height="26"
+                viewBox="0 0 21 26"
+                fill="none"
                 aria-hidden="true"
-              />
+              >
+                <rect
+                  x="1"
+                  y="1"
+                  width="13.3333"
+                  height="18.6667"
+                  rx="2"
+                  stroke="currentColor"
+                />
+                <path
+                  d="M6.32812 22.6668V23.0002C6.32812 24.1047 7.22355 25.0002 8.32812 25.0002H17.6615C18.766 25.0002 19.6615 24.1047 19.6615 23.0002V9.00016C19.6615 7.5274 18.4676 6.3335 16.9948 6.3335V6.3335"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </button>
           </div>
 
@@ -95,46 +127,58 @@
             <button
               type="button"
               class="contacts-page__copy"
-              aria-label="Копировать координаты"
+              :aria-label="page.copyLabel"
               @click="copyValue(page.coordinates.copyValue, 'coords')"
             >
-              <icon
-                :name="copiedKey === 'coords' ? 'mdi:check' : 'mdi:content-copy'"
+              <span class="contacts-page__copy-tip">
+                {{ copyTipLabel('coords') }}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="21"
+                height="26"
+                viewBox="0 0 21 26"
+                fill="none"
                 aria-hidden="true"
-              />
+              >
+                <rect
+                  x="1"
+                  y="1"
+                  width="13.3333"
+                  height="18.6667"
+                  rx="2"
+                  stroke="currentColor"
+                />
+                <path
+                  d="M6.32812 22.6668V23.0002C6.32812 24.1047 7.22355 25.0002 8.32812 25.0002H17.6615C18.766 25.0002 19.6615 24.1047 19.6615 23.0002V9.00016C19.6615 7.5274 18.4676 6.3335 16.9948 6.3335V6.3335"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </button>
           </div>
 
-          <ul class="contacts-page__metro">
-            <li
-              v-for="station in page.metro"
+          <div
+            v-for="(row, rowIndex) in page.metroRows"
+            :key="`metro-row-${rowIndex}`"
+            class="contacts-page__metro-row"
+          >
+            <div
+              v-for="station in row"
               :key="station"
+              class="contacts-page__metro"
             >
-              <span
-                class="contacts-page__metro-badge"
-                aria-hidden="true"
-              >M</span>
-              <span>{{ station }}</span>
-            </li>
-          </ul>
-
-          <div class="contacts-page__map">
-            <iframe
-              class="contacts-page__map-frame"
-              :src="page.map.embedSrc"
-              title="Карта офиса TOP MINING"
-              loading="lazy"
-              allowfullscreen
-            />
-            <a
-              class="contacts-page__map-open"
-              :href="page.map.openHref"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {{ page.map.openLabel }}
-            </a>
+              {{ station }}
+            </div>
           </div>
+
+          <ClientOnly>
+            <div
+              ref="mapWrap"
+              class="contacts-page__map"
+            />
+          </ClientOnly>
         </article>
       </div>
     </div>
@@ -144,33 +188,28 @@
 <script setup lang="ts">
   import { CONTACTS_PAGE } from '~/common/modules/top-mining/pages/contacts'
 
+  definePageMeta({
+    hideFooterContact: true,
+  })
+
   const { t } = useT()
   const page = CONTACTS_PAGE
   const copiedKey = ref<string | null>(null)
+  const mapWrap = ref<HTMLElement | null>(null)
   let copiedTimer: ReturnType<typeof setTimeout> | null = null
 
   const channels = [
-    {
-      key: 'phone',
-      ...page.phone,
-      external: false,
-    },
-    {
-      key: 'telegram',
-      ...page.telegram,
-      external: true,
-    },
-    {
-      key: 'whatsapp',
-      ...page.whatsapp,
-      external: true,
-    },
-    {
-      key: 'email',
-      ...page.email,
-      external: false,
-    },
+    { key: 'phone', ...page.phone, external: false },
+    { key: 'telegram', ...page.telegram, external: true },
+    { key: 'whatsapp', ...page.whatsapp, external: true },
+    { key: 'email', ...page.email, external: false },
   ] as const
+
+  const copyTipLabel = computed(() => {
+    const activeKey = copiedKey.value
+    return (key: string) =>
+      activeKey === key ? page.copiedLabel : page.copyLabel
+  })
 
   useSeoMeta({
     title: page.seoTitle,
@@ -195,9 +234,26 @@
       }, 1600)
     }
     catch {
-      // ignore clipboard errors (permissions / insecure context)
+      // ignore clipboard errors
     }
   }
+
+  watch(
+    mapWrap,
+    (el) => {
+      if (!el || el.dataset.mapLoaded === '1') {
+        return
+      }
+
+      el.dataset.mapLoaded = '1'
+      const script = document.createElement('script')
+      script.src = page.map.constructorSrc
+      script.async = true
+      script.charset = 'utf-8'
+      el.appendChild(script)
+    },
+    { flush: 'post' },
+  )
 
   onBeforeUnmount(() => {
     if (copiedTimer) {
@@ -210,18 +266,17 @@
   .contacts-page {
     position: relative;
     z-index: 1;
+    margin-bottom: 0;
+    padding: 64px 0 120px;
+    border-radius: 64px 64px 0 0;
+    background: #141414;
     color: var(--tm-white);
-    font-family:
-      'Segoe UI',
-      system-ui,
-      -apple-system,
-      sans-serif;
   }
 
   .contacts-page__inner {
-    max-width: 1280px;
+    max-width: 1728px;
     margin: 0 auto;
-    padding: 28px 46px 96px;
+    padding: 0 96px;
   }
 
   .contacts-page__breadcrumbs {
@@ -229,9 +284,9 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    margin-bottom: 28px;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 14px;
+    color: #757575;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 1.2;
   }
 
@@ -242,262 +297,379 @@
 
   .contacts-page__breadcrumbs-link:hover,
   .contacts-page__breadcrumbs-link:focus-visible {
-    color: var(--tm-orange);
+    color: #ff741f;
   }
 
   .contacts-page__breadcrumbs-current {
-    color: rgba(255, 255, 255, 0.78);
+    font-weight: 400;
   }
 
   .contacts-page__title {
-    margin: 0 0 40px;
-    color: var(--tm-white);
+    margin: 64px 0;
+    color: #f6f6f6;
     font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 600;
+    font-size: clamp(48px, 8vw, 120px);
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.03em;
     text-transform: uppercase;
   }
 
   .contacts-page__layout {
-    display: grid;
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    gap: 20px;
-    align-items: start;
+    display: flex;
+    gap: 24px;
+    align-items: stretch;
   }
 
   .contacts-page__channels {
-    display: grid;
-    gap: 16px;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 855px;
+    width: 100%;
   }
 
   .contacts-page__card {
-    padding: 22px 24px;
-    border-radius: 22px;
-    background: #1b1b1b;
+    width: 100%;
+    min-height: 168px;
+    padding: 40px;
+    border-radius: 32px;
+    background: #1f1f1f;
+    box-sizing: border-box;
   }
 
   .contacts-page__card--office {
-    display: grid;
-    gap: 18px;
-    padding: 26px 26px 22px;
+    flex: 1 1 0;
+    max-width: 855px;
+    min-height: auto;
   }
 
   .contacts-page__card-label {
-    margin: 0 0 14px;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.2;
+    margin: 0 0 30px;
+    color: #5c5c5c;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
   }
 
-  .contacts-page__card--office .contacts-page__card-label {
-    margin-bottom: 0;
-  }
-
-  .contacts-page__card-row {
+  .contacts-page__link {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 16px;
+    padding-left: 48px;
+    color: #fff;
+    font-family: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 30px;
   }
 
-  .contacts-page__card-main {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
+  .contacts-page__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(50% - 16px);
+    width: 32px;
+    height: 32px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .contacts-page__link--phone::before {
+    background-image: url('/images/contacts/c-phone.png');
+  }
+
+  .contacts-page__link--tg::before {
+    background-image: url('/images/contacts/c-tg.png');
+  }
+
+  .contacts-page__link--wa::before {
+    background-image: url('/images/contacts/c-wa.png');
+  }
+
+  .contacts-page__link--email::before {
+    background-image: url('/images/contacts/c-email.png');
+  }
+
+  .contacts-page__link--address::before {
+    background-image: url('/images/contacts/c-address.png');
+  }
+
+  .contacts-page__link-value {
     min-width: 0;
-    color: var(--tm-white);
-    font-size: clamp(22px, 2.4vw, 32px);
-    font-weight: 700;
-    line-height: 1.15;
+    color: inherit;
     text-decoration: none;
-  }
-
-  .contacts-page__card-main--static {
-    cursor: default;
-  }
-
-  .contacts-page__card-main:hover,
-  .contacts-page__card-main:focus-visible {
-    color: var(--tm-orange);
-  }
-
-  .contacts-page__card-main--static:hover,
-  .contacts-page__card-main--static:focus-visible {
-    color: var(--tm-white);
-  }
-
-  .contacts-page__card-main span {
     overflow-wrap: anywhere;
   }
 
-  .contacts-page__card-icon {
-    flex: 0 0 auto;
-    width: 28px;
-    height: 28px;
-    color: var(--tm-orange);
+  a.contacts-page__link-value:hover,
+  a.contacts-page__link-value:focus-visible {
+    color: #ff741f;
   }
 
   .contacts-page__copy {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+    z-index: 10;
+    display: block;
     flex: 0 0 auto;
-    width: 36px;
-    height: 36px;
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: 10px;
     background: transparent;
-    color: rgba(255, 255, 255, 0.55);
+    color: #757575;
     cursor: pointer;
-    transition:
-      color 0.2s ease,
-      background 0.2s ease;
+  }
+
+  .contacts-page__copy-tip {
+    position: absolute;
+    top: -42px;
+    left: 0;
+    z-index: 1;
+    display: none;
+    width: max-content;
+    height: 40px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+    color: #141414;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   .contacts-page__copy:hover,
   .contacts-page__copy:focus-visible {
-    color: var(--tm-orange);
-    background: rgba(255, 255, 255, 0.04);
+    color: #ff741f;
   }
 
-  .contacts-page__copy :deep(svg) {
-    width: 18px;
-    height: 18px;
+  .contacts-page__copy:hover .contacts-page__copy-tip,
+  .contacts-page__copy:focus-visible .contacts-page__copy-tip {
+    display: block;
+    opacity: 1;
   }
 
   .contacts-page__coords {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 14px;
-    line-height: 1.35;
+    gap: 16px;
+    margin: 20px 0 0;
+    color: #757575;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
   }
 
   .contacts-page__coords strong {
-    color: rgba(255, 255, 255, 0.78);
-    font-weight: 600;
+    color: #757575;
+    font-weight: 400;
+  }
+
+  .contacts-page__metro-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: 402px;
   }
 
   .contacts-page__metro {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 24px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    position: relative;
+    margin-top: 8px;
+    padding-left: 30px;
+    color: #757575;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
   }
 
-  .contacts-page__metro li {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--tm-white);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  .contacts-page__metro-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    background: #e31e24;
-    color: var(--tm-white);
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 1;
+  .contacts-page__metro::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(50% - 8px);
+    width: 23px;
+    height: 16px;
+    background: url('/images/contacts/metro.png') no-repeat center;
+    background-size: contain;
   }
 
   .contacts-page__map {
-    position: relative;
     overflow: hidden;
-    border-radius: 18px;
-    background: #101010;
+    margin-top: 30px;
+    border-radius: 22px;
+    min-height: 424px;
   }
 
-  .contacts-page__map-frame {
+  .contacts-page__map :deep(iframe) {
     display: block;
-    width: 100%;
-    height: 320px;
+    width: 100% !important;
+    height: 424px !important;
     border: 0;
   }
 
-  .contacts-page__map-open {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    z-index: 1;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background: rgba(20, 20, 20, 0.88);
-    color: var(--tm-white);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
-    text-decoration: none;
-  }
-
-  .contacts-page__map-open:hover,
-  .contacts-page__map-open:focus-visible {
-    color: var(--tm-orange);
-  }
-
-  @media (max-width: 1100px) {
+  @media (max-width: 1439px) {
     .contacts-page__inner {
-      padding-right: 32px;
-      padding-left: 32px;
-    }
-
-    .contacts-page__layout {
-      grid-template-columns: 1fr;
-    }
-
-    .contacts-page__card-main {
-      font-size: 26px;
-    }
-  }
-
-  @media (max-width: 700px) {
-    .contacts-page__inner {
-      padding: 20px 18px 72px;
-    }
-
-    .contacts-page__title {
-      margin-bottom: 28px;
-      font-size: 36px;
+      max-width: 1440px;
+      padding: 0 60px;
     }
 
     .contacts-page__card {
-      padding: 18px 16px;
-      border-radius: 18px;
+      min-height: 197px;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .contacts-page {
+      padding-bottom: 88px;
+      margin-bottom: 0;
     }
 
-    .contacts-page__card-main {
-      gap: 10px;
-      font-size: 20px;
+    .contacts-page__inner {
+      max-width: 700px;
+      padding: 0 24px;
     }
 
-    .contacts-page__card-icon {
-      width: 22px;
-      height: 22px;
+    .contacts-page__title {
+      margin: 20px 0;
+      font-size: 48px;
+      line-height: 64px;
+    }
+
+    .contacts-page__layout {
+      flex-direction: column;
+    }
+
+    .contacts-page__channels {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: none;
+    }
+
+    .contacts-page__channels .contacts-page__card {
+      width: calc(50% - 10px);
+      min-height: 100px;
+      border-radius: 24px;
+    }
+
+    .contacts-page__card {
+      min-height: 96px;
+      padding: 16px;
+      border-radius: 24px;
+    }
+
+    .contacts-page__card--office {
+      max-width: none;
+    }
+
+    .contacts-page__card-label {
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .contacts-page__link {
+      gap: 8px;
+      padding-left: 28px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 24px;
+    }
+
+    .contacts-page__link::before {
+      top: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+    }
+
+    .contacts-page__copy svg {
+      width: 12px;
+      height: auto;
+    }
+
+    .contacts-page__coords {
+      gap: 8px;
+      margin: 16px 0 8px;
+      font-size: 14px;
+      line-height: 24px;
     }
 
     .contacts-page__metro {
-      grid-template-columns: 1fr;
+      font-size: 14px;
+      line-height: 24px;
     }
 
-    .contacts-page__map-frame {
-      height: 260px;
+    .contacts-page__map {
+      min-height: 237px;
+      border-radius: 24px;
+    }
+
+    .contacts-page__map :deep(iframe) {
+      height: 237px !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .contacts-page {
+      padding-top: 32px;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .contacts-page__inner {
+      max-width: 470px;
+      padding: 0 15px;
+    }
+
+    .contacts-page__breadcrumbs {
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .contacts-page__title {
+      margin: 32px 0;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    .contacts-page__layout {
+      gap: 10px;
+    }
+
+    .contacts-page__channels {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contacts-page__channels .contacts-page__card {
+      width: 100%;
+    }
+
+    .contacts-page__metro-row {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contacts-page__coords {
+      flex-wrap: wrap;
+    }
+
+    .contacts-page__coords strong {
+      display: block;
+    }
+
+    .contacts-page__map {
+      margin-top: 20px;
+    }
+
+    .contacts-page__copy-tip {
+      font-size: 14px;
+      line-height: 24px;
     }
   }
 </style>
