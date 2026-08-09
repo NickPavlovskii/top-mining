@@ -58,6 +58,10 @@ export function getTopMiningNavHeadingHref(columnSlug: string): string {
     return CALCULATOR_PAGE_PATH
   }
 
+  if (columnSlug === 'consulting') {
+    return '/consulting/'
+  }
+
   return '#'
 }
 

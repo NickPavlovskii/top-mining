@@ -13,11 +13,16 @@
           >
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                {{ t('home.heroCatalogTitle') }}
-                <img
-                  :src="buttonArrow"
-                  alt="" class="top-mining__card-title-arrow"
-                />
+                <nuxt-link
+                  :to="CATALOG_PAGE_HREF"
+                  class="top-mining__card-title-link"
+                >
+                  {{ t('home.heroCatalogTitle') }}
+                  <img
+                    :src="buttonArrow"
+                    alt="" class="top-mining__card-title-arrow"
+                  />
+                </nuxt-link>
               </h2>
 
               <p class="top-mining__card-text">
@@ -29,9 +34,11 @@
               </p>
 
               <div class="top-mining__card-companies">
-                <span
+                <nuxt-link
                   v-for="company in TOP_MINING_COMPANIES"
                   :key="company.name"
+                  :to="CATALOG_PAGE_HREF"
+                  class="top-mining__card-company"
                 >
                   <b>
                     <img
@@ -47,11 +54,11 @@
                     {{ company.rate }}
                   </small>
                   <small>{{ t('home.heroReviewsLabel', undefined, { count: company.reviews }) }}</small>
-                </span>
+                </nuxt-link>
               </div>
 
               <top-mining-button
-                href="#"
+                :href="CATALOG_PAGE_HREF"
                 :title="t('home.heroCatalogCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 :append-icon="buttonArrow"
@@ -67,8 +74,13 @@
           >
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                {{ t('home.heroCalcTitle') }}
-                <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                <nuxt-link
+                  :to="CALCULATOR_PAGE_PATH"
+                  class="top-mining__card-title-link"
+                >
+                  {{ t('home.heroCalcTitle') }}
+                  <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                </nuxt-link>
               </h2>
 
               <div class="top-mining__card-stats">
@@ -97,7 +109,7 @@
 
               <top-mining-button
                 class="top-mining-button--right"
-                href="#"
+                :href="CALCULATOR_PAGE_PATH"
                 :title="t('home.heroCalcCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
               />
@@ -137,8 +149,13 @@
             />
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                {{ t('home.heroRatingTitle') }}
-                <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                <nuxt-link
+                  :to="RATINGS_PAGE_HREF"
+                  class="top-mining__card-title-link"
+                >
+                  {{ t('home.heroRatingTitle') }}
+                  <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                </nuxt-link>
               </h2>
 
               <p class="top-mining__card-text">{{ t('home.heroRatingText') }}</p>
@@ -146,7 +163,7 @@
               <top-mining-button
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 class="top-mining-button--right"
-                href="/rating/"
+                :href="RATINGS_PAGE_HREF"
                 :title="t('home.heroRatingCta')"
                 :append-icon="buttonArrow"
               />
@@ -185,8 +202,15 @@
             />
             <div class="top-mining__card-content">
               <h2 class="top-mining__card-title">
-                {{ t('home.heroTgTitle') }}
-                <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                <a
+                  :href="TOP_MINING_TELEGRAM_BOT_URL"
+                  class="top-mining__card-title-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ t('home.heroTgTitle') }}
+                  <img :src="buttonArrow" alt="" class="top-mining__card-title-arrow" />
+                </a>
               </h2>
 
               <p
@@ -200,7 +224,8 @@
 
               <top-mining-button
                 class="top-mining-button--right"
-                href="#"
+                :href="TOP_MINING_TELEGRAM_BOT_URL"
+                target="_blank"
                 :title="t('home.epicTgCta')"
                 v-bind="TOP_MINING_BUTTON_PROPS"
                 :prepend-icon="telegramIcon"
@@ -215,10 +240,14 @@
 </template>
 
 <script setup lang="ts">
+  import { CATALOG_PAGE_HREF } from '~/common/modules/catalog/nav/links'
+  import { RATINGS_PAGE_HREF } from '~/common/modules/ratings/nav-links'
   import {
     TOP_MINING_BUTTON_PROPS,
     TOP_MINING_COMPANIES,
+    TOP_MINING_TELEGRAM_BOT_URL,
   } from '~/common/modules/top-mining'
+  import { CALCULATOR_PAGE_PATH } from '~/common/modules/top-mining/calculator/path'
   import blurLeft from '~/assets/images/top-mining/blur-left.png'
   import blurRight from '~/assets/images/top-mining/blur-right.png'
   import buttonArrow from '~/assets/images/top-mining/button-arrow.png'
@@ -507,6 +536,14 @@
     text-transform: uppercase;
   }
 
+  .top-mining__card-title-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+  }
+
   .top-mining__card-title-arrow {
     width: 21px;
     height: 21px;
@@ -564,7 +601,8 @@
     margin: 0 0 34px;
   }
 
-  .top-mining__card-companies span {
+  .top-mining__card-companies span,
+  .top-mining__card-company {
     display: grid;
     gap: 1px;
     min-height: 58px;
@@ -574,6 +612,7 @@
     color: var(--tm-shadow);
     font-size: 10px;
     line-height: 1.1;
+    text-decoration: none;
   }
 
   .top-mining__card-companies b {
@@ -1527,7 +1566,8 @@
       display: none;
     }
 
-    .top-mining__card-companies span {
+    .top-mining__card-companies span,
+    .top-mining__card-company {
       flex: 0 0 145px;
       min-height: 106px;
       padding: 14px 16px;

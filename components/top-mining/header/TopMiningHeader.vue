@@ -83,7 +83,7 @@
         <div class="top-mining__consulting-wrap">
           <top-mining-button
             class="top-mining-button--consulting"
-            href="#"
+            href="/consulting/"
             variant="primary"
             size="big"
             surface="dark"

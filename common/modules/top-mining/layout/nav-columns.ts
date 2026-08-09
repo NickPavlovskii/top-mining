@@ -148,6 +148,7 @@ export function isNavHeadingLink(slug: TopMiningNavColumn['slug']): boolean {
     || slug === 'ratings'
     || slug === 'articles'
     || slug === 'calculator'
+    || slug === 'consulting'
   )
 }
 
