@@ -76,6 +76,13 @@
   import type { RatingsResponse } from '~/common/modules/ratings'
   import TopMiningRatingMarqueeLink from '~/components/rating/TopMiningRatingMarqueeLink.vue'
 
+  const LEGACY_HASH_TO_CATEGORY: Record<string, string> = {
+    machinery_and_equipment: 'equipment',
+    sales_and_services: 'sales',
+    tools_and_services: 'tools',
+    cryptocurrencies_and_tokens: 'crypto',
+  }
+
   const { t, tRatingTitle, tRatingItem } = useT()
   const route = useRoute()
 
@@ -85,15 +92,24 @@
     () => data.value?.cards ?? RATINGS_FALLBACK_CARDS,
   )
 
-  const activeCategoryId = computed(() => {
-    const category = String(route.query.category || '')
+  function resolveCategoryId(): string | null {
+    const fromQuery = String(route.query.category || '').trim()
+    const fromHash = route.hash.replace(/^#/, '').trim()
+    const raw = fromQuery || fromHash
+    if (!raw) {
+      return null
+    }
+
+    const category = LEGACY_HASH_TO_CATEGORY[raw] || raw
 
     if (ratingCards.value.some((card) => card.id === category)) {
       return category
     }
 
     return null
-  })
+  }
+
+  const activeCategoryId = computed(() => resolveCategoryId())
 
   const visibleCards = computed(() => {
     if (!activeCategoryId.value) {
@@ -113,7 +129,7 @@
     title: () => t('ratings.seoTitle'),
   })
 
-  onMounted(() => {
+  function scrollToActiveCategory() {
     if (!activeCategoryId.value || import.meta.server) {
       return
     }
@@ -123,7 +139,18 @@
         .getElementById(`rating-${activeCategoryId.value}`)
         ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
+  }
+
+  onMounted(() => {
+    scrollToActiveCategory()
   })
+
+  watch(
+    () => [route.query.category, route.hash] as const,
+    () => {
+      scrollToActiveCategory()
+    },
+  )
 </script>
 
 <style scoped>
