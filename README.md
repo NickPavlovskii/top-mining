@@ -90,6 +90,23 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 
 ---
 
+## Документация
+
+| Документ | Описание |
+|----------|----------|
+| [`docs/frontend.md`](./docs/frontend.md) | Архитектура фронтенда |
+| [`docs/architecture.md`](./docs/architecture.md) | Система: BFF, GraphQL, BPMN |
+| [`docs/top-mining-architecture.pdf`](./docs/top-mining-architecture.pdf) | Архитектура (PDF) · [Drive](https://drive.google.com/file/d/1qOMIISLVlTwU8XhqFbly8rzvgxW8Z0PN/view?usp=drive_link) |
+| [`docs/calculator.md`](./docs/calculator.md) | Спека калькулятора (UI + формулы) |
+| [`docs/mining-calculator-guide.pdf`](./docs/mining-calculator-guide.pdf) | Гайд калькулятора (PDF) · [Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link) |
+| [`docs/leads.md`](./docs/leads.md) | Заявки и Zod |
+| [`backend/README.md`](./backend/README.md) | GraphQL, Postgres, миграции |
+| [`components/README.md`](./components/README.md) | Зоны Vue-компонентов |
+| [`docs/brand/`](./docs/brand/) | Логотип и иконки |
+| [`docs/diagrams/`](./docs/diagrams/) | UML / ER / flowchart PNG |
+
+---
+
 ## Схемы архитектуры
 
 Полные PDF:
@@ -498,23 +515,6 @@ import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
 | `http/` | `status.ts` | `HTTP_OK`, `HTTP_NOT_FOUND`, … |
 | `not-found/` | `sphere.ts` | `buildSphereTags()`, `projectSphereTags()` |
 | `process/` | `steps.ts` | `PROCESS_SECTION_STEPS` |
-
----
-
-## Документация
-
-| Документ | Описание |
-|----------|----------|
-| [`docs/frontend.md`](./docs/frontend.md) | Архитектура фронтенда |
-| [`docs/architecture.md`](./docs/architecture.md) | Система: BFF, GraphQL, BPMN |
-| [`docs/top-mining-architecture.pdf`](./docs/top-mining-architecture.pdf) | Архитектура (PDF) · [Drive](https://drive.google.com/file/d/1qOMIISLVlTwU8XhqFbly8rzvgxW8Z0PN/view?usp=drive_link) |
-| [`docs/calculator.md`](./docs/calculator.md) | Спека калькулятора (UI + формулы) |
-| [`docs/mining-calculator-guide.pdf`](./docs/mining-calculator-guide.pdf) | Гайд калькулятора (PDF) · [Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link) |
-| [`docs/leads.md`](./docs/leads.md) | Заявки и Zod |
-| [`backend/README.md`](./backend/README.md) | GraphQL, Postgres, миграции |
-| [`components/README.md`](./components/README.md) | Зоны Vue-компонентов |
-| [`docs/brand/`](./docs/brand/) | Логотип и иконки |
-| [`docs/diagrams/`](./docs/diagrams/) | UML / ER / flowchart PNG |
 
 ---
 
