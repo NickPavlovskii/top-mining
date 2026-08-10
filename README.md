@@ -16,7 +16,11 @@
   &nbsp;·&nbsp;
   <a href="./docs/architecture.md">Архитектура</a>
   &nbsp;·&nbsp;
+  <a href="./docs/top-mining-architecture.pdf">Архитектура (PDF)</a>
+  &nbsp;·&nbsp;
   <a href="./docs/calculator.md">Калькулятор</a>
+  &nbsp;·&nbsp;
+  <a href="./docs/mining-calculator-guide.pdf">Гайд калькулятора (PDF)</a>
   &nbsp;·&nbsp;
   <a href="./docs/leads.md">Заявки и Zod</a>
   &nbsp;·&nbsp;
@@ -83,6 +87,90 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 | **Качество** | ESLint, Stylelint, Prettier, Vitest, Storybook 9 |
 | **Backend** | Go, GraphQL, PostgreSQL, Docker Compose |
 | **Тесты** | Vitest + `@vue/test-utils` + happy-dom, HTML-snapshots |
+
+---
+
+## Схемы архитектуры
+
+Полные PDF:
+
+- [Архитектура Top Mining (PDF)](./docs/top-mining-architecture.pdf) · [Google Drive](https://drive.google.com/file/d/1qOMIISLVlTwU8XhqFbly8rzvgxW8Z0PN/view?usp=drive_link)
+- [Гайд по калькулятору (PDF)](./docs/mining-calculator-guide.pdf) · [Google Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link)
+
+Markdown: [`docs/architecture.md`](./docs/architecture.md), [`docs/calculator.md`](./docs/calculator.md), [`docs/leads.md`](./docs/leads.md).
+
+### GraphQL Schema
+
+Центральный `GraphQLSchema` — точка входа Go API. Запросы и мутации делегируются доменным пакетам: каталог, железо/монеты калькулятора, статьи, организации, рейтинги, подбор (`podbor`), лиды.
+
+| Операция | Модуль | Назначение |
+|----------|--------|------------|
+| `catalog()` | `catalog` | Каталог организаций и производителей |
+| `calculatorHardware()` | `hardware` | Модели ASIC / GPU / CPU |
+| `calculatorCoins()` | `hardware` | Монеты, алгоритмы, рыночные дефолты |
+| `createLead()` | `leads` | Заявка с формы |
+
+`hardware` тянет каталог через `FetchCalculatorCatalog()` / `FetchCalculatorCoins()`. `leads.Create()` пишет в Postgres.
+
+<p align="center">
+  <img src="docs/diagrams/graphql-schema.png" alt="UML: GraphQL Schema и доменные модули" width="720" />
+</p>
+
+### Sequence — загрузка калькулятора
+
+BFF-паттерн: браузер → `CalculatorForm` → Nitro `/api/calculator/*` → Go GraphQL → `hardware` pkg → PostgreSQL.
+
+1. Пользователь открывает `/calculator`.
+2. Форма запрашивает hardware + coins у Nuxt API.
+3. Nitro проксирует GraphQL `calculatorHardware` / `calculatorCoins`.
+4. Go вызывает `FetchCalculatorCatalog` / `FetchCalculatorCoins`.
+5. SQL по таблицам `hardware_*`, `market_stats`, `fx_rates`.
+6. DTO → JSON GraphQL → JSON API → форма.
+
+Расчёт `calculateMiningProfit` идёт **на клиенте**, без второго круга на сервер.
+
+<p align="center">
+  <img src="docs/diagrams/sequence-calculator.png" alt="Sequence: калькулятор Browser → Nuxt → Go GraphQL → PostgreSQL" width="860" />
+</p>
+
+### Sequence — заявка с двойной Zod-валидацией
+
+`useSubmitLead` валидирует тело той же схемой `parseLeadSubmit` на клиенте и на сервере.
+
+1. Пользователь сабмитит форму.
+2. Клиент: `safeParse` → при ошибке `TopMiningFormStatus`.
+3. `POST /api/leads` → повторный `safeParse` на сервере.
+4. GraphQL `createLead` → `INSERT` в `leads`.
+5. Опционально уведомление в Telegram.
+6. Клиенту — success status.
+
+<p align="center">
+  <img src="docs/diagrams/sequence-leads.png" alt="Sequence: lead submit с двойной Zod-валидацией" width="860" />
+</p>
+
+### ER — ядро hardware (миграция 017, сид 028)
+
+Нормализованная схема калькулятора: виды и вендоры железа, модели (hashrate, Вт), алгоритмы, монеты, рыночные статы и курсы.
+
+Прибыль считается связкой `hardware_models` (hashrate, `power_w`) → алгоритмы → `hardware_coins` → `market_stats` (`price_usdt`, difficulty, block reward) + `fx_rates`.
+
+<p align="center">
+  <img src="docs/diagrams/er-hardware.png" alt="ER: ядро hardware, миграция 017, сид 028" width="860" />
+</p>
+
+### Flowchart — сценарий калькулятора
+
+1. Старт → загрузка hardware и coins.
+2. Тип: ASIC / GPU / CPU.
+3. Модель или ручные параметры → монета / алгоритм.
+4. Цена, qty, hashrate, мощность, тариф.
+5. Валидация → ошибка или подтверждение дефолтной цены.
+6. Расчёт на клиенте → результаты.
+7. Можно изменить параметры и пройти цикл снова.
+
+<p align="center">
+  <img src="docs/diagrams/flowchart-calculator.png" alt="Flowchart: пользовательский сценарий калькулятора" width="420" />
+</p>
 
 ---
 
@@ -250,7 +338,7 @@ top-mining/
 ├── server/api/             # Nitro → GraphQL
 ├── stories/                # Storybook
 ├── test/unit/              # Vitest
-├── docs/                   # frontend.md, calculator.md, brand/
+├── docs/                   # frontend, architecture, calculator, leads, PDF, diagrams/
 └── backend/                # Go GraphQL + Postgres
 ```
 
@@ -418,10 +506,15 @@ import { getCatalogCategoryHref } from '~/common/modules/catalog/nav/links'
 | Документ | Описание |
 |----------|----------|
 | [`docs/frontend.md`](./docs/frontend.md) | Архитектура фронтенда |
-| [`docs/calculator.md`](./docs/calculator.md) | Полная спека калькулятора (UI + формулы) |
+| [`docs/architecture.md`](./docs/architecture.md) | Система: BFF, GraphQL, BPMN |
+| [`docs/top-mining-architecture.pdf`](./docs/top-mining-architecture.pdf) | Архитектура (PDF) · [Drive](https://drive.google.com/file/d/1qOMIISLVlTwU8XhqFbly8rzvgxW8Z0PN/view?usp=drive_link) |
+| [`docs/calculator.md`](./docs/calculator.md) | Спека калькулятора (UI + формулы) |
+| [`docs/mining-calculator-guide.pdf`](./docs/mining-calculator-guide.pdf) | Гайд калькулятора (PDF) · [Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link) |
+| [`docs/leads.md`](./docs/leads.md) | Заявки и Zod |
 | [`backend/README.md`](./backend/README.md) | GraphQL, Postgres, миграции |
 | [`components/README.md`](./components/README.md) | Зоны Vue-компонентов |
 | [`docs/brand/`](./docs/brand/) | Логотип и иконки |
+| [`docs/diagrams/`](./docs/diagrams/) | UML / ER / flowchart PNG |
 
 ---
 
