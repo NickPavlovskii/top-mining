@@ -1,7 +1,7 @@
 # Архитектура Top Mining: фронтенд, бэкенд, схемы, калькулятор (BPMN)
 
 Документ для онбординга и моделирования процессов (BPMN / UML).  
-Бизнес-задачи и все процессы ИС (как описать и нарисовать схемы): [`business.md`](./business.md).  
+Бизнес-процессы и задачи ИС: [`top-mining-business-processes.docx`](./top-mining-business-processes.docx) · схемы PNG: [`diagrams/business/`](./diagrams/business/).  
 Детали калькулятора: [`calculator.md`](./calculator.md).  
 Заявки и Zod: [`leads.md`](./leads.md).  
 Слои клиента: [`frontend.md`](./frontend.md).  

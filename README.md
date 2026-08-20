@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://top-mining.ru"><strong>top-mining.ru</strong></a>
   ·
-  <a href="./docs/business.md">Бизнес</a>
+  <a href="./docs/top-mining-business-processes.docx">Бизнес-процессы</a>
   ·
   <a href="./docs/architecture.md">Архитектура</a>
   ·
@@ -82,8 +82,8 @@ Nitro BFF  →  Go GraphQL (:8080)  →  PostgreSQL
 
 Цепочка ценности: **узнать → сравнить → посчитать → заявка**.
 
-Подробно (BZ/BP, шаблоны схем, чеклист): [`docs/business.md`](./docs/business.md)  
-PNG: [`docs/diagrams/business/`](./docs/diagrams/business/)
+Полный документ (Word): [**Бизнес-процессы и задачи ИС Top Mining**](./docs/top-mining-business-processes.docx)  
+PNG-схемы: [`docs/diagrams/business/`](./docs/diagrams/business/)
 
 | ID | Задача | Процесс |
 |----|--------|---------|
@@ -148,11 +148,13 @@ PNG: [`docs/diagrams/business/`](./docs/diagrams/business/)
 
 | Документ | Содержание |
 |----------|------------|
+| [**Бизнес-процессы и задачи (DOCX)**](./docs/top-mining-business-processes.docx) | BZ/BP, роли, UML/BPMN для ИС |
 | [`docs/architecture.md`](./docs/architecture.md) | Слои, GraphQL, BPMN калькулятора |
 | [`docs/frontend.md`](./docs/frontend.md) | Зоны фронтенда |
 | [`docs/calculator.md`](./docs/calculator.md) | Формулы и UI калькулятора |
 | [`docs/leads.md`](./docs/leads.md) | Заявки и Zod |
 | [`docs/testing.md`](./docs/testing.md) | Vitest + Playwright |
+| [`docs/diagrams/business/`](./docs/diagrams/business/) | BPMN / Sequence / ER (PNG) |
 | PDF | [Архитектура](./docs/top-mining-architecture.pdf) · [Калькулятор](./docs/mining-calculator-guide.pdf) |
 
 <p align="center">
