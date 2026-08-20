@@ -92,7 +92,7 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 | **Стили** | SCSS-токены (`--tm-*`), BEM, шрифт **Unbounded** / Mulish |
 | **Качество** | ESLint, Stylelint, Prettier, Vitest, Storybook 9 |
 | **Backend** | Go, GraphQL, PostgreSQL, Docker Compose |
-| **Тесты** | Vitest + `@vue/test-utils` + happy-dom, HTML-snapshots |
+| **Тесты** | Vitest + Playwright (app / Storybook), см. [`docs/testing.md`](./docs/testing.md) |
 
 ---
 
@@ -106,6 +106,7 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 | [`docs/calculator.md`](./docs/calculator.md) | Спека калькулятора (UI + формулы) |
 | [`docs/mining-calculator-guide.pdf`](./docs/mining-calculator-guide.pdf) | Гайд калькулятора (PDF) · [Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link) |
 | [`docs/leads.md`](./docs/leads.md) | Заявки и Zod |
+| [`docs/testing.md`](./docs/testing.md) | Unit (Vitest) и E2E (Playwright) |
 | [`backend/README.md`](./backend/README.md) | GraphQL, Postgres, миграции |
 | [`components/README.md`](./components/README.md) | Зоны Vue-компонентов |
 | [`docs/brand/`](./docs/brand/) | Логотип и иконки |
@@ -120,7 +121,7 @@ Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 - [Архитектура Top Mining (PDF)](./docs/top-mining-architecture.pdf) · [Google Drive](https://drive.google.com/file/d/1qOMIISLVlTwU8XhqFbly8rzvgxW8Z0PN/view?usp=drive_link)
 - [Гайд по калькулятору (PDF)](./docs/mining-calculator-guide.pdf) · [Google Drive](https://drive.google.com/file/d/1zq-x05P5ODkBb7_5D0j7RZe8210lT087/view?usp=drive_link)
 
-Markdown: [`docs/architecture.md`](./docs/architecture.md), [`docs/calculator.md`](./docs/calculator.md), [`docs/leads.md`](./docs/leads.md).
+Markdown: [`docs/architecture.md`](./docs/architecture.md), [`docs/calculator.md`](./docs/calculator.md), [`docs/leads.md`](./docs/leads.md), [`docs/testing.md`](./docs/testing.md).
 
 ### GraphQL Schema
 
