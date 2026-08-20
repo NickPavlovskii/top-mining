@@ -24,6 +24,11 @@ logs
 .fleet
 .idea
 
+# Playwright
+playwright-report/
+test-results/
+blob-report/
+
 # Local env files
 .env
 .env.*

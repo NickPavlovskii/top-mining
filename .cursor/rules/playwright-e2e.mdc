@@ -1,0 +1,61 @@
+---
+description: Playwright E2E tests — structure, locators, API mocks, Storybook
+globs: tests/**/*.js,playwright.config.js
+alwaysApply: false
+---
+
+# Playwright E2E (Top Mining)
+
+## Structure
+
+- Tests in **JavaScript** under `tests/`
+- Helpers in `tests/helpers/` — `gotoApp()`, `installApiMocks()`, `gotoStory()`, fixtures
+- Name files by **system area**: `home.spec.js`, `calculator.spec.js`, `navigation.spec.js`
+- Storybook specs in `tests/storybook/`
+- Group with `test.describe`; use descriptive Russian test names
+
+## Auth
+
+- Top Mining has no login — do not use `storageState` / auth setup
+
+## Locators
+
+1. Prefer `getByRole`, then `getByLabel`, `getByPlaceholder`, `getByText`
+2. Avoid CSS classes and test IDs unless no semantic alternative
+
+## API
+
+- Mock only Nitro `/api/*` paths in `installApiMocks` — explicit routes, never `**/api/**`
+- Use `gotoApp(page, path)` — mocks enabled by default; `{ mockApi: false }` for static pages
+
+## Writing tests
+
+- Assert user-visible behavior; use web-first assertions (`toBeVisible`, `toHaveURL`)
+- Shared setup in `beforeEach`; no shared mutable state between tests
+- Use `gotoApp()` / `gotoStory()`; avoid `page.evaluate()` and explicit sleeps
+
+## Projects
+
+- `app` — Nuxt dev server `:3010` (`PLAYWRIGHT_APP_PORT`)
+- `storybook` — Storybook `:6010` (`PLAYWRIGHT_STORYBOOK_PORT`), iframe via `gotoStory(storyId)`
+
+Docs: `docs/testing.md`
+
+## Example
+
+```javascript
+import { test, expect } from '@playwright/test';
+import { gotoApp } from './helpers/index.js';
+
+test.describe('Майнинг-калькулятор', () => {
+  test.beforeEach(async ({ page }) => {
+    await gotoApp(page, '/calculator');
+  });
+
+  test('отображает форму калькулятора', async ({ page }) => {
+    await expect(
+      page.getByRole('region', { name: 'Калькулятор доходности' }),
+    ).toBeVisible();
+  });
+});
+```

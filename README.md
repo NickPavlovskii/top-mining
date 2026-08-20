@@ -24,6 +24,8 @@
   &nbsp;·&nbsp;
   <a href="./docs/leads.md">Заявки и Zod</a>
   &nbsp;·&nbsp;
+  <a href="./docs/testing.md">Тесты</a>
+  &nbsp;·&nbsp;
   <a href="./backend/README.md">Backend</a>
 </p>
 
@@ -46,6 +48,7 @@ npm install
 npm run dev          # http://localhost:3000
 npm run storybook    # http://localhost:6007
 npm run test:run     # unit + snapshot
+npm run test:e2e     # Playwright (app + Storybook)
 ```
 
 | Команда | Что делает |
@@ -56,7 +59,10 @@ npm run test:run     # unit + snapshot
 | `npm run storybook` | UI-kit и визуальные сторис |
 | `npm run test` | Vitest (watch) |
 | `npm run test:run` | Vitest один прогон |
+| `npm run test:e2e` | Playwright: приложение + Storybook |
+| `npm run test:e2e:app` / `test:e2e:storybook` | Только один проект Playwright |
 
+Тесты подробно: [`docs/testing.md`](./docs/testing.md).  
 Backend (Go + Postgres): см. [`backend/README.md`](./backend/README.md).
 
 ---

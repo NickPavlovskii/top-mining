@@ -1,0 +1,12 @@
+# Nuxt 3 + Nitro на Netlify.
+# Jenkins: NITRO_PRESET=netlify npm run build && netlify deploy --prod --dir=.output/public
+#
+# Если сайт собирает сам Netlify из Git — используйте этот файл как build settings.
+# SSR-редиректы Nitro обычно дописывает при сборке; при статике publish = .output/public достаточно.
+
+[build]
+  command = "npm ci && NITRO_PRESET=netlify npm run build"
+  publish = ".output/public"
+
+[build.environment]
+  NODE_VERSION = "22"
