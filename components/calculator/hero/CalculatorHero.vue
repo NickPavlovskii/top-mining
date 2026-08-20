@@ -167,7 +167,7 @@
     padding: 18px 28px;
     overflow-x: auto;
     border-radius: 999px;
-    background: #fff;
+    background: var(--tm-white);
     scrollbar-width: thin;
   }
 

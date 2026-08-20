@@ -14,12 +14,12 @@ useSeoMeta({
 
 <template>
   <div class="calculator-page">
-    <CalculatorHero />
-    <CalculatorForm />
-    <CalculatorAbout />
+    <calculator-hero />
+    <calculator-form />
+    <calculator-about />
     <div class="calculator-page__epic">
       <div class="calculator-page__epic-inner">
-        <TopMiningEpicBlocks />
+        <top-mining-epic-blocks />
       </div>
     </div>
   </div>
@@ -30,8 +30,8 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: var(--tm-ink, #1a1a1a);
-  color: var(--tm-white, #fff);
+  background: var(--tm-surface-dark);
+  color: var(--tm-white);
 }
 
 .calculator-page__epic {
@@ -44,8 +44,13 @@ useSeoMeta({
     clamp(16px, 2vw, 32px)
     clamp(40px, 5vw, 80px);
   border-radius: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0 0;
-  background: linear-gradient(180deg, #f2f2f2 0%, #fff 28%, #fff 100%);
-  color: var(--tm-black, #141414);
+  background: linear-gradient(
+    180deg,
+    var(--tm-surface-mist) 0%,
+    var(--tm-white) 28%,
+    var(--tm-white) 100%
+  );
+  color: var(--tm-page-bg);
 }
 
 .calculator-page__epic-inner {
